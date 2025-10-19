@@ -1,0 +1,26 @@
+[
+  {
+    "title_en": "Geometric Patchwork Dress",
+    "title_tr": "Geometrik Patchwork Elbise",
+    "price": "USD 89",
+    "image": "https://images.unsplash.com/photo-1520975682031-5f0e8e9ec2e9?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Minimal studio shot of a geometric pattern dress",
+    "etsy_url": "https://www.etsy.com/shop/ByZaynCo?ref=listing-geometric-dress"
+  },
+  {
+    "title_en": "Monochrome Statement Shirt",
+    "title_tr": "Siyah-Beyaz Statement Gömlek",
+    "price": "USD 59",
+    "image": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Monochrome shirt on Scandinavian background",
+    "etsy_url": "https://www.etsy.com/shop/ByZaynCo?ref=listing-statement-shirt"
+  },
+  {
+    "title_en": "Oversized Longline Jacket",
+    "title_tr": "Oversize Uzun Kesim Ceket",
+    "price": "USD 129",
+    "image": "https://images.unsplash.com/photo-1503342281676-d2e1e0a5f0d5?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Oversized jacket high fashion editorial look",
+    "etsy_url": "https://www.etsy.com/shop/ByZaynCo?ref=listing-longline-jacket"
+  }
+]

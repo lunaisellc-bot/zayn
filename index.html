@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZAYN — Modern · Timeless</title>
+  <meta name="description" content="ZAYN — Minimal, high‑fashion silhouettes with a Zara / COS aesthetic. Purchases routed to Etsy.">
+  <meta property="og:title" content="ZAYN — Modern · Timeless">
+  <meta property="og:description" content="Minimal, high‑fashion silhouettes with a Zara / COS aesthetic. Purchases routed to Etsy.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/logo.svg">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="container nav">
+    <div class="brand">
+      <img src="assets/logo.svg" alt="ZAYN logo">
+      <div class="brand-title">Z A Y N</div>
+    </div>
+    <nav class="lang-toggle">
+      <button data-lang="tr" class="active">TR</button>
+      <button data-lang="en">EN</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1 data-i18n="hero_title">Modern · Zamansız · ZAYN</h1>
+        <p data-i18n="hero_sub">Zara / COS estetiğinde minimal, yüksek moda silüetleri. Baskı sanatı ile birleşen zamansız şıklık.</p>
+        <div class="cta">
+          <a class="button primary" href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener" data-i18n="cta_shop">Etsy’de İncele</a>
+          <a class="button" href="#contact" data-i18n="cta_contact">İletişim</a>
+        </div>
+      </div>
+      <div>
+        <img style="width:100%;height:auto;border-radius:24px;border:1px solid var(--border)" 
+             src="https://images.unsplash.com/photo-1520975682031-5f0e8e9ec2e9?q=80&w=1600&auto=format&fit=crop" 
+             alt="Monochrome, luxury fashion editorial background">
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 data-i18n="sec_new">Yeni Koleksiyon</h2>
+      <div class="grid"></div>
+    </section>
+
+    <section class="section" id="about">
+      <h2 data-i18n="sec_about">Hakkımızda</h2>
+      <p data-i18n="about_p">
+        ZAYN, siyah-beyaz geometrik dil ve modern hatlarla, sınırlı üretim parçaları etik tedarikçilerle çalışarak sunar. Satın alımlar Etsy mağazamıza yönlendirilir.
+      </p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2 data-i18n="sec_contact">İletişim</h2>
+      <p data-i18n="contact_p">Sorularınız için: hello@yourdomain.com • Instagram: @byzaynco</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="y"></span> ZAYN — All Rights Reserved.
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
