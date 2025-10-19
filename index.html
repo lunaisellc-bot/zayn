@@ -1,244 +1,402 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZAYN — Modern · Zamansız</title>
-  <meta name="description" content="ZAYN — Zara / COS çizgisinde minimal, yüksek moda silüetleri. Baskı sanatının zamansız şıklığı.">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ZAYN — Modern · Timeless · High-Fashion Essentials</title>
+  <meta name="description" content="ZAYN blends minimal silhouettes with editorial calm. Modern, timeless essentials crafted with care. Explore our collection on Etsy.">
   <link rel="canonical" href="https://www.zaynbrand.com/">
 
-  <!-- Mixed-content'ı otomatik https'e yükselt -->
+  <!-- Force HTTPS for any accidental http assets -->
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <!-- Güçlü ama esnek CSP -->
+  <!-- Strict but practical CSP -->
   <meta http-equiv="Content-Security-Policy"
         content="
           default-src 'self' https:;
-          img-src 'self' https: data: blob:;
-          style-src 'self' 'unsafe-inline' https:;
           script-src 'self' 'unsafe-inline' https:;
+          style-src 'self' 'unsafe-inline' https:;
+          img-src 'self' https: data: blob:;
           font-src 'self' https: data:;
           connect-src 'self' https:;
           frame-ancestors 'self';
         ">
 
-  <!-- Google Fonts (HTTPS) -->
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ZAYN — Modern · Timeless" />
+  <meta property="og:description" content="Minimal, editorial and timeless. Explore ZAYN on Etsy." />
+  <meta property="og:url" content="https://www.zaynbrand.com/" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ZAYN — Modern · Timeless" />
+  <meta name="twitter:description" content="Minimal, editorial and timeless. Explore ZAYN on Etsy." />
+
+  <!-- Fonts (HTTPS) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ZAYN",
+    "url": "https://www.zaynbrand.com/",
+    "sameAs": [
+      "https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav"
+    ],
+    "brand": "ZAYN",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Sheridan",
+      "addressRegion": "WY",
+      "postalCode": "82801",
+      "addressCountry": "US"
+    },
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "lunaisellc@gmail.com",
+      "telephone": "+1-307-205-9144",
+      "areaServed": "US",
+      "availableLanguage": ["en"]
+    }]
+  }
+  </script>
+
   <style>
     :root{
       --bg:#0a0a0b;
-      --card:#111114;
-      --card-2:#0e0e11;
-      --fg:#ebebef;
+      --surface:#0f1013;
+      --card:#121217;
+      --line:rgba(255,255,255,.07);
+      --fg:#ececf1;
       --muted:#a8a8b3;
-      --line:rgba(255,255,255,.06);
-      --accent:#ffffff;
-      --grad-1:#141418;
-      --grad-2:#0b0b0d;
       --glass:rgba(255,255,255,.06);
       --shadow:0 10px 30px rgba(0,0,0,.35);
+      --accent:#ffffff;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     html,body{
       margin:0;background:var(--bg);color:var(--fg);
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
     }
-    a{text-decoration:none;color:inherit}
+    a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
-    button{font:inherit}
-
-    /* arkaplan */
-    .bg{
-      position:fixed; inset:0; z-index:-1;
-      background:
-        radial-gradient(1200px 800px at 80% -10%, #3f3f5a26, transparent 55%),
-        radial-gradient(1000px 700px at -10% 30%, #2f435a29, transparent 60%),
-        linear-gradient(180deg,var(--grad-1),var(--grad-2));
-    }
-
-    /* açılış splash */
-    .splash{
-      position:fixed; inset:0; display:grid; place-items:center;
-      background:radial-gradient(1200px 800px at 50% -20%, #2d2d45, transparent 60%), var(--bg);
-      z-index:9999;
-      animation:splashOut .9s ease .9s forwards;
-    }
-    .splash .logo{
-      letter-spacing:.6rem; font-weight:900; font-size:28px;
-      padding:16px 22px; border:1px solid var(--line); border-radius:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow:var(--shadow);
-      transform:translateY(8px); opacity:.96;
-      animation:logoUp .9s cubic-bezier(.2,.8,.2,1);
-    }
-    @keyframes splashOut{to{opacity:0; visibility:hidden}}
-    @keyframes logoUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-
     .container{max-width:1200px;margin:0 auto;padding:28px 22px}
-
-    header{
-      position:sticky; top:0; backdrop-filter:saturate(130%) blur(8px);
-      background:linear-gradient(180deg, rgba(10,10,11,.72), rgba(10,10,11,.36));
-      border-bottom:1px solid var(--line); z-index:10;
-    }
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.44rem}
-    .brand .dot{width:8px;height:8px;border-radius:999px;background:#fff;}
-    .nav a{color:var(--muted)}
-    .nav-links{display:flex;gap:18px;align-items:center}
-    .nav .cta{
-      padding:10px 16px;border:1px solid var(--line);border-radius:10px;
-      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-    }
-    .nav .cta:hover{border-color:rgba(255,255,255,.18)}
-
-    /* hero */
-    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:42px 0}
-    .hero h1{font-size:64px;line-height:1.05;margin:0 0 12px;letter-spacing:.01em}
-    .hero p{color:var(--muted);font-size:18px;max-width:680px;margin:0 0 22px}
-    .btns{display:flex;gap:12px}
-    .btn{
-      padding:12px 18px;border:1px solid var(--line);border-radius:12px;
-      background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03)); color:#fff
-    }
-    .btn--primary{background:#fff;color:#000;font-weight:700}
-    .hero-card{
-      min-height:360px;border:1px solid var(--line);border-radius:18px;
+    .bg{
+      position:fixed;inset:0;z-index:-1;
       background:
+        radial-gradient(1100px 700px at 80% -10%, #4445672b, transparent 55%),
+        radial-gradient(1000px 700px at -10% 30%, #2b415c29, transparent 60%),
+        linear-gradient(180deg,#14141a,#0a0a0b);
+    }
+
+    /* Splash */
+    .splash{position:fixed;inset:0;display:grid;place-items:center;background:#0a0a0b;z-index:9999;animation:fadeOut .9s ease .9s forwards}
+    .splash .logo{letter-spacing:.6rem;font-weight:900;font-size:28px;padding:16px 22px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:var(--shadow);animation:rise .9s cubic-bezier(.2,.8,.2,1)}
+    @keyframes fadeOut{to{opacity:0;visibility:hidden}}
+    @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,10,11,.72),rgba(10,10,11,.36));backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.45rem}
+    .brand .dot{width:8px;height:8px;border-radius:50%;background:#fff}
+    .links{display:flex;align-items:center;gap:18px;color:var(--muted)}
+    .cta{
+      padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))
+    }
+    .cta--solid{background:#fff;color:#000;font-weight:700}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:42px 0}
+    .hero h1{font-size:64px;line-height:1.04;margin:0 0 12px}
+    .hero p{color:var(--muted);font-size:18px;max-width:680px}
+    .hero .btns{display:flex;gap:12px;margin-top:18px}
+    .hero-card{
+      min-height:360px;border:1px solid var(--line);border-radius:18px;background:
         radial-gradient(500px 300px at 20% 10%, rgba(255,255,255,.06), transparent 60%),
-        url('') center/cover no-repeat, var(--card);
-      display:grid;place-items:center;color:#bdbdca
+        var(--card);display:grid;place-items:center;color:#bdbdca
     }
-    .section{padding:18px 0 8px}
-    .section-title{font-size:22px;font-weight:700;margin:0 0 12px}
 
-    /* ürün grid */
+    /* Sections */
+    .section{padding:28px 0}
+    .section-title{font-size:24px;font-weight:800;margin:0 0 12px}
+    hr.sep{border:none;height:1px;background:var(--line);margin:12px 0 18px}
+
+    /* Grid / Cards */
     .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-    .card{
-      position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card-2);
-      transition:transform .3s ease, border-color .3s ease; will-change:transform;
-    }
-    .card:hover{transform:translateY(-4px); border-color:rgba(255,255,255,.16)}
-    .ph{
-      height:220px;display:grid;place-items:center;color:#8e8ea5;
-      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
-    }
-    .card .meta{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;color:#bdbdca;font-size:14px}
-    .badge{
-      padding:5px 10px;border:1px solid var(--line);border-radius:30px;background:var(--glass)
-    }
+    .card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));overflow:hidden;transition:transform .25s ease,border-color .25s ease}
+    .card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+    .ph{height:220px;display:grid;place-items:center;color:#8e8ea5}
+    .meta{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;color:#bdbdca;font-size:14px}
+    .badge{padding:6px 10px;border:1px solid var(--line);border-radius:30px;background:var(--glass)}
 
-    /* scroll reveal */
-    .reveal{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease}
-    .reveal.show{opacity:1; transform:translateY(0)}
+    /* Split */
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));padding:18px}
 
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.show{opacity:1;transform:translateY(0)}
+
+    /* Footer */
     footer{margin:34px 0 40px;color:#9b9bab;font-size:13px}
-    hr.sep{border:none;height:1px;background:var(--line);margin:10px 0 18px}
 
-    @media (max-width:1000px){
-      .hero{grid-template-columns:1fr;gap:18px}
+    @media(max-width:1000px){
+      .hero{grid-template-columns:1fr}
       .hero h1{font-size:44px}
+      .grid{grid-template-columns:1fr 1fr}
+      .split{grid-template-columns:1fr}
+    }
+    @media(max-width:640px){
+      .grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
   <div class="bg"></div>
 
-  <!-- Açılış animasyonu -->
+  <!-- Splash -->
   <div class="splash" aria-hidden="true">
     <div class="logo">Z A Y N</div>
   </div>
 
+  <!-- Header -->
   <header>
     <div class="container nav">
       <div class="brand"><span class="dot"></span> Z A Y N</div>
-      <nav class="nav-links">
-        <a href="#koleksiyon">Koleksiyon</a>
-        <a href="#hakkinda">Hakkında</a>
-        <a class="cta" href="#iletisim">İletişim</a>
+      <nav class="links">
+        <a href="#collection">Collection</a>
+        <a href="#story">Our Story</a>
+        <a href="#aesthetic">Aesthetic</a>
+        <a href="#why">Why Us</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener noreferrer">Shop</a>
+        <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener noreferrer">Shop on Etsy</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
+
     <!-- HERO -->
     <section class="hero">
       <div class="reveal">
-        <h1>Modern · Zamansız<br>ZAYN</h1>
-        <p>Zara / COS estetiğinde minimal, yüksek moda silüetleri. Baskı sanatının zamansız, sade ve güçlü ifadesi.</p>
+        <h1>Modern · Timeless <br> ZAYN</h1>
+        <p>
+          Minimal silhouettes. Quiet confidence. An editorial calm that never shouts, yet always stands out.
+          ZAYN curates high-fashion essentials you’ll come back to year after year.
+        </p>
         <div class="btns">
-          <a class="btn btn--primary" href="https://www.etsy.com/" target="_blank" rel="noopener noreferrer">Etsy’de incele</a>
-          <a class="btn" href="#iletisim">İletişim</a>
+          <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop Now</a>
+          <a class="cta" href="#collection">Explore Collection</a>
         </div>
       </div>
-      <div class="hero-card reveal">Hero Görseli (assets/hero.jpg)</div>
+      <div class="hero-card reveal">Hero Visual (assets/hero.jpg)</div>
     </section>
 
     <hr class="sep">
 
-    <!-- ÜRÜNLER -->
-    <section id="koleksiyon" class="section">
-      <h2 class="section-title">Yeni Koleksiyon</h2>
+    <!-- COLLECTION -->
+    <section id="collection" class="section">
+      <h2 class="section-title">Collection Highlights</h2>
       <div class="grid">
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Monochrome Dress</span><span class="badge">Yeni</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Monochrome Dress</span><span class="badge">New</span></div>
         </article>
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Oversized Jacket</span><span class="badge">Sınırlı</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Oversized Jacket</span><span class="badge">Limited</span></div>
         </article>
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Structured Blazer</span><span class="badge">Klasik</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Structured Blazer</span><span class="badge">Classic</span></div>
         </article>
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Geometric Knit</span><span class="badge">Yeni</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Geometric Knit</span><span class="badge">New</span></div>
         </article>
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Column Skirt</span><span class="badge">Zayn</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Column Skirt</span><span class="badge">ZAYN</span></div>
         </article>
         <article class="card reveal">
-          <div class="ph">Ürün Görseli</div>
-          <div class="meta"><span>Minimal Shirt</span><span class="badge">Basic</span></div>
+          <div class="ph">Product Visual</div>
+          <div class="meta"><span>Minimal Shirt</span><span class="badge">Essential</span></div>
         </article>
+      </div>
+      <div style="margin-top:16px">
+        <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">See All on Etsy</a>
       </div>
     </section>
 
-    <!-- HAKKINDA -->
-    <section id="hakkinda" class="section">
-      <h2 class="section-title">Hakkında</h2>
-      <p style="color:var(--muted);max-width:780px">
-        ZAYN; yalın çizgiyi, net formu ve zamansız renkleri merkeze alan bir stil manifestosu.
-        Ürün görsellerini <code>assets/</code> klasörüne yerleştirip kartlardaki görselleri güncelleyebilirsin.
-      </p>
+    <!-- STORY -->
+    <section id="story" class="section">
+      <h2 class="section-title">Our Story</h2>
+      <div class="split">
+        <div class="panel reveal">
+          <p style="color:var(--muted)">
+            ZAYN began with a simple question: *what stays beautiful when trends pass?*
+            We design with restraint—clean lines, architectural shapes and a palette that lets form speak.
+            Each piece embraces everyday ease while honoring runway discipline.
+          </p>
+          <p style="color:var(--muted)">
+            We are proudly based in Wyoming, crafting small-batch capsules to keep quality high and waste low.
+            Collections are intentionally compact, thoughtful and timeless.
+          </p>
+        </div>
+        <div class="panel reveal">
+          <strong>Milestones</strong>
+          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
+            <li>2023 — First capsule: *Monochrome Lines*</li>
+            <li>2024 — Launch on Etsy & international shipping</li>
+            <li>2025 — Editorial expansion: outerwear & tailored essentials</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- İLETİŞİM -->
-    <section id="iletisim" class="section">
-      <h2 class="section-title">İletişim</h2>
-      <p style="color:var(--muted)">
-        E-posta: <a href="mailto:lunaisellc@gmail.com">lunaisellc@gmail.com</a>
-        &nbsp;•&nbsp; Instagram: <a href="#" rel="noopener">/zaynbrand</a>
-      </p>
+    <!-- AESTHETIC / FEELINGS -->
+    <section id="aesthetic" class="section">
+      <h2 class="section-title">Aesthetic & Feelings</h2>
+      <div class="split">
+        <div class="panel reveal">
+          <p style="color:var(--muted)">
+            Our aesthetic lives between **calm** and **confidence**—quiet luxury.
+            Fabrics drape, seams align, proportions balance. The silhouette does the talking.
+          </p>
+          <p style="color:var(--muted)">
+            We aim for pieces that feel like a deep breath: light, composed, reliable. Style that ages beautifully.
+          </p>
+        </div>
+        <div class="panel reveal">
+          <strong>Design Pillars</strong>
+          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
+            <li>Minimal • Architectural • Editorial</li>
+            <li>Neutral monochromes with subtle depth</li>
+            <li>Texture > prints, form > noise</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section id="why" class="section">
+      <h2 class="section-title">Why ZAYN?</h2>
+      <div class="grid">
+        <div class="panel reveal">
+          <strong>01 · Thoughtful Design</strong>
+          <p style="color:var(--muted)">Balanced proportions and details that matter. Always refined—never loud.</p>
+        </div>
+        <div class="panel reveal">
+          <strong>02 · Small-Batch Quality</strong>
+          <p style="color:var(--muted)">Limited runs keep quality high and ensure a more mindful footprint.</p>
+        </div>
+        <div class="panel reveal">
+          <strong>03 · Timeless Versatility</strong>
+          <p style="color:var(--muted)">Pieces that pair effortlessly and stay relevant beyond seasons.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIALS / CRAFT -->
+    <section class="section">
+      <h2 class="section-title">Materials & Craft</h2>
+      <div class="split">
+        <div class="panel reveal">
+          <p style="color:var(--muted)">
+            We partner with vetted mills and workshops, selecting fabrics for **hand-feel, drape and longevity**.
+            Many pieces are finished by hand for precision.
+          </p>
+        </div>
+        <div class="panel reveal">
+          <strong>Care Principles</strong>
+          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
+            <li>Prefer gentle wash & air dry</li>
+            <li>Steam to refresh silhouette</li>
+            <li>Store on wide hangers to keep structure</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section">
+      <h2 class="section-title">What Clients Say</h2>
+      <div class="grid">
+        <div class="panel reveal"><em>“Understated and elegant—exactly what I was looking for.”</em><br><span style="color:var(--muted)">— A. Miller</span></div>
+        <div class="panel reveal"><em>“The jacket structure is incredible. Feels couture.”</em><br><span style="color:var(--muted)">— N. Park</span></div>
+        <div class="panel reveal"><em>“Clean, modern, beautifully made. Will buy again.”</em><br><span style="color:var(--muted)">— L. Gomez</span></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <h2 class="section-title">FAQ</h2>
+      <div class="split">
+        <div class="panel reveal">
+          <strong>Shipping</strong>
+          <p style="color:var(--muted)">Orders ship within 2–5 business days. International available via Etsy.</p>
+        </div>
+        <div class="panel reveal">
+          <strong>Returns</strong>
+          <p style="color:var(--muted)">Unworn items may be returned within 14 days. Please request via Etsy messages.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="sep">
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 class="section-title">Contact</h2>
+      <div class="split">
+        <div class="panel reveal">
+          <p style="color:var(--muted);margin:.2rem 0">
+            Email: <a href="mailto:lunaisellc@gmail.com">lunaisellc@gmail.com</a><br>
+            Phone: <a href="tel:+13072059144">+1 (307) 205-9144</a><br>
+            Location: Sheridan, Wyoming, USA
+          </p>
+          <div style="margin-top:.6rem">
+            <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Message on Etsy</a>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <form action="mailto:lunaisellc@gmail.com" method="post" enctype="text/plain">
+            <div style="display:grid;gap:10px">
+              <input required name="name" placeholder="Your name" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)">
+              <input required type="email" name="email" placeholder="Email address" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)">
+              <textarea required name="message" rows="5" placeholder="Message" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)"></textarea>
+              <button class="cta cta--solid" type="submit">Send</button>
+            </div>
+          </form>
+          <p style="color:var(--muted);font-size:12px;margin-top:.6rem">
+            Prefer Etsy? Use “Message Seller” on our shop page for order-specific questions.
+          </p>
+        </div>
+      </div>
     </section>
 
     <footer>
-      © <span id="y"></span> ZAYN — All rights reserved.
+      © <span id="y"></span> ZAYN — All rights reserved ·
+      <a href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Etsy</a> ·
+      <a href="#story">About</a> ·
+      <a href="#contact">Contact</a>
     </footer>
   </main>
 
   <script>
-    // telif yılı
+    // year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // scroll-reveal
+    // reveal
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
@@ -246,11 +404,11 @@
     },{threshold:.12});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    // yumuşak kaydırma
+    // smooth anchors
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click',e=>{
         const id=a.getAttribute('href');
-        if(id.length>1){
+        if(id && id.length>1){
           e.preventDefault();
           document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
         }
