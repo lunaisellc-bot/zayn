@@ -2,144 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ZAYN — Editorial Fashion, Crafted to Last</title>
   <meta name="description" content="ZAYN — Modern editorial fashion for everyday confidence. Designed to stand out. Crafted to last. Made-to-order pieces produced in 2–6 days. Premium quality, refined silhouettes, balanced proportions.">
   <link rel="canonical" href="https://www.zaynbrand.com/">
+
+  <!-- Force HTTPS / avoid mixed content -->
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy"
+        content="
+          default-src 'self' https:;
+          script-src 'self' 'unsafe-inline' https:;
+          style-src 'self' 'unsafe-inline' https:;
+          img-src 'self' https: data: blob:;
+          font-src 'self' https: data:;
+          connect-src 'self' https:;
+          frame-ancestors 'self';
+        ">
 
   <!-- Open Graph -->
   <meta property="og:title" content="ZAYN — Editorial Fashion, Crafted to Last" />
   <meta property="og:description" content="Made-to-order, modern pieces with refined details. Produced in 2–6 days. Premium-quality materials. Shop now on Etsy." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.zaynbrand.com/" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1520975898667-8bdf0a1b1bd8?q=80&w=1600&auto=format&fit=crop" />
 
   <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0b0b0c;
-      --panel:#111214;
-      --muted:#7f848c;
-      --text:#f3f5f7;
-      --brand:#e0e0e0;
-      --accent:#d5b98e; /* champagne gold vibe */
-      --link:#e7e7e7;
-      --border:rgba(255,255,255,.08);
+      --bg:#0b0b0c; --panel:#111214; --muted:#7f848c; --text:#f3f5f7;
+      --brand:#e0e0e0; --accent:#d5b98e; --link:#e7e7e7; --border:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0; background:var(--bg); color:var(--text);
-      font:400 16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      opacity:0; transition:opacity .6s ease;
-    }
+    body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;opacity:0;transition:opacity .6s ease}
     body.ready{opacity:1}
-
-    a{color:var(--link); text-decoration:none}
-    a:hover{opacity:.85}
-
-    .wrap{max-width:1200px; margin:0 auto; padding:0 20px}
-    .grid{display:grid; gap:32px}
+    a{color:var(--link);text-decoration:none}
+    a:hover{opacity:.88}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+    .grid{display:grid;gap:32px}
     .muted{color:var(--muted)}
-    .title{font:600 54px/1.1 "Playfair Display",serif; letter-spacing:.2px; margin:0 0 10px}
-    .eyebrow{letter-spacing:.25em; text-transform:uppercase; font:600 12px/1 Inter; color:var(--muted)}
-    .kicker{font:400 18px/1.7 Inter; color:#cfd2d6}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding:12px 18px; border:1px solid var(--border); color:var(--text);
-      border-radius:999px; transition:.2s ease; background:transparent
-    }
-    .btn:hover{border-color:#2a2c30; transform:translateY(-1px)}
-    .btn.primary{background:var(--text); color:#0b0b0c; border-color:transparent}
-    .btn.gold{background:var(--accent); color:#0b0b0c; border-color:transparent}
-    .btn.sm{padding:9px 14px; font-size:14px}
-
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(8px);
-      background:linear-gradient(to bottom, rgba(11,11,12,.75), rgba(11,11,12,.3));
-      border-bottom:1px solid var(--border)
-    }
-    nav{display:flex; align-items:center; justify-content:space-between; height:64px}
-    .brand{display:flex; align-items:center; gap:14px}
-    .brand__logo{font:700 18px/1 Inter; letter-spacing:.28em}
-    .nav__links{display:flex; gap:22px}
-    .nav__links a{font:500 14px/1 Inter; color:#dfe2e6}
-
-    /* Hero */
-    .hero{padding:80px 0 48px; border-bottom:1px solid var(--border)}
-    .hero__inner{display:grid; grid-template-columns:1.1fr .9fr; gap:46px; align-items:center}
-    .hero figure{
-      position:relative; overflow:hidden; border-radius:14px; background:var(--panel);
-      border:1px solid var(--border)
-    }
-    .hero img{width:100%; height:520px; object-fit:cover; display:block; filter:saturate(95%) contrast(105%)}
-    .badge{
-      position:absolute; left:16px; bottom:16px; background:rgba(17,18,20,.85);
-      border:1px solid var(--border); padding:8px 12px; border-radius:10px; font-size:12px; color:#e8e8e8
-    }
-    .cta-row{display:flex; gap:12px; margin-top:22px}
-
-    /* Sections */
-    section{padding:72px 0; border-bottom:1px solid var(--border)}
-    h2.section-title{
-      margin:0 0 8px; font:600 36px/1.25 "Playfair Display",serif
-    }
-    p.section-kicker{margin:6px 0 22px; color:#c8ccd1}
-    .card{
-      background:var(--panel); border:1px solid var(--border);
-      padding:22px; border-radius:14px
-    }
-    .list{display:grid; gap:14px; padding:0; margin:0; list-style:none}
-    .list li{display:flex; gap:10px}
-    .dot{width:8px; height:8px; background:var(--accent); border-radius:50%; margin-top:10px}
-
-    /* Materials stats */
-    .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-    .stat{background:var(--panel); border:1px solid var(--border); padding:22px; border-radius:14px}
+    .title{font:600 54px/1.1 "Playfair Display",serif;letter-spacing:.2px;margin:0 0 10px}
+    .eyebrow{letter-spacing:.25em;text-transform:uppercase;font:600 12px/1 Inter;color:var(--muted)}
+    .kicker{font:400 18px/1.7 Inter;color:#cfd2d6}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border:1px solid var(--border);color:var(--text);border-radius:999px;transition:.2s ease;background:transparent}
+    .btn:hover{border-color:#2a2c30;transform:translateY(-1px)}
+    .btn.primary{background:var(--text);color:#0b0b0c;border-color:transparent}
+    .btn.gold{background:var(--accent);color:#0b0b0c;border-color:transparent}
+    .btn.sm{padding:9px 14px;font-size:14px}
+    header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(8px);background:linear-gradient(to bottom, rgba(11,11,12,.75), rgba(11,11,12,.3));border-bottom:1px solid var(--border)}
+    nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand__logo{font:700 18px/1 Inter;letter-spacing:.28em}
+    .nav__links{display:flex;gap:22px}
+    .nav__links a{font:500 14px/1 Inter;color:#dfe2e6}
+    .hero{padding:80px 0 48px;border-bottom:1px solid var(--border)}
+    .hero__inner{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center}
+    .hero figure{position:relative;overflow:hidden;border-radius:14px;background:var(--panel);border:1px solid var(--border)}
+    .hero img{width:100%;height:520px;object-fit:cover;display:block;filter:saturate(95%) contrast(105%)}
+    .badge{position:absolute;left:16px;bottom:16px;background:rgba(17,18,20,.85);border:1px solid var(--border);padding:8px 12px;border-radius:10px;font-size:12px;color:#e8e8e8}
+    .cta-row{display:flex;gap:12px;margin-top:22px}
+    section{padding:72px 0;border-bottom:1px solid var(--border)}
+    h2.section-title{margin:0 0 8px;font:600 36px/1.25 "Playfair Display",serif}
+    p.section-kicker{margin:6px 0 22px;color:#c8ccd1}
+    .card{background:var(--panel);border:1px solid var(--border);padding:22px;border-radius:14px}
+    .list{display:grid;gap:14px;padding:0;margin:0;list-style:none}
+    .list li{display:flex;gap:10px}
+    .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-top:10px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .stat{background:var(--panel);border:1px solid var(--border);padding:22px;border-radius:14px}
     .stat .num{font:600 26px/1 Inter}
-    .stat .sub{color:var(--muted); font-size:14px; margin-top:6px}
+    .stat .sub{color:var(--muted);font-size:14px;margin-top:6px}
 
-    /* Testimonials Slider */
-    .slider{position:relative; overflow:hidden}
-    .slides{display:flex; transition:transform .5s ease}
-    .testimonial{
-      min-width:300px; max-width:300px; background:var(--panel);
-      border:1px solid var(--border); padding:18px; border-radius:14px;
-      display:flex; flex-direction:column; gap:14px; margin-right:14px
-    }
-    .stars{color:#f7d37c; letter-spacing:2px}
-    .person{display:flex; align-items:center; gap:12px}
-    .person img{width:36px; height:36px; border-radius:50%; object-fit:cover}
-    .slider-controls{display:flex; gap:10px; margin-top:12px}
-    .ctrl{width:36px; height:36px; border-radius:10px; border:1px solid var(--border); background:var(--panel); color:#fff}
+    /* PRODUCT SLIDER */
+    .p-slider{position:relative}
+    .p-track{display:flex;gap:14px;overflow:hidden;scroll-behavior:smooth}
+    .p-card{min-width:280px;max-width:280px;background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .25s ease,border-color .25s ease}
+    .p-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.16)}
+    .p-thumb{aspect-ratio:4/5;background:#0f0f12;display:block}
+    .p-meta{display:flex;align-items:center;justify-content:space-between;padding:12px 14px}
+    .p-name{font-weight:600}
+    .p-badge{padding:6px 10px;border:1px solid var(--border);border-radius:30px;background:rgba(255,255,255,.06);font-size:12px}
+    .p-ctrls{display:flex;gap:10px;margin-top:12px}
+    .p-ctrl{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:#fff}
+    .p-ctrl:disabled{opacity:.4;cursor:not-allowed}
+    .p-ctrl:hover{transform:translateY(-1px)}
+
+    /* Testimonials slider (unchanged) */
+    .slider{position:relative;overflow:hidden}
+    .slides{display:flex;transition:transform .5s ease}
+    .testimonial{min-width:300px;max-width:300px;background:var(--panel);border:1px solid var(--border);padding:18px;border-radius:14px;display:flex;flex-direction:column;gap:14px;margin-right:14px}
+    .stars{color:#f7d37c;letter-spacing:2px}
+    .person{display:flex;align-items:center;gap:12px}
+    .person img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+    .slider-controls{display:flex;gap:10px;margin-top:12px}
+    .ctrl{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:#fff}
     .ctrl:hover{transform:translateY(-1px)}
-    .ctrl:disabled{opacity:.4; cursor:not-allowed}
+    .ctrl:disabled{opacity:.4;cursor:not-allowed}
 
-    /* Contact */
-    .contact .stack{display:grid; grid-template-columns:1.1fr .9fr; gap:22px}
-
-    /* Footer */
-    footer{padding:36px 0; color:#b9bdc2}
-    footer .foot{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+    .contact .stack{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+    footer{padding:36px 0;color:#b9bdc2}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
     .foot small{color:#8b8f95}
-
-    /* Responsive */
-    @media (max-width: 980px){
-      .hero__inner{grid-template-columns:1fr; gap:28px}
-      .contact .stack{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 640px){
-      .title{font-size:40px}
-      .stats{grid-template-columns:1fr}
-      .testimonial{min-width:260px; max-width:260px}
-    }
+    @media(max-width:980px){.hero__inner{grid-template-columns:1fr;gap:28px}.contact .stack{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.title{font-size:40px}.stats{grid-template-columns:1fr}.testimonial{min-width:260px;max-width:260px}.p-card{min-width:240px;max-width:240px}}
   </style>
 </head>
 <body>
@@ -147,13 +115,11 @@
   <header>
     <div class="wrap">
       <nav>
-        <div class="brand">
-          <div class="brand__logo">Z A Y N</div>
-        </div>
+        <div class="brand__logo">Z A Y N</div>
         <div class="nav__links">
+          <a href="#products">Collection</a>
           <a href="#why">Why ZAYN</a>
           <a href="#process">Made-to-Order</a>
-          <a href="#story">Our Story</a>
           <a href="#materials">Materials</a>
           <a href="#testimonials">Reviews</a>
           <a class="btn sm" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop on Etsy</a>
@@ -174,14 +140,67 @@
         </p>
         <div class="cta-row">
           <a class="btn primary" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop the Collection</a>
-          <a class="btn" href="#why">Why ZAYN</a>
+          <a class="btn" href="#products">Explore Products</a>
+        </div>
+      </div>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1592878904946-b3cd00b01d85?q=80&w=1600&auto=format&fit=crop" alt="Editorial fashion rack, muted tones" />
+        <div class="badge">Made-to-order • Ships in 2–6 days</div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PRODUCT GALLERY (SLIDER) -->
+  <section id="products">
+    <div class="wrap">
+      <h2 class="section-title">Product Gallery</h2>
+      <p class="section-kicker">Tap a product to see details on Etsy. All pieces are made to order in 2–6 days.</p>
+
+      <div class="p-slider" aria-label="Product gallery slider">
+        <div class="p-track" id="pTrack">
+          <!-- CARD 1 — using your Etsy image -->
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener" aria-label="View product on Etsy">
+            <img class="p-thumb" loading="lazy" src="https://i.etsystatic.com/60635710/r/il/7a1f54/7302173348/il_1140xN.7302173348_9i5k.jpg" alt="ZAYN product — editorial silhouette">
+            <div class="p-meta"><span class="p-name">Editorial Silhouette</span><span class="p-badge">New</span></div>
+          </a>
+
+          <!-- CARD 2–6 — replace src with your own assets later -->
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">
+            <img class="p-thumb" loading="lazy" src="assets/product2.jpg" alt="ZAYN product">
+            <div class="p-meta"><span class="p-name">Structured Blazer</span><span class="p-badge">Classic</span></div>
+          </a>
+
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">
+            <img class="p-thumb" loading="lazy" src="assets/product3.jpg" alt="ZAYN product">
+            <div class="p-meta"><span class="p-name">Oversized Jacket</span><span class="p-badge">Limited</span></div>
+          </a>
+
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">
+            <img class="p-thumb" loading="lazy" src="assets/product4.jpg" alt="ZAYN product">
+            <div class="p-meta"><span class="p-name">Column Skirt</span><span class="p-badge">ZAYN</span></div>
+          </a>
+
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">
+            <img class="p-thumb" loading="lazy" src="assets/product5.jpg" alt="ZAYN product">
+            <div class="p-meta"><span class="p-name">Minimal Shirt</span><span class="p-badge">Essential</span></div>
+          </a>
+
+          <a class="p-card" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">
+            <img class="p-thumb" loading="lazy" src="assets/product6.jpg" alt="ZAYN product">
+            <div class="p-meta"><span class="p-name">Geometric Knit</span><span class="p-badge">New</span></div>
+          </a>
+        </div>
+
+        <!-- controls -->
+        <div class="p-ctrls">
+          <button class="p-ctrl" id="pPrev" aria-label="Previous products">‹</button>
+          <button class="p-ctrl" id="pNext" aria-label="Next products">›</button>
         </div>
       </div>
 
-      <figure>
-        <img src="https://images.unsplash.com/photo-1592878904946-b3cd00b01d85?q=80&w=1600&auto=format&fit=crop" alt="Editorial fashion rack, muted tones"/>
-        <div class="badge">Made-to-order • Ships in 2–6 days</div>
-      </figure>
+      <div style="margin-top:16px">
+        <a class="btn primary" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">See All on Etsy</a>
+      </div>
     </div>
   </section>
 
@@ -206,7 +225,7 @@
         <h3 style="margin:0 0 8px">Design Philosophy</h3>
         <p class="muted">
           We create pieces you reach for again and again—architectural yet wearable. Balance over noise. Proportion over excess.
-          Every line exists for a reason, and every fabric serves the silhouette.
+          Elegant, refined—but never afraid to make a statement.
         </p>
         <div class="cta-row">
           <a class="btn gold" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Explore on Etsy</a>
@@ -216,48 +235,17 @@
     </div>
   </section>
 
-  <!-- Made-to-Order Process -->
+  <!-- Made-to-Order -->
   <section id="process">
     <div class="wrap">
       <h2 class="section-title">Made-to-Order, Expertly Crafted</h2>
       <p class="section-kicker">Small-scale atelier production ensures consistency, freshness, and quality.</p>
 
       <div class="grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="card">
-          <span class="eyebrow">01</span>
-          <h3 style="margin:6px 0 6px">Design & Cut</h3>
-          <p class="muted">Each piece is cut with balanced proportions for a precise, elegant fit that moves with you.</p>
-        </div>
-        <div class="card">
-          <span class="eyebrow">02</span>
-          <h3 style="margin:6px 0 6px">Made for You</h3>
-          <p class="muted">We produce after you order—your piece is crafted within 2–6 days, then inspected by hand.</p>
-        </div>
-        <div class="card">
-          <span class="eyebrow">03</span>
-          <h3 style="margin:6px 0 6px">Ship & Wear</h3>
-          <p class="muted">Well-packed, crease-conscious shipping. Your piece arrives ready to style and live in.</p>
-        </div>
+        <div class="card"><span class="eyebrow">01</span><h3 style="margin:6px 0">Design & Cut</h3><p class="muted">Balanced proportions for a precise, elegant fit that moves with you.</p></div>
+        <div class="card"><span class="eyebrow">02</span><h3 style="margin:6px 0">Made for You</h3><p class="muted">We produce after you order—crafted within 2–6 days, then inspected by hand.</p></div>
+        <div class="card"><span class="eyebrow">03</span><h3 style="margin:6px 0">Ship & Wear</h3><p class="muted">Crease-conscious packing. Your piece arrives ready to style and live in.</p></div>
       </div>
-    </div>
-  </section>
-
-  <!-- Our Story / Philosophy -->
-  <section id="story">
-    <div class="wrap grid" style="grid-template-columns: .9fr 1.1fr;">
-      <div class="card">
-        <h2 class="section-title" style="margin:0 0 6px">Our Story</h2>
-        <p class="muted">
-          ZAYN began with a belief: **confidence is quiet, but it’s never invisible**. We design for people who value elegance,
-          structure, and a distinct point of view. Our pieces are produced in limited quantities, made-to-order—so your wardrobe
-          remains personal, considered, and truly yours.
-        </p>
-        <div class="cta-row"><a class="btn" href="#testimonials">What Clients Say</a></div>
-      </div>
-
-      <figure class="card" style="padding:0; overflow:hidden">
-        <img src="https://images.unsplash.com/photo-1520975898667-8bdf0a1b1bd8?q=80&w=1600&auto=format&fit=crop" alt="Atelier detail, garment making"/>
-      </figure>
     </div>
   </section>
 
@@ -268,31 +256,22 @@
       <p class="section-kicker">We use premium-quality polyester selected for elegant structure, comfort, and longevity.</p>
 
       <div class="stats">
-        <div class="stat">
-          <div class="num">Premium Drape</div>
-          <div class="sub">Holds shape while flowing—ideal for clean, modern lines.</div>
-        </div>
-        <div class="stat">
-          <div class="num">Comfort & Care</div>
-          <div class="sub">Breathable feel, easy care, colorfast wear.</div>
-        </div>
-        <div class="stat">
-          <div class="num">Built to Last</div>
-          <div class="sub">Quality finishing and durable fibers for everyday longevity.</div>
-        </div>
+        <div class="stat"><div class="num">Premium Drape</div><div class="sub">Holds shape while flowing—ideal for clean, modern lines.</div></div>
+        <div class="stat"><div class="num">Comfort & Care</div><div class="sub">Breathable feel, easy care, colorfast wear.</div></div>
+        <div class="stat"><div class="num">Built to Last</div><div class="sub">Durable fibers and quality finishing for everyday longevity.</div></div>
       </div>
 
       <div class="card" style="margin-top:16px">
         <ul class="list">
           <li><span class="dot"></span><div>Balanced weight for year-round wear—neither flimsy nor stiff.</div></li>
-          <li><span class="dot"></span><div>Silhouette-first approach: fabric chosen to serve the design.</div></li>
+          <li><span class="dot"></span><div>Silhouette-first: fabric chosen to serve the design.</div></li>
           <li><span class="dot"></span><div>Ethically produced in small batches to minimize waste.</div></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials -->
+  <!-- Testimonials (slider with 10 items) -->
   <section id="testimonials">
     <div class="wrap">
       <h2 class="section-title">What Clients Say</h2>
@@ -300,59 +279,18 @@
 
       <div class="slider" aria-label="Client testimonials slider">
         <div class="slides" id="slides">
-          <!-- 10 testimonial cards -->
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Beautifully made and surprisingly comfortable. The proportions are perfect—instantly elevated my wardrobe.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=11" alt="Amanda K."><div><strong>Amanda K.</strong><div class="muted">New York, US</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>The drape is stunning. Looks editorial, feels effortless. Will order in another color.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=32" alt="Lucía R."><div><strong>Lucía R.</strong><div class="muted">Madrid, ES</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Minimal but strong. You can tell the design is intentional. Fast production and great packing.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=5" alt="Noah V."><div><strong>Noah V.</strong><div class="muted">Amsterdam, NL</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Impressed by the finishing. The fabric holds its shape and still feels soft. Worth it.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=21" alt="Mia L."><div><strong>Mia L.</strong><div class="muted">Toronto, CA</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Exactly what I was looking for—quiet luxury with presence. Compliments every time.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=40" alt="Sophie D."><div><strong>Sophie D.</strong><div class="muted">Paris, FR</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Tailored yet relaxed. The length and cut are spot on. Feels bespoke.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=14" alt="Ismail A."><div><strong>Ismail A.</strong><div class="muted">Dubai, AE</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Shipped fast for a made-to-order piece. Quality is consistent and premium.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=55" alt="Hannah S."><div><strong>Hannah S.</strong><div class="muted">London, UK</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Elegant in person—photos don’t do it justice. The silhouette is so flattering.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=2" alt="Lea G."><div><strong>Lea G.</strong><div class="muted">Zurich, CH</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Great communication and sizing help. Wore it to an event and felt incredible.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=29" alt="Elena M."><div><strong>Elena M.</strong><div class="muted">Rome, IT</div></div></div>
-          </article>
-          <article class="testimonial">
-            <div class="stars">★★★★★</div>
-            <p>Exactly as described—clean, modern, and premium. Will definitely buy again.</p>
-            <div class="person"><img src="https://i.pravatar.cc/120?img=9" alt="Daniel P."><div><strong>Daniel P.</strong><div class="muted">Berlin, DE</div></div></div>
-          </article>
+          <!-- 10 testimonials -->
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Beautifully made and comfortable. The proportions are perfect—instantly elevated my wardrobe.</p><div class="person"><img src="https://i.pravatar.cc/120?img=11" alt="Amanda K."><div><strong>Amanda K.</strong><div class="muted">New York, US</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>The drape is stunning. Looks editorial, feels effortless. Will order in another color.</p><div class="person"><img src="https://i.pravatar.cc/120?img=32" alt="Lucía R."><div><strong>Lucía R.</strong><div class="muted">Madrid, ES</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Minimal but strong. You can tell the design is intentional. Fast production and packing.</p><div class="person"><img src="https://i.pravatar.cc/120?img=5" alt="Noah V."><div><strong>Noah V.</strong><div class="muted">Amsterdam, NL</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Impressed by the finishing. The fabric holds its shape and still feels soft. Worth it.</p><div class="person"><img src="https://i.pravatar.cc/120?img=21" alt="Mia L."><div><strong>Mia L.</strong><div class="muted">Toronto, CA</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Exactly what I was looking for—quiet luxury with presence. Compliments every time.</p><div class="person"><img src="https://i.pravatar.cc/120?img=40" alt="Sophie D."><div><strong>Sophie D.</strong><div class="muted">Paris, FR</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Tailored yet relaxed. The length and cut are spot on. Feels bespoke.</p><div class="person"><img src="https://i.pravatar.cc/120?img=14" alt="Ismail A."><div><strong>Ismail A.</strong><div class="muted">Dubai, AE</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Shipped fast for a made-to-order piece. Quality is consistent and premium.</p><div class="person"><img src="https://i.pravatar.cc/120?img=55" alt="Hannah S."><div><strong>Hannah S.</strong><div class="muted">London, UK</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Elegant in person—photos don’t do it justice. The silhouette is so flattering.</p><div class="person"><img src="https://i.pravatar.cc/120?img=2" alt="Lea G."><div><strong>Lea G.</strong><div class="muted">Zurich, CH</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Great communication and sizing help. Wore it to an event and felt incredible.</p><div class="person"><img src="https://i.pravatar.cc/120?img=29" alt="Elena M."><div><strong>Elena M.</strong><div class="muted">Rome, IT</div></div></div></article>
+          <article class="testimonial"><div class="stars">★★★★★</div><p>Exactly as described—clean, modern, and premium. Will definitely buy again.</p><div class="person"><img src="https://i.pravatar.cc/120?img=9" alt="Daniel P."><div><strong>Daniel P.</strong><div class="muted">Berlin, DE</div></div></div></article>
         </div>
-
         <div class="slider-controls">
           <button class="ctrl" id="prev" aria-label="Previous reviews">‹</button>
           <button class="ctrl" id="next" aria-label="Next reviews">›</button>
@@ -393,12 +331,22 @@
   <footer>
     <div class="wrap foot">
       <div>© <span id="y"></span> ZAYN — Designed to stand out. Crafted to last.</div>
-      <small>Built with GitHub Pages • SSL will auto-provision via GitHub (may take a few minutes).</small>
+      <small>Built on GitHub Pages · SSL via GitHub</small>
     </div>
   </footer>
 
+  <!-- Optional redirect to enforce https://www -->
   <script>
-    // Fade-in on load
+    (function () {
+      var host = 'www.zaynbrand.com';
+      if (location.protocol !== 'https:' || !/^www\.zaynbrand\.com$/i.test(location.host)) {
+        location.href = 'https://' + host + location.pathname + location.search + location.hash;
+      }
+    })();
+  </script>
+
+  <script>
+    // page ready + year
     window.addEventListener('load', () => {
       document.body.classList.add('ready');
       document.getElementById('y').textContent = new Date().getFullYear();
@@ -410,32 +358,53 @@
       const prev = document.getElementById('prev');
       const next = document.getElementById('next');
       let index = 0;
-
-      function cardWidth(){
-        // width of a card + margin-right
-        const card = slides.querySelector('.testimonial');
-        const style = getComputedStyle(card);
-        return card.offsetWidth + parseInt(style.marginRight,10);
+      function cardW(){
+        const c = slides.querySelector('.testimonial');
+        const s = getComputedStyle(c);
+        return c.offsetWidth + parseInt(s.marginRight,10);
       }
-
-      function maxIndex(){
-        const visible = Math.floor((slides.parentElement.offsetWidth) / cardWidth());
+      function maxI(){
+        const visible = Math.floor((slides.parentElement.offsetWidth) / cardW());
         const total = slides.children.length;
         return Math.max(0, total - visible);
       }
-
       function update(){
-        slides.style.transform = 'translateX(' + (-index * cardWidth()) + 'px)';
+        slides.style.transform = 'translateX(' + (-index * cardW()) + 'px)';
         prev.disabled = index <= 0;
-        next.disabled = index >= maxIndex();
+        next.disabled = index >= maxI();
       }
-
-      prev.addEventListener('click', () => { index = Math.max(0, index - 1); update(); });
-      next.addEventListener('click', () => { index = Math.min(maxIndex(), index + 1); update(); });
+      prev.addEventListener('click', ()=>{ index = Math.max(0, index-1); update(); });
+      next.addEventListener('click', ()=>{ index = Math.min(maxI(), index+1); update(); });
       window.addEventListener('resize', update);
       update();
+    })();
+
+    // Product slider
+    (function(){
+      const track = document.getElementById('pTrack');
+      const prev = document.getElementById('pPrev');
+      const next = document.getElementById('pNext');
+      if(!track) return;
+      function step(){ return track.querySelector('.p-card')?.offsetWidth + 14 || 300; }
+      prev?.addEventListener('click', ()=> track.scrollBy({left:-step(),behavior:'smooth'}));
+      next?.addEventListener('click', ()=> track.scrollBy({left: step(),behavior:'smooth'}));
+    })();
+  </script>
+
+  <!-- Product slider controls (outside to keep ids unique) -->
+  <script>
+    // Create control buttons for product slider if not present in HTML
+    (function(){
+      const wrap = document.querySelector('#products .p-slider');
+      if (!wrap) return;
+      // if buttons not found, inject
+      if (!document.getElementById('pPrev') && !document.getElementById('pNext')) {
+        const ctrls = document.createElement('div');
+        ctrls.className = 'p-ctrls';
+        ctrls.innerHTML = '<button class="p-ctrl" id="pPrev" aria-label="Previous products">‹</button><button class="p-ctrl" id="pNext" aria-label="Next products">›</button>';
+        wrap.appendChild(ctrls);
+      }
     })();
   </script>
 </body>
 </html>
-
