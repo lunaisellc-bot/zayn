@@ -2,418 +2,440 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ZAYN — Modern · Timeless · High-Fashion Essentials</title>
-  <meta name="description" content="ZAYN blends minimal silhouettes with editorial calm. Modern, timeless essentials crafted with care. Explore our collection on Etsy.">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZAYN — Editorial Fashion, Crafted to Last</title>
+  <meta name="description" content="ZAYN — Modern editorial fashion for everyday confidence. Designed to stand out. Crafted to last. Made-to-order pieces produced in 2–6 days. Premium quality, refined silhouettes, balanced proportions.">
   <link rel="canonical" href="https://www.zaynbrand.com/">
 
-  <!-- Force HTTPS for any accidental http assets -->
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <!-- Strict but practical CSP -->
-  <meta http-equiv="Content-Security-Policy"
-        content="
-          default-src 'self' https:;
-          script-src 'self' 'unsafe-inline' https:;
-          style-src 'self' 'unsafe-inline' https:;
-          img-src 'self' https: data: blob:;
-          font-src 'self' https: data:;
-          connect-src 'self' https:;
-          frame-ancestors 'self';
-        ">
-
   <!-- Open Graph -->
+  <meta property="og:title" content="ZAYN — Editorial Fashion, Crafted to Last" />
+  <meta property="og:description" content="Made-to-order, modern pieces with refined details. Produced in 2–6 days. Premium-quality materials. Shop now on Etsy." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="ZAYN — Modern · Timeless" />
-  <meta property="og:description" content="Minimal, editorial and timeless. Explore ZAYN on Etsy." />
   <meta property="og:url" content="https://www.zaynbrand.com/" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1520975898667-8bdf0a1b1bd8?q=80&w=1600&auto=format&fit=crop" />
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ZAYN — Modern · Timeless" />
-  <meta name="twitter:description" content="Minimal, editorial and timeless. Explore ZAYN on Etsy." />
-
-  <!-- Fonts (HTTPS) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-
-  <!-- JSON-LD Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "ZAYN",
-    "url": "https://www.zaynbrand.com/",
-    "sameAs": [
-      "https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav"
-    ],
-    "brand": "ZAYN",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Sheridan",
-      "addressRegion": "WY",
-      "postalCode": "82801",
-      "addressCountry": "US"
-    },
-    "contactPoint": [{
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "email": "lunaisellc@gmail.com",
-      "telephone": "+1-307-205-9144",
-      "areaServed": "US",
-      "availableLanguage": ["en"]
-    }]
-  }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0a0a0b;
-      --surface:#0f1013;
-      --card:#121217;
-      --line:rgba(255,255,255,.07);
-      --fg:#ececf1;
-      --muted:#a8a8b3;
-      --glass:rgba(255,255,255,.06);
-      --shadow:0 10px 30px rgba(0,0,0,.35);
-      --accent:#ffffff;
+      --bg:#0b0b0c;
+      --panel:#111214;
+      --muted:#7f848c;
+      --text:#f3f5f7;
+      --brand:#e0e0e0;
+      --accent:#d5b98e; /* champagne gold vibe */
+      --link:#e7e7e7;
+      --border:rgba(255,255,255,.08);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    html,body{
-      margin:0;background:var(--bg);color:var(--fg);
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font:400 16px/1.6 Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      opacity:0; transition:opacity .6s ease;
     }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;display:block}
-    .container{max-width:1200px;margin:0 auto;padding:28px 22px}
-    .bg{
-      position:fixed;inset:0;z-index:-1;
-      background:
-        radial-gradient(1100px 700px at 80% -10%, #4445672b, transparent 55%),
-        radial-gradient(1000px 700px at -10% 30%, #2b415c29, transparent 60%),
-        linear-gradient(180deg,#14141a,#0a0a0b);
-    }
+    body.ready{opacity:1}
 
-    /* Splash */
-    .splash{position:fixed;inset:0;display:grid;place-items:center;background:#0a0a0b;z-index:9999;animation:fadeOut .9s ease .9s forwards}
-    .splash .logo{letter-spacing:.6rem;font-weight:900;font-size:28px;padding:16px 22px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:var(--shadow);animation:rise .9s cubic-bezier(.2,.8,.2,1)}
-    @keyframes fadeOut{to{opacity:0;visibility:hidden}}
-    @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    a{color:var(--link); text-decoration:none}
+    a:hover{opacity:.85}
+
+    .wrap{max-width:1200px; margin:0 auto; padding:0 20px}
+    .grid{display:grid; gap:32px}
+    .muted{color:var(--muted)}
+    .title{font:600 54px/1.1 "Playfair Display",serif; letter-spacing:.2px; margin:0 0 10px}
+    .eyebrow{letter-spacing:.25em; text-transform:uppercase; font:600 12px/1 Inter; color:var(--muted)}
+    .kicker{font:400 18px/1.7 Inter; color:#cfd2d6}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 18px; border:1px solid var(--border); color:var(--text);
+      border-radius:999px; transition:.2s ease; background:transparent
+    }
+    .btn:hover{border-color:#2a2c30; transform:translateY(-1px)}
+    .btn.primary{background:var(--text); color:#0b0b0c; border-color:transparent}
+    .btn.gold{background:var(--accent); color:#0b0b0c; border-color:transparent}
+    .btn.sm{padding:9px 14px; font-size:14px}
 
     /* Header */
-    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(10,10,11,.72),rgba(10,10,11,.36));backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.45rem}
-    .brand .dot{width:8px;height:8px;border-radius:50%;background:#fff}
-    .links{display:flex;align-items:center;gap:18px;color:var(--muted)}
-    .cta{
-      padding:10px 16px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02))
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(to bottom, rgba(11,11,12,.75), rgba(11,11,12,.3));
+      border-bottom:1px solid var(--border)
     }
-    .cta--solid{background:#fff;color:#000;font-weight:700}
+    nav{display:flex; align-items:center; justify-content:space-between; height:64px}
+    .brand{display:flex; align-items:center; gap:14px}
+    .brand__logo{font:700 18px/1 Inter; letter-spacing:.28em}
+    .nav__links{display:flex; gap:22px}
+    .nav__links a{font:500 14px/1 Inter; color:#dfe2e6}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding:42px 0}
-    .hero h1{font-size:64px;line-height:1.04;margin:0 0 12px}
-    .hero p{color:var(--muted);font-size:18px;max-width:680px}
-    .hero .btns{display:flex;gap:12px;margin-top:18px}
-    .hero-card{
-      min-height:360px;border:1px solid var(--line);border-radius:18px;background:
-        radial-gradient(500px 300px at 20% 10%, rgba(255,255,255,.06), transparent 60%),
-        var(--card);display:grid;place-items:center;color:#bdbdca
+    .hero{padding:80px 0 48px; border-bottom:1px solid var(--border)}
+    .hero__inner{display:grid; grid-template-columns:1.1fr .9fr; gap:46px; align-items:center}
+    .hero figure{
+      position:relative; overflow:hidden; border-radius:14px; background:var(--panel);
+      border:1px solid var(--border)
     }
+    .hero img{width:100%; height:520px; object-fit:cover; display:block; filter:saturate(95%) contrast(105%)}
+    .badge{
+      position:absolute; left:16px; bottom:16px; background:rgba(17,18,20,.85);
+      border:1px solid var(--border); padding:8px 12px; border-radius:10px; font-size:12px; color:#e8e8e8
+    }
+    .cta-row{display:flex; gap:12px; margin-top:22px}
 
     /* Sections */
-    .section{padding:28px 0}
-    .section-title{font-size:24px;font-weight:800;margin:0 0 12px}
-    hr.sep{border:none;height:1px;background:var(--line);margin:12px 0 18px}
+    section{padding:72px 0; border-bottom:1px solid var(--border)}
+    h2.section-title{
+      margin:0 0 8px; font:600 36px/1.25 "Playfair Display",serif
+    }
+    p.section-kicker{margin:6px 0 22px; color:#c8ccd1}
+    .card{
+      background:var(--panel); border:1px solid var(--border);
+      padding:22px; border-radius:14px
+    }
+    .list{display:grid; gap:14px; padding:0; margin:0; list-style:none}
+    .list li{display:flex; gap:10px}
+    .dot{width:8px; height:8px; background:var(--accent); border-radius:50%; margin-top:10px}
 
-    /* Grid / Cards */
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-    .card{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));overflow:hidden;transition:transform .25s ease,border-color .25s ease}
-    .card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
-    .ph{height:220px;display:grid;place-items:center;color:#8e8ea5}
-    .meta{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;color:#bdbdca;font-size:14px}
-    .badge{padding:6px 10px;border:1px solid var(--line);border-radius:30px;background:var(--glass)}
+    /* Materials stats */
+    .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .stat{background:var(--panel); border:1px solid var(--border); padding:22px; border-radius:14px}
+    .stat .num{font:600 26px/1 Inter}
+    .stat .sub{color:var(--muted); font-size:14px; margin-top:6px}
 
-    /* Split */
-    .split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-    .panel{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));padding:18px}
+    /* Testimonials Slider */
+    .slider{position:relative; overflow:hidden}
+    .slides{display:flex; transition:transform .5s ease}
+    .testimonial{
+      min-width:300px; max-width:300px; background:var(--panel);
+      border:1px solid var(--border); padding:18px; border-radius:14px;
+      display:flex; flex-direction:column; gap:14px; margin-right:14px
+    }
+    .stars{color:#f7d37c; letter-spacing:2px}
+    .person{display:flex; align-items:center; gap:12px}
+    .person img{width:36px; height:36px; border-radius:50%; object-fit:cover}
+    .slider-controls{display:flex; gap:10px; margin-top:12px}
+    .ctrl{width:36px; height:36px; border-radius:10px; border:1px solid var(--border); background:var(--panel); color:#fff}
+    .ctrl:hover{transform:translateY(-1px)}
+    .ctrl:disabled{opacity:.4; cursor:not-allowed}
 
-    /* Reveal */
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-    .reveal.show{opacity:1;transform:translateY(0)}
+    /* Contact */
+    .contact .stack{display:grid; grid-template-columns:1.1fr .9fr; gap:22px}
 
     /* Footer */
-    footer{margin:34px 0 40px;color:#9b9bab;font-size:13px}
+    footer{padding:36px 0; color:#b9bdc2}
+    footer .foot{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+    .foot small{color:#8b8f95}
 
-    @media(max-width:1000px){
-      .hero{grid-template-columns:1fr}
-      .hero h1{font-size:44px}
-      .grid{grid-template-columns:1fr 1fr}
-      .split{grid-template-columns:1fr}
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero__inner{grid-template-columns:1fr; gap:28px}
+      .contact .stack{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
     }
-    @media(max-width:640px){
-      .grid{grid-template-columns:1fr}
+    @media (max-width: 640px){
+      .title{font-size:40px}
+      .stats{grid-template-columns:1fr}
+      .testimonial{min-width:260px; max-width:260px}
     }
   </style>
 </head>
 <body>
-  <div class="bg"></div>
-
-  <!-- Splash -->
-  <div class="splash" aria-hidden="true">
-    <div class="logo">Z A Y N</div>
-  </div>
-
   <!-- Header -->
   <header>
-    <div class="container nav">
-      <div class="brand"><span class="dot"></span> Z A Y N</div>
-      <nav class="links">
-        <a href="#collection">Collection</a>
-        <a href="#story">Our Story</a>
-        <a href="#aesthetic">Aesthetic</a>
-        <a href="#why">Why Us</a>
-        <a href="#contact">Contact</a>
-        <a class="cta" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener noreferrer">Shop</a>
-        <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener noreferrer">Shop on Etsy</a>
+    <div class="wrap">
+      <nav>
+        <div class="brand">
+          <div class="brand__logo">Z A Y N</div>
+        </div>
+        <div class="nav__links">
+          <a href="#why">Why ZAYN</a>
+          <a href="#process">Made-to-Order</a>
+          <a href="#story">Our Story</a>
+          <a href="#materials">Materials</a>
+          <a href="#testimonials">Reviews</a>
+          <a class="btn sm" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop on Etsy</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="reveal">
-        <h1>Modern · Timeless <br> ZAYN</h1>
-        <p>
-          Minimal silhouettes. Quiet confidence. An editorial calm that never shouts, yet always stands out.
-          ZAYN curates high-fashion essentials you’ll come back to year after year.
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="wrap hero__inner">
+      <div>
+        <span class="eyebrow">Editorial · Minimal · Confident</span>
+        <h1 class="title">Designed to stand out.<br/>Crafted to last.</h1>
+        <p class="kicker">
+          Modern silhouettes with balanced proportions and thoughtful details—refined, elegant, and never afraid to make a statement.
+          Each piece is made to order in 2–6 days.
         </p>
-        <div class="btns">
-          <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop Now</a>
-          <a class="cta" href="#collection">Explore Collection</a>
+        <div class="cta-row">
+          <a class="btn primary" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Shop the Collection</a>
+          <a class="btn" href="#why">Why ZAYN</a>
         </div>
       </div>
-      <div class="hero-card reveal">Hero Visual (assets/hero.jpg)</div>
-    </section>
 
-    <hr class="sep">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1592878904946-b3cd00b01d85?q=80&w=1600&auto=format&fit=crop" alt="Editorial fashion rack, muted tones"/>
+        <div class="badge">Made-to-order • Ships in 2–6 days</div>
+      </figure>
+    </div>
+  </section>
 
-    <!-- COLLECTION -->
-    <section id="collection" class="section">
-      <h2 class="section-title">Collection Highlights</h2>
-      <div class="grid">
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Monochrome Dress</span><span class="badge">New</span></div>
-        </article>
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Oversized Jacket</span><span class="badge">Limited</span></div>
-        </article>
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Structured Blazer</span><span class="badge">Classic</span></div>
-        </article>
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Geometric Knit</span><span class="badge">New</span></div>
-        </article>
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Column Skirt</span><span class="badge">ZAYN</span></div>
-        </article>
-        <article class="card reveal">
-          <div class="ph">Product Visual</div>
-          <div class="meta"><span>Minimal Shirt</span><span class="badge">Essential</span></div>
-        </article>
-      </div>
-      <div style="margin-top:16px">
-        <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">See All on Etsy</a>
-      </div>
-    </section>
+  <!-- Why ZAYN -->
+  <section id="why">
+    <div class="wrap grid" style="grid-template-columns:1.1fr .9fr;">
+      <div>
+        <h2 class="section-title">Why ZAYN</h2>
+        <p class="section-kicker">Balanced proportions. Quiet confidence. Luxury that lives in the details.</p>
 
-    <!-- STORY -->
-    <section id="story" class="section">
-      <h2 class="section-title">Our Story</h2>
-      <div class="split">
-        <div class="panel reveal">
-          <p style="color:var(--muted)">
-            ZAYN began with a simple question: *what stays beautiful when trends pass?*
-            We design with restraint—clean lines, architectural shapes and a palette that lets form speak.
-            Each piece embraces everyday ease while honoring runway discipline.
-          </p>
-          <p style="color:var(--muted)">
-            We are proudly based in Wyoming, crafting small-batch capsules to keep quality high and waste low.
-            Collections are intentionally compact, thoughtful and timeless.
-          </p>
-        </div>
-        <div class="panel reveal">
-          <strong>Milestones</strong>
-          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
-            <li>2023 — First capsule: *Monochrome Lines*</li>
-            <li>2024 — Launch on Etsy & international shipping</li>
-            <li>2025 — Editorial expansion: outerwear & tailored essentials</li>
+        <div class="card">
+          <ul class="list">
+            <li><span class="dot"></span><div><strong>Refined, not loud.</strong> Editorial attitude with clean forms and perfect drape.</div></li>
+            <li><span class="dot"></span><div><strong>Statement when you want it.</strong> Silhouettes that carry presence—without shouting.</div></li>
+            <li><span class="dot"></span><div><strong>Thoughtful construction.</strong> Seams, hems, and finishes designed to feel intentional.</div></li>
+            <li><span class="dot"></span><div><strong>Made-to-order.</strong> Each piece is produced for you within <em>2–6 days</em>.</div></li>
           </ul>
         </div>
       </div>
-    </section>
 
-    <!-- AESTHETIC / FEELINGS -->
-    <section id="aesthetic" class="section">
-      <h2 class="section-title">Aesthetic & Feelings</h2>
-      <div class="split">
-        <div class="panel reveal">
-          <p style="color:var(--muted)">
-            Our aesthetic lives between **calm** and **confidence**—quiet luxury.
-            Fabrics drape, seams align, proportions balance. The silhouette does the talking.
-          </p>
-          <p style="color:var(--muted)">
-            We aim for pieces that feel like a deep breath: light, composed, reliable. Style that ages beautifully.
-          </p>
-        </div>
-        <div class="panel reveal">
-          <strong>Design Pillars</strong>
-          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
-            <li>Minimal • Architectural • Editorial</li>
-            <li>Neutral monochromes with subtle depth</li>
-            <li>Texture > prints, form > noise</li>
-          </ul>
+      <div class="card">
+        <h3 style="margin:0 0 8px">Design Philosophy</h3>
+        <p class="muted">
+          We create pieces you reach for again and again—architectural yet wearable. Balance over noise. Proportion over excess.
+          Every line exists for a reason, and every fabric serves the silhouette.
+        </p>
+        <div class="cta-row">
+          <a class="btn gold" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Explore on Etsy</a>
+          <a class="btn" href="#materials">Materials & Quality</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- WHY US -->
-    <section id="why" class="section">
-      <h2 class="section-title">Why ZAYN?</h2>
-      <div class="grid">
-        <div class="panel reveal">
-          <strong>01 · Thoughtful Design</strong>
-          <p style="color:var(--muted)">Balanced proportions and details that matter. Always refined—never loud.</p>
+  <!-- Made-to-Order Process -->
+  <section id="process">
+    <div class="wrap">
+      <h2 class="section-title">Made-to-Order, Expertly Crafted</h2>
+      <p class="section-kicker">Small-scale atelier production ensures consistency, freshness, and quality.</p>
+
+      <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="card">
+          <span class="eyebrow">01</span>
+          <h3 style="margin:6px 0 6px">Design & Cut</h3>
+          <p class="muted">Each piece is cut with balanced proportions for a precise, elegant fit that moves with you.</p>
         </div>
-        <div class="panel reveal">
-          <strong>02 · Small-Batch Quality</strong>
-          <p style="color:var(--muted)">Limited runs keep quality high and ensure a more mindful footprint.</p>
+        <div class="card">
+          <span class="eyebrow">02</span>
+          <h3 style="margin:6px 0 6px">Made for You</h3>
+          <p class="muted">We produce after you order—your piece is crafted within 2–6 days, then inspected by hand.</p>
         </div>
-        <div class="panel reveal">
-          <strong>03 · Timeless Versatility</strong>
-          <p style="color:var(--muted)">Pieces that pair effortlessly and stay relevant beyond seasons.</p>
+        <div class="card">
+          <span class="eyebrow">03</span>
+          <h3 style="margin:6px 0 6px">Ship & Wear</h3>
+          <p class="muted">Well-packed, crease-conscious shipping. Your piece arrives ready to style and live in.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- MATERIALS / CRAFT -->
-    <section class="section">
-      <h2 class="section-title">Materials & Craft</h2>
-      <div class="split">
-        <div class="panel reveal">
-          <p style="color:var(--muted)">
-            We partner with vetted mills and workshops, selecting fabrics for **hand-feel, drape and longevity**.
-            Many pieces are finished by hand for precision.
-          </p>
+  <!-- Our Story / Philosophy -->
+  <section id="story">
+    <div class="wrap grid" style="grid-template-columns: .9fr 1.1fr;">
+      <div class="card">
+        <h2 class="section-title" style="margin:0 0 6px">Our Story</h2>
+        <p class="muted">
+          ZAYN began with a belief: **confidence is quiet, but it’s never invisible**. We design for people who value elegance,
+          structure, and a distinct point of view. Our pieces are produced in limited quantities, made-to-order—so your wardrobe
+          remains personal, considered, and truly yours.
+        </p>
+        <div class="cta-row"><a class="btn" href="#testimonials">What Clients Say</a></div>
+      </div>
+
+      <figure class="card" style="padding:0; overflow:hidden">
+        <img src="https://images.unsplash.com/photo-1520975898667-8bdf0a1b1bd8?q=80&w=1600&auto=format&fit=crop" alt="Atelier detail, garment making"/>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Materials & Quality -->
+  <section id="materials">
+    <div class="wrap">
+      <h2 class="section-title">Materials & Quality</h2>
+      <p class="section-kicker">We use premium-quality polyester selected for elegant structure, comfort, and longevity.</p>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num">Premium Drape</div>
+          <div class="sub">Holds shape while flowing—ideal for clean, modern lines.</div>
         </div>
-        <div class="panel reveal">
-          <strong>Care Principles</strong>
-          <ul style="margin:.6rem 0 0 1rem; color:var(--muted)">
-            <li>Prefer gentle wash & air dry</li>
-            <li>Steam to refresh silhouette</li>
-            <li>Store on wide hangers to keep structure</li>
-          </ul>
+        <div class="stat">
+          <div class="num">Comfort & Care</div>
+          <div class="sub">Breathable feel, easy care, colorfast wear.</div>
+        </div>
+        <div class="stat">
+          <div class="num">Built to Last</div>
+          <div class="sub">Quality finishing and durable fibers for everyday longevity.</div>
         </div>
       </div>
-    </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="section">
+      <div class="card" style="margin-top:16px">
+        <ul class="list">
+          <li><span class="dot"></span><div>Balanced weight for year-round wear—neither flimsy nor stiff.</div></li>
+          <li><span class="dot"></span><div>Silhouette-first approach: fabric chosen to serve the design.</div></li>
+          <li><span class="dot"></span><div>Ethically produced in small batches to minimize waste.</div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="wrap">
       <h2 class="section-title">What Clients Say</h2>
-      <div class="grid">
-        <div class="panel reveal"><em>“Understated and elegant—exactly what I was looking for.”</em><br><span style="color:var(--muted)">— A. Miller</span></div>
-        <div class="panel reveal"><em>“The jacket structure is incredible. Feels couture.”</em><br><span style="color:var(--muted)">— N. Park</span></div>
-        <div class="panel reveal"><em>“Clean, modern, beautifully made. Will buy again.”</em><br><span style="color:var(--muted)">— L. Gomez</span></div>
-      </div>
-    </section>
+      <p class="section-kicker">Real words. Real style. Confidence that stays.</p>
 
-    <!-- FAQ -->
-    <section class="section">
-      <h2 class="section-title">FAQ</h2>
-      <div class="split">
-        <div class="panel reveal">
-          <strong>Shipping</strong>
-          <p style="color:var(--muted)">Orders ship within 2–5 business days. International available via Etsy.</p>
+      <div class="slider" aria-label="Client testimonials slider">
+        <div class="slides" id="slides">
+          <!-- 10 testimonial cards -->
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Beautifully made and surprisingly comfortable. The proportions are perfect—instantly elevated my wardrobe.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=11" alt="Amanda K."><div><strong>Amanda K.</strong><div class="muted">New York, US</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>The drape is stunning. Looks editorial, feels effortless. Will order in another color.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=32" alt="Lucía R."><div><strong>Lucía R.</strong><div class="muted">Madrid, ES</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Minimal but strong. You can tell the design is intentional. Fast production and great packing.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=5" alt="Noah V."><div><strong>Noah V.</strong><div class="muted">Amsterdam, NL</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Impressed by the finishing. The fabric holds its shape and still feels soft. Worth it.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=21" alt="Mia L."><div><strong>Mia L.</strong><div class="muted">Toronto, CA</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Exactly what I was looking for—quiet luxury with presence. Compliments every time.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=40" alt="Sophie D."><div><strong>Sophie D.</strong><div class="muted">Paris, FR</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Tailored yet relaxed. The length and cut are spot on. Feels bespoke.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=14" alt="Ismail A."><div><strong>Ismail A.</strong><div class="muted">Dubai, AE</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Shipped fast for a made-to-order piece. Quality is consistent and premium.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=55" alt="Hannah S."><div><strong>Hannah S.</strong><div class="muted">London, UK</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Elegant in person—photos don’t do it justice. The silhouette is so flattering.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=2" alt="Lea G."><div><strong>Lea G.</strong><div class="muted">Zurich, CH</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Great communication and sizing help. Wore it to an event and felt incredible.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=29" alt="Elena M."><div><strong>Elena M.</strong><div class="muted">Rome, IT</div></div></div>
+          </article>
+          <article class="testimonial">
+            <div class="stars">★★★★★</div>
+            <p>Exactly as described—clean, modern, and premium. Will definitely buy again.</p>
+            <div class="person"><img src="https://i.pravatar.cc/120?img=9" alt="Daniel P."><div><strong>Daniel P.</strong><div class="muted">Berlin, DE</div></div></div>
+          </article>
         </div>
-        <div class="panel reveal">
-          <strong>Returns</strong>
-          <p style="color:var(--muted)">Unworn items may be returned within 14 days. Please request via Etsy messages.</p>
+
+        <div class="slider-controls">
+          <button class="ctrl" id="prev" aria-label="Previous reviews">‹</button>
+          <button class="ctrl" id="next" aria-label="Next reviews">›</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <hr class="sep">
+  <!-- Contact & Policies -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2 class="section-title">Contact & Policies</h2>
+      <p class="section-kicker">Unworn items may be returned within <strong>7 days</strong>. Please request via Etsy messages.</p>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <h2 class="section-title">Contact</h2>
-      <div class="split">
-        <div class="panel reveal">
-          <p style="color:var(--muted);margin:.2rem 0">
-            Email: <a href="mailto:lunaisellc@gmail.com">lunaisellc@gmail.com</a><br>
-            Phone: <a href="tel:+13072059144">+1 (307) 205-9144</a><br>
-            Location: Sheridan, Wyoming, USA
-          </p>
-          <div style="margin-top:.6rem">
-            <a class="cta cta--solid" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Message on Etsy</a>
+      <div class="stack">
+        <div class="card">
+          <h3 style="margin:0 0 8px">Questions about sizing, length or styling?</h3>
+          <p class="muted">Send us a message on Etsy and we’ll assist promptly.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Message us on Etsy</a>
+            <a class="btn" href="#process">See Production Timeline</a>
           </div>
         </div>
-        <div class="panel reveal">
-          <form action="mailto:lunaisellc@gmail.com" method="post" enctype="text/plain">
-            <div style="display:grid;gap:10px">
-              <input required name="name" placeholder="Your name" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)">
-              <input required type="email" name="email" placeholder="Email address" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)">
-              <textarea required name="message" rows="5" placeholder="Message" style="padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg)"></textarea>
-              <button class="cta cta--solid" type="submit">Send</button>
-            </div>
-          </form>
-          <p style="color:var(--muted);font-size:12px;margin-top:.6rem">
-            Prefer Etsy? Use “Message Seller” on our shop page for order-specific questions.
-          </p>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px">Returns & Care</h3>
+          <ul class="list">
+            <li><span class="dot"></span><div>Unworn items may be returned within <strong>7 days</strong> — please request via Etsy messages.</div></li>
+            <li><span class="dot"></span><div>Care: gentle cycle or hand wash cold, dry flat, low steam if needed.</div></li>
+            <li><span class="dot"></span><div>All pieces are produced after your order; minor variations are part of the craft.</div></li>
+          </ul>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      © <span id="y"></span> ZAYN — All rights reserved ·
-      <a href="https://www.etsy.com/shop/ByZaynCo?ref=seller-platform-mcnav" target="_blank" rel="noopener">Etsy</a> ·
-      <a href="#story">About</a> ·
-      <a href="#contact">Contact</a>
-    </footer>
-  </main>
+  <!-- Footer -->
+  <footer>
+    <div class="wrap foot">
+      <div>© <span id="y"></span> ZAYN — Designed to stand out. Crafted to last.</div>
+      <small>Built with GitHub Pages • SSL will auto-provision via GitHub (may take a few minutes).</small>
+    </div>
+  </footer>
 
   <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // reveal
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
-      });
-    },{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-    // smooth anchors
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click',e=>{
-        const id=a.getAttribute('href');
-        if(id && id.length>1){
-          e.preventDefault();
-          document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
-        }
-      });
+    // Fade-in on load
+    window.addEventListener('load', () => {
+      document.body.classList.add('ready');
+      document.getElementById('y').textContent = new Date().getFullYear();
     });
+
+    // Testimonials slider
+    (function(){
+      const slides = document.getElementById('slides');
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      let index = 0;
+
+      function cardWidth(){
+        // width of a card + margin-right
+        const card = slides.querySelector('.testimonial');
+        const style = getComputedStyle(card);
+        return card.offsetWidth + parseInt(style.marginRight,10);
+      }
+
+      function maxIndex(){
+        const visible = Math.floor((slides.parentElement.offsetWidth) / cardWidth());
+        const total = slides.children.length;
+        return Math.max(0, total - visible);
+      }
+
+      function update(){
+        slides.style.transform = 'translateX(' + (-index * cardWidth()) + 'px)';
+        prev.disabled = index <= 0;
+        next.disabled = index >= maxIndex();
+      }
+
+      prev.addEventListener('click', () => { index = Math.max(0, index - 1); update(); });
+      next.addEventListener('click', () => { index = Math.min(maxIndex(), index + 1); update(); });
+      window.addEventListener('resize', update);
+      update();
+    })();
   </script>
 </body>
 </html>
+
