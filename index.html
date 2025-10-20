@@ -14,7 +14,7 @@
     a{color:inherit;text-decoration:none}
     img{display:block;max-width:100%;height:auto;border-radius:14px}
 
-    /* ---------- Layout ---------- */
+    /* ---------- Utilities ---------- */
     .container{max-width:1200px;margin:0 auto;padding:24px}
     .section{padding:64px 0;border-bottom:1px solid var(--line)}
     h1,h2,h3{margin:0 0 16px}
@@ -22,8 +22,17 @@
     h2{font-size:28px}
     p.lead{color:var(--muted);max-width:720px}
 
+    /* İnce beyaz panel (A seçeneği) */
+    .panel{
+      background:#fff;            /* tam beyaz */
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:24px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.04);
+    }
+
     /* ---------- Nav ---------- */
-    .nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
+    .nav{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
     .brand{font-weight:700;letter-spacing:.2em}
     .menu{display:flex;gap:16px;font-size:14px}
@@ -31,7 +40,9 @@
     .menu a:hover{opacity:1}
 
     /* ---------- Hero ---------- */
-    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;position:relative;z-index:2}
+    .hero{
+      display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;
+    }
     .hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
     .badge{border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
 
@@ -41,7 +52,7 @@
 
     /* Cards & grids */
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
-    .card{background:rgba(255,255,255,0.96);border:1px solid var(--line);padding:14px;border-radius:18px;display:flex;flex-direction:column;gap:12px;backdrop-filter:saturate(160%) blur(1px)}
+    .card{background:#fff;border:1px solid var(--line);padding:14px;border-radius:18px;display:flex;flex-direction:column;gap:12px;box-shadow: 0 6px 18px rgba(0,0,0,.04)}
     .title{font-weight:600}
     .price{color:var(--muted);font-size:14px}
     .card .tags{display:flex;gap:8px;flex-wrap:wrap}
@@ -50,30 +61,23 @@
 
     .footer{padding:40px 24px;color:var(--muted);font-size:13px}
     .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .review{background:rgba(255,255,255,0.96);border:1px solid var(--line);padding:16px;border-radius:16px;color:var(--muted);backdrop-filter:saturate(160%) blur(1px)}
+    .review{background:#fff;border:1px solid var(--line);padding:16px;border-radius:16px;color:var(--muted);box-shadow: 0 6px 18px rgba(0,0,0,.04)}
 
-    /* ---------- Full-page Background (net görsel + scrim) ---------- */
-    /* Eski hero watermark'ı varsa devre dışı */
+    /* ---------- FULL-PAGE BACKGROUND (net & renkli) ---------- */
+    /* Hero watermark kapalı; tüm sayfayı net görsel kaplar */
     .hero::before{content:none !important;}
 
-    /* Arka plan görseli: tüm sayfa */
     .bg-art{
       position:fixed; inset:0; z-index:0; pointer-events:none;
       background-image:url("https://i.etsystatic.com/60635710/r/il/9c5a03/7064523791/il_794xN.7064523791_lifg.jpg");
-      background-size:cover;               /* tüm ekranı kapla */
-      background-position:center;          /* ortala */
+      background-size:cover;           /* full ekran */
+      background-position:center;      /* ortala */
       background-repeat:no-repeat;
-      background-attachment:fixed;         /* parallax benzeri stabil duruş */
-      filter:saturate(0.9) contrast(0.92) brightness(1.02);
+      background-attachment:fixed;     /* sabit duruş */
+      /* NET kalsın: filtre eklemiyoruz */
     }
 
-    /* İnce beyaz scrim: içerik yüksek okunabilirlik */
-    .bg-scrim{
-      position:fixed; inset:0; z-index:1; pointer-events:none;
-      background:rgba(255,255,255,0.78);   /* 0.70 → görsel daha baskın | 0.85 → daha sakin */
-    }
-
-    /* İçeriği üstte tut */
+    /* İçerik üstte kalsın */
     nav, header, section, footer, main { position:relative; z-index:2; }
 
     /* ---------- Responsive ---------- */
@@ -81,13 +85,11 @@
       .hero{grid-template-columns:1fr;}
       .grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 768px){
-      .bg-scrim{ background:rgba(255,255,255,0.82); } /* küçük ekranda okunurluk */
-    }
     @media (max-width: 640px){
       .menu{display:none}
       .grid{grid-template-columns:1fr}
       h1{font-size:32px}
+      .panel{padding:18px;border-radius:16px}
     }
   </style>
 
@@ -100,9 +102,8 @@
   </script>
 </head>
 <body>
-  <!-- Full-page background image + soft scrim -->
+  <!-- Full-page background image (NET & RENKLİ) -->
   <div class="bg-art" aria-hidden="true"></div>
-  <div class="bg-scrim" aria-hidden="true"></div>
 
   <!-- Nav -->
   <nav class="nav">
@@ -124,7 +125,7 @@
 
   <!-- Hero -->
   <header id="home" class="section">
-    <div class="container hero">
+    <div class="container panel hero">
       <div>
         <h1>Artistry in Every Print. Timeless Elegance by ZAYN.</h1>
         <p class="lead">Limited-run, premium polyester pieces — designed in-house, made-to-order.</p>
@@ -145,56 +146,41 @@
 
   <!-- New Arrivals -->
   <section id="new" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>New Arrivals</h2>
       <p class="lead">Fresh silhouettes, refined prints, limited-run drops.</p>
       <div class="grid">
-        <!-- New 1: Bomber Jacket (also hero) -->
+        <!-- New 1 -->
         <article class="card">
           <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket?ref=shop_home_feat_1&pro=1&frs=1&logging_key=b26b0b57097ecf1ae9cc20016e8b2880a5dd3e6e%3A4388754083&fbclid=PAZXh0bgNhZW0CMTEAAaenaTB8u_W5-NGbE9TOKr1Je6WXKDmzcwFj1_dlTYkWCfw5NlQKc3x2IjVc_Q_aem_urNiL__n7xsDJE39Wa8pDw&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_1" target="_blank" rel="noopener">
             <img src="https://i.etsystatic.com/60635710/r/il/6389ab/7345622951/il_794xN.7345622951_ny9z.jpg" alt="Baroque Bomber Jacket — ZAYN" loading="lazy" decoding="async" />
           </a>
           <div class="title">Baroque Bomber Jacket</div>
           <div class="price">View price on Etsy</div>
-          <div class="tags">
-            <span class="pill">Made to Order</span>
-            <span class="pill">Ships in 2–6 days</span>
-          </div>
-          <div class="actions">
-            <a class="btn" href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket?ref=shop_home_feat_1&pro=1&frs=1&logging_key=b26b0b57097ecf1ae9cc20016e8b2880a5dd3e6e%3A4388754083&fbclid=PAZXh0bgNhZW0CMTEAAaenaTB8u_W5-NGbE9TOKr1Je6WXKDmzcwFj1_dlTYkWCfw5NlQKc3x2IjVc_Q_aem_urNiL__n7xsDJE39Wa8pDw&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_1" target="_blank" rel="noopener">View on Etsy</a>
-          </div>
+          <div class="tags"><span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span></div>
+          <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket?ref=shop_home_feat_1&pro=1&frs=1&logging_key=b26b0b57097ecf1ae9cc20016e8b2880a5dd3e6e%3A4388754083&fbclid=PAZXh0bgNhZW0CMTEAAaenaTB8u_W5-NGbE9TOKr1Je6WXKDmzcwFj1_dlTYkWCfw5NlQKc3x2IjVc_Q_aem_urNiL__n7xsDJE39Wa8pDw&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_1" target="_blank" rel="noopener">View on Etsy</a></div>
         </article>
 
-        <!-- New 2: Longline Cardigan -->
+        <!-- New 2 -->
         <article class="card">
           <a href="https://www.etsy.com/listing/4373523965/abstract-art-longline-cardigan-geometric?ls=r&ref=related-1&content_source=f14c46f8ae0ce61f7c3f382f613c83e4%253ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&logging_key=f14c46f8ae0ce61f7c3f382f613c83e4%3ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_2" target="_blank" rel="noopener">
             <img src="https://i.etsystatic.com/60635710/r/il/e97999/7350127731/il_794xN.7350127731_s8t0.jpg" alt="Geometric Longline Cardigan — ZAYN" loading="lazy" decoding="async" />
           </a>
           <div class="title">Geometric Longline Cardigan</div>
           <div class="price">View price on Etsy</div>
-          <div class="tags">
-            <span class="pill">Made to Order</span>
-            <span class="pill">Ships in 2–6 days</span>
-          </div>
-          <div class="actions">
-            <a class="btn" href="https://www.etsy.com/listing/4373523965/abstract-art-longline-cardigan-geometric?ls=r&ref=related-1&content_source=f14c46f8ae0ce61f7c3f382f613c83e4%253ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&logging_key=f14c46f8ae0ce61f7c3f382f613c83e4%3ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_2" target="_blank" rel="noopener">View on Etsy</a>
-          </div>
+          <div class="tags"><span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span></div>
+          <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4373523965/abstract-art-longline-cardigan-geometric?ls=r&ref=related-1&content_source=f14c46f8ae0ce61f7c3f382f613c83e4%253ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&logging_key=f14c46f8ae0ce61f7c3f382f613c83e4%3ALTf0541e1c861e28fcfbead2df5390ad29f60baa2c&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_2" target="_blank" rel="noopener">View on Etsy</a></div>
         </article>
 
-        <!-- New 3: Retro Patchwork Dress -->
+        <!-- New 3 -->
         <article class="card">
           <a href="https://www.etsy.com/listing/4375491394/retro-geometric-patchwork-dress-vintage?ls=r&ref=related-2&content_source=8238608966ffbdb5e0d932fb630aa700%253ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&logging_key=8238608966ffbdb5e0d932fb630aa700%3ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_3" target="_blank" rel="noopener">
             <img src="https://i.etsystatic.com/60635710/r/il/4ad749/7302253874/il_794xN.7302253874_11ap.jpg" alt="Retro Patchwork Dress — ZAYN" loading="lazy" decoding="async" />
           </a>
           <div class="title">Retro Patchwork Dress</div>
           <div class="price">View price on Etsy</div>
-          <div class="tags">
-            <span class="pill">Made to Order</span>
-            <span class="pill">Ships in 2–6 days</span>
-          </div>
-          <div class="actions">
-            <a class="btn" href="https://www.etsy.com/listing/4375491394/retro-geometric-patchwork-dress-vintage?ls=r&ref=related-2&content_source=8238608966ffbdb5e0d932fb630aa700%253ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&logging_key=8238608966ffbdb5e0d932fb630aa700%3ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_3" target="_blank" rel="noopener">View on Etsy</a>
-          </div>
+          <div class="tags"><span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span></div>
+          <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4375491394/retro-geometric-patchwork-dress-vintage?ls=r&ref=related-2&content_source=8238608966ffbdb5e0d932fb630aa700%253ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&logging_key=8238608966ffbdb5e0d932fb630aa700%3ALT2d638c992a22bd6f7d6882e64ecaaf701e8eb4cd&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=new_3" target="_blank" rel="noopener">View on Etsy</a></div>
         </article>
       </div>
     </div>
@@ -202,7 +188,7 @@
 
   <!-- Bestsellers -->
   <section id="bestsellers" class="section">
-    <div class="container">
+    <div class="container panel" style="grid-template-columns:repeat(1,1fr)">
       <h2>Bestsellers</h2>
       <p class="lead">Community favorites — proven fits and prints.</p>
       <div class="grid" style="grid-template-columns:repeat(1,1fr)">
@@ -212,14 +198,8 @@
           </a>
           <div class="title">Boho Summer Sling Dress</div>
           <div class="price">View price on Etsy</div>
-          <div class="tags">
-            <span class="pill">Bestseller</span>
-            <span class="pill">Made to Order</span>
-            <span class="pill">Ships in 2–6 days</span>
-          </div>
-          <div class="actions">
-            <a class="btn" href="https://www.etsy.com/listing/4360957979/abstract-boho-sling-dress-summer?ref=shop_home_feat_2&pro=1&frs=1&logging_key=8e88a2d7613e36cd8f52f260e845cafae7653f01%3A4360957979&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=best_1" target="_blank" rel="noopener">View on Etsy</a>
-          </div>
+          <div class="tags"><span class="pill">Bestseller</span><span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span></div>
+          <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4360957979/abstract-boho-sling-dress-summer?ref=shop_home_feat_2&pro=1&frs=1&logging_key=8e88a2d7613e36cd8f52f260e845cafae7653f01%3A4360957979&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=best_1" target="_blank" rel="noopener">View on Etsy</a></div>
         </article>
       </div>
     </div>
@@ -227,7 +207,7 @@
 
   <!-- The Prints -->
   <section id="prints" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>The Prints</h2>
       <p class="lead">Our prints are designed in-house with a minimal, architectural eye. Every piece is produced on-demand to reduce waste.</p>
     </div>
@@ -235,7 +215,7 @@
 
   <!-- Quality & Fit -->
   <section id="quality" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>Quality & Fit</h2>
       <ul>
         <li>Fabric: Premium polyester for crisp drape and long-lasting color.</li>
@@ -247,7 +227,7 @@
 
   <!-- Reviews -->
   <section id="reviews" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>Reviews</h2>
       <div class="reviews">
         <div class="review">“Gorgeous print and fit. Shipping was smooth!” — A.*</div>
@@ -260,7 +240,7 @@
 
   <!-- Shipping & Returns -->
   <section id="shipping" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>Shipping & Returns</h2>
       <ul>
         <li>Production: 2–6 days (made-to-order).</li>
@@ -272,26 +252,17 @@
 
   <!-- FAQ -->
   <section id="faq" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>FAQ</h2>
-      <details>
-        <summary>Do you ship worldwide?</summary>
-        <p>Yes. See Etsy checkout for rates and delivery times.</p>
-      </details>
-      <details>
-        <summary>Can I change size after ordering?</summary>
-        <p>Within 12 hours via Etsy Messages.</p>
-      </details>
-      <details>
-        <summary>Are colors accurate?</summary>
-        <p>We calibrate colors; minor variance may occur between screens.</p>
-      </details>
+      <details><summary>Do you ship worldwide?</summary><p>Yes. See Etsy checkout for rates and delivery times.</p></details>
+      <details><summary>Can I change size after ordering?</summary><p>Within 12 hours via Etsy Messages.</p></details>
+      <details><summary>Are colors accurate?</summary><p>We calibrate colors; minor variance may occur between screens.</p></details>
     </div>
   </section>
 
   <!-- Contact -->
   <section id="contact" class="section">
-    <div class="container">
+    <div class="container panel">
       <h2>Contact</h2>
       <p>Questions? Message us on Etsy or email <a href="mailto:hello@zaynbrand.com">hello@zaynbrand.com</a>.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
@@ -303,7 +274,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
+    <div class="container panel">
       <div>© ZAYN / By Zayn Co — Lunaise LLC (Wyoming, USA)</div>
       <div>30 N Gould St Ste N, Sheridan, WY 82801, USA — +1 307-205-9144</div>
       <div style="margin-top:8px;display:flex;gap:14px;flex-wrap:wrap">
