@@ -6,71 +6,90 @@
   <title>ZAYN — Modern Prints, Timeless Elegance | Made-to-Order Fashion</title>
   <meta name="description" content="Limited-run, premium polyester pieces with in-house prints. Made-to-order, ships in 2–6 days. Shop via Etsy." />
   <link rel="preconnect" href="https://i.etsystatic.com" crossorigin>
+
   <style>
+    /* ===================== ZAYN — single file styles ===================== */
     :root{
-      --fg:#0f0f0f; --muted:#5d5d5d; --line:#e9e9e9; --card:#ffffff;
-      --gutter:clamp(14px, 5vw, 56px);           /* sağ-sol boşluk */
-      --wrap: min(1000px, 86vw);                 /* içerik genişliği (daha dar) */
+      --fg:#0f0f0f;
+      --muted:#5d5d5d;
+      --line:#e9e9e9;
+      --card:#ffffff;
+      --gutter:clamp(14px,5vw,56px);   /* sağ-sol boşluk */
+      --wrap:min(1000px,86vw);         /* içerik genişliği (dar) */
       --radius:18px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    html,body{margin:0;padding:0;color:var(--fg);
+      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
     a{color:inherit;text-decoration:none}
     img{display:block;max-width:100%;height:auto;border-radius:14px}
 
-    /* ---------- Arka plan: NET & RENKLİ (#114) ---------- */
+    /* === FULL-PAGE NET BACKGROUND (114) === */
     .bg-art{
       position:fixed; inset:0; z-index:0; pointer-events:none;
-      background-image:url("./assets/tasarim_20251020_183134_0000.png?v=1");   /
-      background-size:cover; background-position:center; background-repeat:no-repeat;
-      background-attachment:fixed;
+      background-image:url("/assets/tasarim_20251020_183134_0000.png?v=4");
+      background-size:cover; background-position:center;
+      background-repeat:no-repeat; background-attachment:fixed;
     }
 
-    /* ---------- Yapı ---------- */
-    .page{position:relative; z-index:2; padding-inline:var(--gutter);}
-    .section{padding:56px 0; }
-    .wrap{width:var(--wrap); margin-inline:auto;}
-    .panel{background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:0 6px 20px rgba(0,0,0,.04); padding:24px;}
+    /* İçerik her zaman üstte */
+    nav, header, section, footer, main{position:relative; z-index:1}
 
+    /* LAYOUT */
+    .page{padding-inline:var(--gutter)}
+    .section{padding:56px 0}
+    .wrap{width:var(--wrap); margin-inline:auto}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:0 6px 20px rgba(0,0,0,.04);padding:24px}
+
+    /* NAV */
+    .nav{position:sticky;top:0;z-index:10}
+    .nav-inner{width:var(--wrap);margin:8px auto;background:#fff;border:1px solid var(--line);
+      border-radius:999px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+      box-shadow:0 8px 24px rgba(0,0,0,.05)}
+    .brand{font-weight:700;letter-spacing:.2em}
+    .menu{display:flex;gap:14px;font-size:14px}
+    .menu a{opacity:.85}.menu a:hover{opacity:1}
+
+    /* TYPO */
     h1,h2,h3{margin:0 0 16px}
     h1{font-size:40px;letter-spacing:.02em}
     h2{font-size:28px}
     p.lead{color:var(--muted);max-width:720px}
+    .badge{border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
 
-    /* Nav (daraltılmış) */
-    .nav{position:sticky; top:0; z-index:10; backdrop-filter:saturate(180%) blur(8px)}
-    .nav-inner{width:var(--wrap); margin:8px auto; background:#fff; border:1px solid var(--line); border-radius:999px; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 8px 24px rgba(0,0,0,.05)}
-    .brand{font-weight:700; letter-spacing:.2em}
-    .menu{display:flex; gap:14px; font-size:14px}
-    .menu a{opacity:.85}
-    .menu a:hover{opacity:1}
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:center}
 
-    /* Hero (dar, panel içinde) */
-    .hero{display:grid; grid-template-columns:1.25fr 1fr; gap:28px; align-items:center;}
-    .badge{border:1px solid var(--line); padding:6px 10px; border-radius:999px; font-size:12px; color:var(--muted)}
-    .badges{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0}
-
-    /* Grid & kartlar */
-    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:20px}
-    .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:14px; display:flex; flex-direction:column; gap:12px; box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    /* GRID / CARDS */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px;
+      display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
     .title{font-weight:600}
-    .price{color:var(--muted); font-size:14px}
-    .pill{font-size:11px; border:1px solid var(--line); padding:4px 8px; border-radius:999px; color:var(--muted)}
-    .actions{margin-top:auto; display:flex; gap:10px}
-    .btn{display:inline-block; background:#111; color:#fff; padding:12px 18px; border-radius:999px; font-weight:600; border:1px solid #111}
+    .price{color:var(--muted);font-size:14px}
+    .pill{font-size:11px;border:1px solid var(--line);padding:4px 8px;border-radius:999px;color:var(--muted)}
+    .actions{margin-top:auto;display:flex;gap:10px}
+
+    /* Buttons */
+    .btn{display:inline-block;background:#111;color:#fff;padding:12px 18px;border-radius:999px;
+      font-weight:600;border:1px solid #111}
     .btn:hover{opacity:.9}
 
-    .reviews{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-    .review{background:#fff; border:1px solid var(--line); padding:16px; border-radius:16px; color:var(--muted); box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    /* Reviews */
+    .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .review{background:#fff;border:1px solid var(--line);padding:16px;border-radius:16px;color:var(--muted);
+      box-shadow:0 6px 18px rgba(0,0,0,.04)}
 
-    .footer{color:var(--muted); font-size:13px}
+    /* Footer */
+    .footer{color:var(--muted);font-size:13px}
 
-    /* ---------- Responsive ---------- */
-    @media (max-width: 980px){
-      .hero{grid-template-columns:1fr;}
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr 1fr}
     }
-    @media (max-width: 640px){
+    @media (max-width:640px){
       .menu{display:none}
       .grid{grid-template-columns:1fr}
       h1{font-size:32px}
@@ -80,14 +99,14 @@
 
   <!-- Structured Data -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"ZAYN","url":"https://zaynbrand.com","logo":"https://zaynbrand.com/assets/logo.png","sameAs":["https://www.etsy.com/shop/ByZaynCo"]}
+  {"@context":"https://schema.org","@type":"Organization","name":"ZAYN","url":"https://zaynbrand.com","logo":"https://zaynbrand.com/assets/logo.svg","sameAs":["https://www.etsy.com/shop/ByZaynCo"]}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"ZAYN","url":"https://zaynbrand.com","potentialAction":{"@type":"SearchAction","target":"https://zaynbrand.com/?q={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
 </head>
 <body>
-  <!-- NET arka plan (#114) -->
+  <!-- NET ARKA PLAN -->
   <div class="bg-art" aria-hidden="true"></div>
 
   <!-- NAV -->
@@ -125,7 +144,7 @@
               <a class="btn" href="#bestsellers" style="background:transparent;color:#111;border:1px solid #111">See Bestseller</a>
             </div>
           </div>
-          <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket?ref=shop_home_feat_1&pro=1&frs=1&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=hero" target="_blank" rel="noopener">
+          <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket" target="_blank" rel="noopener">
             <img src="https://i.etsystatic.com/60635710/r/il/6389ab/7345622951/il_794xN.7345622951_ny9z.jpg" alt="Baroque Bomber Jacket — ZAYN" loading="lazy" decoding="async" />
           </a>
         </div>
@@ -269,7 +288,7 @@
     <footer class="section footer">
       <div class="wrap panel">
         <div>© ZAYN / By Zayn Co — Lunaise LLC (Wyoming, USA)</div>
-        <div>30 N Gould St Ste N, Sheridan, WY 82801, USA — </div>
+        <div>30 N Gould St Ste N, Sheridan, WY 82801, USA — +1 307-205-9144</div>
         <div style="margin-top:8px;display:flex;gap:14px;flex-wrap:wrap">
           <a href="#">Privacy</a>
           <a href="#">Terms</a>
