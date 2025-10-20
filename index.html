@@ -8,13 +8,13 @@
   <meta name="description" content="Limited-run, premium polyester pieces with in-house prints. Made-to-order, ships in 2–6 days. Shop via Etsy." />
   <link rel="preconnect" href="https://i.etsystatic.com" crossorigin>
   <style>
-    :root{--bg:#0a0a0a;--fg:#f7f7f7;--muted:#b8b8b8;--accent:#ffffff;--card:#111;--line:#1b1b1b}
+    :root{--bg:#f6f6f4;--fg:#0f0f0f;--muted:#5d5d5d;--accent:#111111;--card:#ffffff;--line:#e9e9e9}
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
     a{color:inherit;text-decoration:none}
     img{display:block;max-width:100%;height:auto;border-radius:14px}
     .container{max-width:1200px;margin:0 auto;padding:24px}
-    .nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--line)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
     .brand{font-weight:700;letter-spacing:.2em}
     .menu{display:flex;gap:16px;font-size:14px}
@@ -28,7 +28,7 @@
     .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
     .hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
     .badge{border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-    .btn{display:inline-block;background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:600}
+    .btn{display:inline-block;background:#111;color:#fff;padding:12px 18px;border-radius:999px;font-weight:600;border:1px solid #111}
     .btn:hover{opacity:.9}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
     .card{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:18px;display:flex;flex-direction:column;gap:12px}
@@ -48,8 +48,9 @@
   .grid{grid-template-columns:1fr}
   h1{font-size:32px}
 }
+.pattern-overlay{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url('https://i.etsystatic.com/60635710/r/il/9c5a03/7064523791/il_794xN.7064523791_lifg.jpg'), url('https://i.etsystatic.com/60635710/r/il/79e943/7350134547/il_794xN.7350134547_j48h.jpg');background-repeat:repeat, no-repeat;background-size:900px auto, 1200px auto;background-position:0 0, 60% 10%;opacity:.06;filter:grayscale(100%) contrast(90%);}
 
-  </style>
+</style>
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -76,9 +77,10 @@
   </script>
 </head>
 <body>
+  <div class="pattern-overlay" aria-hidden="true"></div>
   <!-- Nav -->
   <nav class="nav">
-    <div class="nav-inner container">
+    <div class="nav-inner container" style="position:relative; z-index:1;">
       <div class="brand">ZAYN</div>
       <div class="menu">
         <a href="#home">Home</a>
@@ -92,7 +94,7 @@
         <a href="#contact">Contact</a>
       </div>
     </div>
-  </nav>  <!-- Hero -->  <header id="home" class="section">
+  </nav>  <!-- Hero -->  <header id="home" class="section" style="position:relative; z-index:1;">
     <div class="container hero">
       <div>
         <h1>Artistry in Every Print. Timeless Elegance by ZAYN.</h1>
@@ -103,14 +105,14 @@
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
           <a class="btn" href="#new">Shop New Arrivals</a>
-          <a class="btn" href="#bestsellers" style="background:transparent;color:#fff;border:1px solid var(--line)">See Bestseller</a>
+          <a class="btn" href="#bestsellers" style="background:transparent;color:#111;border:1px solid #111">See Bestseller</a>
         </div>
       </div>
       <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket?ref=shop_home_feat_1&pro=1&frs=1&logging_key=b26b0b57097ecf1ae9cc20016e8b2880a5dd3e6e%3A4388754083&fbclid=PAZXh0bgNhZW0CMTEAAaenaTB8u_W5-NGbE9TOKr1Je6WXKDmzcwFj1_dlTYkWCfw5NlQKc3x2IjVc_Q_aem_urNiL__n7xsDJE39Wa8pDw&utm_source=zaynbrand&utm_medium=site&utm_campaign=homepage&utm_content=hero" target="_blank" rel="noopener">
         <img src="https://i.etsystatic.com/60635710/r/il/6389ab/7345622951/il_794xN.7345622951_ny9z.jpg" alt="Baroque Bomber Jacket — ZAYN" loading="lazy" decoding="async" />
       </a>
     </div>
-  </header>  <!-- New Arrivals -->  <section id="new" class="section">
+  </header>  <!-- New Arrivals -->  <section id="new" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>New Arrivals</h2>
       <p class="lead">Fresh silhouettes, refined prints, limited-run drops.</p>
@@ -163,7 +165,7 @@
   </div>
 </div>
 
-  </section>  <!-- Bestsellers -->  <section id="bestsellers" class="section">
+  </section>  <!-- Bestsellers -->  <section id="bestsellers" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>Bestsellers</h2>
       <p class="lead">Community favorites — proven fits and prints.</p>
@@ -185,12 +187,12 @@
         </article>
       </div>
     </div>
-  </section>  <!-- The Prints (brand story) -->  <section id="prints" class="section">
+  </section>  <!-- The Prints (brand story) -->  <section id="prints" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>The Prints</h2>
       <p class="lead">Our prints are designed in-house with a minimal, architectural eye. Every piece is produced on-demand to reduce waste.</p>
     </div>
-  </section>  <!-- Quality & Fit -->  <section id="quality" class="section">
+  </section>  <!-- Quality & Fit -->  <section id="quality" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>Quality & Fit</h2>
       <ul>
@@ -199,7 +201,7 @@
         <li>Care: Machine wash cold, gentle cycle; do not bleach; hang dry.</li>
       </ul>
     </div>
-  </section>  <!-- Reviews (placeholder) -->  <section id="reviews" class="section">
+  </section>  <!-- Reviews (placeholder) -->  <section id="reviews" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>Reviews</h2>
       <div class="reviews">
@@ -209,7 +211,7 @@
       </div>
       <p style="margin-top:12px"><a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Read more on Etsy →</a></p>
     </div>
-  </section>  <!-- Shipping & Returns -->  <section id="shipping" class="section">
+  </section>  <!-- Shipping & Returns -->  <section id="shipping" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>Shipping & Returns</h2>
       <ul>
@@ -218,7 +220,7 @@
         <li>Tracking: Provided via Etsy once shipped.</li>
       </ul>
     </div>
-  </section>  <!-- FAQ -->  <section id="faq" class="section">
+  </section>  <!-- FAQ -->  <section id="faq" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>FAQ</h2>
       <details>
@@ -234,7 +236,7 @@
         <p>We calibrate colors; minor variance may occur between screens.</p>
       </details>
     </div>
-  </section>  <!-- Contact -->  <section id="contact" class="section">
+  </section>  <!-- Contact -->  <section id="contact" class="section" style="position:relative; z-index:1;">
     <div class="container">
       <h2>Contact</h2>
       <p>Questions? Message us on Etsy or email <a href="mailto:hello@zaynbrand.com">hello@zaynbrand.com</a>.</p>
