@@ -25,12 +25,24 @@
     img{display:block;max-width:100%;height:auto;border-radius:14px}
 
     /* === FULL-PAGE NET BACKGROUND (114) === */
-    .bg-art{
-      position:fixed; inset:0; z-index:0; pointer-events:none;
-      background-image:url("/assets/tasarim_20251020_183134_0000.png?v=4");
-      background-size:cover; background-position:center;
-      background-repeat:no-repeat; background-attachment:fixed;
-    }
+   /* FULL-PAGE NET ARKA PLAN */
+.bg-art{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  /* 1) Yerel dosya (öncelik)  2) Etsy fallback (yerel 404 olursa görünür) */
+  background-image:
+    url("/assets/tasarim_20251020_183134_0000.png?v=5"),
+    url("https://i.etsystatic.com/60635710/r/il/9c5a03/7064523791/il_794xN.7064523791_lifg.jpg");
+
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-attachment: fixed, fixed;
+}
+
 
     /* İçerik her zaman üstte */
     nav, header, section, footer, main{position:relative; z-index:1}
