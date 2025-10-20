@@ -1,4 +1,4 @@
-/* ===== ZAYN LUXURY BACKGROUND PATTERN ===== */
+bu/* ===== ZAYN LUXURY BACKGROUND PATTERN ===== */
 :root{
   --bg: #f6f6f4;
   --fg: #0f0f0f;
@@ -68,5 +68,39 @@ html, body {
       0 0,
       0 0;
     opacity: 0.055;
+  }
+}
+/* --- HERO: Tek büyük artistik watermark --- */
+.hero{
+  position: relative;
+  z-index: 1; /* içerik üstte */
+  overflow: hidden; /* watermark taşmasın */
+}
+
+/* Görseli sadece hero'da, arka planda tek parça göster */
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image: url("https://i.etsystatic.com/60635710/r/il/9c5a03/7064523791/il_794xN.7064523791_lifg.jpg");
+  background-repeat: no-repeat;
+  /* Boyut: ekran genişliğine göre ölçeklenen büyük görsel */
+  background-size: min(1200px, 80vw) auto;
+  /* Konum: metni boğmaması için sağ/üst tarafa yasla */
+  background-position: 68% 8%;
+  opacity: .06;                 /* 0.04–0.08 arası ayarla */
+  filter: grayscale(100%) contrast(92%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* İçerik hero içinde üstte kalsın */
+.hero > *{ position: relative; z-index: 1; }
+
+/* Mobil ayar: görseli biraz küçült ve yukarı al */
+@media (max-width: 768px){
+  .hero::before{
+    background-size: min(820px, 95vw) auto;
+    background-position: 72% 4%;
+    opacity: .055;
   }
 }
