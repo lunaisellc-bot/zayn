@@ -145,4 +145,21 @@ img{max-width:100%;display:block}
 
 /* Small helpers */
 .hide{display:none}
+/* ===== Page dissolve reveal (logo introsu ile senkron) ===== */
+html, body { background:#0f0f0f; }
+body.pre-reveal{
+  opacity:0;
+  filter: blur(6px) brightness(.85) saturate(.9);
+  transition: opacity .9s ease, filter .9s ease;
+}
+body.reveal{
+  opacity:1;
+  filter:none;
+}
+
+/* Hareket hassasiyeti */
+@media (prefers-reduced-motion: reduce){
+  body.pre-reveal{ opacity:1; filter:none; transition:none; }
+}
+body { background-color: #0f0f0f; color: #fff; }
 
