@@ -60,13 +60,15 @@ const I18N = {
 
 let LANG = "EN";
 
-const $ = (q) => document.querySelector(q);
+const $  = (q) => document.querySelector(q);
 const $$ = (q) => document.querySelectorAll(q);
 
-function setText(el, key){ if(!el) return; el.textContent = I18N[LANG][key]; }
+function setText(el, key){
+  if (!el) return;
+  el.textContent = I18N[LANG][key];
+}
 
 function applyLang(){
-  // Headline cycle will be handled by ticker
   setText($('[data-i18n="philosophy-h"]'), "philosophyH");
   setText($('[data-i18n="philosophy"]'), "philosophy");
   setText($('[data-i18n="pieces-h"]'), "piecesH");
@@ -78,23 +80,28 @@ function applyLang(){
   setText($('[data-i18n="nl-p"]'), "nlP");
   setText($('[data-i18n="subscribe"]'), "subscribe");
 
-  // manifesto list
   const ul = $("#manifesto");
-  ul.innerHTML = "";
-  I18N[LANG].manifesto.forEach(line=>{
-    const li = document.createElement("li");
-    li.className = "muted";
-    li.innerHTML = `<span class="dot"></span><span>${line}</span>`;
-    ul.appendChild(li);
-  });
+  if (ul) {
+    ul.innerHTML = "";
+    I18N[LANG].manifesto.forEach(line=>{
+      const li = document.createElement("li");
+      li.className = "muted";
+      li.innerHTML = `<span class="dot"></span><span>${line}</span>`;
+      ul.appendChild(li);
+    });
+  }
 }
 
+let tickerId = null;
 function startHeadlineTicker(){
   const h = $("#headline");
-  const lines = I18N[LANG].headlineCycle;
+  if (!h) return;
+  const lines = I18N[LANG].headlineCycle.slice(); // copy
   let i = 0;
-  function tick(){
-    i = (i+1) % lines.length;
+  // başlık mevcut metinle başlar; sonra döngü
+  if (tickerId) clearInterval(tickerId);
+  tickerId = setInterval(()=>{
+    i = (i + 1) % lines.length;
     h.style.opacity = 0;
     h.style.transform = "translateY(10px)";
     setTimeout(()=>{
@@ -102,29 +109,30 @@ function startHeadlineTicker(){
       h.style.opacity = 1;
       h.style.transform = "translateY(0)";
     }, 220);
-  }
-  setInterval(tick, 2400);
+  }, 2400);
 }
 
-// load products.json and render tiles
 async function loadProducts(){
   try{
-    const res = await fetch("products.json", {cache:"no-store"});
+    // cache-bust hafifliği: ?v=ts
+    const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache: "no-store" });
     const items = await res.json();
     const grid = $("#grid");
+    if (!grid) return;
     grid.innerHTML = "";
     items.forEach(it=>{
-      const title = LANG === "EN" ? (it.titleEN||it.title) : (it.titleTR||it.title);
-      const line  = LANG === "EN" ? (it.lineEN||it.line||"") : (it.lineTR||it.line||"");
+      const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
+      const line  = LANG === "EN" ? (it.lineEN  ?? it.line  ?? "") : (it.lineTR  ?? it.line  ?? "");
       const a = document.createElement("a");
       a.href = it.href || "https://www.etsy.com/shop/ByZaynCo";
       a.target = "_blank";
+      a.rel = "noopener";
       a.className = "card-tile";
       a.innerHTML = `
         <div class="tile-doku"></div>
         <div class="tile-meta">
-          <div><span class="dot"></span>${title||""}</div>
-          <div class="muted" style="font-size:.85rem; margin-top:4px">${line||""}</div>
+          <div><span class="dot"></span>${title ?? ""}</div>
+          <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
         </div>`;
       grid.appendChild(a);
     });
@@ -135,10 +143,14 @@ async function loadProducts(){
 
 function initLangToggle(){
   const btn = $("#langToggle");
+  if (!btn) return;
+  // buton etiketini mevcut dile göre ayarla
+  btn.textContent = LANG === "EN" ? "TR" : "EN";
   btn.addEventListener("click", async ()=>{
-    LANG = LANG === "EN" ? "TR" : "EN";
-    btn.textContent = LANG === "EN" ? "TR" : "EN";
+    LANG = (LANG === "EN") ? "TR" : "EN";
+    btn.textContent = (LANG === "EN") ? "TR" : "EN";
     applyLang();
+    startHeadlineTicker();
     await loadProducts();
   });
 }
@@ -146,10 +158,11 @@ function initLangToggle(){
 function initNewsletter(){
   const form = document.querySelector(".nl");
   const thanks = $("#nlThanks");
+  if (!form || !thanks) return;
   form.addEventListener("submit", (e)=>{
     e.preventDefault();
     thanks.textContent = I18N[LANG].thanks;
-    setTimeout(()=>thanks.textContent="", 3500);
+    setTimeout(()=>{ thanks.textContent = ""; }, 3500);
     form.reset();
   });
 }
@@ -157,20 +170,24 @@ function initNewsletter(){
 function initAmbient(){
   const btn = $("#ambientBtn");
   const audio = $("#ambientAudio");
+  if (!btn || !audio) return;
   btn.addEventListener("click", ()=>{
     const on = btn.getAttribute("aria-pressed") === "true";
-    if(on){
+    if (on){
       btn.setAttribute("aria-pressed","false");
       audio.pause();
     }else{
       btn.setAttribute("aria-pressed","true");
       audio.volume = 0.25;
-      audio.play().catch(()=>{/* user gesture required until click */});
+      audio.play().catch(()=>{/* gesture bekleyebilir */});
     }
   });
 }
 
-function setYear(){ $("#year").textContent = new Date().getFullYear(); }
+function setYear(){
+  const y = $("#year");
+  if (y) y.textContent = new Date().getFullYear();
+}
 
 document.addEventListener("DOMContentLoaded", async ()=>{
   setYear();
