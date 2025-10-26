@@ -6,48 +6,54 @@
   <title>ZAYN — The Art of Quiet Luxury</title>
   <meta name="description" content="ZAYN is a house of quiet luxury — geometry meets emotion. Wear silence, not fabric." />
   <link rel="canonical" href="https://www.zaynbrand.com/" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Dış stil dosyan (tüm görsel tema) -->
+  <!-- Main site theme -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- iOS için küçük iyileştirme -->
+  <!-- iOS küçük iyileştirmeler -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <style>
-    /* ===================== CRITICAL UI (intro + dissolve + ambient + fixler) ===================== */
+  <!-- Logo & audio preload (ilk karede flicker olmasın) -->
+  <link rel="preload" as="image" href="assets/logo.svg" />
+  <link rel="preload" as="audio" href="assets/zayn_intro.mp3" />
 
-    /* Sayfa dissolve: intro biterken yumuşak açılış */
+  <style>
+    /* ===================== CRITICAL (intro + dissolve + ambient + güvence) ===================== */
+
+    /* Sayfa dissolve (introdan sonra yumuşak açılış) */
     body.pre-reveal{
       opacity:0;
       filter: blur(6px) brightness(.85) saturate(.9);
       transition: opacity .9s ease, filter .9s ease;
     }
-    body.reveal{
-      opacity:1;
-      filter:none;
-    }
+    body.reveal{ opacity:1; filter:none; }
 
-    /* Intro overlay (logo) */
+    /* Intro overlay (logo) – sınıf bazlı kontrol */
     #zaynIntro{
       position: fixed; inset: 0;
       display:flex; align-items:center; justify-content:center;
-      background: #0f0f0f; z-index: 9999;
-      animation: introFadeOut 2.2s ease 2.5s forwards;  /* 2.5sn sonra sön */
+      background:#0f0f0f; z-index:9999;
+      opacity:1; /* başta görünür (arka plan) */
     }
     #zaynIntro img{
-      width: 180px; max-width: 42vw; height:auto;
-      opacity: 0; animation: introFadeIn 1.8s ease forwards;
+      width:180px; max-width:42vw; height:auto;
+      opacity:0; transform: translateY(6px) scale(.985);
+      transition: opacity .9s ease, transform .9s ease;
+      will-change: opacity, transform;
+      backface-visibility:hidden;
     }
-    @keyframes introFadeIn{
-      from{ opacity:0; transform:scale(.97); filter:blur(2px); }
-      to  { opacity:1; transform:scale(1);   filter:blur(0); }
-    }
-    @keyframes introFadeOut{
-      to{ opacity:0; visibility:hidden; }
+    /* Fade-in (logo) */
+    #zaynIntro.show img{ opacity:1; transform: translateY(0) scale(1); }
+    /* Fade-out (katman) */
+    #zaynIntro.hide{
+      transition: opacity .8s ease;
+      opacity:0; visibility:hidden;
     }
 
     /* Ambient shimmer (çok hafif parıltı) */
@@ -56,19 +62,19 @@
       background: radial-gradient(60rem 60rem at 50% 50%, rgba(255,255,255,.06), transparent 60%);
       mix-blend-mode: overlay;
       animation: shimmer 7s ease-in-out infinite alternate;
-      opacity: .35;
+      opacity:.35;
     }
     @keyframes shimmer{
-      0%{ transform: translate3d(-2%, 1%, 0) scale(1.04); opacity:.28; }
-      100%{ transform: translate3d(2%, -1%, 0) scale(1.0); opacity:.45; }
+      0%{ transform: translate3d(-2%,1%,0) scale(1.04); opacity:.28; }
+      100%{ transform: translate3d(2%,-1%,0) scale(1);   opacity:.45; }
     }
 
-    /* Hareket tercihleri */
+    /* Hareket tercihi */
     @media (prefers-reduced-motion: reduce){
       #zaynIntro, body{ transition:none !important; animation:none !important; opacity:1 !important; }
     }
 
-    /* Buton yazısı görünmez olmasın diye güvence */
+    /* Buton metin rengi güvence (beyaz zemin üstünde beyaz yazı olmasın) */
     .btn, .chip{ color: var(--fg); }
     .btn.ghost{ background:#fff; color: var(--fg); }
     .btn.primary:hover{ background:#0f0f0f; color:#fff; }
@@ -76,18 +82,18 @@
 </head>
 
 <body class="pre-reveal">
-  <!-- ========== INTRO (Logo) ========== -->
+  <!-- ===== INTRO (Logo) ===== -->
   <div id="zaynIntro" aria-hidden="true">
     <img src="assets/logo.svg" alt="ZAYN" />
   </div>
 
-  <!-- ========== AMBIENT SHIMMER ========== -->
+  <!-- ===== AMBIENT SHIMMER ===== -->
   <div class="ambient" aria-hidden="true"></div>
 
-  <!-- ========== INTRO SOUND ========== -->
+  <!-- ===== INTRO SOUND ===== -->
   <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
 
-  <!-- ========== TOPBAR ========== -->
+  <!-- ===== TOPBAR ===== -->
   <header class="topbar">
     <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
     <nav class="nav">
@@ -98,7 +104,7 @@
     </nav>
   </header>
 
-  <!-- ========== HERO ========== -->
+  <!-- ===== HERO ===== -->
   <section id="hero" class="hero" aria-label="Intro">
     <div class="fabric f1"></div>
     <div class="fabric f2"></div>
@@ -108,12 +114,12 @@
       <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
       <div class="cta">
         <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy" rel="noopener">view on etsy</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener" class="btn ghost" data-i18n="etsy">view on etsy</a>
       </div>
     </div>
   </section>
 
-  <!-- ========== PHILOSOPHY ========== -->
+  <!-- ===== PHILOSOPHY ===== -->
   <section id="philosophy" class="section">
     <div class="container">
       <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
@@ -126,7 +132,7 @@
     </div>
   </section>
 
-  <!-- ========== PIECES ========== -->
+  <!-- ===== PIECES ===== -->
   <section id="pieces" class="section section-alt">
     <div class="container">
       <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
@@ -134,7 +140,7 @@
     </div>
   </section>
 
-  <!-- ========== STORY ========== -->
+  <!-- ===== STORY ===== -->
   <section id="story" class="section">
     <div class="container">
       <h2 class="eyebrow" data-i18n="story-h">Story</h2>
@@ -144,7 +150,7 @@
     </div>
   </section>
 
-  <!-- ========== NEWSLETTER ========== -->
+  <!-- ===== NEWSLETTER ===== -->
   <section id="newsletter" class="section section-alt">
     <div class="container card">
       <h3 class="h3" data-i18n="nl-h">Join the world of quiet luxury.</h3>
@@ -157,7 +163,7 @@
     </div>
   </section>
 
-  <!-- ========== FOOTER ========== -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container footer-row">
       <div class="brand small">ZAYN</div>
@@ -176,6 +182,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const intro  = document.getElementById("zaynIntro");
+      const logo   = intro ? intro.querySelector("img") : null;
       const audio  = document.getElementById("introSound");
       const KEY    = "zaynIntroPlayed";
 
@@ -185,61 +192,76 @@
         document.body.classList.remove("pre-reveal");
         document.body.classList.add("reveal");
         if (audio) audio.remove();
-      } else {
-        // Ses: otomatik dene + ilk etkileşimde garantiye al
-        let v = 0.0;
-        audio.volume = 0.0;
-
-        function fadeTo(target, step = 0.04, every = 80){
-          const id = setInterval(()=>{
-            v = Math.min(target, v + step);
-            audio.volume = v;
-            if (v >= target) clearInterval(id);
-          }, every);
-        }
-        function fadeOut(step = 0.03, every = 80){
-          const id = setInterval(()=>{
-            v = Math.max(0, v - step);
-            audio.volume = v;
-            if (v <= 0){ clearInterval(id); audio.pause(); }
-          }, every);
-        }
-        function scheduleFadeOut(){
-          const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
-          setTimeout(()=>fadeOut(), Math.max(0, dur - 450)); // son 0.45sn kala
-        }
-        function startAudio(){
-          if (!audio || !audio.paused) return;
-          audio.play().then(()=>{
-            sessionStorage.setItem(KEY, "1");
-            fadeTo(0.30);
-            if (isFinite(audio.duration) && audio.duration > 0){
-              scheduleFadeOut();
-            } else {
-              audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
-            }
-            removeUnlockers();
-          }).catch(()=>{ /* bazı tarayıcılar gesture ister */ });
-        }
-        // Hemen dene
-        startAudio();
-        // İlk etkileşimde mutlaka başlat
-        const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
-        function unlock(){ startAudio(); }
-        function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
-        events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
-
-        // Dissolve zamanlaması
-        setTimeout(()=>{
-          document.body.classList.remove("pre-reveal");
-          document.body.classList.add("reveal");
-        }, 2000);
-        setTimeout(()=>{
-          if (!intro) return;
-          intro.style.opacity = "0";
-          setTimeout(()=> intro.remove(), 600);
-        }, 2300);
+        return;
       }
+
+      // --- Ses (fade-in/out) ---
+      let v = 0.0;
+      audio.volume = 0.0;
+
+      function fadeTo(target, step = 0.04, every = 80){
+        const id = setInterval(()=>{
+          v = Math.min(target, v + step);
+          audio.volume = v;
+          if (v >= target) clearInterval(id);
+        }, every);
+      }
+      function fadeOut(step = 0.03, every = 80){
+        const id = setInterval(()=>{
+          v = Math.max(0, v - step);
+          audio.volume = v;
+          if (v <= 0){ clearInterval(id); audio.pause(); }
+        }, every);
+      }
+      function scheduleFadeOut(){
+        const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
+        setTimeout(()=>fadeOut(), Math.max(0, dur - 450)); // son 0.45sn kala
+      }
+      function startAudio(){
+        if (!audio || !audio.paused) return;
+        audio.play().then(()=>{
+          sessionStorage.setItem(KEY, "1");
+          fadeTo(0.30);
+          if (isFinite(audio.duration) && audio.duration > 0){
+            scheduleFadeOut();
+          } else {
+            audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
+          }
+          removeUnlockers();
+        }).catch(()=>{ /* bazı tarayıcılar gesture ister */ });
+      }
+      // İlk etkileşimde garantile
+      const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
+      function unlock(){ startAudio(); }
+      function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
+      events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
+      // Hemen dene
+      startAudio();
+
+      // --- ZAMANLAMA: LOGO YÜKLENDİ + FONTLAR HAZIR → animasyon başlasın
+      const logoReady  = new Promise(res => {
+        if (!logo) return res();
+        if (logo.complete) res();
+        else logo.addEventListener('load', res, { once:true });
+      });
+      const fontsReady = ('fonts' in document) ? document.fonts.ready : Promise.resolve();
+
+      Promise.all([logoReady, fontsReady]).then(()=>{
+        // 1) Logo yumuşak görünme
+        intro.classList.add('show');
+
+        // 2) Minimum görünürlük (1.6s) → sayfayı dissolve ile aç
+        setTimeout(()=>{
+          document.body.classList.remove('pre-reveal');
+          document.body.classList.add('reveal');
+        }, 1600);
+
+        // 3) Biraz sonra overlay'i söndür (toplam ~2.8s)
+        setTimeout(()=>{
+          intro.classList.add('hide');
+          intro.addEventListener('transitionend', ()=> intro.remove(), { once:true });
+        }, 2800);
+      });
     });
   </script>
 
@@ -247,7 +269,6 @@
   <script>
     /* ===== ZAYN 2.0 — Minimal interactions (no build) ===== */
 
-    // i18n strings
     const I18N = {
       EN: {
         headlineCycle: ["Luxury doesn’t shout.","It breathes.","It pauses.","It lets you feel."],
@@ -296,7 +317,7 @@
     };
 
     let LANG = "EN";
-    const $  = (q) => document.querySelector(q);
+    const $ = (q) => document.querySelector(q);
 
     function setText(el, key){ if (el) el.textContent = I18N[LANG][key]; }
 
@@ -409,4 +430,3 @@
   </script>
 </body>
 </html>
-
