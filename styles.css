@@ -69,7 +69,7 @@ img{max-width:100%;display:block}
 /* Subtle “fabric” light blobs */
 .fabric{
   position:absolute; filter: blur(60px); opacity:.10; pointer-events:none;
-  width:22rem; height:22rem; border-radius:999px; mix-blend-multiply;
+  width:22rem; height:22rem; border-radius:999px; mix-blend-mode: multiply;
 }
 .f1{left:-6rem; top:5rem; background:#000}
 .f2{right:-7rem; bottom:5rem; background:#000}
@@ -145,8 +145,8 @@ img{max-width:100%;display:block}
 
 /* Small helpers */
 .hide{display:none}
+
 /* ===== Page dissolve reveal (logo introsu ile senkron) ===== */
-html, body { background:#0f0f0f; }
 body.pre-reveal{
   opacity:0;
   filter: blur(6px) brightness(.85) saturate(.9);
@@ -161,5 +161,3 @@ body.reveal{
 @media (prefers-reduced-motion: reduce){
   body.pre-reveal{ opacity:1; filter:none; transition:none; }
 }
-body { background-color: #0f0f0f; color: #fff; }
-
