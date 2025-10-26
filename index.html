@@ -6,74 +6,137 @@
   <title>ZAYN — The Art of Quiet Luxury</title>
   <meta name="description" content="ZAYN is a house of quiet luxury — geometry meets emotion. Wear silence, not fabric." />
   <link rel="canonical" href="https://www.zaynbrand.com/" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ===== INTRO LOGO & PAGE DISSOLVE ===== */
+    html, body {
+      margin: 0; padding: 0;
+      background: #0f0f0f;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body.pre-reveal {
+      opacity: 0;
+      filter: blur(6px) brightness(.85) saturate(.9);
+      transition: opacity 0.9s ease, filter 0.9s ease;
+    }
+
+    body.reveal {
+      opacity: 1;
+      filter: none;
+    }
+
+    #zaynIntro {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0f0f;
+      z-index: 9999;
+      animation: fadeOut 2.3s ease 2.2s forwards;
+    }
+
+    #zaynIntro img {
+      width: 160px;
+      opacity: 0;
+      animation: fadeIn 1.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.97); filter: blur(2px); }
+      to { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      #zaynIntro, body { transition: none !important; animation: none !important; opacity: 1 !important; }
+    }
+  </style>
 </head>
 
-<body>
-  <!-- INTRO SOUND -->
-  <audio id="introSound" src="assets/zayn_intro.mp3" autoplay preload="auto" playsinline></audio>
+<body class="pre-reveal">
+  <!-- ===== INTRO LOGO ===== -->
+  <div id="zaynIntro">
+    <img src="assets/logo.svg" alt="ZAYN Logo">
+  </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const audio = document.getElementById("introSound");
-  const KEY = "zaynIntroPlayed";
-  if (sessionStorage.getItem(KEY) === "1") { audio.remove(); return; }
+  <!-- ===== INTRO SOUND ===== -->
+  <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto"></audio>
 
-  audio.volume = 0.0;
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const intro = document.getElementById("zaynIntro");
+    const audio = document.getElementById("introSound");
+    const KEY = "zaynIntroPlayed";
 
-  function fadeTo(target = 0.35, step = 0.03, every = 60) {
-    const id = setInterval(() => {
-      const dir = Math.sign(target - audio.volume);
-      audio.volume = Math.max(0, Math.min(1, audio.volume + dir * step));
-      if (Math.abs(audio.volume - target) < 0.001) clearInterval(id);
-    }, every);
-  }
+    // Tekrar oynatma engeli
+    if (sessionStorage.getItem(KEY) === "1") {
+      if (intro) intro.remove();
+      document.body.classList.remove("pre-reveal");
+      document.body.classList.add("reveal");
+      if (audio) audio.remove();
+      return;
+    }
 
-  function scheduleFadeOut() {
-    // Süre bilinmiyorsa 3 sn sonra fade-out yap (yedek)
-    const fallback = 3000;
-    const dur = isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : null;
-    const when = dur ? Math.max(0, dur - 400) : fallback; // son 0.4sn kala
-    setTimeout(() => fadeTo(0.0), when);
-  }
+    // Ses başlatma
+    audio.volume = 0;
+    let v = 0;
+    const fadeTo = (target, step = 0.04) => {
+      const id = setInterval(() => {
+        v = Math.min(target, v + step);
+        audio.volume = v;
+        if (v >= target) clearInterval(id);
+      }, 80);
+    };
 
-  function startAudio() {
-    if (!audio.paused) return;
-    audio.play().then(() => {
-      sessionStorage.setItem(KEY, "1");
-      fadeTo(0.35);               // yumuşak giriş
-      if (isFinite(audio.duration) && audio.duration > 0) {
-        scheduleFadeOut();
-      } else {
-        // metadata gelince gerçek süreye göre tekrar planla
-        audio.addEventListener("loadedmetadata", scheduleFadeOut, { once: true });
-      }
-      removeUnlockers();
-    }).catch(() => { /* bazı tarayıcılar etkileşim bekler */ });
-  }
+    function startAudio() {
+      if (!audio.paused) return;
+      audio.play().then(() => {
+        sessionStorage.setItem(KEY, "1");
+        fadeTo(0.38);
+        // fade-out
+        const fadeOut = () => {
+          const id2 = setInterval(() => {
+            v = Math.max(0, v - 0.03);
+            audio.volume = v;
+            if (v <= 0) { clearInterval(id2); audio.pause(); }
+          }, 80);
+        };
+        const dur = isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 3000;
+        setTimeout(fadeOut, dur - 500);
+      }).catch(() => {});
+    }
 
-  // Hemen dene
-  startAudio();
+    // iOS/Chrome güvenliği için etkileşim tetikleyicileri
+    const triggers = ["pointerdown","touchstart","wheel","keydown"];
+    const unlock = () => startAudio();
+    triggers.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
 
-  // İlk etkileşimde otomatik aç
-  const events = ["pointerdown","touchstart","wheel","keydown","mousemove","scroll"];
-  function unlock(){ startAudio(); }
-  function addUnlockers(){ events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true })); }
-  function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
-  addUnlockers();
+    startAudio();
 
-  // iOS/Safari için: görünür olunca bir kez daha dene
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") startAudio();
-  }, { once:true });
-});
-</script>
+    // Dissolve reveal zamanlaması
+    setTimeout(() => {
+      document.body.classList.remove("pre-reveal");
+      document.body.classList.add("reveal");
+    }, 2000);
 
+    setTimeout(() => {
+      intro.style.opacity = "0";
+      setTimeout(() => intro.remove(), 600);
+    }, 2300);
+  });
+  </script>
 
-  <!-- HEADER -->
+  <!-- ===== MAIN PAGE CONTENT ===== -->
   <header class="topbar">
     <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
     <nav class="nav">
@@ -84,83 +147,15 @@ document.addEventListener("DOMContentLoaded", function () {
     </nav>
   </header>
 
-  <!-- HERO -->
   <section id="hero" class="hero" aria-label="Intro">
-    <div class="fabric f1"></div>
-    <div class="fabric f2"></div>
-    <div class="grain"></div>
-
     <div class="hero-inner">
       <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
       <div class="cta">
         <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
         <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy">view on etsy</a>
       </div>
-      <button id="ambientBtn" class="chip ghost" aria-pressed="false" title="Ambient sound">◯ ambient</button>
-      <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="none"></audio>
     </div>
   </section>
-
-  <!-- PHILOSOPHY -->
-  <section id="philosophy" class="section">
-    <div class="container">
-      <h2 class="eyebrow">Philosophy</h2>
-      <div class="grid-2">
-        <p class="lead">
-          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion.
-          We design pauses, spaces, and textures that let you feel more by seeing less.
-        </p>
-        <ul id="manifesto" class="bullets"></ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- PIECES -->
-  <section id="pieces" class="section section-alt">
-    <div class="container">
-      <h2 class="eyebrow">Pieces</h2>
-      <div id="grid" class="grid-3" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- STORY -->
-  <section id="story" class="section">
-    <div class="container">
-      <h2 class="eyebrow">Story</h2>
-      <p class="lead">
-        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism —
-        crafting pieces that speak softly yet powerfully.
-      </p>
-    </div>
-  </section>
-
-  <!-- NEWSLETTER -->
-  <section id="newsletter" class="section section-alt">
-    <div class="container card">
-      <h3 class="h3">Join the world of quiet luxury.</h3>
-      <p class="muted">Be the first to discover new designs, textures, and limited drops.</p>
-      <form class="nl" action="#" method="post" onsubmit="return false;">
-        <input type="email" class="input" placeholder="Email address" aria-label="Email" />
-        <button class="btn">Subscribe</button>
-      </form>
-      <div id="nlThanks" class="nl-thanks" role="status" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-row">
-      <div class="brand small">ZAYN</div>
-      <div class="links">
-        <a href="#philosophy">Philosophy</a>
-        <a href="#pieces">Pieces</a>
-        <a href="#story">Story</a>
-        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank">Etsy</a>
-      </div>
-      <div class="muted">© <span id="year"></span> ZAYN — The Art of Quiet Luxury · <span class="muted">Made in Silence</span></div>
-    </div>
-  </footer>
 
   <script src="script.js" defer></script>
 </body>
