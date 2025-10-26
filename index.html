@@ -16,49 +16,62 @@
   <!-- INTRO SOUND -->
   <audio id="introSound" src="assets/zayn_intro.mp3" autoplay preload="auto" playsinline></audio>
 
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const audio = document.getElementById("introSound");
-    const KEY = "zaynIntroPlayed";
-    if (sessionStorage.getItem(KEY) === "1") { audio.remove(); return; }
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const audio = document.getElementById("introSound");
+  const KEY = "zaynIntroPlayed";
+  if (sessionStorage.getItem(KEY) === "1") { audio.remove(); return; }
 
-    // Başlangıçta sessiz
-    audio.volume = 0.0;
+  audio.volume = 0.0;
 
-    function fadeTo(target = 0.3, step = 0.03, interval = 60) {
-      const id = setInterval(() => {
-        const v = audio.volume + Math.sign(target - audio.volume) * step;
-        audio.volume = Math.max(0, Math.min(target, v));
-        if (Math.abs(audio.volume - target) < 0.001) clearInterval(id);
-      }, interval);
-    }
+  function fadeTo(target = 0.35, step = 0.03, every = 60) {
+    const id = setInterval(() => {
+      const dir = Math.sign(target - audio.volume);
+      audio.volume = Math.max(0, Math.min(1, audio.volume + dir * step));
+      if (Math.abs(audio.volume - target) < 0.001) clearInterval(id);
+    }, every);
+  }
 
-    function startAudio() {
-      if (!audio.paused) return;
-      audio.play().then(() => {
-        sessionStorage.setItem(KEY, "1");
-        fadeTo(0.3);
-        setTimeout(() => fadeTo(0.0), 2000);
-        removeUnlockers();
-      }).catch(() => {});
-    }
+  function scheduleFadeOut() {
+    // Süre bilinmiyorsa 3 sn sonra fade-out yap (yedek)
+    const fallback = 3000;
+    const dur = isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : null;
+    const when = dur ? Math.max(0, dur - 400) : fallback; // son 0.4sn kala
+    setTimeout(() => fadeTo(0.0), when);
+  }
 
-    // 1️⃣ Tarayıcı izin verirse hemen çal
-    startAudio();
+  function startAudio() {
+    if (!audio.paused) return;
+    audio.play().then(() => {
+      sessionStorage.setItem(KEY, "1");
+      fadeTo(0.35);               // yumuşak giriş
+      if (isFinite(audio.duration) && audio.duration > 0) {
+        scheduleFadeOut();
+      } else {
+        // metadata gelince gerçek süreye göre tekrar planla
+        audio.addEventListener("loadedmetadata", scheduleFadeOut, { once: true });
+      }
+      removeUnlockers();
+    }).catch(() => { /* bazı tarayıcılar etkileşim bekler */ });
+  }
 
-    // 2️⃣ İlk etkileşimde (scroll, click, dokunma vb.) otomatik başlat
-    const events = ["pointerdown","touchstart","wheel","keydown","mousemove","scroll"];
-    function unlockOnEvent(){ startAudio(); }
-    function addUnlockers(){ events.forEach(ev => window.addEventListener(ev, unlockOnEvent, {once:true, passive:true})); }
-    function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlockOnEvent, {capture:false})); }
-    addUnlockers();
+  // Hemen dene
+  startAudio();
 
-    // 3️⃣ iOS / Safari için arka plan dönüşünde tekrar dene
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "visible") startAudio();
-    }, {once:true});
-  });
-  </script>
+  // İlk etkileşimde otomatik aç
+  const events = ["pointerdown","touchstart","wheel","keydown","mousemove","scroll"];
+  function unlock(){ startAudio(); }
+  function addUnlockers(){ events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true })); }
+  function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
+  addUnlockers();
+
+  // iOS/Safari için: görünür olunca bir kez daha dene
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") startAudio();
+  }, { once:true });
+});
+</script>
+
 
   <!-- HEADER -->
   <header class="topbar">
