@@ -9,150 +9,85 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Dış stil dosyan (tüm görsel tema) -->
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- iOS için küçük iyileştirme -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #0f0f0f;
-      color: #fff;
-      overflow-x: hidden;
-      font-family: 'Inter', sans-serif;
-    }
+    /* ===================== CRITICAL UI (intro + dissolve + ambient + fixler) ===================== */
 
-    /* INTRO FADE ANIMATIONS */
-    #zaynIntro {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0f0f0f;
-      z-index: 9999;
-      animation: fadeOut 2.2s ease 2.5s forwards;
-    }
-    #zaynIntro img {
-      width: 180px;
-      opacity: 0;
-      animation: fadeIn 1.8s ease forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.97); filter: blur(2px); }
-      to { opacity: 1; transform: scale(1); filter: blur(0); }
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; visibility: hidden; }
-    }
-
-    /* PAGE DISSOLVE TRANSITION */
-    body.pre-reveal {
-      opacity: 0;
+    /* Sayfa dissolve: intro biterken yumuşak açılış */
+    body.pre-reveal{
+      opacity:0;
       filter: blur(6px) brightness(.85) saturate(.9);
-      transition: opacity 0.9s ease, filter 0.9s ease;
+      transition: opacity .9s ease, filter .9s ease;
     }
-    body.reveal {
-      opacity: 1;
-      filter: none;
+    body.reveal{
+      opacity:1;
+      filter:none;
     }
 
-    /* AMBIENT SHIMMER EFFECT */
-    .ambient {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%);
+    /* Intro overlay (logo) */
+    #zaynIntro{
+      position: fixed; inset: 0;
+      display:flex; align-items:center; justify-content:center;
+      background: #0f0f0f; z-index: 9999;
+      animation: introFadeOut 2.2s ease 2.5s forwards;  /* 2.5sn sonra sön */
+    }
+    #zaynIntro img{
+      width: 180px; max-width: 42vw; height:auto;
+      opacity: 0; animation: introFadeIn 1.8s ease forwards;
+    }
+    @keyframes introFadeIn{
+      from{ opacity:0; transform:scale(.97); filter:blur(2px); }
+      to  { opacity:1; transform:scale(1);   filter:blur(0); }
+    }
+    @keyframes introFadeOut{
+      to{ opacity:0; visibility:hidden; }
+    }
+
+    /* Ambient shimmer (çok hafif parıltı) */
+    .ambient{
+      position: fixed; inset: 0; pointer-events: none; z-index: 10;
+      background: radial-gradient(60rem 60rem at 50% 50%, rgba(255,255,255,.06), transparent 60%);
       mix-blend-mode: overlay;
-      animation: shimmer 6s infinite alternate ease-in-out;
-      z-index: 10;
+      animation: shimmer 7s ease-in-out infinite alternate;
+      opacity: .35;
     }
-    @keyframes shimmer {
-      0% { background-position: 40% 60%; opacity: .3; }
-      100% { background-position: 60% 40%; opacity: .5; }
+    @keyframes shimmer{
+      0%{ transform: translate3d(-2%, 1%, 0) scale(1.04); opacity:.28; }
+      100%{ transform: translate3d(2%, -1%, 0) scale(1.0); opacity:.45; }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      #zaynIntro, body { transition: none !important; animation: none !important; opacity: 1 !important; }
+    /* Hareket tercihleri */
+    @media (prefers-reduced-motion: reduce){
+      #zaynIntro, body{ transition:none !important; animation:none !important; opacity:1 !important; }
     }
+
+    /* Buton yazısı görünmez olmasın diye güvence */
+    .btn, .chip{ color: var(--fg); }
+    .btn.ghost{ background:#fff; color: var(--fg); }
+    .btn.primary:hover{ background:#0f0f0f; color:#fff; }
   </style>
 </head>
 
 <body class="pre-reveal">
-  <!-- ===== INTRO LOGO ===== -->
-  <div id="zaynIntro">
-    <img src="assets/logo.svg" alt="ZAYN Logo" />
+  <!-- ========== INTRO (Logo) ========== -->
+  <div id="zaynIntro" aria-hidden="true">
+    <img src="assets/logo.svg" alt="ZAYN" />
   </div>
 
-  <!-- ===== AMBIENT SHIMMER ===== -->
-  <div class="ambient"></div>
+  <!-- ========== AMBIENT SHIMMER ========== -->
+  <div class="ambient" aria-hidden="true"></div>
 
-  <!-- ===== INTRO SOUND ===== -->
-  <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto"></audio>
+  <!-- ========== INTRO SOUND ========== -->
+  <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const audio = document.getElementById("introSound");
-      const intro = document.getElementById("zaynIntro");
-      const KEY = "zaynIntroPlayed";
-
-      if (sessionStorage.getItem(KEY) === "1") {
-        if (intro) intro.remove();
-        document.body.classList.remove("pre-reveal");
-        document.body.classList.add("reveal");
-        audio.remove();
-        return;
-      }
-
-      audio.volume = 0;
-      let v = 0.0;
-
-      function fadeTo(target, step = 0.04) {
-        const id = setInterval(() => {
-          v = Math.min(target, v + step);
-          audio.volume = v;
-          if (v >= target) clearInterval(id);
-        }, 100);
-      }
-
-      function fadeOut() {
-        const id = setInterval(() => {
-          v = Math.max(0, v - 0.03);
-          audio.volume = v;
-          if (v <= 0) { clearInterval(id); audio.pause(); }
-        }, 100);
-      }
-
-      function startAudio() {
-        audio.play().then(() => {
-          sessionStorage.setItem(KEY, "1");
-          fadeTo(0.3);
-          setTimeout(fadeOut, 2800);
-        }).catch(() => {});
-      }
-
-      // iOS güvenlik kısıtlaması için etkileşim tetikleyici
-      ["pointerdown","touchstart","wheel","keydown"].forEach(ev =>
-        window.addEventListener(ev, () => startAudio(), { once:true, passive:true })
-      );
-
-      startAudio();
-
-      // Dissolve geçiş
-      setTimeout(() => {
-        document.body.classList.remove("pre-reveal");
-        document.body.classList.add("reveal");
-      }, 2200);
-
-      setTimeout(() => {
-        intro.style.opacity = "0";
-        setTimeout(() => intro.remove(), 600);
-      }, 2600);
-    });
-  </script>
-
-  <!-- ===== MAIN CONTENT ===== -->
+  <!-- ========== TOPBAR ========== -->
   <header class="topbar">
     <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
     <nav class="nav">
@@ -163,16 +98,315 @@
     </nav>
   </header>
 
+  <!-- ========== HERO ========== -->
   <section id="hero" class="hero" aria-label="Intro">
+    <div class="fabric f1"></div>
+    <div class="fabric f2"></div>
+    <div class="grain"></div>
+
     <div class="hero-inner">
-      <h1 class="headline">Luxury doesn’t shout.</h1>
+      <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
       <div class="cta">
-        <a href="#pieces" class="btn primary">enter zayn</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost">view on etsy</a>
+        <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy" rel="noopener">view on etsy</a>
       </div>
     </div>
   </section>
 
-  <script src="script.js" defer></script>
+  <!-- ========== PHILOSOPHY ========== -->
+  <section id="philosophy" class="section">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
+      <div class="grid-2">
+        <p class="lead" data-i18n="philosophy">
+          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses, spaces, and textures that let you feel more by seeing less.
+        </p>
+        <ul id="manifesto" class="bullets"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PIECES ========== -->
+  <section id="pieces" class="section section-alt">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
+      <div id="grid" class="grid-3" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ========== STORY ========== -->
+  <section id="story" class="section">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="story-h">Story</h2>
+      <p class="lead" data-i18n="story">
+        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces that speak softly yet powerfully.
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== NEWSLETTER ========== -->
+  <section id="newsletter" class="section section-alt">
+    <div class="container card">
+      <h3 class="h3" data-i18n="nl-h">Join the world of quiet luxury.</h3>
+      <p class="muted" data-i18n="nl-p">Be the first to discover new designs, textures, and limited drops.</p>
+      <form class="nl" action="#" method="post" onsubmit="return false;">
+        <input type="email" class="input" placeholder="Email address" aria-label="Email" />
+        <button class="btn" data-i18n="subscribe">Subscribe</button>
+      </form>
+      <div id="nlThanks" class="nl-thanks" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer-row">
+      <div class="brand small">ZAYN</div>
+      <div class="links">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#pieces">Pieces</a>
+        <a href="#story">Story</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Etsy</a>
+      </div>
+      <div class="muted">© <span id="year"></span> ZAYN — The Art of Quiet Luxury · <span class="muted">Made in Silence</span></div>
+    </div>
+  </footer>
+
+  <!-- ===================== INTRO + AUDIO + DISSOLVE JS ===================== -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const intro  = document.getElementById("zaynIntro");
+      const audio  = document.getElementById("introSound");
+      const KEY    = "zaynIntroPlayed";
+
+      // Aynı oturumda 1 kez
+      if (sessionStorage.getItem(KEY) === "1") {
+        if (intro) intro.remove();
+        document.body.classList.remove("pre-reveal");
+        document.body.classList.add("reveal");
+        if (audio) audio.remove();
+      } else {
+        // Ses: otomatik dene + ilk etkileşimde garantiye al
+        let v = 0.0;
+        audio.volume = 0.0;
+
+        function fadeTo(target, step = 0.04, every = 80){
+          const id = setInterval(()=>{
+            v = Math.min(target, v + step);
+            audio.volume = v;
+            if (v >= target) clearInterval(id);
+          }, every);
+        }
+        function fadeOut(step = 0.03, every = 80){
+          const id = setInterval(()=>{
+            v = Math.max(0, v - step);
+            audio.volume = v;
+            if (v <= 0){ clearInterval(id); audio.pause(); }
+          }, every);
+        }
+        function scheduleFadeOut(){
+          const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
+          setTimeout(()=>fadeOut(), Math.max(0, dur - 450)); // son 0.45sn kala
+        }
+        function startAudio(){
+          if (!audio || !audio.paused) return;
+          audio.play().then(()=>{
+            sessionStorage.setItem(KEY, "1");
+            fadeTo(0.30);
+            if (isFinite(audio.duration) && audio.duration > 0){
+              scheduleFadeOut();
+            } else {
+              audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
+            }
+            removeUnlockers();
+          }).catch(()=>{ /* bazı tarayıcılar gesture ister */ });
+        }
+        // Hemen dene
+        startAudio();
+        // İlk etkileşimde mutlaka başlat
+        const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
+        function unlock(){ startAudio(); }
+        function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
+        events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
+
+        // Dissolve zamanlaması
+        setTimeout(()=>{
+          document.body.classList.remove("pre-reveal");
+          document.body.classList.add("reveal");
+        }, 2000);
+        setTimeout(()=>{
+          if (!intro) return;
+          intro.style.opacity = "0";
+          setTimeout(()=> intro.remove(), 600);
+        }, 2300);
+      }
+    });
+  </script>
+
+  <!-- ===================== APP LOGIC (i18n + manifesto + products + newsletter) ===================== -->
+  <script>
+    /* ===== ZAYN 2.0 — Minimal interactions (no build) ===== */
+
+    // i18n strings
+    const I18N = {
+      EN: {
+        headlineCycle: ["Luxury doesn’t shout.","It breathes.","It pauses.","It lets you feel."],
+        manifesto: [
+          "Not made to impress. Made to express.",
+          "You wear silence, not fabric.",
+          "Designs are geometry; feelings draw the lines.",
+          "Elegance is a pause between two breaths."
+        ],
+        philosophyH: "Philosophy",
+        philosophy:
+          "ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses, spaces, and textures that let you feel more by seeing less.",
+        piecesH: "Pieces",
+        storyH: "Story",
+        story:
+          "Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces that speak softly yet powerfully.",
+        enter: "enter zayn",
+        etsy: "view on etsy",
+        nlH: "Join the world of quiet luxury.",
+        nlP: "Be the first to discover new designs, textures, and limited drops.",
+        subscribe: "Subscribe",
+        thanks: "Thank you — welcome to the world of quiet luxury."
+      },
+      TR: {
+        headlineCycle: ["Lüks bağırmaz.","Nefes alır.","Durur.","Sana hissettirir."],
+        manifesto: [
+          "Etkilemek için değil; ifade etmek için üretilir.",
+          "Üzerine sessizliği giyersin, kumaşı değil.",
+          "Tasarım geometridir; çizgileri duygular çizer.",
+          "Zerafet, iki nefes arasındaki duraktır."
+        ],
+        philosophyH: "Felsefe",
+        philosophy:
+          "ZAYN, sessiz lüksün evidir — geometrinin duyguyla buluştuğu bir itidal galerisi. Daha az görerek daha çok hissetmeni sağlayan duraklar, boşluklar ve dokular tasarlarız.",
+        piecesH: "Koleksiyon",
+        storyH: "Hikâye",
+        story:
+          "Wyoming'de doğdu, sessizlikte büyüdü. ZAYN, Doğu'nun hissiyatı ile Batı'nın minimalizmini köprüler — yumuşak ama güçlü konuşan parçalar üretir.",
+        enter: "zayn dünyasına gir",
+        etsy: "etsy'de gör",
+        nlH: "Sessiz lüksün dünyasına katıl.",
+        nlP: "Yeni tasarımları, dokuları ve sınırlı serileri ilk keşfeden ol.",
+        subscribe: "Abone Ol",
+        thanks: "Teşekkürler — sessiz lüks dünyasına hoş geldin."
+      }
+    };
+
+    let LANG = "EN";
+    const $  = (q) => document.querySelector(q);
+
+    function setText(el, key){ if (el) el.textContent = I18N[LANG][key]; }
+
+    function applyLang(){
+      setText(document.querySelector('[data-i18n="philosophy-h"]'), "philosophyH");
+      setText(document.querySelector('[data-i18n="philosophy"]'), "philosophy");
+      setText(document.querySelector('[data-i18n="pieces-h"]'), "piecesH");
+      setText(document.querySelector('[data-i18n="story-h"]'), "storyH");
+      setText(document.querySelector('[data-i18n="story"]'), "story");
+      setText(document.querySelector('[data-i18n="enter"]'), "enter");
+      setText(document.querySelector('[data-i18n="etsy"]'), "etsy");
+      setText(document.querySelector('[data-i18n="nl-h"]'), "nlH");
+      setText(document.querySelector('[data-i18n="nl-p"]'), "nlP");
+      setText(document.querySelector('[data-i18n="subscribe"]'), "subscribe");
+
+      const ul = document.getElementById("manifesto");
+      if (ul){
+        ul.innerHTML = "";
+        I18N[LANG].manifesto.forEach(line=>{
+          const li = document.createElement("li");
+          li.className = "muted";
+          li.innerHTML = `<span class="dot"></span><span>${line}</span>`;
+          ul.appendChild(li);
+        });
+      }
+    }
+
+    let tickerId = null;
+    function startHeadlineTicker(){
+      const h = document.getElementById("headline");
+      if (!h) return;
+      const lines = I18N[LANG].headlineCycle.slice();
+      let i = 0;
+      if (tickerId) clearInterval(tickerId);
+      tickerId = setInterval(()=>{
+        i = (i+1) % lines.length;
+        h.style.opacity = 0;
+        h.style.transform = "translateY(10px)";
+        setTimeout(()=>{
+          h.textContent = lines[i];
+          h.style.opacity = 1;
+          h.style.transform = "translateY(0)";
+        }, 220);
+      }, 2400);
+    }
+
+    async function loadProducts(){
+      try{
+        const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache:"no-store" });
+        const items = await res.json();
+        const grid = document.getElementById("grid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        items.forEach(it=>{
+          const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
+          const line  = LANG === "EN" ? (it.lineEN  ?? it.line  ?? "") : (it.lineTR  ?? it.line  ?? "");
+          const a = document.createElement("a");
+          a.href = it.href || "https://www.etsy.com/shop/ByZaynCo";
+          a.target = "_blank"; a.rel="noopener";
+          a.className = "card-tile";
+          a.innerHTML = `
+            <div class="tile-doku"></div>
+            <div class="tile-meta">
+              <div><span class="dot"></span>${title ?? ""}</div>
+              <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
+            </div>`;
+          grid.appendChild(a);
+        });
+      }catch(e){ console.error("products.json error", e); }
+    }
+
+    function initLangToggle(){
+      const btn = document.getElementById("langToggle");
+      if (!btn) return;
+      btn.textContent = LANG === "EN" ? "TR" : "EN";
+      btn.addEventListener("click", async ()=>{
+        LANG = (LANG === "EN") ? "TR" : "EN";
+        btn.textContent = (LANG === "EN") ? "TR" : "EN";
+        applyLang();
+        startHeadlineTicker();
+        await loadProducts();
+      });
+    }
+
+    function initNewsletter(){
+      const form = document.querySelector(".nl");
+      const thanks = document.getElementById("nlThanks");
+      if (!form || !thanks) return;
+      form.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        thanks.textContent = I18N[LANG].thanks;
+        setTimeout(()=>{ thanks.textContent=""; }, 3500);
+        form.reset();
+      });
+    }
+
+    function setYear(){
+      const y = document.getElementById("year");
+      if (y) y.textContent = new Date().getFullYear();
+    }
+
+    document.addEventListener("DOMContentLoaded", async ()=>{
+      setYear();
+      applyLang();
+      startHeadlineTicker();
+      initLangToggle();
+      initNewsletter();
+      await loadProducts();
+    });
+  </script>
 </body>
 </html>
+
