@@ -10,27 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <style>
-    /* ===== INTRO LOGO & PAGE DISSOLVE ===== */
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       background: #0f0f0f;
       color: #fff;
-      font-family: 'Inter', sans-serif;
       overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
-    body.pre-reveal {
-      opacity: 0;
-      filter: blur(6px) brightness(.85) saturate(.9);
-      transition: opacity 0.9s ease, filter 0.9s ease;
-    }
-
-    body.reveal {
-      opacity: 1;
-      filter: none;
-    }
-
+    /* INTRO FADE ANIMATIONS */
     #zaynIntro {
       position: fixed;
       inset: 0;
@@ -39,25 +32,48 @@
       justify-content: center;
       background: #0f0f0f;
       z-index: 9999;
-      animation: fadeOut 2.3s ease 2.2s forwards;
+      animation: fadeOut 2.2s ease 2.5s forwards;
     }
-
     #zaynIntro img {
-      width: 160px;
+      width: 180px;
       opacity: 0;
       animation: fadeIn 1.8s ease forwards;
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.97); filter: blur(2px); }
       to { opacity: 1; transform: scale(1); filter: blur(0); }
     }
-
     @keyframes fadeOut {
       to { opacity: 0; visibility: hidden; }
     }
 
-    @media (prefers-reduced-motion: reduce){
+    /* PAGE DISSOLVE TRANSITION */
+    body.pre-reveal {
+      opacity: 0;
+      filter: blur(6px) brightness(.85) saturate(.9);
+      transition: opacity 0.9s ease, filter 0.9s ease;
+    }
+    body.reveal {
+      opacity: 1;
+      filter: none;
+    }
+
+    /* AMBIENT SHIMMER EFFECT */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%);
+      mix-blend-mode: overlay;
+      animation: shimmer 6s infinite alternate ease-in-out;
+      z-index: 10;
+    }
+    @keyframes shimmer {
+      0% { background-position: 40% 60%; opacity: .3; }
+      100% { background-position: 60% 40%; opacity: .5; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
       #zaynIntro, body { transition: none !important; animation: none !important; opacity: 1 !important; }
     }
   </style>
@@ -66,77 +82,77 @@
 <body class="pre-reveal">
   <!-- ===== INTRO LOGO ===== -->
   <div id="zaynIntro">
-    <img src="assets/logo.svg" alt="ZAYN Logo">
+    <img src="assets/logo.svg" alt="ZAYN Logo" />
   </div>
+
+  <!-- ===== AMBIENT SHIMMER ===== -->
+  <div class="ambient"></div>
 
   <!-- ===== INTRO SOUND ===== -->
   <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto"></audio>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const intro = document.getElementById("zaynIntro");
-    const audio = document.getElementById("introSound");
-    const KEY = "zaynIntroPlayed";
+    document.addEventListener("DOMContentLoaded", function () {
+      const audio = document.getElementById("introSound");
+      const intro = document.getElementById("zaynIntro");
+      const KEY = "zaynIntroPlayed";
 
-    // Tekrar oynatma engeli
-    if (sessionStorage.getItem(KEY) === "1") {
-      if (intro) intro.remove();
-      document.body.classList.remove("pre-reveal");
-      document.body.classList.add("reveal");
-      if (audio) audio.remove();
-      return;
-    }
+      if (sessionStorage.getItem(KEY) === "1") {
+        if (intro) intro.remove();
+        document.body.classList.remove("pre-reveal");
+        document.body.classList.add("reveal");
+        audio.remove();
+        return;
+      }
 
-    // Ses başlatma
-    audio.volume = 0;
-    let v = 0;
-    const fadeTo = (target, step = 0.04) => {
-      const id = setInterval(() => {
-        v = Math.min(target, v + step);
-        audio.volume = v;
-        if (v >= target) clearInterval(id);
-      }, 80);
-    };
+      audio.volume = 0;
+      let v = 0.0;
 
-    function startAudio() {
-      if (!audio.paused) return;
-      audio.play().then(() => {
-        sessionStorage.setItem(KEY, "1");
-        fadeTo(0.38);
-        // fade-out
-        const fadeOut = () => {
-          const id2 = setInterval(() => {
-            v = Math.max(0, v - 0.03);
-            audio.volume = v;
-            if (v <= 0) { clearInterval(id2); audio.pause(); }
-          }, 80);
-        };
-        const dur = isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 3000;
-        setTimeout(fadeOut, dur - 500);
-      }).catch(() => {});
-    }
+      function fadeTo(target, step = 0.04) {
+        const id = setInterval(() => {
+          v = Math.min(target, v + step);
+          audio.volume = v;
+          if (v >= target) clearInterval(id);
+        }, 100);
+      }
 
-    // iOS/Chrome güvenliği için etkileşim tetikleyicileri
-    const triggers = ["pointerdown","touchstart","wheel","keydown"];
-    const unlock = () => startAudio();
-    triggers.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
+      function fadeOut() {
+        const id = setInterval(() => {
+          v = Math.max(0, v - 0.03);
+          audio.volume = v;
+          if (v <= 0) { clearInterval(id); audio.pause(); }
+        }, 100);
+      }
 
-    startAudio();
+      function startAudio() {
+        audio.play().then(() => {
+          sessionStorage.setItem(KEY, "1");
+          fadeTo(0.3);
+          setTimeout(fadeOut, 2800);
+        }).catch(() => {});
+      }
 
-    // Dissolve reveal zamanlaması
-    setTimeout(() => {
-      document.body.classList.remove("pre-reveal");
-      document.body.classList.add("reveal");
-    }, 2000);
+      // iOS güvenlik kısıtlaması için etkileşim tetikleyici
+      ["pointerdown","touchstart","wheel","keydown"].forEach(ev =>
+        window.addEventListener(ev, () => startAudio(), { once:true, passive:true })
+      );
 
-    setTimeout(() => {
-      intro.style.opacity = "0";
-      setTimeout(() => intro.remove(), 600);
-    }, 2300);
-  });
+      startAudio();
+
+      // Dissolve geçiş
+      setTimeout(() => {
+        document.body.classList.remove("pre-reveal");
+        document.body.classList.add("reveal");
+      }, 2200);
+
+      setTimeout(() => {
+        intro.style.opacity = "0";
+        setTimeout(() => intro.remove(), 600);
+      }, 2600);
+    });
   </script>
 
-  <!-- ===== MAIN PAGE CONTENT ===== -->
+  <!-- ===== MAIN CONTENT ===== -->
   <header class="topbar">
     <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
     <nav class="nav">
@@ -149,10 +165,10 @@
 
   <section id="hero" class="hero" aria-label="Intro">
     <div class="hero-inner">
-      <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
+      <h1 class="headline">Luxury doesn’t shout.</h1>
       <div class="cta">
-        <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy">view on etsy</a>
+        <a href="#pieces" class="btn primary">enter zayn</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost">view on etsy</a>
       </div>
     </div>
   </section>
