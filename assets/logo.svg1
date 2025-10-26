@@ -1,0 +1,11 @@
+<svg width="320" height="120" viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="none"/>
+  <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Cormorant Garamond, serif"
+        font-weight="400"
+        font-size="68"
+        letter-spacing="0.38em"
+        fill="white">
+    ZAYN
+  </text>
+</svg>
