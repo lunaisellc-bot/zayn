@@ -15,45 +15,48 @@
 <body>
   <!-- INTRO SOUND -->
   <audio id="introSound" src="assets/zayn_intro.mp3" autoplay preload="auto" playsinline></audio>
+
   <script>
   document.addEventListener("DOMContentLoaded", function () {
     const audio = document.getElementById("introSound");
     const KEY = "zaynIntroPlayed";
-    const alreadyPlayed = sessionStorage.getItem(KEY) === "1";
+    if (sessionStorage.getItem(KEY) === "1") { audio.remove(); return; }
 
-    if (alreadyPlayed) {
-      audio.remove();
-      return;
+    // Başlangıçta sessiz
+    audio.volume = 0.0;
+
+    function fadeTo(target = 0.3, step = 0.03, interval = 60) {
+      const id = setInterval(() => {
+        const v = audio.volume + Math.sign(target - audio.volume) * step;
+        audio.volume = Math.max(0, Math.min(target, v));
+        if (Math.abs(audio.volume - target) < 0.001) clearInterval(id);
+      }, interval);
     }
 
-    audio.volume = 0.0;
-    const fadeIn = setInterval(() => {
-      audio.volume = Math.min(audio.volume + 0.03, 0.3);
-      if (audio.volume >= 0.3) clearInterval(fadeIn);
-    }, 60);
+    function startAudio() {
+      if (!audio.paused) return;
+      audio.play().then(() => {
+        sessionStorage.setItem(KEY, "1");
+        fadeTo(0.3);
+        setTimeout(() => fadeTo(0.0), 2000);
+        removeUnlockers();
+      }).catch(() => {});
+    }
 
-    audio.play().then(() => {
-      sessionStorage.setItem(KEY, "1");
-      setTimeout(() => {
-        const fadeOut = setInterval(() => {
-          audio.volume = Math.max(audio.volume - 0.03, 0);
-          if (audio.volume <= 0) { clearInterval(fadeOut); audio.pause(); }
-        }, 60);
-      }, 2000);
-    }).catch(() => {
-      const btn = document.createElement("button");
-      btn.innerText = "🔊 Play sound";
-      Object.assign(btn.style, {
-        position: "fixed", top: "20px", right: "20px", zIndex: 9999,
-        border: "none", background: "transparent", color: "#999",
-        fontSize: "14px", cursor: "pointer"
-      });
-      document.body.appendChild(btn);
-      btn.addEventListener("click", () => {
-        audio.play().then(()=>sessionStorage.setItem(KEY,"1"));
-        btn.remove();
-      });
-    });
+    // 1️⃣ Tarayıcı izin verirse hemen çal
+    startAudio();
+
+    // 2️⃣ İlk etkileşimde (scroll, click, dokunma vb.) otomatik başlat
+    const events = ["pointerdown","touchstart","wheel","keydown","mousemove","scroll"];
+    function unlockOnEvent(){ startAudio(); }
+    function addUnlockers(){ events.forEach(ev => window.addEventListener(ev, unlockOnEvent, {once:true, passive:true})); }
+    function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlockOnEvent, {capture:false})); }
+    addUnlockers();
+
+    // 3️⃣ iOS / Safari için arka plan dönüşünde tekrar dene
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") startAudio();
+    }, {once:true});
   });
   </script>
 
@@ -80,10 +83,7 @@
         <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
         <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy">view on etsy</a>
       </div>
-
-      <button id="ambientBtn" class="chip ghost" aria-pressed="false" title="Ambient sound">
-        ◯ ambient
-      </button>
+      <button id="ambientBtn" class="chip ghost" aria-pressed="false" title="Ambient sound">◯ ambient</button>
       <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="none"></audio>
     </div>
   </section>
