@@ -1,19 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="canonical" href="https://www.zaynbrand.com/" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZAYN — The Art of Quiet Luxury</title>
   <meta name="description" content="ZAYN is a house of quiet luxury — geometry meets emotion. Wear silence, not fabric." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Editorial (Cormorant Garamond) + Modern (Inter) -->
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://www.zaynbrand.com/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
-  <!-- Topbar -->
+  <!-- INTRO SOUND -->
+  <audio id="introSound" src="assets/zayn_intro.mp3" autoplay preload="auto" playsinline></audio>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const audio = document.getElementById("introSound");
+    const KEY = "zaynIntroPlayed";
+    const alreadyPlayed = sessionStorage.getItem(KEY) === "1";
+
+    if (alreadyPlayed) {
+      audio.remove();
+      return;
+    }
+
+    audio.volume = 0.0;
+    const fadeIn = setInterval(() => {
+      audio.volume = Math.min(audio.volume + 0.03, 0.3);
+      if (audio.volume >= 0.3) clearInterval(fadeIn);
+    }, 60);
+
+    audio.play().then(() => {
+      sessionStorage.setItem(KEY, "1");
+      setTimeout(() => {
+        const fadeOut = setInterval(() => {
+          audio.volume = Math.max(audio.volume - 0.03, 0);
+          if (audio.volume <= 0) { clearInterval(fadeOut); audio.pause(); }
+        }, 60);
+      }, 2000);
+    }).catch(() => {
+      const btn = document.createElement("button");
+      btn.innerText = "🔊 Play sound";
+      Object.assign(btn.style, {
+        position: "fixed", top: "20px", right: "20px", zIndex: 9999,
+        border: "none", background: "transparent", color: "#999",
+        fontSize: "14px", cursor: "pointer"
+      });
+      document.body.appendChild(btn);
+      btn.addEventListener("click", () => {
+        audio.play().then(()=>sessionStorage.setItem(KEY,"1"));
+        btn.remove();
+      });
+    });
+  });
+  </script>
+
+  <!-- HEADER -->
   <header class="topbar">
     <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
     <nav class="nav">
@@ -26,7 +70,6 @@
 
   <!-- HERO -->
   <section id="hero" class="hero" aria-label="Intro">
-    <!-- Subtle fabric lights -->
     <div class="fabric f1"></div>
     <div class="fabric f2"></div>
     <div class="grain"></div>
@@ -38,7 +81,6 @@
         <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy">view on etsy</a>
       </div>
 
-      <!-- Optional ambient (muted by default) -->
       <button id="ambientBtn" class="chip ghost" aria-pressed="false" title="Ambient sound">
         ◯ ambient
       </button>
@@ -49,9 +91,9 @@
   <!-- PHILOSOPHY -->
   <section id="philosophy" class="section">
     <div class="container">
-      <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
+      <h2 class="eyebrow">Philosophy</h2>
       <div class="grid-2">
-        <p class="lead" data-i18n="philosophy">
+        <p class="lead">
           ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion.
           We design pauses, spaces, and textures that let you feel more by seeing less.
         </p>
@@ -63,7 +105,7 @@
   <!-- PIECES -->
   <section id="pieces" class="section section-alt">
     <div class="container">
-      <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
+      <h2 class="eyebrow">Pieces</h2>
       <div id="grid" class="grid-3" aria-live="polite"></div>
     </div>
   </section>
@@ -71,8 +113,8 @@
   <!-- STORY -->
   <section id="story" class="section">
     <div class="container">
-      <h2 class="eyebrow" data-i18n="story-h">Story</h2>
-      <p class="lead" data-i18n="story">
+      <h2 class="eyebrow">Story</h2>
+      <p class="lead">
         Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism —
         crafting pieces that speak softly yet powerfully.
       </p>
@@ -82,11 +124,11 @@
   <!-- NEWSLETTER -->
   <section id="newsletter" class="section section-alt">
     <div class="container card">
-      <h3 class="h3" data-i18n="nl-h">Join the world of quiet luxury.</h3>
-      <p class="muted" data-i18n="nl-p">Be the first to discover new designs, textures, and limited drops.</p>
+      <h3 class="h3">Join the world of quiet luxury.</h3>
+      <p class="muted">Be the first to discover new designs, textures, and limited drops.</p>
       <form class="nl" action="#" method="post" onsubmit="return false;">
         <input type="email" class="input" placeholder="Email address" aria-label="Email" />
-        <button class="btn" data-i18n="subscribe">Subscribe</button>
+        <button class="btn">Subscribe</button>
       </form>
       <div id="nlThanks" class="nl-thanks" role="status" aria-live="polite"></div>
     </div>
