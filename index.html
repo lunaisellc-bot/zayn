@@ -1,316 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <head>
-  <meta name="facebook-domain-verification" content="fsr0i1hen3fe3vl3tqdkljqwltmty" />
-  <title>ZAYN Brand</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ZAYN — Modern Prints, Timeless Elegance | Made-to-Order Fashion</title>
-  <meta name="description" content="Limited-run, premium polyester pieces with in-house prints. Made-to-order, ships in 2–6 days. Shop via Etsy." />
-  <link rel="preconnect" href="https://i.etsystatic.com" crossorigin>
-
-  <style>
-    /* ===================== ZAYN — single file styles ===================== */
-    :root{
-      --fg:#0f0f0f;
-      --muted:#5d5d5d;
-      --line:#e9e9e9;
-      --card:#ffffff;
-      --gutter:clamp(14px,5vw,56px);   /* sağ-sol boşluk */
-      --wrap:min(1000px,86vw);         /* içerik genişliği (dar) */
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;color:var(--fg);
-      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial}
-    a{color:inherit;text-decoration:none}
-    img{display:block;max-width:100%;height:auto;border-radius:14px}
-
-    /* === FULL-PAGE NET BACKGROUND (114) === */
-   /* FULL-PAGE NET ARKA PLAN */
-.bg-art{
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-
-  /* 1) Yerel dosya (öncelik)  2) Etsy fallback (yerel 404 olursa görünür) */
-  background-image:
-    url("/assets/bg-tasarim.jpg?v=5"),
-  background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat, no-repeat;
-  background-attachment: fixed, fixed;
-}
-
-
-    /* İçerik her zaman üstte */
-    nav, header, section, footer, main{position:relative; z-index:1}
-
-    /* LAYOUT */
-    .page{padding-inline:var(--gutter)}
-    .section{padding:56px 0}
-    .wrap{width:var(--wrap); margin-inline:auto}
-    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      box-shadow:0 6px 20px rgba(0,0,0,.04);padding:24px}
-
-    /* NAV */
-    .nav{position:sticky;top:0;z-index:10}
-    .nav-inner{width:var(--wrap);margin:8px auto;background:#fff;border:1px solid var(--line);
-      border-radius:999px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
-      box-shadow:0 8px 24px rgba(0,0,0,.05)}
-    .brand{font-weight:700;letter-spacing:.2em}
-    .menu{display:flex;gap:14px;font-size:14px}
-    .menu a{opacity:.85}.menu a:hover{opacity:1}
-
-    /* TYPO */
-    h1,h2,h3{margin:0 0 16px}
-    h1{font-size:40px;letter-spacing:.02em}
-    h2{font-size:28px}
-    p.lead{color:var(--muted);max-width:720px}
-    .badge{border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-    .badges{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-
-    /* HERO */
-    .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:center}
-
-    /* GRID / CARDS */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
-    .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:14px;
-      display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
-    .title{font-weight:600}
-    .price{color:var(--muted);font-size:14px}
-    .pill{font-size:11px;border:1px solid var(--line);padding:4px 8px;border-radius:999px;color:var(--muted)}
-    .actions{margin-top:auto;display:flex;gap:10px}
-
-    /* Buttons */
-    .btn{display:inline-block;background:#111;color:#fff;padding:12px 18px;border-radius:999px;
-      font-weight:600;border:1px solid #111}
-    .btn:hover{opacity:.9}
-
-    /* Reviews */
-    .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .review{background:#fff;border:1px solid var(--line);padding:16px;border-radius:16px;color:var(--muted);
-      box-shadow:0 6px 18px rgba(0,0,0,.04)}
-
-    /* Footer */
-    .footer{color:var(--muted);font-size:13px}
-
-    /* Responsive */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr}
-      .grid{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width:640px){
-      .menu{display:none}
-      .grid{grid-template-columns:1fr}
-      h1{font-size:32px}
-      .nav-inner{border-radius:14px}
-    }
-  </style>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"ZAYN","url":"https://zaynbrand.com","logo":"https://zaynbrand.com/assets/logo.svg","sameAs":["https://www.etsy.com/shop/ByZaynCo"]}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"ZAYN","url":"https://zaynbrand.com","potentialAction":{"@type":"SearchAction","target":"https://zaynbrand.com/?q={search_term_string}","query-input":"required name=search_term_string"}}
-  </script>
+  <title>ZAYN — The Art of Quiet Luxury</title>
+  <meta name="description" content="ZAYN is a house of quiet luxury — geometry meets emotion. Wear silence, not fabric." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Editorial (Cormorant Garamond) + Modern (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- NET ARKA PLAN -->
-  <div class="bg-art" aria-hidden="true"></div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
+    <nav class="nav">
+      <a href="#philosophy" class="nav-link">Philosophy</a>
+      <a href="#pieces" class="nav-link">Pieces</a>
+      <a href="#story" class="nav-link">Story</a>
+      <button id="langToggle" class="chip" aria-label="Toggle language">TR</button>
+    </nav>
+  </header>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="brand">ZAYN</div>
-      <div class="menu">
-        <a href="#home">Home</a>
-        <a href="#new">New Arrivals</a>
-        <a href="#bestsellers">Bestsellers</a>
-        <a href="#prints">The Prints</a>
-        <a href="#quality">Quality & Fit</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#shipping">Shipping & Returns</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
+  <!-- HERO -->
+  <section id="hero" class="hero" aria-label="Intro">
+    <!-- Subtle fabric lights -->
+    <div class="fabric f1"></div>
+    <div class="fabric f2"></div>
+    <div class="grain"></div>
+
+    <div class="hero-inner">
+      <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
+      <div class="cta">
+        <a href="#pieces" class="btn primary" data-i18n="enter">enter zayn</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="btn ghost" data-i18n="etsy">view on etsy</a>
+      </div>
+
+      <!-- Optional ambient (muted by default) -->
+      <button id="ambientBtn" class="chip ghost" aria-pressed="false" title="Ambient sound">
+        ◯ ambient
+      </button>
+      <audio id="ambientAudio" src="assets/ambient.mp3" loop preload="none"></audio>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy" class="section">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
+      <div class="grid-2">
+        <p class="lead" data-i18n="philosophy">
+          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion.
+          We design pauses, spaces, and textures that let you feel more by seeing less.
+        </p>
+        <ul id="manifesto" class="bullets"></ul>
       </div>
     </div>
-  </nav>
+  </section>
 
-  <main class="page">
-    <!-- HERO -->
-    <header id="home" class="section">
-      <div class="wrap panel">
-        <div class="hero">
-          <div>
-            <h1>Artistry in Every Print. Timeless Elegance by ZAYN.</h1>
-            <p class="lead">Limited-run, premium polyester pieces — designed in-house, made-to-order.</p>
-            <div class="badges">
-              <span class="badge">Made to Order</span>
-              <span class="badge">Ships in 2–6 days</span>
-            </div>
-            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-              <a class="btn" href="#new">Shop New Arrivals</a>
-              <a class="btn" href="#bestsellers" style="background:transparent;color:#111;border:1px solid #111">See Bestseller</a>
-            </div>
-          </div>
-          <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket" target="_blank" rel="noopener">
-            <img src="https://i.etsystatic.com/60635710/r/il/6389ab/7345622951/il_794xN.7345622951_ny9z.jpg" alt="Baroque Bomber Jacket — ZAYN" loading="lazy" decoding="async" />
-          </a>
-        </div>
+  <!-- PIECES -->
+  <section id="pieces" class="section section-alt">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
+      <div id="grid" class="grid-3" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section id="story" class="section">
+    <div class="container">
+      <h2 class="eyebrow" data-i18n="story-h">Story</h2>
+      <p class="lead" data-i18n="story">
+        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism —
+        crafting pieces that speak softly yet powerfully.
+      </p>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section id="newsletter" class="section section-alt">
+    <div class="container card">
+      <h3 class="h3" data-i18n="nl-h">Join the world of quiet luxury.</h3>
+      <p class="muted" data-i18n="nl-p">Be the first to discover new designs, textures, and limited drops.</p>
+      <form class="nl" action="#" method="post" onsubmit="return false;">
+        <input type="email" class="input" placeholder="Email address" aria-label="Email" />
+        <button class="btn" data-i18n="subscribe">Subscribe</button>
+      </form>
+      <div id="nlThanks" class="nl-thanks" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-row">
+      <div class="brand small">ZAYN</div>
+      <div class="links">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#pieces">Pieces</a>
+        <a href="#story">Story</a>
+        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank">Etsy</a>
       </div>
-    </header>
+      <div class="muted">© <span id="year"></span> ZAYN — The Art of Quiet Luxury · <span class="muted">Made in Silence</span></div>
+    </div>
+  </footer>
 
-    <!-- NEW ARRIVALS -->
-    <section id="new" class="section">
-      <div class="wrap panel">
-        <h2>New Arrivals</h2>
-        <p class="lead">Fresh silhouettes, refined prints, limited-run drops.</p>
-        <div class="grid">
-          <article class="card">
-            <a href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket" target="_blank" rel="noopener">
-              <img src="https://i.etsystatic.com/60635710/r/il/6389ab/7345622951/il_794xN.7345622951_ny9z.jpg" alt="Baroque Bomber Jacket — ZAYN" loading="lazy" decoding="async" />
-            </a>
-            <div class="title">Baroque Bomber Jacket</div>
-            <div class="price">View price on Etsy</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span>
-            </div>
-            <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4388754083/vintage-baroque-floral-bomber-jacket" target="_blank" rel="noopener">View on Etsy</a></div>
-          </article>
-
-          <article class="card">
-            <a href="https://www.etsy.com/listing/4373523965/abstract-art-longline-cardigan-geometric" target="_blank" rel="noopener">
-              <img src="https://i.etsystatic.com/60635710/r/il/e97999/7350127731/il_794xN.7350127731_s8t0.jpg" alt="Geometric Longline Cardigan — ZAYN" loading="lazy" decoding="async" />
-            </a>
-            <div class="title">Geometric Longline Cardigan</div>
-            <div class="price">View price on Etsy</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span>
-            </div>
-            <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4373523965/abstract-art-longline-cardigan-geometric" target="_blank" rel="noopener">View on Etsy</a></div>
-          </article>
-
-          <article class="card">
-            <a href="https://www.etsy.com/listing/4375491394/retro-geometric-patchwork-dress-vintage" target="_blank" rel="noopener">
-              <img src="https://i.etsystatic.com/60635710/r/il/4ad749/7302253874/il_794xN.7302253874_11ap.jpg" alt="Retro Patchwork Dress — ZAYN" loading="lazy" decoding="async" />
-            </a>
-            <div class="title">Retro Patchwork Dress</div>
-            <div class="price">View price on Etsy</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span>
-            </div>
-            <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4375491394/retro-geometric-patchwork-dress-vintage" target="_blank" rel="noopener">View on Etsy</a></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- BESTSELLERS -->
-    <section id="bestsellers" class="section">
-      <div class="wrap panel">
-        <h2>Bestsellers</h2>
-        <p class="lead">Community favorites — proven fits and prints.</p>
-        <div class="grid" style="grid-template-columns:repeat(1,1fr)">
-          <article class="card">
-            <a href="https://www.etsy.com/listing/4360957979/abstract-boho-sling-dress-summer" target="_blank" rel="noopener">
-              <img src="https://i.etsystatic.com/60635710/r/il/79e943/7350134547/il_794xN.7350134547_j48h.jpg" alt="Boho Summer Sling Dress — ZAYN (Bestseller)" loading="lazy" decoding="async" />
-            </a>
-            <div class="title">Boho Summer Sling Dress</div>
-            <div class="price">View price on Etsy</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <span class="pill">Bestseller</span><span class="pill">Made to Order</span><span class="pill">Ships in 2–6 days</span>
-            </div>
-            <div class="actions"><a class="btn" href="https://www.etsy.com/listing/4360957979/abstract-boho-sling-dress-summer" target="_blank" rel="noopener">View on Etsy</a></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- THE PRINTS -->
-    <section id="prints" class="section">
-      <div class="wrap panel">
-        <h2>The Prints</h2>
-        <p class="lead">Our prints are designed in-house with a minimal, architectural eye. Every piece is produced on-demand to reduce waste.</p>
-      </div>
-    </section>
-
-    <!-- QUALITY & FIT -->
-    <section id="quality" class="section">
-      <div class="wrap panel">
-        <h2>Quality & Fit</h2>
-        <ul>
-          <li>Fabric: Premium polyester for crisp drape and long-lasting color.</li>
-          <li>Fit: Modern, relaxed silhouettes; check size charts on Etsy product pages.</li>
-          <li>Care: Machine wash cold, gentle cycle; do not bleach; hang dry.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section id="reviews" class="section">
-      <div class="wrap panel">
-        <h2>Reviews</h2>
-        <div class="reviews">
-          <div class="review">“Gorgeous print and fit. Shipping was smooth!” — A.*</div>
-          <div class="review">“Fabric feels premium, colors pop.” — D.*</div>
-          <div class="review">“True to size, love the minimalist vibe.” — J.*</div>
-        </div>
-        <p style="margin-top:12px"><a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Read more on Etsy →</a></p>
-      </div>
-    </section>
-
-    <!-- SHIPPING -->
-    <section id="shipping" class="section">
-      <div class="wrap panel">
-        <h2>Shipping & Returns</h2>
-        <ul>
-          <li>Production: 2–6 days (made-to-order).</li>
-          <li>Returns: 7-day window via Etsy Messages.</li>
-          <li>Tracking: Provided via Etsy once shipped.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section">
-      <div class="wrap panel">
-        <h2>FAQ</h2>
-        <details><summary>Do you ship worldwide?</summary><p>Yes. See Etsy checkout for rates and delivery times.</p></details>
-        <details><summary>Can I change size after ordering?</summary><p>Within 12 hours via Etsy Messages.</p></details>
-        <details><summary>Are colors accurate?</summary><p>We calibrate colors; minor variance may occur between screens.</p></details>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact" class="section">
-      <div class="wrap panel">
-        <h2>Contact</h2>
-        <p>Questions? Message us on Etsy or email <a href="mailto:hello@zaynbrand.com">hello@zaynbrand.com</a>.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-          <a class="btn" href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Message on Etsy</a>
-          <a class="btn" href="mailto:hello@zaynbrand.com" style="background:transparent;color:#111;border:1px solid var(--line)">Email us</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="section footer">
-      <div class="wrap panel">
-        <div>© ZAYN / By Zayn Co — Lunaise LLC (Wyoming, USA)</div>
-        <div>30 N Gould St Ste N, Sheridan, WY 82801, USA —</div>
-        <div style="margin-top:8px;display:flex;gap:14px;flex-wrap:wrap">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Etsy Shop</a>
-          <a href="#">Instagram</a>
-          <a href="#">TikTok</a>
-        </div>
-      </div>
-    </footer>
-  </main>
+  <script src="script.js" defer></script>
 </body>
 </html>
