@@ -161,3 +161,26 @@ body.reveal{
 @media (prefers-reduced-motion: reduce){
   body.pre-reveal{ opacity:1; filter:none; transition:none; }
 }
+/* ===== ZAYN Intro Wordmark ===== */
+.wm{
+  font-family:"Cormorant Garamond", serif;
+  font-weight:300;
+  color:#e8e8e8; /* sessiz beyaz-gri ton */
+  letter-spacing:.24em;
+  font-size:clamp(42px,8.2vw,108px);
+  text-align:center;
+  transition:opacity .8s ease, transform .8s ease, filter 1s ease;
+}
+
+.wm span{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+
+.wm span.reveal{
+  opacity:1;
+  transform:none;
+  filter:drop-shadow(0 0 12px rgba(255,255,255,.05));
+}
