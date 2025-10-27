@@ -221,7 +221,7 @@
         if (!audio || !audio.paused) return;
         audio.play().then(()=>{
           sessionStorage.setItem(KEY, "1");
-          fadeTo(0.30);
+          fadeTo(0.55, 0.07);
           if (isFinite(audio.duration) && audio.duration > 0){
             scheduleFadeOut();
           } else {
