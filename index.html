@@ -180,90 +180,86 @@
 
   <!-- ===================== INTRO + AUDIO + DISSOLVE JS ===================== -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const intro  = document.getElementById("zaynIntro");
-      const logo   = intro ? intro.querySelector("img") : null;
-      const audio  = document.getElementById("introSound");
-      const KEY    = "zaynIntroPlayed";
+  document.addEventListener("DOMContentLoaded", function () {
+    const intro  = document.getElementById("zaynIntro");
+    const audio  = document.getElementById("introSound");
+    const KEY    = "zaynIntroPlayed";
 
-      // Aynı oturumda 1 kez
-      if (sessionStorage.getItem(KEY) === "1") {
-        if (intro) intro.remove();
-        document.body.classList.remove("pre-reveal");
-        document.body.classList.add("reveal");
-        if (audio) audio.remove();
-        return;
-      }
+    // Aynı oturumda 1 kez
+    if (sessionStorage.getItem(KEY) === "1") {
+      if (intro) intro.remove();
+      document.body.classList.remove("pre-reveal");
+      document.body.classList.add("reveal");
+      if (audio) audio.remove();
+      return;
+    }
 
-      // --- Ses (fade-in/out) ---
-      let v = 0.0;
-      audio.volume = 0.0;
+    // --- Ses (fade-in/out) ---
+    let v = 0.10;                // başlangıç sesi (biraz dolgun başlasın)
+    if (audio) audio.volume = v;
 
-      function fadeTo(target, step = 0.04, every = 80){
-        const id = setInterval(()=>{
-          v = Math.min(target, v + step);
-          audio.volume = v;
-          if (v >= target) clearInterval(id);
-        }, every);
-      }
-      function fadeOut(step = 0.03, every = 80){
-        const id = setInterval(()=>{
-          v = Math.max(0, v - step);
-          audio.volume = v;
-          if (v <= 0){ clearInterval(id); audio.pause(); }
-        }, every);
-      }
-      function scheduleFadeOut(){
-        const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
-        setTimeout(()=>fadeOut(), Math.max(0, dur - 450)); // son 0.45sn kala
-      }
-      function startAudio(){
-        if (!audio || !audio.paused) return;
-        audio.play().then(()=>{
-          sessionStorage.setItem(KEY, "1");
-          fadeTo(0.55, 0.07);
-          if (isFinite(audio.duration) && audio.duration > 0){
-            scheduleFadeOut();
-          } else {
-            audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
-          }
-          removeUnlockers();
-        }).catch(()=>{ /* bazı tarayıcılar gesture ister */ });
-      }
-      // İlk etkileşimde garantile
-      const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
-      function unlock(){ startAudio(); }
-      function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
-      events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
-      // Hemen dene
-      startAudio();
+    function fadeTo(target, step = 0.07, every = 80){   // hızlı ve dolgun fade-in
+      const id = setInterval(()=>{
+        v = Math.min(target, v + step);
+        audio.volume = v;
+        if (v >= target) clearInterval(id);
+      }, every);
+    }
+    function fadeOut(step = 0.03, every = 80){
+      const id = setInterval(()=>{
+        v = Math.max(0, v - step);
+        audio.volume = v;
+        if (v <= 0){ clearInterval(id); audio.pause(); }
+      }, every);
+    }
+    function scheduleFadeOut(){
+      const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
+      setTimeout(()=>fadeOut(), Math.max(0, dur - 450)); // son 0.45sn kala yumuşak sönsün
+    }
+    function startAudio(){
+      if (!audio || !audio.paused) return;
+      audio.play().then(()=>{
+        sessionStorage.setItem(KEY, "1");
+        fadeTo(0.55, 0.07);       // << sesi burada artırıyoruz
+        if (isFinite(audio.duration) && audio.duration > 0){
+          scheduleFadeOut();
+        } else {
+          audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
+        }
+        removeUnlockers();
+      }).catch(()=>{ /* bazı tarayıcılar gesture ister */ });
+    }
 
-      // --- ZAMANLAMA: LOGO YÜKLENDİ + FONTLAR HAZIR → animasyon başlasın
-      const logoReady  = new Promise(res => {
-        if (!logo) return res();
-        if (logo.complete) res();
-        else logo.addEventListener('load', res, { once:true });
-      });
-      const fontsReady = ('fonts' in document) ? document.fonts.ready : Promise.resolve();
+    // İlk etkileşimde sesi garantile
+    const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
+    function unlock(){ startAudio(); }
+    function removeUnlockers(){ events.forEach(ev => window.removeEventListener(ev, unlock)); }
+    events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
+    // Hemen dene
+    startAudio();
 
-      Promise.all([logoReady, fontsReady]).then(()=>{
-        // 1) Logo yumuşak görünme
-        intro.classList.add('show');
+    // --- Wordmark intro zamanlaması ---
+    const fontsReady = ('fonts' in document) ? document.fonts.ready : Promise.resolve();
 
-        // 2) Minimum görünürlük (1.6s) → sayfayı dissolve ile aç
-        setTimeout(()=>{
-          document.body.classList.remove('pre-reveal');
-          document.body.classList.add('reveal');
-        }, 1600);
+    Promise.all([fontsReady]).then(()=>{
+      // 1) Harfleri sırayla aç (Z-A-Y-N)
+      const letters = intro.querySelectorAll('.wm span');
+      letters.forEach((el,i)=> setTimeout(()=> el.classList.add('reveal'), i*80));
 
-        // 3) Biraz sonra overlay'i söndür (toplam ~2.8s)
-        setTimeout(()=>{
-          intro.classList.add('hide');
-          intro.addEventListener('transitionend', ()=> intro.remove(), { once:true });
-        }, 2800);
-      });
+      // 2) 1.6sn sonra sayfayı dissolve ile aç
+      setTimeout(()=>{
+        document.body.classList.remove('pre-reveal');
+        document.body.classList.add('reveal');
+      }, 1600);
+
+      // 3) ≈2.6sn sonra intro’yu söndür
+      setTimeout(()=>{
+        intro.classList.add('hide');
+        intro.addEventListener('transitionend', ()=> intro.remove(), { once:true });
+      }, 2600);
     });
-  </script>
+  });
+</script>
 
   <!-- ===================== APP LOGIC (i18n + manifesto + products + newsletter) ===================== -->
   <script>
