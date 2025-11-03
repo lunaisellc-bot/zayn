@@ -3,6 +3,9 @@ name: Sync Etsy -> Zayn Website
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -22,7 +25,7 @@ jobs:
           set -euo pipefail
           resp="$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}")"
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}")"
           echo "$resp" | jq -e .access_token >/dev/null
           echo "$resp" | jq -r .access_token > /tmp/access_token
           echo "access_token=$(cat /tmp/access_token)" >> "$GITHUB_OUTPUT"
@@ -36,11 +39,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 - << 'PY'
-         import json, os, urllib.request
+import json, os, urllib.request
 
-       ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
-       CLIENT_ID   = os.environ["CLIENT_ID"]
-       SHOP_ID     = os.environ["SHOP_ID"]
+ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
+CLIENT_ID    = os.environ["CLIENT_ID"]
+SHOP_ID      = os.environ["SHOP_ID"]
 
 def get(url: str):
     req = urllib.request.Request(
@@ -53,50 +56,50 @@ def get(url: str):
     with urllib.request.urlopen(req) as r:
         return json.load(r)
 
-          # Tüm aktif ilanlar (100'erli sayfalama)
-          items = []
-          offset = 0
-          while True:
-           data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
-            chunk = data.get("results", [])
-            if not chunk:
-              break
-            items.extend(chunk)
-            if len(chunk) < 100:
-              break
-            offset += 100
+# Tüm aktif ilanlar (100'erli sayfalama)
+items = []
+offset = 0
+while True:
+    data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
+    chunk = data.get("results", [])
+    if not chunk:
+        break
+    items.extend(chunk)
+    if len(chunk) < 100:
+        break
+    offset += 100
 
-          out = []
-          for it in items:
-            lid = it.get("listing_id") or it.get("id")
-            title = (it.get("title") or "").strip()
-            if not lid:
-              continue
+out = []
+for it in items:
+    lid = it.get("listing_id") or it.get("id")
+    title = (it.get("title") or "").strip()
+    if not lid:
+        continue
 
-            # Resimler
-            image = None
-            try:
-              imgdata = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
-              results = imgdata.get("results") or []
-              if results:
-                rec = results[0]
-                image = rec.get("url_fullxfull") or rec.get("url_570xN") or rec.get("url_170x135")
-            except Exception:
-              pass
+    # Resimler
+    image = None
+    try:
+        imgdata = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
+        results = imgdata.get("results") or []
+        if results:
+            rec = results[0]
+            image = rec.get("url_fullxfull") or rec.get("url_570xN") or rec.get("url_170x135")
+    except Exception:
+        pass
 
-            href = f"https://www.etsy.com/listing/{lid}"
-            out.append({
-              "id": lid,
-              "title": title,
-              "href": href,
-              "image": image
-            })
+    href = f"https://www.etsy.com/listing/{lid}"
+    out.append({
+        "id": lid,
+        "title": title,
+        "href": href,
+        "image": image
+    })
 
-          with open("products.json", "w", encoding="utf-8") as f:
-            json.dump(out, f, ensure_ascii=False, indent=2)
+with open("products.json", "w", encoding="utf-8") as f:
+    json.dump(out, f, ensure_ascii=False, indent=2)
 
-          print(f"Wrote {len(out)} items to products.json")
-          PY
+print(f"Wrote {len(out)} items to products.json")
+PY
 
       # 3) Commit et (dosya değiştiyse)
       - name: Commit updated data
@@ -110,4 +113,3 @@ def get(url: str):
             git push
           else
             echo "No changes to commit."
-          fi
