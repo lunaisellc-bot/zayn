@@ -36,6 +36,73 @@ jobs:
 
       # 2) Aktif listingleri çek
       - name: Fetch active listings
+- name: Build products.json with images
+        shell: bash
+        env:
+          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
+          REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
+          SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
+        run: |
+          set -euo pipefail
+
+          ACCESS_TOKEN=$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}" \
+            | python3 -c 'import sys, json; print(json.load(sys.stdin)["access_token"])')
+
+          python3 - <<'PY'
+import json, os, urllib.request
+
+CLIENT_ID = os.environ["CLIENT_ID"]
+ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
+SHOP_ID = os.environ["SHOP_ID"]
+
+req = urllib.request.Request(
+    f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100",
+    headers={
+        "x-api-key": CLIENT_ID,
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
+    }
+)
+with urllib.request.urlopen(req) as resp:
+    data = json.load(resp)
+
+items = data.get("results", data)
+out = []
+
+for it in items:
+    lid = it.get("listing_id") or it.get("listingId")
+    title = it.get("title","")
+    if not lid:
+        continue
+
+    req2 = urllib.request.Request(
+        f"https://api.etsy.com/v3/application/listings/{lid}/images",
+        headers={
+            "x-api-key": CLIENT_ID,
+            "Authorization": f"Bearer {ACCESS_TOKEN}"
+        }
+    )
+    try:
+        with urllib.request.urlopen(req2) as resp2:
+            imgs = json.load(resp2).get("results", [])
+    except:
+        imgs = []
+
+    img_url = ""
+    if imgs:
+        img = imgs[0]
+        img_url = img.get("url_fullxfull") or img.get("url_570xN") or img.get("url","")
+
+    out.append({
+        "titleEN": title,
+        "href": f"https://www.etsy.com/listing/{lid}",
+        "image": img_url
+    })
+
+with open("products.json","w",encoding="utf-8") as f:
+    json.dump(out, f, ensure_ascii=False, indent=2)
+PY
         env:
           SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
