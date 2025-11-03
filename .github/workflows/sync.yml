@@ -1,4 +1,4 @@
-   name: Sync Etsy -> Zayn Website
+name: Sync Etsy -> Zayn Website
 
 on:
   workflow_dispatch:
