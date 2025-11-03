@@ -38,20 +38,20 @@ jobs:
           python3 - << 'PY'
           import json, os, urllib.request
 
-          CLIENT_ID = os.environ["CLIENT_ID"]
-          ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
-          SHOP_ID = os.environ["SHOP_ID"]
+          ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
+CLIENT_ID = os.environ["CLIENT_ID"]
+SHOP_ID = os.environ["SHOP_ID"]
 
-          def get(url: str):
-            req = urllib.request.Request(
-              url,
-              headers={
-                "x-api-key": CLIENT_ID,
-                "Authorization": f"Bearer {ACCESS_TOKEN}",
-              },
-            )
-            with urllib.request.urlopen(req) as r:
-              return json.load(r)
+def get(url: str):
+    req = urllib.request.Request(
+        url,
+        headers={
+            "x-api-key": CLIENT_ID,
+            "Authorization": f"Bearer {ACCESS_TOKEN}",
+        },
+    )
+    with urllib.request.urlopen(req) as r:
+        return json.load(r)
 
           # Tüm aktif ilanlar (100'erli sayfalama)
           items = []
