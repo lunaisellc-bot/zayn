@@ -1,0 +1,26 @@
+name: Sync Etsy -> Zayn Website
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Etsy Product Sync
+        run: |
+          curl -X GET \
+          "https://api.etsy.com/v3/application/shops/${{ secrets.ETSY_SHOP_ID }}/listings/active" \
+          -H "x-api-key: ${{ secrets.ETSY_CLIENT_ID }}" \
+          -H "Authorization: Bearer ${{ secrets.ETSY_REFRESH_TOKEN }}" \
+          > etsy.json
+
+      - name: Commit updated data
+        run: |
+          git config --global user.email "bot@zaynbrand.com"
+          git config --global user.name "ZAYN BOT"
+          git add etsy.json
+          git commit -m "sync etsy"
+          git push
