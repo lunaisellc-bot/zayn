@@ -1,49 +1,77 @@
 name: Sync Etsy -> Zayn Website
 
 on:
-  workflow_dispatch:   # Elle çalıştırmak için
-  # schedule:
-  #   - cron: "0 */12 * * *"   # İstersen sonra açarız (12 saatte 1)
+  workflow_dispatch: {}
 
 permissions:
-  contents: write   # Commit atabilmesi için
+  contents: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
       # 1) Refresh token ile access token al
       - name: Get Etsy access token
         id: token
+        env:
+          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.ETSY_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
         run: |
-          RESP=$(curl -s -X POST "https://api.etsy.com/v3/public/oauth/token" \
+          set -euo pipefail
+          sudo apt-get update -y >/dev/null
+          sudo apt-get install -y jq >/dev/null
+          RESP=$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${{ secrets.ETSY_CLIENT_ID }}&refresh_token=${{ secrets.ETSY_REFRESH_TOKEN }}&client_secret=${{ secrets.ETSY_CLIENT_SECRET }}")
-          echo "$RESP"
-          ACCESS=$(echo "$RESP" | jq -r '.access_token')
-          if [ "$ACCESS" = "null" ] || [ -z "$ACCESS" ]; then
-            echo "Failed to get access token"; exit 1;
+            -d "grant_type=refresh_token" \
+            -d "client_id=${CLIENT_ID}" \
+            -d "refresh_token=${REFRESH_TOKEN}" \
+            -d "client_secret=${CLIENT_SECRET}")
+          echo "$RESP" | jq .
+          ACCESS_TOKEN=$(echo "$RESP" | jq -r '.access_token')
+          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
+            echo "Access token alınamadı"; exit 1
           fi
-          echo "access_token=$ACCESS" >> $GITHUB_OUTPUT
+          echo "access_token=$ACCESS_TOKEN" >> "$GITHUB_OUTPUT"
 
-      # 2) Aktif listingleri çek (ilk 100)
+      # 2) Aktif listingleri çek (DÜZELTİLMİŞ ADIM)
       - name: Fetch active listings
+        env:
+          SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
+          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
+          ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
         run: |
-          curl -s -X GET \
-          "https://api.etsy.com/v3/application/shops/${{ secrets.ETSY_SHOP_ID }}/listings/active?limit=100" \
-          -H "x-api-key: ${{ secrets.ETSY_CLIENT_ID }}" \
-          -H "Authorization: Bearer ${{ steps.token.outputs.access_token }}" \
-          > etsy.json
-          cat etsy.json | head -c 800 || true
+          set -euo pipefail
+          # İstek + HTTP code
+          curl -sS -w "\n%{http_code}\n" \
+            -H "x-api-key: ${CLIENT_ID}" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            "https://api.etsy.com/v3/application/shops/${SHOP_ID}/listings/active?limit=100" \
+            | tee /tmp/resp \
+            | tail -n1 > /tmp/code
 
-      # 3) Dosyayı commit/push et
+          code=$(cat /tmp/code)
+          body=$(sed '$d' /tmp/resp)
+
+          echo "$body" > etsy.json
+          echo "HTTP $code"
+          test "$code" = "200" || (echo "Etsy API error (HTTP $code): $body" && exit 1)
+
+      # (Opsiyonel) Dilersen dönüştürme yaparsın; şimdilik direkt products.json’a kopyalıyoruz
+      - name: Prepare products.json
+        run: |
+          cp etsy.json products.json
+          head -c 800 products.json || true
+
+      # 3) Commit & push
       - name: Commit updated data
         run: |
-          git config --global user.email "bot@zaynbrand.com"
-          git config --global user.name "ZAYN BOT"
-          git add etsy.json
-          git diff --staged --quiet || git commit -m "sync etsy"
+          set -e
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add products.json
+          git commit -m "Update products from Etsy" || echo "No changes"
           git push
-
