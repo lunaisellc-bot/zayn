@@ -57,7 +57,7 @@ def get(url: str):
           items = []
           offset = 0
           while True:
-            data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
+           data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
             chunk = data.get("results", [])
             if not chunk:
               break
