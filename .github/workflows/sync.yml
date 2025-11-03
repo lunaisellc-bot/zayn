@@ -36,11 +36,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 - << 'PY'
-          import json, os, urllib.request
+         import json, os, urllib.request
 
-          ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
-CLIENT_ID = os.environ["CLIENT_ID"]
-SHOP_ID = os.environ["SHOP_ID"]
+       ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
+       CLIENT_ID   = os.environ["CLIENT_ID"]
+       SHOP_ID     = os.environ["SHOP_ID"]
 
 def get(url: str):
     req = urllib.request.Request(
