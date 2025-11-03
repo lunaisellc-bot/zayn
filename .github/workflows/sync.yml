@@ -1,7 +1,12 @@
 name: Sync Etsy -> Zayn Website
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # Elle çalıştırmak için
+  # schedule:
+  #   - cron: "0 */12 * * *"   # İstersen sonra açarız (12 saatte 1)
+
+permissions:
+  contents: write   # Commit atabilmesi için
 
 jobs:
   sync:
@@ -9,18 +14,36 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run Etsy Product Sync
+      # 1) Refresh token ile access token al
+      - name: Get Etsy access token
+        id: token
         run: |
-          curl -X GET \
-          "https://api.etsy.com/v3/application/shops/${{ secrets.ETSY_SHOP_ID }}/listings/active" \
-          -H "x-api-key: ${{ secrets.ETSY_CLIENT_ID }}" \
-          -H "Authorization: Bearer ${{ secrets.ETSY_REFRESH_TOKEN }}" \
-          > etsy.json
+          RESP=$(curl -s -X POST "https://api.etsy.com/v3/public/oauth/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=refresh_token&client_id=${{ secrets.ETSY_CLIENT_ID }}&refresh_token=${{ secrets.ETSY_REFRESH_TOKEN }}&client_secret=${{ secrets.ETSY_CLIENT_SECRET }}")
+          echo "$RESP"
+          ACCESS=$(echo "$RESP" | jq -r '.access_token')
+          if [ "$ACCESS" = "null" ] || [ -z "$ACCESS" ]; then
+            echo "Failed to get access token"; exit 1;
+          fi
+          echo "access_token=$ACCESS" >> $GITHUB_OUTPUT
 
+      # 2) Aktif listingleri çek (ilk 100)
+      - name: Fetch active listings
+        run: |
+          curl -s -X GET \
+          "https://api.etsy.com/v3/application/shops/${{ secrets.ETSY_SHOP_ID }}/listings/active?limit=100" \
+          -H "x-api-key: ${{ secrets.ETSY_CLIENT_ID }}" \
+          -H "Authorization: Bearer ${{ steps.token.outputs.access_token }}" \
+          > etsy.json
+          cat etsy.json | head -c 800 || true
+
+      # 3) Dosyayı commit/push et
       - name: Commit updated data
         run: |
           git config --global user.email "bot@zaynbrand.com"
           git config --global user.name "ZAYN BOT"
           git add etsy.json
-          git commit -m "sync etsy"
+          git diff --staged --quiet || git commit -m "sync etsy"
           git push
+
