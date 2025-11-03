@@ -3,18 +3,15 @@ name: Sync Etsy -> Zayn Website
 on:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 1) Access Token al
+      # 1) Access token al
       - name: Get Etsy access token
         id: token
         env:
@@ -23,122 +20,94 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
         run: |
           set -euo pipefail
-          curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
+          resp="$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}" \
-            | jq -r '.access_token' | tee /tmp/access_token
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}")"
+          echo "$resp" | jq -e .access_token >/dev/null
+          echo "$resp" | jq -r .access_token > /tmp/access_token
+          echo "access_token=$(cat /tmp/access_token)" >> "$GITHUB_OUTPUT"
 
-          ACCESS_TOKEN=$(cat /tmp/access_token)
-          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
-            echo "No access token"; exit 1
-          fi
-          echo "access_token=$ACCESS_TOKEN" >> "$GITHUB_OUTPUT"
-
-      # 2) Aktif listingleri çek
-      - name: Fetch active listings
-- name: Build products.json with images
-        shell: bash
+      # 2) Aktif ilanları + resimleri çek ve products.json yaz
+      - name: Build products.json (with images)
         env:
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
-          REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
           SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
-        run: |
-          set -euo pipefail
-
-          ACCESS_TOKEN=$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}" \
-            | python3 -c 'import sys, json; print(json.load(sys.stdin)["access_token"])')
-
-          python3 - <<'PY'
-import json, os, urllib.request
-
-CLIENT_ID = os.environ["CLIENT_ID"]
-ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
-SHOP_ID = os.environ["SHOP_ID"]
-
-req = urllib.request.Request(
-    f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100",
-    headers={
-        "x-api-key": CLIENT_ID,
-        "Authorization": f"Bearer {ACCESS_TOKEN}"
-    }
-)
-with urllib.request.urlopen(req) as resp:
-    data = json.load(resp)
-
-items = data.get("results", data)
-out = []
-
-for it in items:
-    lid = it.get("listing_id") or it.get("listingId")
-    title = it.get("title","")
-    if not lid:
-        continue
-
-    req2 = urllib.request.Request(
-        f"https://api.etsy.com/v3/application/listings/{lid}/images",
-        headers={
-            "x-api-key": CLIENT_ID,
-            "Authorization": f"Bearer {ACCESS_TOKEN}"
-        }
-    )
-    try:
-        with urllib.request.urlopen(req2) as resp2:
-            imgs = json.load(resp2).get("results", [])
-    except:
-        imgs = []
-
-    img_url = ""
-    if imgs:
-        img = imgs[0]
-        img_url = img.get("url_fullxfull") or img.get("url_570xN") or img.get("url","")
-
-    out.append({
-        "titleEN": title,
-        "href": f"https://www.etsy.com/listing/{lid}",
-        "image": img_url
-    })
-
-with open("products.json","w",encoding="utf-8") as f:
-    json.dump(out, f, ensure_ascii=False, indent=2)
-PY
-        env:
-          SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
-          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
           ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
         run: |
           set -euo pipefail
-          resp="$(curl -sS -w '\n%{http_code}\n' \
-            -H "x-api-key: ${CLIENT_ID}" \
-            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            "https://api.etsy.com/v3/application/shops/${SHOP_ID}/listings/active?limit=100")"
-          code="$(echo "$resp" | tail -n1)"
-          body="$(echo "$resp" | sed '$d')"
+          python3 - << 'PY'
+          import json, os, urllib.request
 
-          echo "$body" > etsy.json
-          test "$code" = "200" || (echo "Etsy API error (HTTP $code): $body" && exit 1)
+          CLIENT_ID = os.environ["CLIENT_ID"]
+          ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
+          SHOP_ID = os.environ["SHOP_ID"]
 
-      # 3) products.json üret
-      - name: Build products.json
-        run: |
-          jq '[.results[] | {
-                id: .listing_id,
-                title: .title,
-                url: .url,
-                price: ((.price.amount|tostring) + " " + .price.currency_code),
-                state: .state
-              }]' etsy.json > products.json
+          def get(url: str):
+            req = urllib.request.Request(
+              url,
+              headers={
+                "x-api-key": CLIENT_ID,
+                "Authorization": f"Bearer {ACCESS_TOKEN}",
+              },
+            )
+            with urllib.request.urlopen(req) as r:
+              return json.load(r)
 
-      # 4) Değiştiyse commit & push
+          # Tüm aktif ilanlar (100'erli sayfalama)
+          items = []
+          offset = 0
+          while True:
+            data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
+            chunk = data.get("results", [])
+            if not chunk:
+              break
+            items.extend(chunk)
+            if len(chunk) < 100:
+              break
+            offset += 100
+
+          out = []
+          for it in items:
+            lid = it.get("listing_id") or it.get("id")
+            title = (it.get("title") or "").strip()
+            if not lid:
+              continue
+
+            # Resimler
+            image = None
+            try:
+              imgdata = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
+              results = imgdata.get("results") or []
+              if results:
+                rec = results[0]
+                image = rec.get("url_fullxfull") or rec.get("url_570xN") or rec.get("url_170x135")
+            except Exception:
+              pass
+
+            href = f"https://www.etsy.com/listing/{lid}"
+            out.append({
+              "id": lid,
+              "title": title,
+              "href": href,
+              "image": image
+            })
+
+          with open("products.json", "w", encoding="utf-8") as f:
+            json.dump(out, f, ensure_ascii=False, indent=2)
+
+          print(f"Wrote {len(out)} items to products.json")
+          PY
+
+      # 3) Commit et (dosya değiştiyse)
       - name: Commit updated data
         run: |
-          set -e
-          if git diff --quiet -- products.json; then
-            echo "No changes in products.json"; exit 0
+          set -euo pipefail
+          if git status --porcelain | grep -q 'products.json'; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add products.json
+            git commit -m "sync: update products.json from Etsy"
+            git push
+          else
+            echo "No changes to commit."
           fi
-          git config user.name "zayn-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add products.json
-          git commit -m "sync: update products.json from Etsy"
-          git push
