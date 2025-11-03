@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 1) Access token al
+      # 1) access token al
       - name: Get Etsy access token
         id: token
         env:
@@ -25,12 +25,12 @@ jobs:
           set -euo pipefail
           resp="$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
             -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}")"
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}")"
           echo "$resp" | jq -e .access_token >/dev/null
           echo "$resp" | jq -r .access_token > /tmp/access_token
           echo "access_token=$(cat /tmp/access_token)" >> "$GITHUB_OUTPUT"
 
-      # 2) Aktif ilanları + resimleri çek ve products.json yaz
+      # 2) ürün + resim topla
       - name: Build products.json (with images)
         env:
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
@@ -38,7 +38,8 @@ jobs:
           ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
         run: |
           set -euo pipefail
-          python3 - << 'PY'
+
+          cat > fetch_products.py <<'PY'
 import json, os, urllib.request
 
 ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
@@ -56,7 +57,7 @@ def get(url: str):
     with urllib.request.urlopen(req) as r:
         return json.load(r)
 
-# Tüm aktif ilanlar (100'erli sayfalama)
+# tüm aktif
 items = []
 offset = 0
 while True:
@@ -76,7 +77,6 @@ for it in items:
     if not lid:
         continue
 
-    # Resimler
     image = None
     try:
         imgdata = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
@@ -87,11 +87,10 @@ for it in items:
     except Exception:
         pass
 
-    href = f"https://www.etsy.com/listing/{lid}"
     out.append({
         "id": lid,
         "title": title,
-        "href": href,
+        "href": f"https://www.etsy.com/listing/{lid}",
         "image": image
     })
 
@@ -101,7 +100,9 @@ with open("products.json", "w", encoding="utf-8") as f:
 print(f"Wrote {len(out)} items to products.json")
 PY
 
-      # 3) Commit et (dosya değiştiyse)
+          python3 fetch_products.py
+
+      # 3) commit/push
       - name: Commit updated data
         run: |
           set -euo pipefail
