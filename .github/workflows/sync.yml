@@ -1,21 +1,77 @@
+   name: Sync Etsy -> Zayn Website
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1) Access Token al
+      - name: Get Etsy access token
+        id: token
+        env:
+          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.ETSY_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}" \
+            | jq -r '.access_token' | tee /tmp/access_token
+
+          ACCESS_TOKEN=$(cat /tmp/access_token)
+          if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
+            echo "No access token"; exit 1
+          fi
+          echo "access_token=$ACCESS_TOKEN" >> "$GITHUB_OUTPUT"
+
+      # 2) Aktif listingleri çek
       - name: Fetch active listings
         env:
           SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
+          CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
           ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
         run: |
           set -euo pipefail
-
-          # isteği yap – TEK DOĞRU HEADER bu
-          curl -sS -w "\n%{http_code}\n" \
+          resp="$(curl -sS -w '\n%{http_code}\n' \
+            -H "x-api-key: ${CLIENT_ID}" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-            "https://api.etsy.com/v3/application/shops/${SHOP_ID}/listings/active?limit=100" \
-          | tee /tmp/resp \
-          | tail -n1 > /tmp/code
-
-          code=$(cat /tmp/code)
-          body=$(sed '$d' /tmp/resp)
+            "https://api.etsy.com/v3/application/shops/${SHOP_ID}/listings/active?limit=100")"
+          code="$(echo "$resp" | tail -n1)"
+          body="$(echo "$resp" | sed '$d')"
 
           echo "$body" > etsy.json
-          echo "HTTP $code"
-
           test "$code" = "200" || (echo "Etsy API error (HTTP $code): $body" && exit 1)
+
+      # 3) products.json üret
+      - name: Build products.json
+        run: |
+          jq '[.results[] | {
+                id: .listing_id,
+                title: .title,
+                url: .url,
+                price: ((.price.amount|tostring) + " " + .price.currency_code),
+                state: .state
+              }]' etsy.json > products.json
+
+      # 4) Değiştiyse commit & push
+      - name: Commit updated data
+        run: |
+          set -e
+          if git diff --quiet -- products.json; then
+            echo "No changes in products.json"; exit 0
+          fi
+          git config user.name "zayn-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add products.json
+          git commit -m "sync: update products.json from Etsy"
+          git push
