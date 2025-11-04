@@ -171,7 +171,24 @@ body.reveal{
   text-align:center;
   transition:opacity .8s ease, transform .8s ease, filter 1s ease;
 }
-
+/* === PRODUCT GRID FIX === */
+#grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:32px;
+  margin-top:40px;
+}
+.card-tile{
+  text-decoration:none;
+  color:inherit;
+}
+.card-tile img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:12px;
+  margin-bottom:8px;
+}
 .wm span{
   display:inline-block;
   opacity:0;
