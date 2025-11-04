@@ -9,11 +9,12 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 1) Access token al
+      # 1) Etsy access token al (refresh token ile)
       - name: Get Etsy access token
         id: token
         env:
@@ -22,14 +23,14 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.ETSY_REFRESH_TOKEN }}
         run: |
           set -euo pipefail
-          resp="$(curl -sS -X POST "https://api.etsy.com/v3/public/oauth/token" \
-            -H "Content-Type: application/x-www-form-urlencoded" \
-            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&refresh_token=${REFRESH_TOKEN}")"
+          resp="$(curl -sS -X POST 'https://api.etsy.com/v3/public/oauth/token' \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}")"
+          # access_token var mı kontrol et
           echo "$resp" | jq -e .access_token >/dev/null
-          echo "$resp" | jq -r .access_token > /tmp/access_token
-          echo "access_token=$(cat /tmp/access_token)" >> "$GITHUB_OUTPUT"
+          echo "access_token=$(echo "$resp" | jq -r .access_token)" >> "$GITHUB_OUTPUT"
 
-      # 2) Aktif ilanları + resimleri çek ve products.json yaz
+      # 2) Aktif ilanları + kapak görsellerini çek ve products.json yaz
       - name: Build products.json (with images)
         env:
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
@@ -39,28 +40,42 @@ jobs:
           set -euo pipefail
           python3 - << 'PY'
           import json, os, urllib.request
+          from urllib.error import HTTPError, URLError
 
           ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
-          CLIENT_ID   = os.environ["CLIENT_ID"]
-          SHOP_ID     = os.environ["SHOP_ID"]
+          CLIENT_ID   = os.environ["CLIENT_ID"].strip()
+          SHOP_ID     = os.environ["SHOP_ID"].strip()
 
-          def get(url: str):
-              req = urllib.request.Request(
+          def req(url: str):
+              return urllib.request.Request(
                   url,
                   headers={
                       "x-api-key": CLIENT_ID,
                       "Authorization": f"Bearer {ACCESS_TOKEN}",
                   },
               )
-              with urllib.request.urlopen(req) as r:
-                  return json.load(r)
 
-          # Tüm aktif ilanlar (100'erli sayfalama)
-          items = []
-          offset = 0
+          def get_json(url: str):
+              try:
+                  with urllib.request.urlopen(req(url), timeout=30) as r:
+                      return json.load(r)
+              except HTTPError as e:
+                  body = e.read().decode("utf-8", "ignore")
+                  print("HTTPError", e.code, url)
+                  print("RESPONSE BODY >>", body)
+                  raise
+              except URLError as e:
+                  print("URLError", url, e)
+                  raise
+
+          # Sanity: token gerçekten geçerli mi?
+          _ = get_json("https://api.etsy.com/v3/application/users/me")
+
+          # Aktif ilanları 100'erli sayfalama ile çek
+          items, offset = [], 0
           while True:
-              data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
-              chunk = data.get("results", [])
+              data = get_json(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
+              chunk = data.get("results") or []
               if not chunk:
                   break
               items.extend(chunk)
@@ -68,6 +83,7 @@ jobs:
                   break
               offset += 100
 
+          # Her ilan için bir kapak görseli iste
           out = []
           for it in items:
               lid = it.get("listing_id") or it.get("id")
@@ -75,22 +91,20 @@ jobs:
               if not lid:
                   continue
 
-              # Görseller
               image = None
               try:
-                  imgdata = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
-                  results = imgdata.get("results") or []
-                  if results:
-                      rec = results[0]
+                  imgs = get_json(f"https://api.etsy.com/v3/application/listings/{lid}/images").get("results") or []
+                  if imgs:
+                      rec = imgs[0]
                       image = rec.get("url_fullxfull") or rec.get("url_570xN") or rec.get("url_170x135")
               except Exception:
+                  # Hata gövdesi yukarıda loglandı, sessizce geç
                   pass
 
-              href = f"https://www.etsy.com/listing/{lid}"
               out.append({
                   "id": lid,
                   "title": title,
-                  "href": href,
+                  "href": f"https://www.etsy.com/listing/{lid}",
                   "image": image
               })
 
@@ -100,7 +114,7 @@ jobs:
           print(f"Wrote {len(out)} items to products.json")
           PY
 
-      # 3) Değiştiyse commit & push
+      # 3) Değişiklik varsa commit & push
       - name: Commit updated data
         run: |
           set -euo pipefail
@@ -112,3 +126,4 @@ jobs:
             git push
           else
             echo "No changes to commit."
+          fi
