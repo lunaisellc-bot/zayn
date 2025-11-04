@@ -133,13 +133,11 @@ async function loadProducts(){
       const a = document.createElement("a");
       a.href = href; a.target = "_blank"; a.rel = "noopener"; a.className = "card-tile";
       a.innerHTML = `
-        <div class="tile-img">
-          <img loading="lazy" src="${img}" alt="${(title||"").replace(/"/g,"'")}" />
-        </div>
-        <div class="tile-meta">
-          <div><span class="dot"></span>${title ?? ""}</div>
-          ${line ? `<div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>` : ""}
-        </div>`;
+  <img src="${it.image}" style="width:100%; height:auto; display:block; border-radius:12px; margin-bottom:8px">
+  <div class="tile-meta">
+    <div><span class="dot"></span>${title ?? ""}</div>
+    <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
+  </div>`;
       grid.appendChild(a);
     });
   }catch(e){
