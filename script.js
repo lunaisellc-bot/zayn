@@ -1,14 +1,9 @@
-/* ===== ZAYN 2.0 — Minimal interactions (no build) ===== */
+/* ===== ZAYN 2.0 — Minimal interactions (autofix container + images) ===== */
 
 // i18n strings
 const I18N = {
   EN: {
-    headlineCycle: [
-      "Luxury doesn’t shout.",
-      "It breathes.",
-      "It pauses.",
-      "It lets you feel."
-    ],
+    headlineCycle: ["Luxury doesn’t shout.","It breathes.","It pauses.","It lets you feel."],
     manifesto: [
       "Not made to impress. Made to express.",
       "You wear silence, not fabric.",
@@ -30,12 +25,7 @@ const I18N = {
     thanks: "Thank you — welcome to the world of quiet luxury."
   },
   TR: {
-    headlineCycle: [
-      "Lüks bağırmaz.",
-      "Nefes alır.",
-      "Durur.",
-      "Sana hissettirir."
-    ],
+    headlineCycle: ["Lüks bağırmaz.","Nefes alır.","Durur.","Sana hissettirir."],
     manifesto: [
       "Etkilemek için değil; ifade etmek için üretilir.",
       "Üzerine sessizliği giyersin, kumaşı değil.",
@@ -59,14 +49,9 @@ const I18N = {
 };
 
 let LANG = "EN";
-
 const $  = (q) => document.querySelector(q);
-const $$ = (q) => document.querySelectorAll(q);
 
-function setText(el, key){
-  if (!el) return;
-  el.textContent = I18N[LANG][key];
-}
+function setText(el, key){ if (el) el.textContent = I18N[LANG][key]; }
 
 function applyLang(){
   setText($('[data-i18n="philosophy-h"]'), "philosophyH");
@@ -94,33 +79,49 @@ function applyLang(){
 
 let tickerId = null;
 function startHeadlineTicker(){
-  const h = $("#headline");
-  if (!h) return;
-  const lines = I18N[LANG].headlineCycle.slice(); // copy
-  let i = 0;
+  const h = $("#headline"); if (!h) return;
+  const lines = I18N[LANG].headlineCycle.slice(); let i = 0;
   if (tickerId) clearInterval(tickerId);
   tickerId = setInterval(()=>{
     i = (i + 1) % lines.length;
-    h.style.opacity = 0;
-    h.style.transform = "translateY(10px)";
-    setTimeout(()=>{
-      h.textContent = lines[i];
-      h.style.opacity = 1;
-      h.style.transform = "translateY(0)";
-    }, 220);
+    h.style.opacity = 0; h.style.transform = "translateY(10px)";
+    setTimeout(()=>{ h.textContent = lines[i]; h.style.opacity = 1; h.style.transform = "translateY(0)"; }, 220);
   }, 2400);
 }
 
-/* ---------- FIXED: render images from products.json ---------- */
+/* ---------- helper: ensure container exists & minimal CSS for images ---------- */
+function ensureGridContainer(){
+  let grid = document.querySelector("#grid") || document.querySelector("#products");
+  if (!grid) {
+    grid = document.createElement("section");
+    grid.id = "grid";
+    document.body.appendChild(grid);
+  }
+  // Inject minimal CSS once
+  if (!document.getElementById("zayn-grid-css")) {
+    const css = `
+      #grid, .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+      .card-tile{display:block;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+      .card-tile .tile-img img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+      .card-tile .tile-meta{padding:12px 14px}
+    `;
+    const style = document.createElement("style");
+    style.id = "zayn-grid-css";
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+  return grid;
+}
+
+/* ---------- render products with images from products.json ---------- */
 async function loadProducts(){
   try{
     const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache: "no-store" });
     const items = await res.json();
 
-    const grid = document.querySelector("#grid") || document.querySelector("#products");
-    if (!grid) return;
-
+    const grid = ensureGridContainer();
     grid.innerHTML = "";
+
     items.forEach(it=>{
       const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
       const line  = LANG === "EN" ? (it.lineEN  ?? it.line  ?? "") : (it.lineTR  ?? it.line  ?? "");
@@ -130,10 +131,7 @@ async function loadProducts(){
                  || "data:image/gif;base64,R0lGODlhAQABAAAAACw="; // 1x1 placeholder
 
       const a = document.createElement("a");
-      a.href = href;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.className = "card-tile";
+      a.href = href; a.target = "_blank"; a.rel = "noopener"; a.className = "card-tile";
       a.innerHTML = `
         <div class="tile-img">
           <img loading="lazy" src="${img}" alt="${(title||"").replace(/"/g,"'")}" />
@@ -148,25 +146,19 @@ async function loadProducts(){
     console.error("products.json error", e);
   }
 }
-/* ---------------------------------------------------------------- */
 
 function initLangToggle(){
-  const btn = $("#langToggle");
-  if (!btn) return;
+  const btn = $("#langToggle"); if (!btn) return;
   btn.textContent = LANG === "EN" ? "TR" : "EN";
   btn.addEventListener("click", async ()=>{
     LANG = (LANG === "EN") ? "TR" : "EN";
     btn.textContent = (LANG === "EN") ? "TR" : "EN";
-    applyLang();
-    startHeadlineTicker();
-    await loadProducts();
+    applyLang(); startHeadlineTicker(); await loadProducts();
   });
 }
 
 function initNewsletter(){
-  const form = document.querySelector(".nl");
-  const thanks = $("#nlThanks");
-  if (!form || !thanks) return;
+  const form = document.querySelector(".nl"); const thanks = $("#nlThanks"); if (!form || !thanks) return;
   form.addEventListener("submit", (e)=>{
     e.preventDefault();
     thanks.textContent = I18N[LANG].thanks;
@@ -176,33 +168,17 @@ function initNewsletter(){
 }
 
 function initAmbient(){
-  const btn = $("#ambientBtn");
-  const audio = $("#ambientAudio");
-  if (!btn || !audio) return;
+  const btn = $("#ambientBtn"); const audio = $("#ambientAudio"); if (!btn || !audio) return;
   btn.addEventListener("click", ()=>{
     const on = btn.getAttribute("aria-pressed") === "true";
-    if (on){
-      btn.setAttribute("aria-pressed","false");
-      audio.pause();
-    }else{
-      btn.setAttribute("aria-pressed","true");
-      audio.volume = 0.25;
-      audio.play().catch(()=>{/* gesture may be required */});
-    }
+    if (on){ btn.setAttribute("aria-pressed","false"); audio.pause(); }
+    else { btn.setAttribute("aria-pressed","true"); audio.volume = 0.25; audio.play().catch(()=>{}); }
   });
 }
 
-function setYear(){
-  const y = $("#year");
-  if (y) y.textContent = new Date().getFullYear();
-}
+function setYear(){ const y = $("#year"); if (y) y.textContent = new Date().getFullYear(); }
 
 document.addEventListener("DOMContentLoaded", async ()=>{
-  setYear();
-  applyLang();
-  startHeadlineTicker();
-  initLangToggle();
-  initNewsletter();
-  initAmbient();
+  setYear(); applyLang(); startHeadlineTicker(); initLangToggle(); initNewsletter(); initAmbient();
   await loadProducts();
 });
