@@ -1,4 +1,4 @@
-/* ===== ZAYN 2.0 — Minimal interactions (autofix container + images) ===== */
+/* ===== ZAYN 2.0 — Minimal interactions (no build) ===== */
 
 // i18n strings
 const I18N = {
@@ -89,59 +89,34 @@ function startHeadlineTicker(){
   }, 2400);
 }
 
-/* ---------- helper: ensure container exists & minimal CSS for images ---------- */
-function ensureGridContainer(){
-  let grid = document.querySelector("#grid") || document.querySelector("#products");
-  if (!grid) {
-    grid = document.createElement("section");
-    grid.id = "grid";
-    document.body.appendChild(grid);
-  }
-  // Inject minimal CSS once
-  if (!document.getElementById("zayn-grid-css")) {
-    const css = `
-      #grid, .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-      .card-tile{display:block;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-      .card-tile .tile-img img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
-      .card-tile .tile-meta{padding:12px 14px}
-    `;
-    const style = document.createElement("style");
-    style.id = "zayn-grid-css";
-    style.textContent = css;
-    document.head.appendChild(style);
-  }
-  return grid;
-}
-
-/* ---------- render products with images from products.json ---------- */
+/* ---------- Products render (with real <img>) ---------- */
 async function loadProducts(){
   try{
-    const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache: "no-store" });
+    const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache:"no-store" });
     const items = await res.json();
-
-    const grid = ensureGridContainer();
+    const grid = $("#grid");
+    if (!grid) return;
     grid.innerHTML = "";
 
     items.forEach(it=>{
-      const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
-      const line  = LANG === "EN" ? (it.lineEN  ?? it.line  ?? "") : (it.lineTR  ?? it.line  ?? "");
+      const title = (LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title)) ?? "";
+      const line  = (LANG === "EN" ? (it.lineEN ?? it.line) : (it.lineTR ?? it.line)) ?? "";
       const href  = it.href || (it.id ? `https://www.etsy.com/listing/${it.id}` : "#");
-      const img   = (it.image && String(it.image).trim())
-                 || (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN))
-                 || "data:image/gif;base64,R0lGODlhAQABAAAAACw="; // 1x1 placeholder
+
+      // güvenli resim kaynağı
+      const img = (it.image && String(it.image).trim())
+               || (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN))
+               || "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
 
       const a = document.createElement("a");
       a.href = href; a.target = "_blank"; a.rel = "noopener"; a.className = "card-tile";
       a.innerHTML = `
-  <img src="${img}" alt="${title ?? ''}"
-       loading="lazy"
-       style="width:100%; height:auto; display:block; border-radius:12px; margin-bottom:8px">
-  <div class="tile-meta">
-    <div><span class="dot"></span>${title ?? ""}</div>
-    <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
-  </div>`;
-    <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
-  </div>`;
+        <img src="${img}" alt="${title.replace(/"/g,'&quot;')}" loading="lazy"
+             style="width:100%;height:auto;display:block;border-radius:12px;margin-bottom:8px">
+        <div class="tile-meta">
+          <div><span class="dot"></span>${title}</div>
+          <div class="muted" style="font-size:.85rem;margin-top:4px">${line}</div>
+        </div>`;
       grid.appendChild(a);
     });
   }catch(e){
@@ -149,6 +124,7 @@ async function loadProducts(){
   }
 }
 
+/* ---------- UI bits ---------- */
 function initLangToggle(){
   const btn = $("#langToggle"); if (!btn) return;
   btn.textContent = LANG === "EN" ? "TR" : "EN";
@@ -169,18 +145,10 @@ function initNewsletter(){
   });
 }
 
-function initAmbient(){
-  const btn = $("#ambientBtn"); const audio = $("#ambientAudio"); if (!btn || !audio) return;
-  btn.addEventListener("click", ()=>{
-    const on = btn.getAttribute("aria-pressed") === "true";
-    if (on){ btn.setAttribute("aria-pressed","false"); audio.pause(); }
-    else { btn.setAttribute("aria-pressed","true"); audio.volume = 0.25; audio.play().catch(()=>{}); }
-  });
-}
-
 function setYear(){ const y = $("#year"); if (y) y.textContent = new Date().getFullYear(); }
 
+/* ---------- boot ---------- */
 document.addEventListener("DOMContentLoaded", async ()=>{
-  setYear(); applyLang(); startHeadlineTicker(); initLangToggle(); initNewsletter(); initAmbient();
+  setYear(); applyLang(); startHeadlineTicker(); initLangToggle(); initNewsletter();
   await loadProducts();
 });
