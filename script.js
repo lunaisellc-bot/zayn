@@ -98,7 +98,6 @@ function startHeadlineTicker(){
   if (!h) return;
   const lines = I18N[LANG].headlineCycle.slice(); // copy
   let i = 0;
-  // başlık mevcut metinle başlar; sonra döngü
   if (tickerId) clearInterval(tickerId);
   tickerId = setInterval(()=>{
     i = (i + 1) % lines.length;
@@ -112,27 +111,36 @@ function startHeadlineTicker(){
   }, 2400);
 }
 
+/* ---------- FIXED: render images from products.json ---------- */
 async function loadProducts(){
   try{
-    // cache-bust hafifliği: ?v=ts
     const res = await fetch(`products.json?v=${Date.now().toString().slice(0,10)}`, { cache: "no-store" });
     const items = await res.json();
-    const grid = $("#grid");
+
+    const grid = document.querySelector("#grid") || document.querySelector("#products");
     if (!grid) return;
+
     grid.innerHTML = "";
     items.forEach(it=>{
       const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
       const line  = LANG === "EN" ? (it.lineEN  ?? it.line  ?? "") : (it.lineTR  ?? it.line  ?? "");
+      const href  = it.href || (it.id ? `https://www.etsy.com/listing/${it.id}` : "#");
+      const img   = (it.image && String(it.image).trim())
+                 || (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN))
+                 || "data:image/gif;base64,R0lGODlhAQABAAAAACw="; // 1x1 placeholder
+
       const a = document.createElement("a");
-      a.href = it.href || "https://www.etsy.com/shop/ByZaynCo";
+      a.href = href;
       a.target = "_blank";
       a.rel = "noopener";
       a.className = "card-tile";
       a.innerHTML = `
-        <div class="tile-doku"></div>
+        <div class="tile-img">
+          <img loading="lazy" src="${img}" alt="${(title||"").replace(/"/g,"'")}" />
+        </div>
         <div class="tile-meta">
           <div><span class="dot"></span>${title ?? ""}</div>
-          <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
+          ${line ? `<div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>` : ""}
         </div>`;
       grid.appendChild(a);
     });
@@ -140,11 +148,11 @@ async function loadProducts(){
     console.error("products.json error", e);
   }
 }
+/* ---------------------------------------------------------------- */
 
 function initLangToggle(){
   const btn = $("#langToggle");
   if (!btn) return;
-  // buton etiketini mevcut dile göre ayarla
   btn.textContent = LANG === "EN" ? "TR" : "EN";
   btn.addEventListener("click", async ()=>{
     LANG = (LANG === "EN") ? "TR" : "EN";
@@ -179,7 +187,7 @@ function initAmbient(){
     }else{
       btn.setAttribute("aria-pressed","true");
       audio.volume = 0.25;
-      audio.play().catch(()=>{/* gesture bekleyebilir */});
+      audio.play().catch(()=>{/* gesture may be required */});
     }
   });
 }
