@@ -107,4 +107,4 @@ PY
             git commit -m "sync: update products.json"
             git push
           else
-            echo "NO CHANGES"
+            echo "NO CHANGES".
