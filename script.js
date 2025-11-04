@@ -133,9 +133,13 @@ async function loadProducts(){
       const a = document.createElement("a");
       a.href = href; a.target = "_blank"; a.rel = "noopener"; a.className = "card-tile";
       a.innerHTML = `
-  <img src="${it.image}" style="width:100%; height:auto; display:block; border-radius:12px; margin-bottom:8px">
+  <img src="${img}" alt="${title ?? ''}"
+       loading="lazy"
+       style="width:100%; height:auto; display:block; border-radius:12px; margin-bottom:8px">
   <div class="tile-meta">
     <div><span class="dot"></span>${title ?? ""}</div>
+    <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
+  </div>`;
     <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
   </div>`;
       grid.appendChild(a);
