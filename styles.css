@@ -201,3 +201,32 @@ body.reveal{
   transform:none;
   filter:drop-shadow(0 0 12px rgba(255,255,255,.05));
 }
+/* ===== Hero Background Pattern (ZAYN) ===== */
+.hero{
+  position: relative;
+  overflow: hidden;
+}
+
+/* Desen katmanı: içerikten bağımsız, tıklamaya engel olmaz */
+.hero::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* desen + yumuşak radial ışık birlikte */
+  background:
+    radial-gradient(60rem 60rem at 50% 50%, rgba(0,0,0,0.03), rgba(0,0,0,0) 60%),
+    url("assets/hero-pattern.png");
+  background-repeat: no-repeat, repeat;
+  background-size: cover, 900px auto;  /* gerekirse 700–1200px arası oynat */
+  background-position: center, center;
+  opacity: 0.15; /* = %15 */
+  transform: translateZ(0); /* paint optimize */
+  z-index: 0;
+}
+
+/* hero içeriği üstte kalsın */
+.hero > *{
+  position: relative;
+  z-index: 1;
+}
