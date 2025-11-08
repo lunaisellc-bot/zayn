@@ -220,7 +220,7 @@ body.reveal{
   background-repeat: no-repeat, repeat;
   background-size: cover, 900px auto;  /* gerekirse 700–1200px arası oynat */
   background-position: center, center;
-  opacity: 0.15; /* = %15 */
+  opacity: 0.15; /* = %2 */
   transform: translateZ(0); /* paint optimize */
   z-index: 0;
 }
