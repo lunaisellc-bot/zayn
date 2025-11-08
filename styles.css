@@ -216,7 +216,7 @@ body.reveal{
   /* desen + yumuşak radial ışık birlikte */
   background:
     radial-gradient(60rem 60rem at 50% 50%, rgba(0,0,0,0.03), rgba(0,0,0,0) 60%),
-    url("assets/pattern.png");
+    url("assets/pattern1.png");
   background-repeat: no-repeat, repeat;
   background-size: cover, 900px auto;  /* gerekirse 700–1200px arası oynat */
   background-position: center, center;
