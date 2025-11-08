@@ -1,2 +1,3 @@
-id,title,description,availability,condition,price,link,image_link,brand,google_product_category
-zebra-shirt-001,"Oversized Zebra Print Shirt (Unisex)","Modern oversized zebra print shirt designed for quiet luxury. Premium polyester blend. Original ZAYN artwork.",in stock,new,59.00 USD,https://www.zaynbrand.com/go/zebra-shirt.html,https://i.etsystatic.com/60635710/r/il/a04de2/7348936752/il_794xN.7348936752_a19s.jpg,ZAYN,212
+id,title,description,availability,condition,price,link,image_link,brand,google_product_category,quantity
+zebra-shirt-001,"Oversized Zebra Print Shirt (Unisex)","Modern oversized zebra print shirt designed for quiet luxury. Premium polyester blend. Original ZAYN artwork.",in stock,new,74.90 USD,https://www.zaynbrand.com/go/zebra-shirt.html,https://i.etsystatic.com/60635710/r/il/a04de2/7348936752/il_794xN.7348936752_a19s.jpg,ZAYN,212,50
+
