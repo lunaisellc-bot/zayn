@@ -38,7 +38,15 @@ img{max-width:100%;display:block}
 
 /* Hero */
 .hero{
-  position:relative; min-height:92vh; display:grid; place-items:center; overflow:hidden;
+  .hero{
+  position:relative;
+  height:100vh;
+  min-height:600px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
 }
 .hero-inner{padding:96px 20px 40px; text-align:center}
 .headline{
