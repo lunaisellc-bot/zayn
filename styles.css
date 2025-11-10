@@ -136,16 +136,16 @@ img{max-width:100%;display:block}
 .wm span.reveal{opacity:1;transform:none;filter:drop-shadow(0 0 12px rgba(255,255,255,.05))}
 
 /* ===== Hero Background Pattern (overlay) ===== */
-.hero::before{
+..hero::before{
   content:"";
   position:absolute; inset:0; pointer-events:none; z-index:0;
   background:
     radial-gradient(60rem 60rem at 50% 50%, rgba(0,0,0,0.03), rgba(0,0,0,0) 60%),
     url("assets/pattern.png");
   background-repeat:no-repeat, repeat;
-  background-size:cover, 900px auto;
+  background-size:cover, 1200px 1200px;   /* YENİ */
   background-position:center, center;
-  opacity:.06;                /* 0.15 -> 0.06 (daha ince) */
+  opacity:.06;
   transform:translateZ(0);
 }
 .hero > *{position:relative;z-index:1}
