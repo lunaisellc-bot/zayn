@@ -36,9 +36,7 @@ img{max-width:100%;display:block}
 }
 .chip.ghost{background:transparent}
 
-/* Hero */
 .hero{
-  .hero{
   position:relative;
   height:100vh;
   min-height:600px;
@@ -48,7 +46,7 @@ img{max-width:100%;display:block}
   background-size:cover;
   background-position:center;
 }
-.hero-inner{padding:96px 20px 40px; text-align:center}
+.hero-inner{padding:40px 12px 20px; text-align:center}
 .headline{
   font-family: "Cormorant Garamond", serif;
   font-weight:300; letter-spacing:-.01em;
