@@ -171,3 +171,81 @@ body.reveal{opacity:1;filter:none}
   .headline{font-size:clamp(28px,7.2vw,44px);margin:0 0 12px}
   .section{padding:40px 16px}
 }
+/* =============== ZAYN — Stacked Hero Gallery =============== */
+.zayn-hero{
+  --gap: clamp(10px, 1.6vw, 20px);
+  --radius: 18px;
+  --shadow: 0 18px 40px rgba(0,0,0,.10);
+  --ease: cubic-bezier(.22,.61,.36,1);
+  height: clamp(360px, 48vw, 560px);
+  background: #fafafa;
+  padding: clamp(16px, 3vw, 28px) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.zayn-deck{
+  display: flex;
+  gap: var(--gap);
+  height: 100%;
+  align-items: stretch;
+  justify-content: center;
+  will-change: transform;
+  padding: 0 clamp(12px, 4vw, 36px);
+}
+
+.zayn-deck .slot{
+  flex: 1 1 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transform: scale(.96);
+  opacity: .55;
+  filter: blur(.4px) saturate(.95);
+  transition: transform .7s var(--ease), opacity .7s var(--ease),
+              filter .7s var(--ease), flex-basis .7s var(--ease);
+  background: #fff;
+}
+
+.zayn-deck .slot img{
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.zayn-deck .slot.is-center{
+  flex: 1.6 1 0;
+  transform: scale(1);
+  opacity: 1;
+  filter: none;
+}
+
+.zayn-deck .slot.is-near{
+  flex: 1.25 1 0;
+  transform: scale(.985);
+  opacity: .82;
+  filter: blur(.2px);
+}
+
+.zayn-deck .slot.is-far{
+  flex: .9 1 0;
+  opacity: .6;
+}
+
+.zayn-hero .zayn-nav{
+  position: absolute; top: 50%; translate: 0 -50%;
+  width: 44px; height: 44px; border-radius: 999px;
+  border: 1px solid #e7e7e7; background: rgba(255,255,255,.85);
+  backdrop-filter: blur(6px); cursor: pointer;
+}
+.zayn-hero .prev{ left: 12px; }
+.zayn-hero .next{ right: 12px; }
+
+@media (max-width: 640px){
+  .zayn-hero{ height: clamp(300px, 58vw, 480px); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .zayn-deck .slot{ transition: none; }
+}
+
+/* Hero ile Philosophy arasında hafif boşluk */
+.zayn-hero + #philosophy { margin-top: clamp(12px, 2vw, 24px); }
