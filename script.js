@@ -278,31 +278,38 @@ function applyClasses() {
   function start() { stop(); timer = setInterval(next, INTERVAL); }
   function stop()  { if (timer) { clearInterval(timer); timer = null; } }
 
-  // Başlat
-  applyClasses();
+// Başlat
+applyClasses();
+start();
+
+// Oklar
+nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
+prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
+
+// Hover’da dur / çıkınca devam et
+deck.addEventListener('mouseenter', stop);
+deck.addEventListener('mouseleave', start);
+
+// Swipe (mobil/masaüstü)
+let x0 = null;
+deck.addEventListener('pointerdown', (e) => {
+  x0 = e.clientX;
+  stop();
+  deck.setPointerCapture?.(e.pointerId);
+});
+deck.addEventListener('pointerup', (e) => {
+  if (x0 === null) return;
+  const dx = e.clientX - x0;
+  if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+  x0 = null;
   start();
+});
 
-  // Oklar
-  nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
-  prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
+// Sekme görünmüyorken durdur/geri dönünce devam et
+document.addEventListener('visibilitychange', () => {
+  document.hidden ? stop() : start();
+});
 
-  // Hover’da dur / çıkınca devam et
-  deck.addEventListener('mouseenter', stop);
-  deck.addEventListener('mouseleave', start);
-
-  // Swipe
-  let x0 = null;
-  deck.addEventListener('pointerdown', (e) => { x0 = e.clientX; stop(); deck.setPointerCapture?.(e.pointerId); });
-  deck.addEventListener('pointerup',   (e) => {
-    if (x0 === null) return;
-    const dx = e.clientX - x0;
-    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
-    x0 = null; start();
-  });
-
-  // Arka sekmede durdur
-  document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
-
-  // Hareketi azalt tercihine saygı
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+// Hareketi azalt tercihine saygı
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
 })();
