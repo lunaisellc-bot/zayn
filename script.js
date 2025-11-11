@@ -244,20 +244,30 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   let index = Math.floor(slots.length / 2); // ortadan başla
   let timer;
 
-  function applyClasses() {
-    slots.forEach((s, i) => {
-      s.classList.remove('is-center', 'is-near', 'is-far');
-      const n = slots.length;
-      const dist = Math.min(
-        Math.abs(i - index),
-        Math.abs(i - index + n),
-        Math.abs(i - index - n)
-      );
-      if (dist === 0) s.classList.add('is-center');
-      else if (dist === 1) s.classList.add('is-near');
-      else s.classList.add('is-far');
-    });
+ function applyClasses() {
+  // tüm özel sınıfları sıfırla
+  slots.forEach(s => s.className = 'slot');
+  const n = slots.length;
+
+  const center = index;
+  const prev   = (index - 1 + n) % n;
+  const next   = (index + 1) % n;
+
+  // merkez
+  slots[center].classList.add('is-center');
+
+  // komşular
+  slots[prev].classList.add('is-prev');
+  slots[next].classList.add('is-next');
+
+  // uzaklar
+  for (let i = 0; i < n; i++) {
+    if (i !== center && i !== prev && i !== next) {
+      slots[i].classList.add('is-far');
+    }
   }
+}
+
 
   function goTo(i) {
     index = (i + slots.length) % slots.length;
