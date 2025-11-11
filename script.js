@@ -245,24 +245,31 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   let timer = null;
   const INTERVAL = 3600; // 3.6s — 3000 hızlı, 4000 daha sakin
 
-  function applyClasses() {
-    // tüm özel sınıfları sıfırla
-    slots.forEach(s => (s.className = 'slot'));
-    const n = slots.length;
+function applyClasses() {
+  const n = slots.length;
+  // reset
+  slots.forEach(s => (s.className = 'slot'));
 
-    const center = index;
-    const prev   = (index - 1 + n) % n;
-    const next   = (index + 1) % n;
+  for (let i = 0; i < n; i++) {
+    // merkeze göre yönlü mesafe (negatif=sol, pozitif=sağ)
+    let d = i - index;
+    if (d >  n/2) d -= n;
+    if (d < -n/2) d += n;
 
-    // merkez–komşular–uzaklar
-    slots[center].classList.add('is-center');
-    slots[prev].classList.add('is-prev');
-    slots[next].classList.add('is-next');
-
-    for (let i = 0; i < n; i++) {
-      if (i !== center && i !== prev && i !== next) slots[i].classList.add('is-far');
+    if (d === 0) {
+      slots[i].classList.add('is-center');
+    } else if (d === -1) {
+      slots[i].classList.add('is-near-left');
+    } else if (d === 1) {
+      slots[i].classList.add('is-near-right');
+    } else if (d < -1) {
+      slots[i].classList.add('is-far-left');
+    } else if (d > 1) {
+      slots[i].classList.add('is-far-right');
     }
   }
+}
+
 
   function goTo(i) { index = (i + slots.length) % slots.length; applyClasses(); }
   function next() { goTo(index + 1); }
