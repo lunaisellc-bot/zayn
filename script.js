@@ -232,3 +232,66 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   initNewsletter();
   await loadProducts();
 });
+// ZAYN — Stacked Hero Gallery
+(function () {
+  const deck = document.getElementById('zaynDeck');
+  if (!deck) return;
+
+  const slots = [...deck.querySelectorAll('.slot')];
+  const prevBtn = document.querySelector('.zayn-hero .prev');
+  const nextBtn = document.querySelector('.zayn-hero .next');
+
+  let index = Math.floor(slots.length / 2); // ortadan başla
+  let timer;
+
+  function applyClasses() {
+    slots.forEach((s, i) => {
+      s.classList.remove('is-center', 'is-near', 'is-far');
+      const n = slots.length;
+      const dist = Math.min(
+        Math.abs(i - index),
+        Math.abs(i - index + n),
+        Math.abs(i - index - n)
+      );
+      if (dist === 0) s.classList.add('is-center');
+      else if (dist === 1) s.classList.add('is-near');
+      else s.classList.add('is-far');
+    });
+  }
+
+  function goTo(i) {
+    index = (i + slots.length) % slots.length;
+    applyClasses();
+  }
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  function start() { stop(); timer = setInterval(next, 3200); }
+  function stop()  { if (timer) clearInterval(timer); }
+
+  // Başlat
+  applyClasses();
+  start();
+
+  // Oklar
+  if (nextBtn) nextBtn.addEventListener('click', () => { stop(); next(); start(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { stop(); prev(); start(); });
+
+  // Swipe / drag (mobil + masaüstü)
+  let x0 = null;
+  deck.addEventListener('pointerdown', (e) => { x0 = e.clientX; stop(); deck.setPointerCapture(e.pointerId); });
+  deck.addEventListener('pointerup', (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    x0 = null; start();
+  });
+
+  // Sekme görünmüyorsa animasyonu durdur
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else start();
+  });
+
+  // Hareketi azalt tercihine saygı
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+})();
