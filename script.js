@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   initNewsletter();
   await loadProducts();
 });
-// ZAYN — Stacked Hero Gallery
+// ZAYN — Fixed Center + Auto-rotate Gallery
 (function () {
   const deck = document.getElementById('zaynDeck');
   if (!deck) return;
@@ -241,66 +241,60 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   const prevBtn = document.querySelector('.zayn-hero .prev');
   const nextBtn = document.querySelector('.zayn-hero .next');
 
-  let index = Math.floor(slots.length / 2); // ortadan başla
-  let timer;
+  let index = Math.floor(slots.length / 2); // merkez başlangıcı
+  let timer = null;
+  const INTERVAL = 3600; // 3.6s — 3000 hızlı, 4000 daha sakin
 
- function applyClasses() {
-  // tüm özel sınıfları sıfırla
-  slots.forEach(s => s.className = 'slot');
-  const n = slots.length;
+  function applyClasses() {
+    // tüm özel sınıfları sıfırla
+    slots.forEach(s => (s.className = 'slot'));
+    const n = slots.length;
 
-  const center = index;
-  const prev   = (index - 1 + n) % n;
-  const next   = (index + 1) % n;
+    const center = index;
+    const prev   = (index - 1 + n) % n;
+    const next   = (index + 1) % n;
 
-  // merkez
-  slots[center].classList.add('is-center');
+    // merkez–komşular–uzaklar
+    slots[center].classList.add('is-center');
+    slots[prev].classList.add('is-prev');
+    slots[next].classList.add('is-next');
 
-  // komşular
-  slots[prev].classList.add('is-prev');
-  slots[next].classList.add('is-next');
-
-  // uzaklar
-  for (let i = 0; i < n; i++) {
-    if (i !== center && i !== prev && i !== next) {
-      slots[i].classList.add('is-far');
+    for (let i = 0; i < n; i++) {
+      if (i !== center && i !== prev && i !== next) slots[i].classList.add('is-far');
     }
   }
-}
 
-
-  function goTo(i) {
-    index = (i + slots.length) % slots.length;
-    applyClasses();
-  }
+  function goTo(i) { index = (i + slots.length) % slots.length; applyClasses(); }
   function next() { goTo(index + 1); }
   function prev() { goTo(index - 1); }
 
-  function start() { stop(); timer = setInterval(next, 3200); }
-  function stop()  { if (timer) clearInterval(timer); }
+  function start() { stop(); timer = setInterval(next, INTERVAL); }
+  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
 
   // Başlat
   applyClasses();
   start();
 
   // Oklar
-  if (nextBtn) nextBtn.addEventListener('click', () => { stop(); next(); start(); });
-  if (prevBtn) prevBtn.addEventListener('click', () => { stop(); prev(); start(); });
+  nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
+  prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
 
-  // Swipe / drag (mobil + masaüstü)
+  // Hover’da dur / çıkınca devam et
+  deck.addEventListener('mouseenter', stop);
+  deck.addEventListener('mouseleave', start);
+
+  // Swipe
   let x0 = null;
-  deck.addEventListener('pointerdown', (e) => { x0 = e.clientX; stop(); deck.setPointerCapture(e.pointerId); });
-  deck.addEventListener('pointerup', (e) => {
+  deck.addEventListener('pointerdown', (e) => { x0 = e.clientX; stop(); deck.setPointerCapture?.(e.pointerId); });
+  deck.addEventListener('pointerup',   (e) => {
     if (x0 === null) return;
     const dx = e.clientX - x0;
     if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
     x0 = null; start();
   });
 
-  // Sekme görünmüyorsa animasyonu durdur
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop(); else start();
-  });
+  // Arka sekmede durdur
+  document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
 
   // Hareketi azalt tercihine saygı
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
