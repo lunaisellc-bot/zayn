@@ -46,6 +46,11 @@
 </head>
 
 <body class="pre-reveal">
+  <!-- Intro katmanı (logo) -->
+  <div id="zaynIntro" class="show" role="dialog" aria-label="Intro">
+    <img src="assets/logo.svg" alt="ZAYN" />
+  </div>
+
   <div class="ambient" aria-hidden="true"></div>
   <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
 
@@ -73,24 +78,24 @@
       </div>
     </div>
   </section>
-<!-- ZAYN Hero Stacked Gallery -->
-<section class="zayn-hero" aria-label="ZAYN Gallery">
-  <div class="zayn-deck" id="zaynDeck">
-    <!-- İstediğin sırayla 8 görsel koy. Dosya adlarını kendi yüklediğinle eşleştir. -->
-    <figure class="slot"><img src="images/zayn1.webp" alt="ZAYN Look 1" loading="eager"></figure>
-    <figure class="slot"><img src="images/zayn2.webp" alt="ZAYN Look 2" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn3.webp" alt="ZAYN Look 3" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn4.webp" alt="ZAYN Look 4" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn5.webp" alt="ZAYN Look 5" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn6.webp" alt="ZAYN Look 6" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn7.webp" alt="ZAYN Look 7" loading="lazy"></figure>
-    <figure class="slot"><img src="images/zayn8.webp" alt="ZAYN Look 8" loading="lazy"></figure>
-  </div>
 
-  <!-- Navigasyon okları (isteğe bağlı) -->
-  <button class="zayn-nav prev" aria-label="Previous">‹</button>
-  <button class="zayn-nav next" aria-label="Next">›</button>
-</section>
+  <!-- ZAYN Hero Stacked Gallery -->
+  <section class="zayn-hero" aria-label="ZAYN Gallery">
+    <div class="zayn-deck" id="zaynDeck">
+      <figure class="slot"><img src="images/zayn1.webp" alt="ZAYN Look 1" loading="eager"></figure>
+      <figure class="slot"><img src="images/zayn2.webp" alt="ZAYN Look 2" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn3.webp" alt="ZAYN Look 3" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn4.webp" alt="ZAYN Look 4" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn5.webp" alt="ZAYN Look 5" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn6.webp" alt="ZAYN Look 6" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn7.webp" alt="ZAYN Look 7" loading="lazy"></figure>
+      <figure class="slot"><img src="images/zayn8.webp" alt="ZAYN Look 8" loading="lazy"></figure>
+    </div>
+
+    <!-- Navigasyon okları (isteğe bağlı) -->
+    <button class="zayn-nav prev" aria-label="Previous">‹</button>
+    <button class="zayn-nav next" aria-label="Next">›</button>
+  </section>
 
   <!-- PHILOSOPHY -->
   <section id="philosophy" class="section">
@@ -184,7 +189,7 @@
       }, every);
     }
     function scheduleFadeOut(){
-      const dur = (isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
+      const dur = (isFinite(audio?.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
       setTimeout(()=>fadeOut(), Math.max(0, dur - 450));
     }
     function startAudio(){
@@ -211,11 +216,14 @@
         document.body.classList.add('reveal');
       }, 1600);
       setTimeout(()=>{
-        intro.classList.add('hide');
-        intro.addEventListener('transitionend', ()=> intro.remove(), { once:true });
+        if (intro) {
+          intro.classList.add('hide');
+          intro.addEventListener('transitionend', ()=> intro.remove(), { once:true });
+        }
       }, 2600);
     });
   });
   </script>
 </body>
 </html>
+
