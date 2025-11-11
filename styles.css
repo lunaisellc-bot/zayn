@@ -462,3 +462,57 @@ body.reveal{opacity:1;filter:none}
 
 /* İsteğe bağlı: merkez dışı tıklanmasın */
 .zayn-deck .slot:not(.is-center){ pointer-events: none; }
+/* ===== ZAYN — Coverflow 3D (mevcut sınıf adlarıyla) ===== */
+.zayn-hero{ perspective: 1200px; } /* 3D derinlik */
+
+.zayn-deck{
+  transform-style: preserve-3d;
+  overflow: visible;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.6vw, 24px);
+}
+
+/* Kart temel hali */
+.zayn-deck .slot{
+  transition:
+    transform 900ms cubic-bezier(.22,.61,.36,1),
+    filter   900ms cubic-bezier(.22,.61,.36,1),
+    opacity  900ms cubic-bezier(.22,.61,.36,1),
+    box-shadow 900ms cubic-bezier(.22,.61,.36,1);
+  transform-origin: center center;
+  box-shadow: 0 18px 40px rgba(0,0,0,.10);
+  opacity: .55;
+  filter: blur(1.2px) brightness(.9) saturate(.95);
+}
+
+/* Merkez: düz, büyük ve önde */
+.zayn-deck .slot.is-center{
+  transform: translateZ(140px) rotateY(0deg) scale(1.04) !important;
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 50px 110px rgba(0,0,0,.22);
+  z-index: 5;
+}
+
+/* Yakın komşular: hafif eğik ve önde */
+.zayn-deck .slot.is-prev{
+  transform: translateX(-8%) translateZ(40px) rotateY(-22deg) scale(.96) !important;
+  opacity: .8;
+  filter: blur(1.6px) brightness(.88);
+  z-index: 3;
+}
+.zayn-deck .slot.is-next{
+  transform: translateX( 8%) translateZ(40px) rotateY( 22deg) scale(.96) !important;
+  opacity: .8;
+  filter: blur(1.6px) brightness(.88);
+  z-index: 3;
+}
+
+/* Uzaklar: daha geride ve flu */
+.zayn-deck .slot.is-far{
+  transform: translateZ(-80px) scale(.9) !important;
+  opacity: .38;
+  filter: blur(2.4px) brightness(.82) saturate(.9);
+  z-index: 2;
+}
