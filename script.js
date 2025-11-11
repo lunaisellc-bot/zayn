@@ -313,4 +313,75 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   // Hareketi azalt tercihine saygı
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
 })();
+// ZAYN — Fixed Center + Auto-rotate Coverflow
+(function () {
+  const deck = document.getElementById('zaynDeck');
+  if (!deck) return;
 
+  const slots = [...deck.querySelectorAll('.slot')];
+  const prevBtn = document.querySelector('.zayn-hero .prev');
+  const nextBtn = document.querySelector('.zayn-hero .next');
+
+  let index = Math.floor(slots.length / 2); // başlangıç: ortalardan
+  let timer = null;
+  const INTERVAL = 3600; // otomatik geçiş
+
+  function applyClasses() {
+    const n = slots.length;
+    // reset
+    slots.forEach(s => (s.className = 'slot'));
+
+    for (let i = 0; i < n; i++) {
+      let d = i - index;
+      if (d >  n/2) d -= n;
+      if (d < -n/2) d += n;
+
+      if (d === 0) {
+        slots[i].classList.add('is-center');
+      } else if (d === -1) {
+        slots[i].classList.add('is-near-left');
+      } else if (d === 1) {
+        slots[i].classList.add('is-near-right');
+      } else if (d < -1) {
+        slots[i].classList.add('is-far-left');
+      } else if (d > 1) {
+        slots[i].classList.add('is-far-right');
+      }
+    }
+  }
+
+  function goTo(i){ index = (i + slots.length) % slots.length; applyClasses(); }
+  function next(){ goTo(index + 1); }
+  function prev(){ goTo(index - 1); }
+
+  function start(){ stop(); timer = setInterval(next, INTERVAL); }
+  function stop(){ if (timer) { clearInterval(timer); timer = null; } }
+
+  // Başlat
+  applyClasses();
+  start();
+
+  // Oklar
+  nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
+  prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
+
+  // Hover’da dur / çıkınca devam et
+  deck.addEventListener('mouseenter', stop);
+  deck.addEventListener('mouseleave', start);
+
+  // Swipe (mobil/masaüstü)
+  let x0 = null;
+  deck.addEventListener('pointerdown', (e) => { x0 = e.clientX; stop(); deck.setPointerCapture?.(e.pointerId); });
+  deck.addEventListener('pointerup', (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    x0 = null; start();
+  });
+
+  // Sekme gizlenince durdur, geri gelince başlat
+  document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+
+  // Hareketi azalt tercihi
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+})();
