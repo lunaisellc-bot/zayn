@@ -1,4 +1,4 @@
-/* ===== ZAYN 2.0 — Single-file JS (intro + app + products grid) ===== */
+/* ===== ZAYN 2.0 — Single-file JS (intro + i18n + products + centered auto-rotate gallery) ===== */
 
 const I18N = {
   EN: {
@@ -56,7 +56,7 @@ function runIntroOnce() {
   const audio  = document.getElementById("introSound");
   const KEY    = "zaynIntroPlayed";
 
-  if (!intro) { // intro yoksa sadece reveal
+  if (!intro) {
     document.body.classList.remove("pre-reveal");
     document.body.classList.add("reveal");
     return;
@@ -76,19 +76,19 @@ function runIntroOnce() {
   function fadeTo(target, step = 0.07, every = 80){
     const id = setInterval(()=>{
       v = Math.min(target, v + step);
-      audio.volume = v;
+      if (audio) audio.volume = v;
       if (v >= target) clearInterval(id);
     }, every);
   }
   function fadeOut(step = 0.03, every = 80){
     const id = setInterval(()=>{
       v = Math.max(0, v - step);
-      audio.volume = v;
-      if (v <= 0){ clearInterval(id); audio.pause(); }
+      if (audio) audio.volume = v;
+      if (v <= 0){ clearInterval(id); audio && audio.pause(); }
     }, every);
   }
   function scheduleFadeOut(){
-    const dur = (isFinite(audio?.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
+    const dur = (audio && isFinite(audio.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
     setTimeout(()=>fadeOut(), Math.max(0, dur - 450));
   }
   function startAudio(){
@@ -99,7 +99,7 @@ function runIntroOnce() {
       if (isFinite(audio.duration) && audio.duration > 0) scheduleFadeOut();
       else audio.addEventListener("loadedmetadata", scheduleFadeOut, { once:true });
       removeUnlockers();
-    }).catch(()=>{ /* gesture gerekli olabilir */ });
+    }).catch(()=>{ /* gesture gerekebilir */ });
   }
 
   const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
@@ -108,7 +108,6 @@ function runIntroOnce() {
   events.forEach(ev => window.addEventListener(ev, unlock, { once:true, passive:true }));
   startAudio();
 
-  // fonts ready → reveal + intro fade
   const fontsReady = ('fonts' in document) ? document.fonts.ready : Promise.resolve();
   Promise.all([fontsReady]).then(()=>{
     setTimeout(()=>{
@@ -232,7 +231,9 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   initNewsletter();
   await loadProducts();
 });
-// ZAYN — Fixed Center + Auto-rotate Gallery
+
+/* ---------- ZAYN — Fixed Center + Auto-rotate Gallery ---------- */
+/* Merkez hep sahnede; sırayla her görsel merkeze gelir. Yanlar flu/geride. */
 (function () {
   const deck = document.getElementById('zaynDeck');
   if (!deck) return;
@@ -241,75 +242,75 @@ document.addEventListener("DOMContentLoaded", async ()=>{
   const prevBtn = document.querySelector('.zayn-hero .prev');
   const nextBtn = document.querySelector('.zayn-hero .next');
 
-  let index = Math.floor(slots.length / 2); // merkez başlangıcı
+  const INTERVAL = 3800; // 3600–4200 “quiet luxury”; 3000 daha canlı
+  let index = Math.floor(slots.length / 2);
   let timer = null;
-  const INTERVAL = 3600; // 3.6s — 3000 hızlı, 4000 daha sakin
 
-function applyClasses() {
-  const n = slots.length;
-  // reset
-  slots.forEach(s => (s.className = 'slot'));
+  function applyClasses() {
+    const n = slots.length;
+    // reset all
+    slots.forEach(s => (s.className = 'slot'));
 
-  for (let i = 0; i < n; i++) {
-    // merkeze göre yönlü mesafe (negatif=sol, pozitif=sağ)
-    let d = i - index;
-    if (d >  n/2) d -= n;
-    if (d < -n/2) d += n;
+    // yönlü mesafe (negatif=sol, pozitif=sağ) – dairesel
+    for (let i = 0; i < n; i++) {
+      let d = i - index;
+      if (d >  n/2) d -= n;
+      if (d < -n/2) d += n;
 
-    if (d === 0) {
-      slots[i].classList.add('is-center');
-    } else if (d === -1) {
-      slots[i].classList.add('is-near-left');
-    } else if (d === 1) {
-      slots[i].classList.add('is-near-right');
-    } else if (d < -1) {
-      slots[i].classList.add('is-far-left');
-    } else if (d > 1) {
-      slots[i].classList.add('is-far-right');
+      if (d === 0) {
+        slots[i].classList.add('is-center');
+      } else if (d === -1) {
+        slots[i].classList.add('is-near-left');
+      } else if (d === 1) {
+        slots[i].classList.add('is-near-right');
+      } else if (d < -1) {
+        slots[i].classList.add('is-far-left');
+      } else if (d > 1) {
+        slots[i].classList.add('is-far-right');
+      }
     }
   }
-}
 
+  function goTo(i){ index = (i + slots.length) % slots.length; applyClasses(); }
+  function next(){ goTo(index + 1); }
+  function prev(){ goTo(index - 1); }
 
-  function goTo(i) { index = (i + slots.length) % slots.length; applyClasses(); }
-  function next() { goTo(index + 1); }
-  function prev() { goTo(index - 1); }
+  function start(){ stop(); timer = setInterval(next, INTERVAL); }
+  function stop(){ if (timer){ clearInterval(timer); timer = null; } }
 
-  function start() { stop(); timer = setInterval(next, INTERVAL); }
-  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
-
-// Başlat
-applyClasses();
-start();
-
-// Oklar
-nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
-prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
-
-// Hover’da dur / çıkınca devam et
-deck.addEventListener('mouseenter', stop);
-deck.addEventListener('mouseleave', start);
-
-// Swipe (mobil/masaüstü)
-let x0 = null;
-deck.addEventListener('pointerdown', (e) => {
-  x0 = e.clientX;
-  stop();
-  deck.setPointerCapture?.(e.pointerId);
-});
-deck.addEventListener('pointerup', (e) => {
-  if (x0 === null) return;
-  const dx = e.clientX - x0;
-  if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
-  x0 = null;
+  // Başlat
+  applyClasses();
   start();
-});
 
-// Sekme görünmüyorken durdur/geri dönünce devam et
-document.addEventListener('visibilitychange', () => {
-  document.hidden ? stop() : start();
-});
+  // Oklar
+  nextBtn?.addEventListener('click', () => { stop(); next(); start(); });
+  prevBtn?.addEventListener('click', () => { stop(); prev(); start(); });
 
-// Hareketi azalt tercihine saygı
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
+  // Hover’da dur, çıkınca devam et
+  deck.addEventListener('mouseenter', stop, { passive:true });
+  deck.addEventListener('mouseleave', start, { passive:true });
+
+  // Swipe (mobil/masaüstü)
+  let x0 = null;
+  deck.addEventListener('pointerdown', (e) => {
+    x0 = e.clientX;
+    stop();
+    deck.setPointerCapture?.(e.pointerId);
+  });
+  deck.addEventListener('pointerup', (e) => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    x0 = null;
+    start();
+  });
+
+  // Sekme görünmüyorken dur / geri dönünce devam et
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stop() : start();
+  });
+
+  // Hareketi azalt tercihine saygı
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) stop();
 })();
+
