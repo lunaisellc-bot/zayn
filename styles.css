@@ -1,5 +1,5 @@
 /* ============================================================
-   ZAYN — Quiet Luxury (Clean FINAL)
+   ZAYN — Quiet Luxury (Clean FINAL, single file)
    ============================================================ */
 
 /* ===== Vars ===== */
@@ -44,7 +44,6 @@ img{max-width:100%;display:block}
   background-size:cover; background-position:center;
 }
 .hero-inner{padding:24px 12px 16px;text-align:center}
-
 .headline{
   font-family:"Cormorant Garamond",serif;
   font-weight:300; letter-spacing:-.01em;
@@ -53,7 +52,6 @@ img{max-width:100%;display:block}
   opacity:0; transform:translateY(8px); animation:fadeUp .7s forwards;
 }
 @keyframes fadeUp{to{opacity:1;transform:none}}
-
 .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .btn{
   border:1px solid rgba(0,0,0,.3);
@@ -65,9 +63,6 @@ img{max-width:100%;display:block}
 .btn.primary{background:transparent}
 .btn.primary:hover{background:#0f0f0f;color:#fff}
 .btn.ghost{background:#fff}
-
-#ambientBtn{margin-top:14px;opacity:.85}
-#ambientBtn[aria-pressed="true"]{border-color:#0f0f0f}
 
 /* Subtle blobs (optional) */
 .fabric{
@@ -105,8 +100,8 @@ img{max-width:100%;display:block}
 .card-tile:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(0,0,0,.12)}
 .card-tile img{width:100%;height:auto;display:block;border-radius:12px;margin-bottom:8px}
 .tile-doku{position:absolute;inset:0;background:
-    radial-gradient(circle at 60% 20%, rgba(0,0,0,.06), transparent 50%),
-    radial-gradient(circle at 30% 80%, rgba(0,0,0,.06), transparent 50%);transition:.35s transform;transform:scale(1)}
+  radial-gradient(circle at 60% 20%, rgba(0,0,0,.06), transparent 50%),
+  radial-gradient(circle at 30% 80%, rgba(0,0,0,.06), transparent 50%);transition:.35s transform;transform:scale(1)}
 .card-tile:hover .tile-doku{transform:scale(1.06)}
 .tile-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;font-size:.93rem;background:linear-gradient(180deg,transparent,rgba(246,246,244,.85))}
 .dot{display:inline-block;width:8px;height:8px;border-radius:999px;background:rgba(0,0,0,.75);margin-right:8px}
@@ -123,7 +118,7 @@ img{max-width:100%;display:block}
 .footer-row{display:flex;gap:18px;justify-content:space-between;align-items:center;flex-wrap:wrap}
 .footer .links{display:flex;gap:14px}
 
-/* ===== Intro Wordmark (letter-by-letter) ===== */
+/* ===== Intro Wordmark ===== */
 .wm{
   font-family:"Cormorant Garamond",serif;font-weight:300;color:#e8e8e8;
   letter-spacing:.24em;font-size:clamp(42px,8.2vw,108px);text-align:center;
@@ -132,7 +127,7 @@ img{max-width:100%;display:block}
 .wm span{display:inline-block;opacity:0;transform:translateY(10px);transition:opacity .6s ease, transform .6s ease}
 .wm span.reveal{opacity:1;transform:none;filter:drop-shadow(0 0 12px rgba(255,255,255,.05))}
 
-/* ===== Hero Background Pattern (overlay) — fixed selector ===== */
+/* ===== Hero Background Pattern (overlay) ===== */
 .hero::before{
   content:"";
   position:absolute; inset:0; pointer-events:none; z-index:0;
@@ -151,7 +146,7 @@ img{max-width:100%;display:block}
 body.pre-reveal{opacity:0;filter:blur(6px) brightness(.85) saturate(.9);transition:opacity .9s ease,filter .9s ease}
 body.reveal{opacity:1;filter:none}
 
-/* ===== Responsive tweaks ===== */
+/* ===== Responsive ===== */
 @media (max-width:1024px){
   .hero{height:68vh;min-height:500px}
   .section{padding:48px 18px}
@@ -163,14 +158,13 @@ body.reveal{opacity:1;filter:none}
   .section{padding:40px 16px}
 }
 
-/* ===== Hide legacy top hero — gallery goes first ===== */
+/* ===== Hide legacy hero — gallery first ===== */
 #hero, .hero { display: none; }
 
 /* ============================================================
-   ZAYN — Centered Coverflow (FINAL, matches JS)
+   ZAYN — Centered Coverflow (matches JS)
    ============================================================ */
 .zayn-hero{
-  /* 3D derinlik + sahne boyu */
   perspective: 1200px;
   background: transparent;
   margin-top: 0;
@@ -179,7 +173,6 @@ body.reveal{opacity:1;filter:none}
   display:flex; align-items:center; justify-content:center;
   overflow: visible;
 }
-
 .zayn-deck{
   display:flex; align-items:center; justify-content:center;
   position:relative; height:100%;
@@ -187,8 +180,7 @@ body.reveal{opacity:1;filter:none}
   gap: clamp(10px, 1.6vw, 24px);
   padding: 0 clamp(12px, 4vw, 36px);
 }
-
-/* Kart baz hali */
+/* Card base */
 .zayn-deck .slot{
   width: clamp(120px, 14vw, 180px);
   height: clamp(320px, 42vw, 520px);
@@ -207,15 +199,14 @@ body.reveal{opacity:1;filter:none}
 }
 .zayn-deck .slot img{ width:100%; height:100%; object-fit:cover; object-position:center; }
 
-/* Merkez — büyük, düz, önde */
+/* Center — big, flat, front */
 .zayn-deck .slot.is-center{
   width: clamp(300px, 32vw, 520px);
   transform: translateZ(140px) rotateY(0deg) scale(1.06) !important;
   opacity: 1; filter:none; z-index:5;
   box-shadow: 0 60px 120px rgba(0,0,0,.22);
 }
-
-/* Yakın komşular (sol/sağ) — hafif eğik ve önde */
+/* Near neighbors */
 .zayn-deck .slot.is-near-left{
   transform: translateX(-8%) translateZ(40px) rotateY(-22deg) scale(.95) !important;
   opacity:.78; filter:blur(1.6px) brightness(.88); z-index:3;
@@ -224,8 +215,7 @@ body.reveal{opacity:1;filter:none}
   transform: translateX( 8%) translateZ(40px) rotateY( 22deg) scale(.95) !important;
   opacity:.78; filter:blur(1.6px) brightness(.88); z-index:3;
 }
-
-/* Uzaklar (sol/sağ) — geride ve flu */
+/* Far (depth) */
 .zayn-deck .slot.is-far-left{
   transform: translateX(-22%) translateZ(-80px) rotateY(-40deg) scale(.9) !important;
   opacity:.38; filter:blur(2.4px) brightness(.82) saturate(.9); z-index:2;
@@ -234,13 +224,12 @@ body.reveal{opacity:1;filter:none}
   transform: translateX( 22%) translateZ(-80px) rotateY( 40deg) scale(.9) !important;
   opacity:.38; filter:blur(2.4px) brightness(.82) saturate(.9); z-index:2;
 }
-
-/* --- Back-compat: eski sınıfları yeni mantığa eşle --- */
+/* Back-compat (eski is-prev/next/far sınıfları için) */
 .zayn-deck .slot.is-prev{  transform: translateX(-8%) translateZ(40px) rotateY(-22deg) scale(.95) !important; opacity:.78; filter:blur(1.6px) brightness(.88); z-index:3; }
 .zayn-deck .slot.is-next{  transform: translateX( 8%) translateZ(40px) rotateY( 22deg) scale(.95) !important; opacity:.78; filter:blur(1.6px) brightness(.88); z-index:3; }
 .zayn-deck .slot.is-far {  transform: translateZ(-80px) scale(.9) !important; opacity:.38; filter:blur(2.4px) brightness(.82) saturate(.9); z-index:2; }
 
-/* Oklar (navigasyon) */
+/* Arrows */
 .zayn-hero .zayn-nav{
   position:absolute; top:50%; transform:translateY(-50%);
   width:44px; height:44px; border-radius:50%;
@@ -256,100 +245,4 @@ body.reveal{opacity:1;filter:none}
 @media (prefers-reduced-motion: reduce){
   .headline,.btn,.tile-doku{transition:none !important;animation:none !important}
   .zayn-deck .slot{ transition:none !important; }
-}
-/* =============== ZAYN – Stacked Coverflow Gallery =============== */
-
-:root{
-  --bg:#f6f6f4; --fg:#0f0f0f; --muted:#6a6a6a;
-}
-
-html,body{background:var(--bg); color:var(--fg);}
-
-/* Hero başlığı zaten var; galeri üst boşluğu için küçük ayar */
-.zayn-hero + #philosophy{ margin-top: clamp(12px, 2vw, 24px); }
-
-/* 3D sahne */
-.zayn-hero{
-  perspective: 1200px;
-  background: transparent;
-  margin: 0;
-  padding: clamp(8px, 2vw, 16px) 0;
-  height: clamp(420px, 55vw, 700px);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Kart dizilimi */
-.zayn-deck{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 1.6vw, 24px);
-  height: 100%;
-  transform-style: preserve-3d;
-  overflow: visible;
-  padding: 0 clamp(12px, 4vw, 36px);
-}
-
-/* Kart baz hali */
-.zayn-deck .slot{
-  width: clamp(120px, 14vw, 180px);
-  height: clamp(320px, 42vw, 520px);
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0,0,0,.10);
-  transform-origin: center center;
-  opacity: .55;
-  filter: blur(1.2px) brightness(.9) saturate(.95);
-  transition:
-    transform 900ms cubic-bezier(.22,.61,.36,1),
-    filter   900ms cubic-bezier(.22,.61,.36,1),
-    opacity  900ms cubic-bezier(.22,.61,.36,1),
-    box-shadow 900ms cubic-bezier(.22,.61,.36,1);
-}
-.zayn-deck .slot img{ width:100%; height:100%; object-fit:cover; }
-
-/* Merkez: düz, büyük ve önde */
-.zayn-deck .slot.is-center{
-  width: clamp(300px, 32vw, 520px);
-  transform: translateZ(140px) rotateY(0deg) scale(1.04) !important;
-  filter: none; opacity: 1;
-  box-shadow: 0 50px 110px rgba(0,0,0,.22);
-  z-index: 5;
-}
-
-/* Yakın komşular */
-.zayn-deck .slot.is-near-left{
-  transform: translateX(-8%) translateZ(40px) rotateY(-22deg) scale(.96) !important;
-  opacity:.8; filter: blur(1.6px) brightness(.88); z-index:3;
-}
-.zayn-deck .slot.is-near-right{
-  transform: translateX( 8%) translateZ(40px) rotateY( 22deg) scale(.96) !important;
-  opacity:.8; filter: blur(1.6px) brightness(.88); z-index:3;
-}
-
-/* Uzaklar */
-.zayn-deck .slot.is-far-left{
-  transform: translateX(-22%) translateZ(-80px) rotateY(-40deg) scale(.9) !important;
-  opacity:.38; filter: blur(2.4px) brightness(.82) saturate(.9); z-index:2;
-}
-.zayn-deck .slot.is-far-right{
-  transform: translateX( 22%) translateZ(-80px) rotateY( 40deg) scale(.9) !important;
-  opacity:.38; filter: blur(2.4px) brightness(.82) saturate(.9); z-index:2;
-}
-
-/* Oklar */
-.zayn-hero .zayn-nav{
-  position:absolute; top:50%; translate:0 -50%;
-  width:44px; height:44px; border-radius:50%;
-  border:1px solid rgba(230,230,230,.85);
-  background: rgba(255,255,255,.85);
-  backdrop-filter: blur(6px);
-  cursor:pointer; z-index:6;
-}
-.zayn-hero .prev{ left:2%; }
-.zayn-hero .next{ right:2%; }
-
-@media (max-width:640px){
-  .zayn-hero{ height: clamp(360px, 58vw, 560px); }
 }
