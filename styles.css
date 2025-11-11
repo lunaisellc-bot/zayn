@@ -249,3 +249,5 @@ body.reveal{opacity:1;filter:none}
 
 /* Hero ile Philosophy arasında hafif boşluk */
 .zayn-hero + #philosophy { margin-top: clamp(12px, 2vw, 24px); }
+/* Üst hero alanını gizle – galeriyi en üste al */
+#hero, .hero { display: none; }
