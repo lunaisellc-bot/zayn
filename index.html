@@ -30,22 +30,7 @@
 
   <style>
     /* ======== CRITICAL: intro + dissolve ======== */
-    body.pre-reveal{opacity:0;filter:blur(6px) brightness(.85) saturate(.9);transition:opacity .9s ease, filter .9s ease}
-    body.reveal{opacity:1;filter:none}
-
-    #zaynIntro{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0f0f0f;z-index:9999;opacity:1}
-    #zaynIntro img{width:180px;max-width:42vw;height:auto;opacity:0;transform:translateY(6px) scale(.985);transition:opacity .9s ease,transform .9s ease;will-change:opacity,transform}
-    #zaynIntro.show img{opacity:1;transform:translateY(0) scale(1)}
-    #zaynIntro.hide{transition:opacity .8s ease;opacity:0;visibility:hidden}
-
-    .ambient{position:fixed;inset:0;pointer-events:none;z-index:10;background:radial-gradient(60rem 60rem at 50% 50%, rgba(255,255,255,.06), transparent 60%);mix-blend-mode:overlay;animation:shimmer 7s ease-in-out infinite alternate;opacity:.35}
-    @keyframes shimmer{0%{transform:translate3d(-2%,1%,0) scale(1.04);opacity:.28}100%{transform:translate3d(2%,-1%,0) scale(1);opacity:.45}}
-    @media (prefers-reduced-motion:reduce){#zaynIntro,body{transition:none!important;animation:none!important;opacity:1!important}}
-    .btn,.chip{color:var(--fg)} .btn.ghost{background:#fff;color:var(--fg)} .btn.primary:hover{background:#0f0f0f;color:#fff}
-  </style>
-</head>
-
-<body class="pre-reveal">
+    <body class="pre-reveal">
   <!-- Intro katmanı (logo) -->
   <div id="zaynIntro" class="show" role="dialog" aria-label="Intro">
     <img src="assets/logo.svg" alt="ZAYN" />
@@ -54,32 +39,56 @@
   <div class="ambient" aria-hidden="true"></div>
   <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <a class="brand" href="#hero" aria-label="ZAYN Home">ZAYN</a>
-    <nav class="nav">
+  <!-- TOPBAR (Valentino vibe, ultra sade) -->
+  <header class="topbar topbar-valentino">
+    <nav class="nav nav-left">
       <a href="#philosophy" class="nav-link">Philosophy</a>
       <a href="#pieces" class="nav-link">Pieces</a>
+    </nav>
+
+    <!-- Ortadaki ZAYN, scroll ile küçülecek -->
+    <a class="brand brand-center" href="#hero" aria-label="ZAYN Home" id="zaynBrandWordmark">
+      ZAYN
+    </a>
+
+    <nav class="nav nav-right">
       <a href="#story" class="nav-link">Story</a>
       <button id="langToggle" class="chip" aria-label="Toggle language">TR</button>
     </nav>
   </header>
 
-  <!-- HERO -->
-  <section id="hero" class="hero" aria-label="Intro">
-    <div class="fabric f1"></div>
-    <div class="fabric f2"></div>
-    <div class="grain"></div>
-    <div class="hero-inner">
-      <h1 id="headline" class="headline">Luxury doesn’t shout.</h1>
-      <div class="cta">
-        <a href="#pieces" class="btn primary" data-i18n="enter">Enter Zayn</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener" class="btn ghost" data-i18n="etsy">View On Etsy</a>
+  <!-- HERO (tam sayfa editorial, ortada dev ZAYN) -->
+  <section id="hero" class="hero hero-editorial" aria-label="ZAYN Intro">
+    <!-- Arka plan görseli CSS ile verilecek (full-bleed foto) -->
+    <div class="hero-bg"></div>
+
+    <div class="hero-overlay">
+      <div class="hero-lockup">
+        <p class="hero-eyebrow">THE ART OF QUIET LUXURY</p>
+
+        <!-- Bu kelime merkezde, scroll ile shrink alacak -->
+        <h1 class="hero-wordmark" id="heroWordmark">
+          ZAYN
+        </h1>
+
+        <p class="hero-sub" data-i18n="hero-sub">
+          Geometry meets emotion — wear silence, not fabric.
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="#pieces" class="btn primary" data-i18n="enter">
+            Enter Collection
+          </a>
+          <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener"
+             class="btn ghost" data-i18n="etsy">
+            View on Etsy
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ZAYN Hero Stacked Gallery -->
+  <!-- ZAYN Hero Stacked Gallery (ileride editorial tekli foto akışına çevirebiliriz) -->
   <section class="zayn-hero" aria-label="ZAYN Gallery">
     <div class="zayn-deck" id="zaynDeck">
       <figure class="slot"><img src="images/zayn1.webp" alt="ZAYN Look 1" loading="eager"></figure>
@@ -92,7 +101,6 @@
       <figure class="slot"><img src="images/zayn8.webp" alt="ZAYN Look 8" loading="lazy"></figure>
     </div>
 
-    <!-- Navigasyon okları (isteğe bağlı) -->
     <button class="zayn-nav prev" aria-label="Previous">‹</button>
     <button class="zayn-nav next" aria-label="Next">›</button>
   </section>
@@ -103,14 +111,15 @@
       <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
       <div class="grid-2">
         <p class="lead" data-i18n="philosophy">
-          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses, spaces, and textures that let you feel more by seeing less.
+          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses,
+          spaces, and textures that let you feel more by seeing less.
         </p>
         <ul id="manifesto" class="bullets"></ul>
       </div>
     </div>
   </section>
 
-  <!-- PIECES -->
+  <!-- PIECES (buradaki #grid Etsy/script.js tarafından dolduruluyor) -->
   <section id="pieces" class="section section-alt">
     <div class="container">
       <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
@@ -123,7 +132,8 @@
     <div class="container">
       <h2 class="eyebrow" data-i18n="story-h">Story</h2>
       <p class="lead" data-i18n="story">
-        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces that speak softly yet powerfully.
+        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces
+        that speak softly yet powerfully.
       </p>
     </div>
   </section>
@@ -152,11 +162,14 @@
         <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Etsy</a>
       </div>
-      <div class="muted">© <span id="year"></span> ZAYN — The Art of Quiet Luxury · <span class="muted">Made in Silence</span></div>
+      <div class="muted">
+        © <span id="year"></span> ZAYN — The Art of Quiet Luxury ·
+        <span class="muted">Made in Silence</span>
+      </div>
     </div>
   </footer>
 
-  <!-- INTRO + AUDIO + DISSOLVE logic (sadece intro için) -->
+  <!-- INTRO + AUDIO + DISSOLVE logic (sadece intro için) + ZAYN shrink JS -->
   <script>
   document.addEventListener("DOMContentLoaded", function () {
     const intro  = document.getElementById("zaynIntro");
@@ -222,8 +235,34 @@
         }
       }, 2600);
     });
+
+    /* ==== ZAYN hero wordmark shrink logic (scroll’da küçülüp kalıyor) ==== */
+    const wordmark = document.getElementById("heroWordmark");
+    const brand    = document.getElementById("zaynBrandWordmark");
+    const hero     = document.getElementById("hero");
+
+    function updateZaynScale() {
+      if (!wordmark || !hero) return;
+      const rect = hero.getBoundingClientRect();
+      const vh   = window.innerHeight || document.documentElement.clientHeight;
+
+      // 0 = en üstte, 1 = hero tamamen geçilmek üzere
+      const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
+
+      // Hero ortasında büyükten (1.0) navbar seviyesinde küçük (0.45) scale
+      const scale = 1 - progress * 0.55;
+
+      wordmark.style.setProperty("--zaynScale", scale.toFixed(3));
+      // Navbar'daki ZAYN için hafif opacity/scale
+      if (brand) {
+        const navScale = 0.8 + progress * 0.2; // 0.8 → 1.0
+        brand.style.opacity = 0.55 + progress * 0.45; // 0.55 → 1
+        brand.style.transform = `scale(${navScale.toFixed(3)})`;
+      }
+    }
+
+    updateZaynScale();
+    window.addEventListener("scroll", updateZaynScale, { passive:true });
   });
   </script>
 </body>
-</html>
-
