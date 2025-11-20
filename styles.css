@@ -1,5 +1,5 @@
 /* ============================================================
-   ZAYN — Quiet Luxury 2.0 (Final styles.css)
+   ZAYN — Quiet Luxury 2.0 (FINAL styles.css)
    ============================================================ */
 
 /* ===== Vars ===== */
@@ -13,7 +13,7 @@
 
   --radius-lg:24px;
   --radius-md:18px;
-  --radius-sm:999px;
+  --radius-pill:999px;
   --max-width:1120px;
 }
 
@@ -135,7 +135,7 @@ img{
   font-size:.8rem;
 }
 
-/* Yeni yapı: nav-left / nav-right / ortada brand */
+/* nav-left / nav-right / ortada brand */
 .nav{
   display:flex;
   gap:18px;
@@ -180,7 +180,7 @@ img{
 .chip{
   border:1px solid rgba(0,0,0,.2);
   padding:6px 10px;
-  border-radius:999px;
+  border-radius:var(--radius-pill);
   background:#fff;
   cursor:pointer;
   font-size:.72rem;
@@ -203,7 +203,7 @@ img{
   }
 }
 
-/* ===== Buttons ===== */
+/* ===== Generic Buttons (Newsletter vs.) ===== */
 .btn{
   border:1px solid rgba(0,0,0,.3);
   padding:10px 16px;
@@ -217,12 +217,6 @@ img{
 .btn:hover{
   transform:translateY(-1px);
   box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
-.btn.primary{
-  background:transparent;
-}
-.btn.ghost{
-  background:#fff;
 }
 
 /* ===== HERO — Editorial ZAYN cover ===== */
@@ -238,11 +232,11 @@ img{
   background:var(--bg);
 }
 
-/* Full ekran background görsel — path’i kendi görseline göre ayarla */
+/* Full-screen background görsel */
 .hero-bg{
   position:absolute;
   inset:0;
-  background-image:url("images/zayn-hero.webp"); /* KENDİ HERO GÖRSELİN */
+  background-image:url("images/zayn-hero.webp"); /* hero görselin */
   background-size:cover;
   background-position:center;
   filter:contrast(1.02) saturate(1.02);
@@ -264,14 +258,12 @@ body.reveal .hero-bg{
   align-items:center;
   justify-content:center;
   padding:0 20px;
-  /* Biraz daha hafif, yazıyı öne çıkaran gradient */
   background:
     linear-gradient(180deg,
       rgba(0,0,0,.30),
       rgba(0,0,0,.18),
       rgba(0,0,0,.45));
 }
-
 
 /* Ortadaki metin bloğu */
 .hero-lockup{
@@ -304,9 +296,9 @@ body.reveal .hero-bg{
   transform:scale(var(--zaynScale,1));
   transition:transform .3s ease-out, letter-spacing .3s ease-out;
   text-shadow:0 14px 32px rgba(0,0,0,.75);
-
 }
 
+/* Alt cümle */
 .hero-sub{
   font-size:1rem;
   line-height:1.7;
@@ -315,9 +307,6 @@ body.reveal .hero-bg{
   text-shadow:0 8px 22px rgba(0,0,0,.7);
 }
 
-}
-
-/* CTA row */
 /* HERO CTA — quiet luxury kapsül butonlar */
 .hero-cta-row{
   display:flex;
@@ -327,42 +316,47 @@ body.reveal .hero-bg{
 }
 
 .hero-cta-row .btn{
-  min-width:0;
-  padding:12px 30px;
-  border-radius:999px;
-  font-size:.78rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
+  font-family:"Cormorant Garamond", serif;
   font-weight:400;
-  border-width:1px;
-  border-style:solid;
-  box-shadow:0 16px 40px rgba(0,0,0,.45);
+  letter-spacing:.05em;
+  border-radius:var(--radius-pill);
+  padding:12px 32px;
+  font-size:1rem;
+  backdrop-filter:blur(6px);
+  transition:
+    background .35s ease,
+    color .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease,
+    transform .35s ease;
 }
 
-/* Primary: porselen kapsül */
+/* PRIMARY (sol buton – enter zayn) */
 .hero-cta-row .btn.primary{
-  background:rgba(246,246,244,.96);
-  color:#111111;
-  border-color:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.92);
+  color:#0f0f0f;
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 4px 22px rgba(0,0,0,.12);
 }
 .hero-cta-row .btn.primary:hover{
-  background:#111111;
-  color:#f6f6f4;
-  border-color:#111111;
-  box-shadow:0 20px 52px rgba(0,0,0,.65);
+  background:#0f0f0f;
+  color:#fff;
+  border-color:#0f0f0f;
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
-/* Ghost: cam efektli kontur */
+/* GHOST (sağ buton – view on Etsy) */
 .hero-cta-row .btn.ghost{
-  background:rgba(0,0,0,.15);
-  border-color:rgba(255,255,255,.70);
-  color:#fdfdfd;
-  backdrop-filter:blur(18px);
+  background:rgba(255,255,255,.10);
+  color:#f6f6f4;
+  border:1px solid rgba(255,255,255,.55);
 }
 .hero-cta-row .btn.ghost:hover{
-  background:rgba(0,0,0,.25);
-  border-color:rgba(255,255,255,.90);
-  box-shadow:0 20px 52px rgba(0,0,0,.70);
+  background:rgba(255,255,255,.20);
+  border-color:rgba(255,255,255,.75);
+  transform:translateY(-3px);
+  box-shadow:0 10px 26px rgba(0,0,0,.22);
 }
 
 /* Mobile hero tuning */
@@ -388,52 +382,106 @@ body.reveal .hero-bg{
   padding:3px 0;
 }
 
-/* ===== Product Flow — Editorial tekli büyük kartlar ===== */
-#grid{
-  max-width:var(--max-width);
-  margin:40px auto 0;
-  display:flex;
-  flex-direction:column;
-  gap:40px;
+/* ============================================================
+   PIECES — Full-width square editorial cards
+   ============================================================ */
+
+/* PIECES section: yana padding yok, full-bleed */
+#pieces.section.section-alt{
+  padding:56px 0;
 }
 
-/* Her ürün kartı */
+#pieces .container{
+  max-width:none;
+  padding:0;
+}
+
+/* Başlık hafif içeride */
+#pieces .eyebrow{
+  padding:0 24px;
+  margin-bottom:18px;
+}
+
+/* Grid: tek kolon, tam genişlik */
+#grid{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:48px;
+}
+
+/* Her ürün kartı: full-width, kare görsel + meta */
 #grid > *{
-  border-radius:var(--radius-lg);
-  border:1px solid rgba(0,0,0,.08);
+  width:100%;
+  border-radius:32px;
+  border:1px solid rgba(0,0,0,.04);
   background:var(--card);
-  padding:16px;
-  box-shadow:0 10px 28px rgba(0,0,0,.06);
+  overflow:hidden;
+  box-shadow:0 26px 80px rgba(0,0,0,.18);
   transition:
     transform .45s cubic-bezier(.22,.61,.36,1),
     box-shadow .45s cubic-bezier(.22,.61,.36,1),
     opacity  .45s cubic-bezier(.22,.61,.36,1),
     filter   .45s cubic-bezier(.22,.61,.36,1);
-  transform:scale(.96);
-  opacity:.6;
-  filter:brightness(.96) saturate(.96);
+  transform:scale(.98);
+  opacity:.9;
+  filter:brightness(.98);
 }
 
-/* Aktif/kadrajda olan kart — daha büyük ve parlak */
-#grid > *.is-active{
-  transform:scale(1.02);
+#grid > *:hover{
+  transform:scale(1.0);
+  box-shadow:0 32px 96px rgba(0,0,0,.22);
   opacity:1;
   filter:none;
-  box-shadow:0 26px 80px rgba(0,0,0,.20);
 }
 
-/* Ürün içindeki görseller */
+/* Ürün görseli: 1:1 kare, full genişlik */
 #grid img{
-  border-radius:18px;
-  margin-bottom:10px;
   width:100%;
-  height:100%;
-  max-height:520px;
+  aspect-ratio:1 / 1;
+  height:auto;
+  max-height:none;
   object-fit:cover;
   object-position:center;
+  border-radius:0;
+  margin:0;
 }
 
-/* ===== Newsletter ===== */
+/* Meta / yazı bloğu — ortalanmış, lüks */
+#grid .tile-meta,
+#grid figcaption,
+#grid > * > div.meta,
+#grid > * > div:last-child{
+  padding:22px 24px 28px;
+  text-align:center;
+}
+
+/* Başlık */
+#grid h3,
+#grid .title{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:400;
+  font-size:1.2rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin:0 0 4px;
+}
+
+/* Alt satır / fiyat */
+#grid .price,
+#grid .meta-line,
+#grid p{
+  font-size:.86rem;
+  color:var(--muted);
+  margin:0;
+}
+
+/* ============================================================
+   Newsletter
+   ============================================================ */
 .card{
   border:1px solid rgba(0,0,0,.12);
   border-radius:var(--radius-md);
@@ -484,7 +532,9 @@ body.reveal .hero-bg{
   gap:14px;
 }
 
-/* ===== ZAYN Coverflow Gallery (zayn-hero) ===== */
+/* ============================================================
+   ZAYN Coverflow Gallery (zayn-hero)
+   ============================================================ */
 .zayn-hero{
   perspective:1200px;
   background:transparent;
@@ -526,7 +576,6 @@ body.reveal .hero-bg{
   opacity:1;
   filter:none;
 }
-
 
 .zayn-deck .slot img{
   width:100%;
@@ -636,47 +685,3 @@ body.reveal .hero-bg{
     animation:none !important;
   }
 }
-.hero-cta-row .btn {
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 400;
-  letter-spacing: .05em;
-  border-radius: 999px;
-  padding: 12px 32px;
-  font-size: 1rem;
-  backdrop-filter: blur(6px);
-  transition: 
-    background .35s ease, 
-    color .35s ease,
-    border-color .35s ease,
-    box-shadow .35s ease,
-    transform .35s ease;
-}
-
-/* PRIMARY (sol buton – enter zayn) */
-.hero-cta-row .btn.primary {
-  background: rgba(255,255,255,.92);
-  color: #0f0f0f;
-  border: 1px solid rgba(255,255,255,.95);
-  box-shadow: 0 4px 22px rgba(0,0,0,.12);
-}
-
-.hero-cta-row .btn.primary:hover {
-  background: #0f0f0f;
-  color: #fff;
-  border-color: #0f0f0f;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
-}
-
-/* GHOST (sağ buton – view on Etsy) */
-.hero-cta-row .btn.ghost {
-  background: rgba(255,255,255,.10);
-  color: #f6f6f4;
-  border: 1px solid rgba(255,255,255,.55);
-}
-
-.hero-cta-row .btn.ghost:hover {
-  background: rgba(255,255,255,.20);
-  border-color: rgba(255,255,255,.75);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 26px rgba(0,0,0,.22);
