@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="facebook-domain-verification" content="fsrfoi1hen3fe3vl3tqdkljqwltmty" />
+  <meta name="facebook-domain-verification" content="fsrfoi1hen3fe3vl3tqdkljqwltmty" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -30,7 +30,77 @@
 
   <style>
     /* ======== CRITICAL: intro + dissolve ======== */
-    <body class="pre-reveal">
+    body.pre-reveal{
+      opacity:0;
+      filter:blur(6px) brightness(.85) saturate(.9);
+      transition:opacity .9s ease, filter .9s ease;
+    }
+    body.reveal{
+      opacity:1;
+      filter:none;
+    }
+
+    #zaynIntro{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#0f0f0f;
+      z-index:9999;
+      opacity:1;
+    }
+    #zaynIntro img{
+      width:180px;
+      max-width:42vw;
+      height:auto;
+      opacity:0;
+      transform:translateY(6px) scale(.985);
+      transition:opacity .9s ease,transform .9s ease;
+      will-change:opacity,transform;
+    }
+    #zaynIntro.show img{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+    #zaynIntro.hide{
+      transition:opacity .8s ease;
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .ambient{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:10;
+      background:radial-gradient(60rem 60rem at 50% 50%, rgba(255,255,255,.06), transparent 60%);
+      mix-blend-mode:overlay;
+      animation:shimmer 7s ease-in-out infinite alternate;
+      opacity:.35;
+    }
+    @keyframes shimmer{
+      0%{transform:translate3d(-2%,1%,0) scale(1.04);opacity:.28}
+      100%{transform:translate3d(2%,-1%,0) scale(1);opacity:.45}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      #zaynIntro,body{
+        transition:none!important;
+        animation:none!important;
+        opacity:1!important;
+        filter:none!important;
+      }
+    }
+
+    /* Buton renk düzeltmeleri */
+    .btn,.chip{color:var(--fg)}
+    .btn.ghost{background:#fff;color:var(--fg)}
+    .btn.primary:hover{background:#0f0f0f;color:#fff}
+  </style>
+</head>
+
+<body class="pre-reveal">
   <!-- Intro katmanı (logo) -->
   <div id="zaynIntro" class="show" role="dialog" aria-label="Intro">
     <img src="assets/logo.svg" alt="ZAYN" />
@@ -88,7 +158,7 @@
     </div>
   </section>
 
-  <!-- ZAYN Hero Stacked Gallery (ileride editorial tekli foto akışına çevirebiliriz) -->
+  <!-- ZAYN Hero Stacked Gallery -->
   <section class="zayn-hero" aria-label="ZAYN Gallery">
     <div class="zayn-deck" id="zaynDeck">
       <figure class="slot"><img src="images/zayn1.webp" alt="ZAYN Look 1" loading="eager"></figure>
@@ -119,7 +189,7 @@
     </div>
   </section>
 
-  <!-- PIECES (buradaki #grid Etsy/script.js tarafından dolduruluyor) -->
+  <!-- PIECES -->
   <section id="pieces" class="section section-alt">
     <div class="container">
       <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
@@ -169,13 +239,14 @@
     </div>
   </footer>
 
-  <!-- INTRO + AUDIO + DISSOLVE logic (sadece intro için) + ZAYN shrink JS -->
+  <!-- INTRO + AUDIO + DISSOLVE logic + ZAYN shrink JS -->
   <script>
   document.addEventListener("DOMContentLoaded", function () {
     const intro  = document.getElementById("zaynIntro");
     const audio  = document.getElementById("introSound");
     const KEY    = "zaynIntroPlayed";
 
+    /* ==== Intro logic ==== */
     if (sessionStorage.getItem(KEY) === "1") {
       if (intro) intro.remove();
       document.body.classList.remove("pre-reveal");
@@ -236,7 +307,7 @@
       }, 2600);
     });
 
-    /* ==== ZAYN hero wordmark shrink logic (scroll’da küçülüp kalıyor) ==== */
+    /* ==== ZAYN hero wordmark shrink (scroll’da küçülüyor) ==== */
     const wordmark = document.getElementById("heroWordmark");
     const brand    = document.getElementById("zaynBrandWordmark");
     const hero     = document.getElementById("hero");
@@ -246,14 +317,11 @@
       const rect = hero.getBoundingClientRect();
       const vh   = window.innerHeight || document.documentElement.clientHeight;
 
-      // 0 = en üstte, 1 = hero tamamen geçilmek üzere
       const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
-
-      // Hero ortasında büyükten (1.0) navbar seviyesinde küçük (0.45) scale
       const scale = 1 - progress * 0.55;
 
       wordmark.style.setProperty("--zaynScale", scale.toFixed(3));
-      // Navbar'daki ZAYN için hafif opacity/scale
+
       if (brand) {
         const navScale = 0.8 + progress * 0.2; // 0.8 → 1.0
         brand.style.opacity = 0.55 + progress * 0.45; // 0.55 → 1
@@ -263,6 +331,9 @@
 
     updateZaynScale();
     window.addEventListener("scroll", updateZaynScale, { passive:true });
+
+    /* ==== PIECES — Ekranda olan kartı büyütmek istersen buraya IO ekleyeceğiz (sonraki adım) ==== */
   });
   </script>
 </body>
+</html>
