@@ -173,6 +173,7 @@ function startHeadlineTicker() {
 }
 
 /* ---------- products ---------- */
+/* ---------- products ---------- */
 async function loadProducts() {
   try {
     const res = await fetch(`products.json?v=${Date.now().toString().slice(0, 10)}`, { cache: "no-store" });
@@ -181,26 +182,67 @@ async function loadProducts() {
     if (!grid) return;
 
     grid.innerHTML = "";
-    items.forEach(it => {
-      const title = LANG === "EN" ? (it.titleEN ?? it.title) : (it.titleTR ?? it.title);
-      const line = LANG === "EN" ? (it.lineEN ?? it.line ?? "") : (it.lineTR ?? it.line ?? "");
-      const href = it.href || (it.id ? `https://www.etsy.com/listing/${it.id}` : "https://www.etsy.com/shop/ByZaynCo");
-      const img = (it.image && String(it.image).trim())
-        || (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN))
-        || "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
 
+    items.forEach(it => {
+      const title =
+        LANG === "EN"
+          ? (it.titleEN ?? it.title)
+          : (it.titleTR ?? it.title);
+
+      const line =
+        LANG === "EN"
+          ? (it.lineEN ?? it.line ?? "")
+          : (it.lineTR ?? it.line ?? "");
+
+      const href =
+        it.href ||
+        (it.id
+          ? `https://www.etsy.com/listing/${it.id}`
+          : "https://www.etsy.com/shop/ByZaynCo");
+
+      const img =
+        (it.image && String(it.image).trim()) ||
+        (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN)) ||
+        "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+
+      // KART
       const a = document.createElement("a");
-      a.href = href; a.target = "_blank"; a.rel = "noopener"; a.className = "card-tile";
-      a.innerHTML = `
-        <img src="${img}" alt="${title ?? ''}" loading="lazy"
-             style="width:100%; height:auto; display:block; border-radius:12px; margin-bottom:8px">
-        <div class="tile-meta">
-          <div><span class="dot"></span>${title ?? ""}</div>
-          <div class="muted" style="font-size:.85rem; margin-top:4px">${line}</div>
-        </div>`;
+      a.href = href;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "card-tile";
+
+      // GÖRSEL (kare, full-bleed için CSS kullanıyoruz)
+      const imgEl = document.createElement("img");
+      imgEl.src = img;
+      imgEl.alt = title ?? "";
+      imgEl.loading = "lazy";
+      a.appendChild(imgEl);
+
+      // ORTADA HERO TARZI BAŞLIK OVERLAY
+      const meta = document.createElement("div");
+      meta.className = "tile-meta";
+
+      const titleEl = document.createElement("div");
+      titleEl.className = "title";
+      titleEl.textContent = title ?? "";
+
+      meta.appendChild(titleEl);
+
+      // İstersek alt satırı ileride kullanırız; şimdilik ekleyelim ama CSS ile gizleyebiliriz
+      if (line) {
+        const sub = document.createElement("div");
+        sub.className = "meta-line";
+        sub.textContent = line;
+        meta.appendChild(sub);
+      }
+
+      a.appendChild(meta);
       grid.appendChild(a);
     });
-  } catch (e) { console.error("products.json error", e); }
+  } catch (e) {
+    console.error("products.json error", e);
+  }
 }
 
 /* ---------- Language / Newsletter / Year ---------- */
