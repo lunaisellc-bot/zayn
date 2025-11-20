@@ -508,9 +508,10 @@ body.reveal .hero-bg{
     box-shadow 900ms cubic-bezier(.22,.61,.36,1);
   transform-origin:center center;
   box-shadow:0 18px 40px rgba(0,0,0,.10);
-  opacity:.55;
-  filter:blur(1.2px) brightness(.9) saturate(.95);
+  opacity:1;
+  filter:none;
 }
+
 
 .zayn-deck .slot img{
   width:100%;
