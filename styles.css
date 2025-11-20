@@ -685,3 +685,75 @@ body.reveal .hero-bg{
     animation:none !important;
   }
 }
+/* ===== PIECES — HERO STYLE CENTERED TITLES ===== */
+
+/* Kartı relative yap */
+#grid > * {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 26px;
+  border: none;
+  background: #000;
+}
+
+/* Fotoğraf kare */
+#grid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(.82);
+  transition: .4s ease;
+}
+
+/* Hover — fotoğraf biraz açılır */
+#grid > *:hover img {
+  filter: brightness(1);
+}
+
+/* Ortadaki HERO tarzı başlık overlay */
+.product-title,
+#grid h3,
+#grid .title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  letter-spacing: .08em;
+  text-align: center;
+  color: #ffffff;
+  
+  width: 80%;
+  z-index: 3;
+  pointer-events: none;
+
+  text-shadow:
+    0 12px 32px rgba(0,0,0,0.55),
+    0 4px 16px rgba(0,0,0,0.55);
+}
+
+/* Üstten hafif kararma — Valentino gradient */
+#grid > *::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      180deg,
+      rgba(0,0,0,.25),
+      rgba(0,0,0,.45),
+      rgba(0,0,0,.25)
+  );
+  z-index: 2;
+  opacity: .55;
+  transition: .35s ease;
+}
+
+/* Hover — gradient azalır, lüks etki */
+#grid > *:hover::before {
+  opacity: .35;
+}
