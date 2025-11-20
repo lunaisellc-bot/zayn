@@ -469,14 +469,6 @@ body.reveal .hero-bg{
     0 12px 32px rgba(0,0,0,.65);
 }
 
-/* Diğer meta satırlarını gizle (yalnızca başlık kalsın) */
-#grid > * p,
-#grid > * .price,
-#grid > * .meta-line,
-#grid > * .tile-meta{
-  display:none;
-}
-
 /* Arka plan gradient overlay */
 #grid > *::after{
   content:"";
