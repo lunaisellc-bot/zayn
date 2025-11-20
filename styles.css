@@ -757,3 +757,76 @@ body.reveal .hero-bg{
 #grid > *:hover::before {
   opacity: .35;
 }
+/* ============================================================
+   PIECES — HERO-STYLE CENTERED PRODUCT TITLES
+   ============================================================ */
+
+/* Kart tamamen kare görünüm */
+#grid > * {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 26px;
+  overflow: hidden;
+  background: #000;
+  padding: 0;            /* padding sıfırlıyoruz */
+  display: block;
+  border: none;
+}
+
+/* Görsel kare olacak */
+#grid > * img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+  filter: brightness(.85);
+  transition: .35s ease;
+}
+
+/* Hover: fotoğraf açılır */
+#grid > *:hover img {
+  filter: brightness(1);
+}
+
+/* Ürün metni */
+#grid > * .title,
+#grid > * p,
+#grid > * .product-title {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+  text-align: center;
+
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.4rem;
+  letter-spacing: .08em;
+  font-weight: 300;
+  color: #ffffff;
+
+  text-shadow:
+    0 6px 18px rgba(0,0,0,.65),
+    0 12px 32px rgba(0,0,0,.65);
+}
+
+/* Arka plana hafif bir gradient ekleyelim */
+#grid > *::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.15),
+    rgba(0,0,0,.25),
+    rgba(0,0,0,.15)
+  );
+  pointer-events: none;
+}
