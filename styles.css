@@ -318,36 +318,51 @@ body.reveal .hero-bg{
 }
 
 /* CTA row */
+/* HERO CTA — quiet luxury kapsül butonlar */
 .hero-cta-row{
   display:flex;
   flex-wrap:wrap;
-  gap:12px;
+  gap:14px;
   justify-content:center;
 }
+
 .hero-cta-row .btn{
-  min-width:150px;
+  min-width:0;
+  padding:12px 30px;
   border-radius:999px;
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:400;
+  border-width:1px;
+  border-style:solid;
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
 }
 
-/* Primary CTA */
+/* Primary: porselen kapsül */
 .hero-cta-row .btn.primary{
-  background:#f6f6f4;
-  color:#111;
-  border-color:rgba(255,255,255,.85);
+  background:rgba(246,246,244,.96);
+  color:#111111;
+  border-color:rgba(255,255,255,.92);
 }
 .hero-cta-row .btn.primary:hover{
-  background:#111;
+  background:#111111;
   color:#f6f6f4;
+  border-color:#111111;
+  box-shadow:0 20px 52px rgba(0,0,0,.65);
 }
 
-/* Ghost CTA */
+/* Ghost: cam efektli kontur */
 .hero-cta-row .btn.ghost{
-  background:rgba(246,246,244,.08);
-  border-color:rgba(255,255,255,.58);
-  color:#fefefe;
+  background:rgba(0,0,0,.15);
+  border-color:rgba(255,255,255,.70);
+  color:#fdfdfd;
+  backdrop-filter:blur(18px);
 }
 .hero-cta-row .btn.ghost:hover{
-  background:rgba(246,246,244,.18);
+  background:rgba(0,0,0,.25);
+  border-color:rgba(255,255,255,.90);
+  box-shadow:0 20px 52px rgba(0,0,0,.70);
 }
 
 /* Mobile hero tuning */
