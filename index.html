@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta name="facebook-domain-verification" content="fsrfoi1hen3fe3vl3tqdkljqwltmty" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>ZAYN — The Art of Quiet Luxury</title>
-  <meta name="description" content="ZAYN is a house of quiet luxury. Geometry meets emotion." />
-  <link rel="canonical" href="https://www.zaynbrand.com/" />
-
+  
   <script defer src="script.js"></script>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+  <meta name="facebook-domain-verification" content="fsrfoi1hen3fe3vl3tqdkljqwltmty" />
 
   <script>
     tailwind.config = {
@@ -27,281 +25,101 @@
             sans: ['"Montserrat"', 'sans-serif'],
           },
           colors: {
-            'zayn-bone': '#F9F8F6', // Lüks kağıt rengi
-            'zayn-ink': '#111111',
-            'zayn-gold': '#A39073',
-          },
-          backgroundImage: {
-            'grain': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+            'zayn-bg': '#FDFBF7', /* Çok açık krem (Kağıt rengi) */
+            'zayn-black': '#111111',
           }
         }
       }
     }
   </script>
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="preload" as="image" href="assets/logo.svg" />
-  <link rel="preload" as="audio" href="assets/zayn_intro.mp3" />
-  <link rel="stylesheet" href="styles.css" />
-
   <style>
-    /* Intro ve Temel Animasyonlar */
-    body.pre-reveal { opacity: 0; filter: blur(8px); transition: opacity 1.2s ease, filter 1.2s ease; }
-    body.reveal { opacity: 1; filter: none; }
-    #zaynIntro { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #0f0f0f; z-index: 9999; opacity: 1; transition: opacity 0.8s ease; }
-    #zaynIntro img { width: 150px; opacity: 0.8; }
-    #zaynIntro.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    /* Sayfa açılış efekti */
+    body.fade-in { opacity: 0; transition: opacity 1.5s ease-in-out; }
+    body.loaded { opacity: 1; }
     
-    /* Scrollbar Gizle */
+    /* Scrollbar'ı gizle (Daha temiz görünüm için) */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* Masonry Layout için İyileştirme */
-    .masonry-grid { column-count: 1; column-gap: 2rem; }
-    @media (min-width: 768px) { .masonry-grid { column-count: 2; } }
-    @media (min-width: 1024px) { .masonry-grid { column-count: 3; } }
-    
-    /* Ürün kartlarının kesilmemesi için */
-    .masonry-item { break-inside: avoid; margin-bottom: 3rem; }
   </style>
 </head>
 
-<body class="pre-reveal bg-zayn-bone text-zayn-ink font-sans antialiased selection:bg-zayn-ink selection:text-white">
+<body class="bg-zayn-bg text-zayn-black font-serif fade-in" onload="document.body.classList.add('loaded')">
 
-  <div class="fixed inset-0 pointer-events-none z-0 opacity-40 bg-grain mix-blend-multiply"></div>
-
-  <div id="zaynIntro" class="show"><img src="assets/logo.svg" alt="ZAYN" /></div>
-  <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
-
-  <nav class="fixed w-full z-50 top-0 left-0 py-8 px-8 flex justify-between items-start mix-blend-difference text-white">
-    <div class="hidden md:flex flex-col space-y-1 text-[10px] uppercase tracking-[0.25em] font-medium">
-      <a href="#philosophy" class="hover:underline decoration-1 underline-offset-4">Philosophy</a>
-      <a href="#pieces" class="hover:underline decoration-1 underline-offset-4">Collection</a>
+  <nav class="fixed w-full z-50 top-0 py-6 px-8 flex justify-between items-center bg-zayn-bg/90 backdrop-blur-sm">
+    <div class="hidden md:flex space-x-8 text-[10px] uppercase tracking-[0.25em] font-sans">
+      <a href="#philosophy" class="hover:text-gray-500 transition">Philosophy</a>
+      <a href="#pieces" class="hover:text-gray-500 transition">Collection</a>
     </div>
     
-    <a href="#hero" id="zaynBrandWordmark" class="absolute left-1/2 -translate-x-1/2 top-8 text-3xl font-display tracking-widest opacity-0 transition-opacity duration-500">
-      ZAYN
-    </a>
+    <a href="#" class="text-3xl font-display tracking-widest mx-auto md:mx-0">ZAYN</a>
 
-    <div class="flex flex-col space-y-1 text-[10px] uppercase tracking-[0.25em] font-medium text-right ml-auto md:ml-0">
-      <a href="#story" class="hidden md:block hover:underline decoration-1 underline-offset-4">Story</a>
-      <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="hover:underline decoration-1 underline-offset-4">Etsy Shop</a>
+    <div class="flex space-x-6 text-[10px] uppercase tracking-[0.25em] font-sans">
+      <a href="#story" class="hidden md:block hover:text-gray-500 transition">Story</a>
+      <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="border-b border-black pb-1 hover:border-gray-400 transition">Etsy Shop</a>
     </div>
   </nav>
 
-  <section id="hero" class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-[#0a0a0a]">
-    <img src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?q=80&w=2070&auto=format&fit=crop" 
-         class="absolute inset-0 w-full h-full object-cover opacity-60 scale-105 animate-[pulse_10s_ease-in-out_infinite] grayscale brightness-75" alt="Zayn Mood">
-    
-    <div class="relative z-10 text-center flex flex-col items-center">
-      <p class="text-[9px] md:text-[11px] uppercase tracking-[0.6em] text-white/60 mb-8 font-sans">The Art of Silence</p>
-      
-      <h1 id="heroWordmark" class="text-[5rem] md:text-[10rem] lg:text-[14rem] font-display text-white leading-[0.8] tracking-tighter mix-blend-overlay opacity-90">
-        ZAYN
-      </h1>
-      
-      <div class="h-px w-24 bg-white/30 my-8"></div>
-
-      <p class="text-white/80 font-serif italic text-xl md:text-2xl font-light tracking-wide max-w-lg mx-auto" data-i18n="hero-sub">
-        "Wear silence, not fabric."
-      </p>
-
-      <a href="#pieces" class="mt-12 text-[10px] uppercase tracking-[0.3em] text-white border border-white/20 px-10 py-4 hover:bg-white hover:text-black transition duration-500 ease-out" data-i18n="enter">
-        Enter Gallery
-      </a>
+  <header class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 grayscale brightness-90">
     </div>
     
-    <div class="absolute bottom-8 text-white/30 text-xs animate-bounce">↓</div>
-  </section>
-
-  <section class="relative z-10 py-32 bg-zayn-bone">
-    <div class="px-8 mb-8 flex justify-between items-end">
-        <h2 class="font-display text-4xl text-zayn-ink">Lookbook</h2>
-        <span class="text-[10px] uppercase tracking-widest text-gray-400">Drag to explore</span>
-    </div>
-    <div id="zaynDeck" class="flex overflow-x-auto no-scrollbar gap-1 px-8 pb-10">
-      <div class="shrink-0 w-[70vw] md:w-[25vw] aspect-[2/3] relative group overflow-hidden">
-        <img src="images/zayn1.webp" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
-        <div class="absolute bottom-4 left-4 text-white text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition">Look 01</div>
-      </div>
-      <div class="shrink-0 w-[70vw] md:w-[25vw] aspect-[2/3] relative group overflow-hidden">
-        <img src="images/zayn2.webp" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
-         <div class="absolute bottom-4 left-4 text-white text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition">Look 02</div>
-      </div>
-      <div class="shrink-0 w-[70vw] md:w-[25vw] aspect-[2/3] relative group overflow-hidden">
-        <img src="images/zayn3.webp" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
-      </div>
-      <div class="shrink-0 w-[70vw] md:w-[25vw] aspect-[2/3] relative group overflow-hidden">
-        <img src="images/zayn4.webp" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
-      </div>
-       <div class="shrink-0 w-[70vw] md:w-[25vw] aspect-[2/3] relative group overflow-hidden">
-        <img src="images/zayn5.webp" class="w-full h-full object-cover transition duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0">
-      </div>
-    </div>
-  </section>
-
-  <section id="philosophy" class="py-32 px-8 md:px-24 bg-white relative">
-    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-      <div class="order-2 md:order-1">
-         <div class="aspect-[3/4] bg-gray-100 overflow-hidden">
-             <img src="https://images.unsplash.com/photo-1506192186718-49d68205f257?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover grayscale opacity-80">
-         </div>
-      </div>
-      <div class="order-1 md:order-2 text-left">
-         <span class="block text-[10px] uppercase tracking-[0.4em] text-zayn-gold mb-8">The Philosophy</span>
-         <p class="text-3xl md:text-5xl font-serif leading-tight text-zayn-ink mb-10" data-i18n="philosophy">
-           We design pauses, spaces, and textures. Not made to impress. Made to express.
-         </p>
-         <div class="h-px w-16 bg-black mb-8"></div>
-         <ul id="manifesto" class="text-sm text-gray-600 font-sans leading-relaxed space-y-4">
-             </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="pieces" class="py-24 px-6 md:px-12 bg-zayn-bone relative z-10">
-    <div class="text-center mb-24">
-      <h2 class="font-display text-5xl md:text-6xl text-zayn-ink tracking-tight" data-i18n="pieces-h">Collection</h2>
-      <p class="mt-4 font-serif italic text-gray-500">Selected works for the season.</p>
-    </div>
-
-    <div id="grid" class="masonry-grid w-full max-w-7xl mx-auto" aria-live="polite">
-       </div>
-  </section>
-
-  <section id="story" class="py-32 bg-[#1a1a1a] text-white px-8 md:px-24">
-    <div class="max-w-4xl mx-auto text-center">
-        <span class="block text-[10px] uppercase tracking-[0.4em] text-gray-500 mb-8">The Story</span>
-        <p class="text-xl md:text-3xl font-serif font-light leading-relaxed opacity-80" data-i18n="story">
-          Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism.
+    <div class="relative z-10 text-center text-white p-4">
+        <p class="text-xs md:text-sm uppercase tracking-[0.4em] mb-4 font-sans opacity-80">The Art of Quiet Luxury</p>
+        <h1 class="text-6xl md:text-9xl font-display mb-6 tracking-tighter">ZAYN</h1>
+        <p class="text-xl md:text-2xl font-light italic max-w-lg mx-auto leading-relaxed opacity-90">
+            "Wear silence, not fabric."
         </p>
-        <img src="assets/logo.svg" class="w-24 mx-auto mt-12 opacity-30 invert">
     </div>
+    
+    <div class="absolute bottom-10 animate-bounce text-white opacity-50 text-xs uppercase tracking-widest">
+        Explore
+    </div>
+  </header>
+
+  <section id="philosophy" class="py-32 px-8 max-w-4xl mx-auto text-center">
+    <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-sans block mb-6">Philosophy</span>
+    <p class="text-3xl md:text-4xl leading-tight font-light text-gray-800">
+      ZAYN is a house of quiet luxury. We design pauses, spaces, and textures that let you feel more by seeing less.
+    </p>
   </section>
 
-  <section class="py-24 border-t border-gray-200 bg-zayn-bone text-center px-6">
-    <div class="max-w-lg mx-auto">
-      <h3 class="font-serif text-2xl italic mb-2">Join the inner circle.</h3>
-      <p class="text-xs text-gray-500 mb-8 uppercase tracking-widest">Quiet Luxury Updates</p>
-      <form class="relative border-b border-black pb-2" action="#" method="post" onsubmit="return false;">
-        <input type="email" class="w-full bg-transparent border-none text-center focus:ring-0 placeholder-gray-400 font-serif text-lg" placeholder="your@email.com" />
-        <button class="absolute right-0 bottom-2 text-[10px] uppercase tracking-widest hover:text-zayn-gold transition">Subscribe</button>
-      </form>
-      <div id="nlThanks" class="mt-4 text-xs text-zayn-gold font-serif italic"></div>
+  <section id="pieces" class="py-20 px-4 md:px-12 bg-white">
+    <div class="text-center mb-20">
+      <h2 class="text-5xl font-display text-black mb-4">The Collection</h2>
+      <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-sans">Curated Pieces</p>
     </div>
-  </section>
 
-  <footer class="bg-white py-12 border-t border-gray-100 text-[10px] uppercase tracking-[0.2em] text-gray-400">
-    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="text-black font-display text-lg tracking-widest">ZAYN</div>
-      <div class="flex space-x-8">
-        <a href="#philosophy" class="hover:text-black transition">Philosophy</a>
-        <a href="#pieces" class="hover:text-black transition">Pieces</a>
-        <a href="https://www.instagram.com/" class="hover:text-black transition">Instagram</a>
+    <div id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
       </div>
-      <div>© <span id="year"></span> ZAYN BRAND</div>
+
+    <div class="text-center mt-24">
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="inline-block border border-black px-12 py-4 text-[10px] uppercase tracking-[0.25em] hover:bg-black hover:text-white transition duration-500 font-sans">
+            View Full Gallery on Etsy
+        </a>
     </div>
+  </section>
+
+  <section id="story" class="py-32 bg-[#111] text-white text-center px-8">
+    <div class="max-w-2xl mx-auto">
+        <span class="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-sans block mb-8">The Story</span>
+        <p class="text-2xl font-light leading-relaxed opacity-80">
+            Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism.
+        </p>
+        <div class="mt-12 opacity-30">
+             <img src="assets/logo.svg" class="h-16 mx-auto invert" alt="">
+        </div>
+    </div>
+  </section>
+
+  <footer class="py-12 text-center text-[10px] uppercase tracking-[0.2em] text-gray-400 font-sans border-t border-gray-100">
+    <p>&copy; <span id="year"></span> ZAYN BRAND. All rights reserved.</p>
   </footer>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const intro = document.getElementById("zaynIntro");
-    const audio = document.getElementById("introSound");
-    const KEY   = "zaynIntroPlayed";
-
-    /* ==== Intro Logic ==== */
-    if (sessionStorage.getItem(KEY) === "1") {
-      if (intro) intro.remove();
-      document.body.classList.remove("pre-reveal");
-      document.body.classList.add("reveal");
-      if (audio) audio.remove();
-      return;
-    }
-
-    let v = 0.10;
-    if (audio) audio.volume = v;
-    function fadeTo(target, step=0.07, every=80){
-      const id = setInterval(()=>{ v=Math.min(target,v+step); audio.volume=v; if(v>=target)clearInterval(id); }, every);
-    }
-    function fadeOut(step=0.03, every=80){
-      const id = setInterval(()=>{ v=Math.max(0,v-step); audio.volume=v; if(v<=0){clearInterval(id); audio.pause();} }, every);
-    }
-    function scheduleFadeOut(){
-      const dur = (isFinite(audio?.duration) && audio.duration > 0) ? audio.duration * 1000 : 3000;
-      setTimeout(()=>fadeOut(), Math.max(0, dur - 450));
-    }
-    function startAudio(){
-      if(!audio || !audio.paused)return;
-      audio.play().then(()=>{
-        sessionStorage.setItem(KEY, "1");
-        fadeTo(0.55, 0.07);
-        if(isFinite(audio.duration) && audio.duration>0) scheduleFadeOut();
-        else audio.addEventListener("loadedmetadata", scheduleFadeOut, {once:true});
-        removeUnlockers();
-      }).catch(()=>{});
-    }
-
-    const events = ["pointerdown","touchstart","wheel","keydown","scroll","mousemove"];
-    function unlock(){ startAudio(); }
-    function removeUnlockers(){ events.forEach(ev=>window.removeEventListener(ev, unlock)); }
-    events.forEach(ev=>window.addEventListener(ev, unlock, {once:true, passive:true}));
-    startAudio();
-
-    const fontsReady = ('fonts' in document) ? document.fonts.ready : Promise.resolve();
-    Promise.all([fontsReady]).then(()=>{
-      setTimeout(()=>{
-        document.body.classList.remove('pre-reveal');
-        document.body.classList.add('reveal');
-      }, 1600);
-      setTimeout(()=>{
-        if(intro){
-          intro.classList.add('hide');
-          intro.addEventListener('transitionend', ()=>intro.remove(), {once:true});
-        }
-      }, 2600);
-    });
-
-    /* ==== ZAYN Wordmark Animation ==== */
-    const wordmark = document.getElementById("heroWordmark");
-    const brand    = document.getElementById("zaynBrandWordmark");
-    const hero     = document.getElementById("hero");
-
-    function updateZaynScale() {
-      if (!wordmark || !hero) return;
-      const rect = hero.getBoundingClientRect();
-      const vh   = window.innerHeight;
-      const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
-      
-      // Hero logosu yukarı kaydıkça silikleşsin
-      wordmark.style.opacity = 0.9 - progress; 
-      wordmark.style.transform = `translateY(${progress * 100}px)`;
-
-      // Navbar logosu sadece aşağı inince görünsün
-      if (brand) {
-         brand.style.opacity = (progress > 0.85) ? 1 : 0;
-      }
-    }
-    updateZaynScale();
-    window.addEventListener("scroll", updateZaynScale, { passive:true });
-
-    const yearSpan = document.getElementById("year");
-    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
-    
-    // JS ile yüklenen kartlara masonry class eklemek için basit bir gözlemci (Opsiyonel)
-    const grid = document.getElementById('grid');
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-                if(node.nodeType === 1) { // ELEMENT_NODE
-                    node.classList.add('masonry-item'); // CSS stilini uygula
-                    node.classList.add('mb-12'); // Boşluk ver
-                }
-            });
-        });
-    });
-    if(grid) observer.observe(grid, { childList: true });
-  });
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
