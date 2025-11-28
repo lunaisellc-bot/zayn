@@ -307,3 +307,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           deck.scrollBy({left: -300, behavior: 'smooth'});
       });
       nextBtn.addEventListener('click', () => {
+          deck.scrollBy({left: 300, behavior: 'smooth'});
+      });
+  }
+
+})();
