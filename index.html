@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta name="facebook-domain-verification" content="fsrfoi1hen3fe3vl3tqdkljqwltmty" />
   <meta charset="utf-8" />
@@ -9,237 +9,203 @@
   <meta name="description" content="ZAYN is a house of quiet luxury — geometry meets emotion. Wear silence, not fabric." />
   <link rel="canonical" href="https://www.zaynbrand.com/" />
 
-  <!-- App script (tüm i18n + products yükleme burada) -->
   <script defer src="script.js"></script>
 
-  <!-- Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            'zayn-bg': '#fcfcfc',
+            'zayn-black': '#1a1a1a',
+            'zayn-gray': '#666666',
+          },
+          spacing: {
+            '128': '32rem',
+          }
+        }
+      }
+    }
+  </script>
+
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- iOS küçük iyileştirmeler -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Logo & intro ses preload -->
   <link rel="preload" as="image" href="assets/logo.svg" />
   <link rel="preload" as="audio" href="assets/zayn_intro.mp3" />
 
   <style>
-    /* ======== CRITICAL: intro + dissolve ======== */
-    body.pre-reveal{
-      opacity:0;
-      filter:blur(6px) brightness(.85) saturate(.9);
-      transition:opacity .9s ease, filter .9s ease;
-    }
-    body.reveal{
-      opacity:1;
-      filter:none;
-    }
+    /* KRİTİK INTRO STİLLERİ (Dokunulmadı) */
+    body.pre-reveal { opacity: 0; filter: blur(6px) brightness(.85); transition: opacity .9s ease, filter .9s ease; }
+    body.reveal { opacity: 1; filter: none; }
+    
+    #zaynIntro { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #0f0f0f; z-index: 9999; opacity: 1; transition: opacity 0.8s ease; }
+    #zaynIntro img { width: 180px; transition: opacity .9s ease, transform .9s ease; }
+    #zaynIntro.hide { opacity: 0; visibility: hidden; pointer-events: none; }
 
-    #zaynIntro{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#0f0f0f;
-      z-index:9999;
-      opacity:1;
-    }
-    #zaynIntro img{
-      width:180px;
-      max-width:42vw;
-      height:auto;
-      opacity:0;
-      transform:translateY(6px) scale(.985);
-      transition:opacity .9s ease,transform .9s ease;
-      will-change:opacity,transform;
-    }
-    #zaynIntro.show img{
-      opacity:1;
-      transform:translateY(0) scale(1);
-    }
-    #zaynIntro.hide{
-      transition:opacity .8s ease;
-      opacity:0;
-      visibility:hidden;
-    }
-
-    .ambient{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:10;
-      background:radial-gradient(60rem 60rem at 50% 50%, rgba(255,255,255,.06), transparent 60%);
-      mix-blend-mode:overlay;
-      animation:shimmer 7s ease-in-out infinite alternate;
-      opacity:.35;
-    }
-    @keyframes shimmer{
-      0%{transform:translate3d(-2%,1%,0) scale(1.04);opacity:.28}
-      100%{transform:translate3d(2%,-1%,0) scale(1);opacity:.45}
-    }
-
-    @media (prefers-reduced-motion:reduce){
-      #zaynIntro,body{
-        transition:none!important;
-        animation:none!important;
-        opacity:1!important;
-        filter:none!important;
-      }
-    }
-
-    /* Buton renk düzeltmeleri */
-    .btn,.chip{color:var(--fg)}
-    .btn.ghost{background:#fff;color:var(--fg)}
-    .btn.primary:hover{background:#0f0f0f;color:#fff}
+    /* Özel Scrollbar Gizleme */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 
-<body class="pre-reveal">
-  <!-- Intro katmanı (logo) -->
-  <div id="zaynIntro" class="show" role="dialog" aria-label="Intro">
+<body class="pre-reveal bg-zayn-bg text-zayn-black font-sans antialiased selection:bg-black selection:text-white">
+
+  <div id="zaynIntro" class="show">
     <img src="assets/logo.svg" alt="ZAYN" />
   </div>
 
-  <div class="ambient" aria-hidden="true"></div>
   <audio id="introSound" src="assets/zayn_intro.mp3" preload="auto" playsinline></audio>
 
-  <!-- TOPBAR (Valentino vibe, ultra sade) -->
-  <header class="topbar topbar-valentino">
-    <nav class="nav nav-left">
-      <a href="#philosophy" class="nav-link">Philosophy</a>
-      <a href="#pieces" class="nav-link">Pieces</a>
-    </nav>
+  <nav class="fixed w-full z-40 top-0 left-0 mix-blend-difference text-white transition-all duration-500 py-6 px-6 md:px-12 flex justify-between items-center backdrop-blur-[2px]">
+    <div class="hidden md:flex space-x-8 text-xs uppercase tracking-[0.2em] font-light">
+      <a href="#philosophy" class="hover:opacity-60 transition-opacity">Philosophy</a>
+      <a href="#pieces" class="hover:opacity-60 transition-opacity">Pieces</a>
+    </div>
 
-    <!-- Ortadaki ZAYN, scroll ile küçülecek -->
-    <a class="brand brand-center" href="#hero" aria-label="ZAYN Home" id="zaynBrandWordmark">
+    <a href="#hero" id="zaynBrandWordmark" class="text-2xl md:text-3xl font-serif font-bold tracking-widest absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-300">
       ZAYN
     </a>
 
-    <nav class="nav nav-right">
-      <a href="#story" class="nav-link">Story</a>
-      <button id="langToggle" class="chip" aria-label="Toggle language">TR</button>
-    </nav>
-  </header>
-
-  <!-- HERO (tam sayfa editorial, ortada dev ZAYN) -->
-  <section id="hero" class="hero hero-editorial" aria-label="ZAYN Intro">
-    <!-- Arka plan görseli CSS ile verilecek (full-bleed foto) -->
-    <div class="hero-bg"></div>
-
-    <div class="hero-overlay">
-      <div class="hero-lockup">
-        <p class="hero-eyebrow">THE ART OF QUIET LUXURY</p>
-
-        <!-- Bu kelime merkezde, scroll ile shrink alacak -->
-        <h1 class="hero-wordmark" id="heroWordmark">
-          ZAYN
-        </h1>
-
-        <p class="hero-sub" data-i18n="hero-sub">
-          Geometry meets emotion — wear silence, not fabric.
-        </p>
-
-        <div class="hero-cta-row">
-          <a href="#pieces" class="btn primary" data-i18n="enter">
-            Enter Collection
-          </a>
-          <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener"
-             class="btn ghost" data-i18n="etsy">
-            View on Etsy
-          </a>
-        </div>
-      </div>
+    <div class="flex items-center space-x-8 text-xs uppercase tracking-[0.2em] font-light ml-auto md:ml-0">
+      <a href="#story" class="hidden md:block hover:opacity-60 transition-opacity">Story</a>
+      <button id="langToggle" class="border border-white/30 px-3 py-1 hover:bg-white hover:text-black transition">TR</button>
     </div>
-  </section>
+  </nav>
 
-  <!-- ZAYN Hero Stacked Gallery -->
-  <section class="zayn-hero" aria-label="ZAYN Gallery">
-    <div class="zayn-deck" id="zaynDeck">
-      <figure class="slot"><img src="images/zayn1.webp" alt="ZAYN Look 1" loading="eager"></figure>
-      <figure class="slot"><img src="images/zayn2.webp" alt="ZAYN Look 2" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn3.webp" alt="ZAYN Look 3" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn4.webp" alt="ZAYN Look 4" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn5.webp" alt="ZAYN Look 5" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn6.webp" alt="ZAYN Look 6" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn7.webp" alt="ZAYN Look 7" loading="lazy"></figure>
-      <figure class="slot"><img src="images/zayn8.webp" alt="ZAYN Look 8" loading="lazy"></figure>
+  <section id="hero" class="relative h-screen w-full flex items-center justify-center overflow-hidden bg-[#111]">
+    <div class="absolute inset-0 opacity-60">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Zayn Mood">
     </div>
 
-    <button class="zayn-nav prev" aria-label="Previous">‹</button>
-    <button class="zayn-nav next" aria-label="Next">›</button>
-  </section>
+    <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto flex flex-col items-center">
+      <p class="text-[10px] md:text-xs uppercase tracking-[0.4em] mb-6 opacity-80">The Art of Quiet Luxury</p>
 
-  <!-- PHILOSOPHY -->
-  <section id="philosophy" class="section">
-    <div class="container">
-      <h2 class="eyebrow" data-i18n="philosophy-h">Philosophy</h2>
-      <div class="grid-2">
-        <p class="lead" data-i18n="philosophy">
-          ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses,
-          spaces, and textures that let you feel more by seeing less.
-        </p>
-        <ul id="manifesto" class="bullets"></ul>
-      </div>
-    </div>
-  </section>
+      <h1 id="heroWordmark" class="text-7xl md:text-9xl font-serif italic mb-8 leading-none tracking-tight mix-blend-overlay">
+        ZAYN
+      </h1>
 
-  <!-- PIECES -->
-  <section id="pieces" class="section section-alt">
-    <div class="container">
-      <h2 class="eyebrow" data-i18n="pieces-h">Pieces</h2>
-      <div id="grid" class="grid-3" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- STORY -->
-  <section id="story" class="section">
-    <div class="container">
-      <h2 class="eyebrow" data-i18n="story-h">Story</h2>
-      <p class="lead" data-i18n="story">
-        Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces
-        that speak softly yet powerfully.
+      <p class="text-lg md:text-2xl font-serif font-light opacity-90 mb-10 max-w-xl leading-relaxed" data-i18n="hero-sub">
+        Geometry meets emotion — wear silence, not fabric.
       </p>
-    </div>
-  </section>
 
-  <!-- NEWSLETTER -->
-  <section id="newsletter" class="section section-alt">
-    <div class="container card">
-      <h3 class="h3" data-i18n="nl-h">Join the world of quiet luxury.</h3>
-      <p class="muted" data-i18n="nl-p">Be the first to discover new designs, textures, and limited drops.</p>
-      <form class="nl" action="#" method="post" onsubmit="return false;">
-        <input type="email" class="input" placeholder="Email address" aria-label="Email" />
-        <button class="btn" data-i18n="subscribe">Subscribe</button>
-      </form>
-      <div id="nlThanks" class="nl-thanks" role="status" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container footer-row">
-      <div class="brand small">ZAYN</div>
-      <div class="links">
-        <a href="#philosophy">Philosophy</a>
-        <a href="#pieces">Pieces</a>
-        <a href="#story">Story</a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener">Etsy</a>
+      <div class="flex flex-col md:flex-row gap-6 mt-4">
+        <a href="#pieces" class="bg-white text-black px-8 py-3 text-xs uppercase tracking-[0.2em] hover:bg-gray-200 transition" data-i18n="enter">
+          Enter Collection
+        </a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener"
+           class="border border-white text-white px-8 py-3 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black transition" data-i18n="etsy">
+          View on Etsy
+        </a>
       </div>
-      <div class="muted">
-        © <span id="year"></span> ZAYN — The Art of Quiet Luxury ·
-        <span class="muted">Made in Silence</span>
+    </div>
+  </section>
+
+  <section class="py-20 bg-zayn-bg overflow-hidden" aria-label="ZAYN Gallery">
+    <div id="zaynDeck" class="flex overflow-x-auto no-scrollbar snap-x snap-mandatory gap-4 px-6 md:px-12 pb-10">
+      <figure class="snap-center shrink-0 w-[80vw] md:w-[30vw] aspect-[3/4] relative group">
+        <img src="images/zayn1.webp" alt="ZAYN Look 1" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out">
+      </figure>
+      <figure class="snap-center shrink-0 w-[80vw] md:w-[30vw] aspect-[3/4] relative group">
+        <img src="images/zayn2.webp" alt="ZAYN Look 2" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out">
+      </figure>
+      <figure class="snap-center shrink-0 w-[80vw] md:w-[30vw] aspect-[3/4] relative group">
+        <img src="images/zayn3.webp" alt="ZAYN Look 3" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out">
+      </figure>
+      <figure class="snap-center shrink-0 w-[80vw] md:w-[30vw] aspect-[3/4] relative group">
+        <img src="images/zayn4.webp" alt="ZAYN Look 4" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out">
+      </figure>
+       <figure class="snap-center shrink-0 w-[80vw] md:w-[30vw] aspect-[3/4] relative group">
+        <img src="images/zayn5.webp" alt="ZAYN Look 5" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-in-out">
+      </figure>
+    </div>
+    
+    <div class="flex justify-center gap-8 text-2xl font-serif mt-4 opacity-50">
+        <button class="zayn-nav prev hover:text-black transition">‹</button>
+        <button class="zayn-nav next hover:text-black transition">›</button>
+    </div>
+  </section>
+
+  <section id="philosophy" class="py-32 px-6 md:px-12 bg-white">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-xs uppercase tracking-[0.3em] text-zayn-gray mb-6" data-i18n="philosophy-h">Philosophy</h2>
+      <p class="text-3xl md:text-5xl font-serif leading-tight text-zayn-black mb-12" data-i18n="philosophy">
+        ZAYN is a house of quiet luxury — a gallery of restraint where geometry meets emotion. We design pauses,
+        spaces, and textures that let you feel more by seeing less.
+      </p>
+      <ul id="manifesto" class="space-y-2 text-sm text-gray-500 font-light tracking-wide"></ul>
+    </div>
+  </section>
+
+  <section id="pieces" class="py-24 px-6 md:px-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-end mb-16 border-b border-gray-200 pb-6">
+        <h2 class="text-4xl font-serif" data-i18n="pieces-h">Pieces</h2>
+        <span class="text-xs uppercase tracking-widest text-gray-500">Shop the Collection</span>
+      </div>
+      
+      <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16" aria-live="polite">
+        </div>
+    </div>
+  </section>
+
+  <section id="story" class="py-32 px-6 md:px-12 bg-white">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <div class="w-full md:w-1/2">
+         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop" class="w-full aspect-[4/5] object-cover grayscale">
+      </div>
+      <div class="w-full md:w-1/2">
+        <h2 class="text-xs uppercase tracking-[0.3em] text-zayn-gray mb-6" data-i18n="story-h">Story</h2>
+        <p class="text-xl font-serif leading-relaxed" data-i18n="story">
+          Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism — crafting pieces
+          that speak softly yet powerfully.
+        </p>
+        <img src="assets/logo.svg" class="w-24 mt-8 opacity-20" alt="Zayn Signature">
+      </div>
+    </div>
+  </section>
+
+  <section id="newsletter" class="py-24 bg-zayn-black text-white text-center px-6">
+    <div class="max-w-xl mx-auto">
+      <h3 class="text-2xl font-serif italic mb-4" data-i18n="nl-h">Join the world of quiet luxury.</h3>
+      <p class="text-sm text-gray-400 mb-8 font-light" data-i18n="nl-p">Be the first to discover new designs, textures, and limited drops.</p>
+      
+      <form class="flex flex-col md:flex-row gap-4 border-b border-gray-700 pb-8" action="#" method="post" onsubmit="return false;">
+        <input type="email" class="bg-transparent border-none w-full text-white placeholder-gray-600 focus:ring-0 text-center md:text-left" placeholder="Email address" aria-label="Email" />
+        <button class="uppercase text-xs tracking-[0.2em] hover:text-gray-300 transition" data-i18n="subscribe">Subscribe</button>
+      </form>
+      <div id="nlThanks" class="mt-4 text-xs text-green-400" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer class="bg-white py-12 px-6 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 uppercase tracking-widest gap-6">
+      <div class="font-bold text-black text-lg font-serif tracking-normal">ZAYN</div>
+      <div class="flex space-x-6">
+        <a href="#philosophy" class="hover:text-black transition">Philosophy</a>
+        <a href="#pieces" class="hover:text-black transition">Pieces</a>
+        <a href="#story" class="hover:text-black transition">Story</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="hover:text-black transition">Instagram</a>
+        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" rel="noopener" class="hover:text-black transition">Etsy</a>
+      </div>
+      <div>
+        © <span id="year"></span> ZAYN
       </div>
     </div>
   </footer>
 
-  <!-- INTRO + AUDIO + DISSOLVE logic + ZAYN shrink JS -->
   <script>
   document.addEventListener("DOMContentLoaded", function () {
     const intro  = document.getElementById("zaynIntro");
@@ -307,7 +273,7 @@
       }, 2600);
     });
 
-    /* ==== ZAYN hero wordmark shrink (scroll’da küçülüyor) ==== */
+    /* ==== ZAYN hero wordmark shrink ==== */
     const wordmark = document.getElementById("heroWordmark");
     const brand    = document.getElementById("zaynBrandWordmark");
     const hero     = document.getElementById("hero");
@@ -316,23 +282,25 @@
       if (!wordmark || !hero) return;
       const rect = hero.getBoundingClientRect();
       const vh   = window.innerHeight || document.documentElement.clientHeight;
-
       const progress = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
       const scale = 1 - progress * 0.55;
 
-      wordmark.style.setProperty("--zaynScale", scale.toFixed(3));
+      // Inline style olarak güncelliyoruz
+      wordmark.style.transform = `scale(${scale})`;
+      wordmark.style.opacity = 1 - (progress * 0.8);
 
       if (brand) {
-        const navScale = 0.8 + progress * 0.2; // 0.8 → 1.0
-        brand.style.opacity = 0.55 + progress * 0.45; // 0.55 → 1
-        brand.style.transform = `scale(${navScale.toFixed(3)})`;
+         // Marka logosu yukarıdan aşağı indikçe görünür olacak
+        brand.style.opacity = (progress > 0.8) ? 1 : 0;
       }
     }
 
     updateZaynScale();
     window.addEventListener("scroll", updateZaynScale, { passive:true });
-
-    /* ==== PIECES — Ekranda olan kartı büyütmek istersen buraya IO ekleyeceğiz (sonraki adım) ==== */
+    
+    // Yıl güncellemesi
+    const yearSpan = document.getElementById("year");
+    if(yearSpan) yearSpan.textContent = new Date().getFullYear();
   });
   </script>
 </body>
