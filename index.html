@@ -25,8 +25,9 @@
             sans: ['"Montserrat"', 'sans-serif'],
           },
           colors: {
-            'zayn-bg': '#FDFBF7', /* Çok açık krem (Kağıt rengi) */
+            'zayn-bg': '#FDFBF7', /* Lüks kağıt dokusu rengi */
             'zayn-black': '#111111',
+            'zayn-gray': '#888888',
           }
         }
       }
@@ -34,92 +35,33 @@
   </script>
 
   <style>
-    /* Sayfa açılış efekti */
+    /* Sayfa Yüklenme Animasyonu */
     body.fade-in { opacity: 0; transition: opacity 1.5s ease-in-out; }
     body.loaded { opacity: 1; }
     
-    /* Scrollbar'ı gizle (Daha temiz görünüm için) */
+    /* Scrollbar Gizle */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Filtre Butonları Aktif/Pasif Animasyonu */
+    .filter-btn.active { color: #000; border-bottom-color: #000; }
   </style>
 </head>
 
 <body class="bg-zayn-bg text-zayn-black font-serif fade-in" onload="document.body.classList.add('loaded')">
 
-  <nav class="fixed w-full z-50 top-0 py-6 px-8 flex justify-between items-center bg-zayn-bg/90 backdrop-blur-sm">
-    <div class="hidden md:flex space-x-8 text-[10px] uppercase tracking-[0.25em] font-sans">
-      <a href="#philosophy" class="hover:text-gray-500 transition">Philosophy</a>
-      <a href="#pieces" class="hover:text-gray-500 transition">Collection</a>
+  <nav class="fixed w-full z-50 top-0 py-6 px-8 flex justify-between items-center bg-zayn-bg/95 backdrop-blur-sm transition-all duration-300">
+    <div class="hidden md:flex space-x-8 text-[10px] uppercase tracking-[0.25em] font-sans text-gray-600">
+      <a href="#philosophy" class="hover:text-black transition">Philosophy</a>
+      <a href="#pieces" class="hover:text-black transition">Collection</a>
     </div>
     
     <a href="#" class="text-3xl font-display tracking-widest mx-auto md:mx-0">ZAYN</a>
 
-    <div class="flex space-x-6 text-[10px] uppercase tracking-[0.25em] font-sans">
-      <a href="#story" class="hidden md:block hover:text-gray-500 transition">Story</a>
-      <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="border-b border-black pb-1 hover:border-gray-400 transition">Etsy Shop</a>
+    <div class="flex space-x-6 text-[10px] uppercase tracking-[0.25em] font-sans text-gray-600">
+      <a href="#story" class="hidden md:block hover:text-black transition">Story</a>
+      <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="border-b border-gray-300 pb-1 hover:border-black hover:text-black transition">Etsy Shop</a>
     </div>
   </nav>
 
-  <header class="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden">
-    <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" class="w-full h-full object-cover opacity-90 grayscale brightness-90">
-    </div>
-    
-    <div class="relative z-10 text-center text-white p-4">
-        <p class="text-xs md:text-sm uppercase tracking-[0.4em] mb-4 font-sans opacity-80">The Art of Quiet Luxury</p>
-        <h1 class="text-6xl md:text-9xl font-display mb-6 tracking-tighter">ZAYN</h1>
-        <p class="text-xl md:text-2xl font-light italic max-w-lg mx-auto leading-relaxed opacity-90">
-            "Wear silence, not fabric."
-        </p>
-    </div>
-    
-    <div class="absolute bottom-10 animate-bounce text-white opacity-50 text-xs uppercase tracking-widest">
-        Explore
-    </div>
-  </header>
-
-  <section id="philosophy" class="py-32 px-8 max-w-4xl mx-auto text-center">
-    <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-sans block mb-6">Philosophy</span>
-    <p class="text-3xl md:text-4xl leading-tight font-light text-gray-800">
-      ZAYN is a house of quiet luxury. We design pauses, spaces, and textures that let you feel more by seeing less.
-    </p>
-  </section>
-
-  <section id="pieces" class="py-20 px-4 md:px-12 bg-white">
-    <div class="text-center mb-20">
-      <h2 class="text-5xl font-display text-black mb-4">The Collection</h2>
-      <p class="text-xs uppercase tracking-[0.2em] text-gray-500 font-sans">Curated Pieces</p>
-    </div>
-
-    <div id="grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
-      </div>
-
-    <div class="text-center mt-24">
-        <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="inline-block border border-black px-12 py-4 text-[10px] uppercase tracking-[0.25em] hover:bg-black hover:text-white transition duration-500 font-sans">
-            View Full Gallery on Etsy
-        </a>
-    </div>
-  </section>
-
-  <section id="story" class="py-32 bg-[#111] text-white text-center px-8">
-    <div class="max-w-2xl mx-auto">
-        <span class="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-sans block mb-8">The Story</span>
-        <p class="text-2xl font-light leading-relaxed opacity-80">
-            Born in Wyoming, carried by silence. ZAYN bridges Eastern sentiment and Western minimalism.
-        </p>
-        <div class="mt-12 opacity-30">
-             <img src="assets/logo.svg" class="h-16 mx-auto invert" alt="">
-        </div>
-    </div>
-  </section>
-
-  <footer class="py-12 text-center text-[10px] uppercase tracking-[0.2em] text-gray-400 font-sans border-t border-gray-100">
-    <p>&copy; <span id="year"></span> ZAYN BRAND. All rights reserved.</p>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-</body>
-</html>
+  <header class="relative h-screen w-full flex flex-col justify-center items-center
