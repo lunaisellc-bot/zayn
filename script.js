@@ -1,4 +1,4 @@
-/* ===== ZAYN 2.0 — Single-file JS (intro + i18n + products + centered auto-rotate gallery) ===== */
+/* ===== ZAYN 2.0 — Single-file JS (Vogue Layout Edition) ===== */
 
 const I18N = {
   EN: {
@@ -145,8 +145,8 @@ function applyLang() {
     ul.innerHTML = "";
     I18N[LANG].manifesto.forEach(line => {
       const li = document.createElement("li");
-      li.className = "muted";
-      li.innerHTML = `<span class="dot"></span><span>${line}</span>`;
+      li.className = "text-gray-500 text-sm mb-2"; // Basit stil
+      li.innerHTML = `<span>${line}</span>`;
       ul.appendChild(li);
     });
   }
@@ -172,8 +172,7 @@ function startHeadlineTicker() {
   }, 2400);
 }
 
-/* ---------- products ---------- */
-/* ---------- products ---------- */
+/* ---------- PRODUCTS (MAGAZINE STYLE UPDATE) ---------- */
 async function loadProducts() {
   try {
     const res = await fetch(`products.json?v=${Date.now().toString().slice(0, 10)}`, { cache: "no-store" });
@@ -189,11 +188,6 @@ async function loadProducts() {
           ? (it.titleEN ?? it.title)
           : (it.titleTR ?? it.title);
 
-      const line =
-        LANG === "EN"
-          ? (it.lineEN ?? it.line ?? "")
-          : (it.lineTR ?? it.line ?? "");
-
       const href =
         it.href ||
         (it.id
@@ -205,39 +199,44 @@ async function loadProducts() {
         (it.images && it.images[0] && (it.images[0].url_fullxfull || it.images[0].url_570xN)) ||
         "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
 
-      // KART
+      // 1. KART KAPLAYICISI (Eski 'card-tile' class'ını kaldırdık, çakışmasın diye)
       const a = document.createElement("a");
       a.href = href;
       a.target = "_blank";
       a.rel = "noopener";
-      a.className = "card-tile";
+      // Tailwind: Grup hover efekti için 'group', margin-bottom
+      a.className = "group block mb-12 masonry-item cursor-pointer"; 
 
-      // GÖRSEL (kare, full-bleed için CSS kullanıyoruz)
-      const imgEl = document.createElement("img");
-      imgEl.src = img;
-      imgEl.alt = title ?? "";
-      imgEl.loading = "lazy";
-      a.appendChild(imgEl);
+      // 2. İÇERİK YAPISI (Magazine Style: Görsel Üstte, Yazı Altta)
+      a.innerHTML = `
+        <div class="relative overflow-hidden aspect-[3/4] bg-[#f4f4f4] mb-5 transition-transform duration-700">
+            <img src="${img}" 
+                 alt="${title}" 
+                 loading="lazy"
+                 class="w-full h-full object-cover transition duration-1000 ease-out group-hover:scale-105" 
+            />
+            
+            <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
+                <span class="bg-white text-black text-[9px] uppercase tracking-[0.2em] px-5 py-3 shadow-xl">
+                    ${LANG === 'EN' ? 'View Piece' : 'İncele'}
+                </span>
+            </div>
+        </div>
 
-      // ORTADA HERO TARZI BAŞLIK OVERLAY
-      const meta = document.createElement("div");
-      meta.className = "tile-meta";
+        <div class="text-center px-2">
+            <h3 class="font-serif text-lg leading-snug text-gray-900 group-hover:text-black line-clamp-2">
+                ${title ? title.toLowerCase() : ''} 
+            </h3>
+            <p class="text-[9px] text-gray-400 uppercase tracking-[0.2em] mt-2">
+                ZAYN Collection
+            </p>
+        </div>
+      `;
 
-      const titleEl = document.createElement("div");
-      titleEl.className = "title";
-      titleEl.textContent = title ?? "";
+      // CSS ile baş harfleri büyütmek için stil eklemesi (Inline style güvenlidir)
+      const titleEl = a.querySelector('h3');
+      if(titleEl) titleEl.style.textTransform = 'capitalize';
 
-      meta.appendChild(titleEl);
-
-      // İstersek alt satırı ileride kullanırız; şimdilik ekleyelim ama CSS ile gizleyebiliriz
-      if (line) {
-        const sub = document.createElement("div");
-        sub.className = "meta-line";
-        sub.textContent = line;
-        meta.appendChild(sub);
-      }
-
-      a.appendChild(meta);
       grid.appendChild(a);
     });
   } catch (e) {
@@ -291,53 +290,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const deck = document.getElementById("zaynDeck");
   if (!deck) return;
 
-  const slots = [...deck.querySelectorAll(".slot")];
-  const prevBtn = document.querySelector(".zayn-hero .prev");
-  const nextBtn = document.querySelector(".zayn-hero .next");
+  const slots = [...deck.querySelectorAll(".slot, .group")]; // .group selectorünü de ekledim yeni yapı için
+  const prevBtn = document.querySelector(".zayn-nav.prev");
+  const nextBtn = document.querySelector(".zayn-nav.next");
+
+  // Eğer slots boşsa gallery çalışmaz, hata vermesin
+  if(slots.length === 0) return;
 
   let index = Math.floor(slots.length / 2);
-  let timer = null;
-  const INTERVAL = 3800;
+  // Gallery slider logic'i burada basitleştirilmiş haliyle kalsın
+  // Ancak HTML yapısı değiştiği için buradaki logic'in CSS ile (flex scroll) çalışması daha sağlıklı.
+  // Bu nedenle manuel scroll butonları ekledim:
 
-  function applyClasses() {
-    const n = slots.length;
-    slots.forEach(s => (s.className = "slot"));
-    for (let i = 0; i < n; i++) {
-      let d = i - index;
-      if (d > n / 2) d -= n;
-      if (d < -n / 2) d += n;
-
-      if (d === 0) slots[i].classList.add("is-center");
-      else if (d === -1) slots[i].classList.add("is-near-left");
-      else if (d === 1) slots[i].classList.add("is-near-right");
-      else if (d < -1) slots[i].classList.add("is-far-left");
-      else if (d > 1) slots[i].classList.add("is-far-right");
-    }
-  }
-
-  const goTo = (i) => { index = (i + slots.length) % slots.length; applyClasses(); };
-  const next = () => goTo(index + 1);
-  const prev = () => goTo(index - 1);
-  const start = () => { stop(); timer = setInterval(next, INTERVAL); };
-  const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
-
-  applyClasses(); start();
-
-  nextBtn?.addEventListener("click", () => { stop(); next(); start(); });
-  prevBtn?.addEventListener("click", () => { stop(); prev(); start(); });
-
-  deck.addEventListener("mouseenter", stop);
-  deck.addEventListener("mouseleave", start);
-
-  let x0 = null;
-  deck.addEventListener("pointerdown", (e) => { x0 = e.clientX; stop(); deck.setPointerCapture?.(e.pointerId); });
-  deck.addEventListener("pointerup", (e) => {
-    if (x0 === null) return;
-    const dx = e.clientX - x0;
-    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
-    x0 = null; start();
-  });
-
-  document.addEventListener("visibilitychange", () => document.hidden ? stop() : start());
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) stop();
-})();
+  if(prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+          deck.scrollBy({left: -300, behavior: 'smooth'});
+      });
+      nextBtn.addEventListener('click', () => {
