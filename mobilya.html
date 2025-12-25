@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mihrap Mobilya | Evinizin Yeni Köşesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- GENEL AYARLAR --- */
+        :root {
+            --primary-gold: #D4AF37; /* Lüks Altın Rengi */
+            --dark-bg: #1a1a1a;
+            --text-grey: #555;
+            --light-bg: #f9f9f9;
+            --whatsapp-green: #25D366;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: #fff;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-bg);
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--dark-bg);
+            border-bottom: 2px solid var(--primary-gold);
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; font-size: 14px; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--primary-gold); }
+
+        .header-icons i { margin-left: 20px; font-size: 18px; cursor: pointer; }
+
+        /* --- HERO (MANŞET) BÖLÜMÜ --- */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: 60px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .btn-main {
+            padding: 15px 40px;
+            background-color: var(--primary-gold);
+            color: #fff;
+            border: none;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-main:hover { background-color: #b59025; }
+
+        /* --- KAMPANYALAR --- */
+        .campaigns { padding: 60px 0; background: var(--light-bg); }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        .campaign-card {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .campaign-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .campaign-card:hover img { transform: scale(1.1); }
+        .campaign-text {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+        }
+        .campaign-text h3 { font-size: 18px; }
+
+        /* --- ÜRÜNLER --- */
+        .products-section { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 36px; margin-bottom: 10px; }
+        .section-title p { color: var(--text-grey); }
+
+        .product-card {
+            border: 1px solid #eee;
+            transition: 0.3s;
+            position: relative;
+        }
+        .product-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.1); transform: translateY(-5px); }
+        
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--dark-bg);
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        .prod-img { height: 300px; width: 100%; overflow: hidden; background: #f0f0f0; }
+        .prod-img img { width: 100%; height: 100%; object-fit: cover; }
+
+        .prod-details { padding: 20px; text-align: center; }
+        .prod-category { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+        .prod-title { font-size: 18px; margin: 10px 0; cursor: pointer; }
+        
+        .price-box { margin-bottom: 15px; }
+        .old-price { text-decoration: line-through; color: #999; font-size: 14px; margin-right: 10px; }
+        .new-price { color: var(--dark-bg); font-weight: 700; font-size: 20px; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .btn-cart {
+            flex: 1;
+            padding: 10px;
+            background: var(--dark-bg);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-whatsapp {
+            flex: 1;
+            padding: 10px;
+            background: var(--whatsapp-green);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        .btn-whatsapp:hover { background: #1ebc57; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--dark-bg); color: #fff; padding: 60px 0 20px; margin-top: 50px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: var(--primary-gold); margin-bottom: 20px; font-family: 'Playfair Display'; }
+        .footer-col ul li { margin-bottom: 10px; color: #aaa; }
+        .footer-bottom { text-align: center; border-top: 1px solid #333; padding-top: 20px; color: #777; font-size: 12px; }
+
+        /* --- MOBİL UYUMLULUK --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 32px; }
+            .nav-links { display: none; } /* Basitlik için mobilde menüyü gizledim */
+            .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <div class="logo">MİHRAP MOBİLYA</div>
+            <ul class="nav-links">
+                <li><a href="#">Ana Sayfa</a></li>
+                <li><a href="#">Oturma Odası</a></li>
+                <li><a href="#">Yatak Odası</a></li>
+                <li><a href="#">Yemek Odası</a></li>
+                <li><a href="#">Düğün Paketleri</a></li>
+                <li><a href="#">İletişim</a></li>
+            </ul>
+            <div class="header-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-user"></i>
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Evinizin Mihrabı,<br>Sizin Tarzınız.</h1>
+            <p style="font-size: 18px; margin-bottom: 30px;">Yeni sezon Chester koleksiyonunda açılışa özel %40'a varan indirimler.</p>
+            <button class="btn-main">Koleksiyonu Keşfet</button>
+        </div>
+    </section>
+
+    <section class="campaigns">
+        <div class="container grid-3">
+            <div class="campaign-card">
+                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Koltuk">
+                <div class="campaign-text">
+                    <h3>Oturma Grupleri</h3>
+                    <p>%25 İndirim</p>
+                </div>
+            </div>
+            <div class="campaign-card">
+                <img src="https://images.unsplash.com/photo-1505693416388-b0346efee749?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Yatak">
+                <div class="campaign-text">
+                    <h3>Yatak Odası</h3>
+                    <p>Konforu Hisset</p>
+                </div>
+            </div>
+            <div class="campaign-card">
+                <img src="https://images.unsplash.com/photo-1617806118233-18e1de247200?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Yemek">
+                <div class="campaign-text">
+                    <h3>Yemek Odası</h3>
+                    <p>Zarif Sofralar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section container">
+        <div class="section-title">
+            <h2>Öne Çıkan Ürünler</h2>
+            <p>Mihrap Mobilya kalitesiyle evinizin havasını değiştirin.</p>
+        </div>
+
+        <div class="grid-3" id="product-list">
+            <div class="product-card">
+                <div class="badge">YENİ</div>
+                <div class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Koltuk">
+                </div>
+                <div class="prod-details">
+                    <span class="prod-category">Oturma Grubu</span>
+                    <h3 class="prod-title">Sultan Chester Koltuk</h3>
+                    <div class="price-box">
+                        <span class="old-price">45.000 ₺</span>
+                        <span class="new-price">38.500 ₺</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-cart" onclick="alert('Ürün sepete eklendi!')">Sepete Ekle</button>
+                        <a href="https://wa.me/905555555555?text=Merhaba,%20Sultan%20Chester%20modeli%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Sor
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Yatak">
+                </div>
+                <div class="prod-details">
+                    <span class="prod-category">Yatak Odası</span>
+                    <h3 class="prod-title">Mihrap Elite Yatak Odası</h3>
+                    <div class="price-box">
+                        <span class="old-price">60.000 ₺</span>
+                        <span class="new-price">52.000 ₺</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-cart" onclick="alert('Ürün sepete eklendi!')">Sepete Ekle</button>
+                        <a href="https://wa.me/905555555555?text=Merhaba,%20Elite%20Yatak%20Odası%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Sor
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="badge">%15 İNDİRİM</div>
+                <div class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1601625983751-2479637c35a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Masa">
+                </div>
+                <div class="prod-details">
+                    <span class="prod-category">Aksesuar</span>
+                    <h3 class="prod-title">Gold Detaylı Orta Sehpa</h3>
+                    <div class="price-box">
+                        <span class="old-price">8.000 ₺</span>
+                        <span class="new-price">6.800 ₺</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-cart" onclick="alert('Ürün sepete eklendi!')">Sepete Ekle</button>
+                        <a href="https://wa.me/905555555555?text=Merhaba,%20Gold%20Sehpa%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Sor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="color:#fff; border-color:#555; display:inline-block; margin-bottom:20px;">MİHRAP</div>
+                <p style="color:#aaa; font-size:14px;">Evinize değer katan, yıllara meydan okuyan mobilyalar. Mihrap Mobilya ile şıklığı keşfedin.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kurumsal</h4>
+                <ul>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">Mağazalarımız</a></li>
+                    <li><a href="#">Kariyer</a></li>
+                    <li><a href="#">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Müşteri Hizmetleri</h4>
+                <ul>
+                    <li><a href="#">Sipariş Takibi</a></li>
+                    <li><a href="#">İade ve Değişim</a></li>
+                    <li><a href="#">Sıkça Sorulan Sorular</a></li>
+                    <li><a href="#">KVKK Aydınlatma Metni</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Bizi Takip Edin</h4>
+                <div style="font-size: 20px; color: var(--primary-gold);">
+                    <i class="fab fa-instagram" style="margin-right: 15px;"></i>
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-youtube" style="margin-left: 15px;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Mihrap Mobilya. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
