@@ -3,267 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | The Art of Living</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <title>ZAYN | Luxury Debug Mode</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'royal': ['"Cinzel"', 'serif'],
-                        'serif': ['"Cormorant Garamond"', 'serif'],
-                        'sans': ['"Montserrat"', 'sans-serif'],
-                    },
-                    colors: {
-                        'void': '#080808',
-                        'cream': '#F5F3EF',
-                        'gold': '#C8AA6E'
-                    }
-                }
-            }
-        }
-    </script>
-
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- ATMOSFER --- */
-        body { background-color: #080808; color: #F5F3EF; overflow-x: hidden; }
+        body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; }
         
-        /* Video Background Overlay */
-        .video-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1;
-        }
-
-        /* Noise Texture (Daha hafif) */
-        .noise {
-            position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.03;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-        }
-
-        /* --- PRELOADER --- */
-        .preloader {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
+        /* Debug Konsolu (Ekranda Hata Gösterici) */
+        #debug-console {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(20,0,0,0.9); 
+            color: #ff5555; font-family: monospace; font-size: 12px; padding: 10px; 
+            z-index: 99999; border-top: 1px solid red; display: none;
         }
         
-        /* --- CURSOR --- */
-        @media (min-width: 768px) {
-            body { cursor: none; }
-            .cursor-outer {
-                width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
-                position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.2s;
-            }
-            .cursor-inner {
-                width: 4px; height: 4px; background: #fff; border-radius: 50%;
-                position: fixed; pointer-events: none; z-index: 9999;
-            }
-        }
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="antialiased selection:bg-gold selection:text-black">
+<body>
 
-    <div class="noise"></div>
+    <div id="debug-console">System Status: Initializing...</div>
 
-    <div class="preloader" id="preloader">
-        <div class="text-center">
-            <h1 class="font-royal text-4xl md:text-6xl tracking-[0.2em] text-white opacity-0 load-text">ZAYN</h1>
-            <div class="w-0 h-[1px] bg-gold mx-auto mt-4 load-line"></div>
-        </div>
-    </div>
-
-    <div class="cursor-outer hidden md:block"></div>
-    <div class="cursor-inner hidden md:block"></div>
-
-    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference">
-        <div class="font-sans text-[10px] tracking-[0.3em] uppercase">Est. 2025</div>
-        <div class="font-royal text-2xl tracking-widest absolute left-1/2 -translate-x-1/2">ZAYN</div>
-        <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="font-sans text-[10px] tracking-[0.3em] uppercase border-b border-white/30 pb-1 hover:text-gold transition-colors">Etsy Shop</a>
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/80 to-transparent">
+        <div class="text-xs tracking-[0.3em]">EST. 2025</div>
+        <div class="text-2xl tracking-widest font-bold">ZAYN</div>
+        <div class="text-xs tracking-[0.3em]">SHOP</div>
     </nav>
 
-    <header class="relative w-full h-screen overflow-hidden flex items-center justify-center">
-        <div class="absolute inset-0 z-0">
-            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-60 scale-105" id="hero-video">
-                <source src="https://videos.pexels.com/video-files/3205916/3205916-uhd_2560_1440_25fps.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
-        </div>
-        
-        <div class="relative z-10 text-center px-4">
-            <h1 class="font-royal text-[15vw] leading-none text-white mix-blend-overlay opacity-0 hero-anim">SILENCE</h1>
-            <p class="font-serif text-xl md:text-3xl italic text-gray-300 mt-4 opacity-0 hero-anim">"Luxury whispers."</p>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-            <span class="text-[9px] uppercase tracking-widest font-sans">Explore</span>
-            <div class="w-[1px] h-12 bg-white/50"></div>
+    <header class="h-screen flex items-center justify-center relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale">
+        <div class="relative z-10 text-center">
+            <h1 class="text-[12vw] leading-none opacity-0 anim-hero">SILENCE</h1>
+            <p class="text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">The collection is loading...</p>
         </div>
     </header>
 
-    <section class="py-32 px-6 md:px-24 bg-void relative z-10">
-        <div class="max-w-5xl mx-auto text-center">
-            <p class="text-gold text-xs tracking-[0.4em] uppercase mb-8">The Vision</p>
-            <h2 class="font-royal text-3xl md:text-5xl leading-relaxed text-cream reveal-text">
-                We curate the space between <br> <span class="font-serif italic text-gray-500">noise</span> and <span class="font-serif italic text-gold">elegance.</span>
-            </h2>
-        </div>
-    </section>
-
-    <section id="collection" class="py-20 bg-cream text-void min-h-screen relative rounded-t-[3rem] -mt-10 z-20">
-        <div class="px-6 md:px-16 pt-12">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-black/10 pb-8">
-                <h2 class="font-royal text-5xl md:text-7xl">Collection</h2>
-                <div class="flex gap-8 mt-6 md:mt-0 overflow-x-auto no-scrollbar" id="filters">
-                    <button class="text-xs uppercase tracking-[0.2em] font-sans border-b border-black pb-1" onclick="filterGrid('all', this)">All</button>
-                    </div>
-            </div>
-
-            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
-                <div class="col-span-full text-center py-20 font-serif text-xl text-gray-400 italic">
-                    Connecting to Archive...
-                </div>
+    <section class="py-24 px-6 bg-[#0a0a0a] min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-6">
+                <h2 class="text-4xl text-white">Masterpieces</h2>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Connecting to Etsy...</div>
             </div>
             
-            <div id="error-log" class="hidden text-center text-red-500 text-xs mt-10 font-mono"></div>
+            <div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                </div>
         </div>
     </section>
 
-    <footer class="bg-void text-cream py-32 px-6 text-center">
-        <h3 class="font-royal text-9xl opacity-10 select-none">ZAYN</h3>
-        <div class="flex justify-center gap-8 mt-[-3rem] relative z-10 text-xs tracking-[0.2em] uppercase">
-            <a href="#" class="hover:text-gold transition">Instagram</a>
-            <a href="https://www.etsy.com/shop/ZaynCollective" class="hover:text-gold transition">Etsy</a>
-        </div>
-        <p class="mt-12 text-[9px] text-gray-600 font-sans tracking-widest">&copy; 2025 ZAYN COLLECTIVE</p>
-    </footer>
-
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // --- 1. PRELOADER ÇIKIŞI ---
-            const tl = gsap.timeline();
-            tl.to(".load-text", { opacity: 1, duration: 1 })
-              .to(".load-line", { width: "100px", duration: 1 }, "-=0.5")
-              .to("#preloader", { y: "-100%", duration: 1.2, ease: "power4.inOut", delay: 0.5 })
-              .to(".hero-anim", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" }, "-=0.5");
+        // --- 1. SİSTEM BAŞLATMA ---
+        const debug = document.getElementById('debug-console');
+        const status = document.getElementById('status-text');
+        const grid = document.getElementById('grid');
 
-            // --- 2. SMOOTH SCROLL ---
-            const lenis = new Lenis({ smooth: true });
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-            requestAnimationFrame(raf);
-
-            // --- 3. CURSOR ---
-            if (window.matchMedia("(min-width: 768px)").matches) {
-                const outer = document.querySelector(".cursor-outer");
-                const inner = document.querySelector(".cursor-inner");
-                window.addEventListener("mousemove", (e) => {
-                    gsap.to(inner, { x: e.clientX, y: e.clientY, duration: 0 });
-                    gsap.to(outer, { x: e.clientX, y: e.clientY, duration: 0.15 });
-                });
+        function log(msg, isError = false) {
+            console.log(msg);
+            if(isError) {
+                debug.style.display = 'block';
+                debug.innerHTML = `ERROR LOG: ${msg} <br> <a href="#" onclick="location.reload()" style="color:white; text-decoration:underline;">Click to Retry</a>`;
+                status.innerHTML = `<span class="text-red-500">${msg}</span>`;
+            } else {
+                status.innerHTML = `<span class="text-green-500">${msg}</span>`;
             }
+        }
 
-            // --- 4. SCROLL ANIMATIONS ---
-            gsap.registerPlugin(ScrollTrigger);
-            gsap.from(".reveal-text", {
-                scrollTrigger: { trigger: ".reveal-text", start: "top 80%" },
-                opacity: 0, y: 30, duration: 1.5, ease: "power3.out"
-            });
+        // --- 2. ANİMASYONLAR ---
+        gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
 
-            // --- 5. DATA FETCH (KRİTİK BÖLÜM) ---
-            const grid = document.getElementById("grid-container");
-            const filters = document.getElementById("filters");
-            const errorLog = document.getElementById("error-log");
+        // --- 3. SAHTE VERİ (YEDEK PLAN) ---
+        // Eğer Etsy verisi çekilemezse, tasarımın çalıştığını kanıtlamak için bu ürünleri gösterir.
+        const mockData = [
+            { title: "Zebra Print Shirt (Demo)", price: 45, currency: "USD", image1: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500", category: "Demo" },
+            { title: "Silk Evening Dress (Demo)", price: 120, currency: "USD", image1: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500", category: "Demo" },
+            { title: "Velvet Blazer (Demo)", price: 85, currency: "USD", image1: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500", category: "Demo" }
+        ];
 
-            // Doğru dosya yolu kontrolü
-            fetch("assets/data/products.json")
-                .then(response => {
-                    if (!response.ok) throw new Error(`HTTP hatası! Durum: ${response.status}`);
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.length === 0) throw new Error("Veri dosyası boş.");
-                    
-                    grid.innerHTML = ""; // Yükleniyor yazısını sil
-                    const categories = new Set();
-
-                    data.forEach((item, i) => {
-                        let cat = item.category || "Collection";
-                        categories.add(cat);
-
-                        // Masonry Efekti için rastgele margin
-                        const mt = (window.innerWidth > 768 && i % 2 !== 0) ? "md:mt-20" : "";
-
-                        grid.innerHTML += `
-                            <div class="group cursor-pointer product-item ${mt}" data-category="${cat}">
-                                <a href="${item.url}" target="_blank">
-                                    <div class="relative w-full aspect-[3/4] overflow-hidden mb-6 bg-gray-200">
-                                        <img src="${item.image1}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-out transform group-hover:scale-105">
-                                        ${item.image2 ? `<img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-700">` : ''}
-                                    </div>
-                                    <div class="flex justify-between items-end border-b border-gray-300 pb-2 group-hover:border-black transition duration-300">
-                                        <div>
-                                            <p class="font-sans text-[9px] uppercase tracking-widest text-gray-400 mb-1">${cat}</p>
-                                            <h3 class="font-royal text-xl">${item.title.substring(0, 20)}</h3>
-                                        </div>
-                                        <span class="font-sans text-xs tracking-widest">${item.price} ${item.currency}</span>
-                                    </div>
-                                </a>
-                            </div>
-                        `;
-                    });
-
-                    // ScrollTrigger'ı yenile
-                    ScrollTrigger.refresh();
-
-                    // Kategori Butonları
-                    categories.forEach(cat => {
-                        const btn = document.createElement("button");
-                        btn.className = "text-xs uppercase tracking-[0.2em] font-sans text-gray-400 hover:text-black transition pb-1 whitespace-nowrap";
-                        btn.textContent = cat;
-                        btn.onclick = () => filterGrid(cat, btn);
-                        filters.appendChild(btn);
-                    });
-                })
-                .catch(err => {
-                    console.error("Fetch Hatası:", err);
-                    grid.innerHTML = `
-                        <div class="col-span-full text-center py-20">
-                            <p class="font-serif text-2xl italic text-gray-400 mb-4">Collection is being curated...</p>
-                            <p class="font-sans text-xs text-red-400">System Note: Run GitHub 'Sync' Action to populate data.</p>
+        function renderProducts(data) {
+            grid.innerHTML = "";
+            data.forEach(item => {
+                grid.innerHTML += `
+                    <div class="group cursor-pointer">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-800 mb-4">
+                            <img src="${item.image1}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
                         </div>
-                    `;
-                    errorLog.innerText = err.message;
-                    errorLog.classList.remove("hidden");
-                });
+                        <h3 class="text-lg text-white font-serif">${item.title}</h3>
+                        <p class="text-xs text-gray-400 tracking-widest mt-1">${item.price} ${item.currency}</p>
+                    </div>
+                `;
+            });
+        }
 
-            // --- 6. FILTER LOGIC ---
-            window.filterGrid = (cat, btn) => {
-                const buttons = filters.querySelectorAll("button");
-                buttons.forEach(b => {
-                    b.classList.remove("border-b", "border-black", "text-black");
-                    b.classList.add("text-gray-400");
-                });
-                btn.classList.remove("text-gray-400");
-                btn.classList.add("border-b", "border-black", "text-black");
-
-                const items = document.querySelectorAll(".product-item");
-                items.forEach(item => {
-                    if (cat === "all" || item.dataset.category === cat) {
-                        gsap.to(item, { display: "block", opacity: 1, duration: 0.5 });
-                    } else {
-                        gsap.to(item, { opacity: 0, duration: 0.3, onComplete: () => item.style.display = "none" });
-                    }
-                });
-                setTimeout(() => ScrollTrigger.refresh(), 500);
-            };
-        });
+        // --- 4. VERİ ÇEKME ---
+        const jsonUrl = "assets/data/products.json";
+        
+        fetch(jsonUrl)
+            .then(res => {
+                if(!res.ok) throw new Error(`HTTP ${res.status} - Dosya Bulunamadı`);
+                return res.json();
+            })
+            .then(data => {
+                if(data.length === 0) throw new Error("JSON Dosyası Boş (Ürün yok)");
+                log("Data loaded successfully.");
+                renderProducts(data);
+            })
+            .catch(err => {
+                log(`Etsy Bağlantı Hatası: ${err.message}. Gösterim modu açılıyor.`, true);
+                // Hata olsa bile tasarımı göstermek için sahte veriyi bas
+                renderProducts(mockData);
+            });
     </script>
 </body>
 </html>
