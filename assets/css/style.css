@@ -1,0 +1,1 @@
+/* Yeni Stil Dosyası */
