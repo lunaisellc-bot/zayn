@@ -1,0 +1,1 @@
+// Yeni JS Dosyası
