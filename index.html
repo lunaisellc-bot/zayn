@@ -15,8 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="assets/css/style.css">
-
     <script>
         tailwind.config = {
             theme: {
@@ -35,6 +33,52 @@
             }
         }
     </script>
+
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        body { overflow-x: hidden; background-color: #FDFBF7; }
+
+        /* Scrollbar Gizleme */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* --- 1. PRELOADER --- */
+        .preloader {
+            position: fixed; inset: 0; background: #0a0a0a; z-index: 10000;
+            display: flex; justify-content: center; align-items: center; color: white;
+            transition: opacity 0.8s ease;
+        }
+
+        /* --- 2. CUSTOM CURSOR (Özel Fare) --- */
+        @media (min-width: 768px) {
+            body { cursor: none; }
+            .cursor-dot, .cursor-circle {
+                position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+                pointer-events: none; z-index: 9999; display: block;
+            }
+            .cursor-dot { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
+            .cursor-circle { 
+                width: 40px; height: 40px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 50%;
+                transition: width 0.3s, height 0.3s, background-color 0.3s;
+            }
+            /* Linklerin üzerine gelince büyüme efekti */
+            a:hover ~ .cursor-circle, button:hover ~ .cursor-circle, .group:hover ~ .cursor-circle {
+                width: 80px; height: 80px; background-color: rgba(26,26,26,0.05); border-color: transparent;
+            }
+        }
+
+        /* --- 3. MARQUEE (Kayan Yorumlar) --- */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            width: fit-content;
+        }
+        .animate-marquee:hover { animation-play-state: paused; }
+    </style>
 </head>
 
 <body class="antialiased text-zayn-black bg-zayn-bg overflow-x-hidden">
@@ -144,6 +188,175 @@
         </div>
     </footer>
 
-    <script src="assets/js/script.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        // --- 1. SMOOTH SCROLL (LENIS) ---
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // --- 2. PRELOADER & GİRİŞ ANİMASYONLARI ---
+        const preloader = document.getElementById('preloader');
+        
+        // Yükleme tamamlanınca veya en geç 3 saniye sonra preloader'ı kaldır (SİYAH EKRAN ÇÖZÜMÜ)
+        function removePreloader() {
+            if(!preloader) return;
+            preloader.style.opacity = '0';
+            setTimeout(() => { 
+                preloader.remove(); 
+                
+                // GSAP Animasyonları
+                gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out" });
+                gsap.to("#hero-img", { scale: 1, duration: 2.5, ease: "power2.out" });
+                
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.from(".reveal-text", {
+                    scrollTrigger: { trigger: "#philosophy", start: "top 70%" },
+                    y: 50, opacity: 0, duration: 1.5, ease: "power3.out"
+                });
+                gsap.from(".reveal-image", {
+                    scrollTrigger: { trigger: "#philosophy", start: "top 70%" },
+                    y: 50, opacity: 0, duration: 1.5, delay: 0.2, ease: "power3.out"
+                });
+
+            }, 800);
+        }
+
+        window.addEventListener('load', () => { setTimeout(removePreloader, 1000); });
+        // Failsafe: Her ihtimale karşı 3sn sonra zorla aç
+        setTimeout(removePreloader, 3000);
+
+        // --- 3. CUSTOM CURSOR HAREKETİ ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorCircle = document.querySelector('.cursor-circle');
+        if (window.matchMedia("(min-width: 768px)").matches && cursorDot) {
+            window.addEventListener('mousemove', (e) => {
+                cursorDot.style.left = `${e.clientX}px`;
+                cursorDot.style.top = `${e.clientY}px`;
+                cursorCircle.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+            });
+        }
+
+        // --- 4. ETSY VERİLERİNİ ÇEKME & İŞLEME ---
+        // Not: Dosya yolu assets/data/products.json olmalı.
+        const productsUrl = "assets/data/products.json";
+        const reviewsUrl = "assets/data/reviews.json";
+        const grid = document.getElementById("product-grid");
+        const filterContainer = document.getElementById("category-filters");
+        const reviewsMarquee = document.getElementById("reviews-marquee");
+
+        // ÜRÜNLERİ GETİR
+        fetch(productsUrl)
+            .then(res => {
+                if (!res.ok) throw new Error("Veri bulunamadı");
+                return res.json();
+            })
+            .then(products => {
+                grid.innerHTML = ""; // Yükleniyor yazısını kaldır
+                const categories = new Set();
+
+                products.forEach(item => {
+                    let cat = item.category || "Collection";
+                    categories.add(cat);
+
+                    const card = document.createElement("div");
+                    card.className = "product-card group cursor-pointer relative";
+                    card.dataset.category = cat;
+
+                    // Görsel Mantığı (Hover)
+                    let imgHTML = `<img src="${item.image1}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">`; 
+                    if(item.image2) {
+                        imgHTML = `
+                            <img src="${item.image1}" class="absolute inset-0 w-full h-full object-cover transition duration-700 opacity-100 group-hover:opacity-0 filter grayscale">
+                            <img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover transition duration-700 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100">
+                        `;
+                    }
+
+                    card.innerHTML = `
+                        <a href="${item.url}" target="_blank" class="block">
+                            <div class="relative w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-6">
+                                ${imgHTML}
+                                <div class="absolute bottom-4 right-4 bg-white/90 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500">
+                                    View
+                                </div>
+                            </div>
+                            <div class="flex flex-col text-center">
+                                <p class="text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-2">${cat}</p>
+                                <h3 class="font-display text-lg leading-tight mb-2 group-hover:text-gray-600 transition">${shorten(item.title, 25)}</h3>
+                                <span class="font-serif italic text-lg text-gray-500">${item.price} ${item.currency}</span>
+                            </div>
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                // GSAP Giriş Animasyonu
+                gsap.from(".product-card", {
+                    scrollTrigger: { trigger: "#collection", start: "top 80%" },
+                    y: 50, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out"
+                });
+
+                // Kategori Butonları
+                categories.forEach(cat => {
+                    const btn = document.createElement("button");
+                    btn.className = "filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition pb-1";
+                    btn.textContent = cat;
+                    btn.onclick = () => filterSelection(cat, btn);
+                    filterContainer.appendChild(btn);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                // Hata olsa bile preloader kalkmalı
+                removePreloader(); 
+                grid.innerHTML = "<p class='col-span-full text-center'>Collection updating via Etsy...</p>";
+            });
+
+        // YORUMLARI GETİR
+        fetch(reviewsUrl)
+            .then(res => res.json())
+            .then(reviews => {
+                if(!reviewsMarquee || reviews.length === 0) return;
+                const loopReviews = [...reviews, ...reviews, ...reviews];
+                loopReviews.forEach(rev => {
+                    const div = document.createElement("div");
+                    div.className = "inline-block w-[350px] bg-white p-8 border border-gray-100 mx-4 whitespace-normal";
+                    div.innerHTML = `
+                        <div class="text-yellow-500 text-[10px] mb-4 flex gap-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                        <p class="font-serif italic text-gray-600 text-lg mb-6 leading-relaxed">"${shorten(rev.text, 100)}..."</p>
+                        <p class="font-sans text-[9px] uppercase tracking-widest font-bold text-gray-400">- ${rev.buyer}</p>
+                    `;
+                    reviewsMarquee.appendChild(div);
+                });
+            })
+            .catch(() => {});
+
+        // --- YARDIMCI FONKSİYONLAR ---
+        function shorten(str, max) { return str && str.length > max ? str.slice(0, max) : str; }
+
+        window.filterSelection = function(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.remove('text-black', 'border-b', 'border-black');
+                b.classList.add('text-gray-400');
+            });
+            if(btn) {
+                btn.classList.remove('text-gray-400');
+                btn.classList.add('text-black', 'border-b', 'border-black');
+            } else {
+                document.querySelector('.filter-btn[data-category="all"]').classList.add('text-black', 'border-b', 'border-black');
+            }
+
+            const cards = document.getElementsByClassName("product-card");
+            for (let i = 0; i < cards.length; i++) {
+                if (category === "all" || cards[i].dataset.category === category) {
+                    gsap.to(cards[i], { opacity: 1, scale: 1, duration: 0.5, display: "block" });
+                } else {
+                    gsap.to(cards[i], { opacity: 0, scale: 0.9, duration: 0.3, onComplete: () => cards[i].style.display = "none" });
+                }
+            }
+        }
+    });
+    </script>
 </body>
 </html>
