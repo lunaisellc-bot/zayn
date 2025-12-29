@@ -4,359 +4,183 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZAYN | The Art of Silence</title>
-    <meta name="description" content="ZAYN bridges Eastern sentiment and Western minimalism. Curated aesthetic apparel.">
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ['"Cinzel"', 'serif'],
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Montserrat"', 'sans-serif'],
-                    },
-                    colors: {
-                        'zayn-bg': '#FDFBF7',
-                        'zayn-black': '#1a1a1a',
-                    },
-                    cursor: { 'none': 'none' }
-                }
-            }
-        }
-    </script>
-
     <style>
-        /* --- TEMEL AYARLAR --- */
-        body { overflow-x: hidden; background-color: #FDFBF7; }
+        /* --- GARANTİ AÇILIŞ İÇİN CSS EMNİYETİ --- */
+        @keyframes forceHide {
+            0% { opacity: 1; visibility: visible; }
+            80% { opacity: 1; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
 
-        /* Scrollbar Gizleme */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* --- 1. PRELOADER --- */
+        body { background-color: #FDFBF7; overflow-x: hidden; }
+        
         .preloader {
             position: fixed; inset: 0; background: #0a0a0a; z-index: 10000;
             display: flex; justify-content: center; align-items: center; color: white;
-            transition: opacity 0.8s ease;
+            /* JS Çalışmazsa bile 4 saniye sonra burası otomatik kapanır */
+            animation: forceHide 4s forwards linear; 
         }
 
-        /* --- 2. CUSTOM CURSOR (Özel Fare) --- */
         @media (min-width: 768px) {
             body { cursor: none; }
-            .cursor-dot, .cursor-circle {
-                position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-                pointer-events: none; z-index: 9999; display: block;
-            }
+            .cursor-dot, .cursor-circle { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; }
             .cursor-dot { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
-            .cursor-circle { 
-                width: 40px; height: 40px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 50%;
-                transition: width 0.3s, height 0.3s, background-color 0.3s;
-            }
-            /* Linklerin üzerine gelince büyüme efekti */
-            a:hover ~ .cursor-circle, button:hover ~ .cursor-circle, .group:hover ~ .cursor-circle {
-                width: 80px; height: 80px; background-color: rgba(26,26,26,0.05); border-color: transparent;
-            }
+            .cursor-circle { width: 40px; height: 40px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 50%; transition: width 0.3s, height 0.3s; }
         }
-
-        /* --- 3. MARQUEE (Kayan Yorumlar) --- */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: flex;
-            animation: marquee 30s linear infinite;
-            width: fit-content;
-        }
-        .animate-marquee:hover { animation-play-state: paused; }
+        
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { display: flex; animation: marquee 30s linear infinite; width: fit-content; }
     </style>
 </head>
-
-<body class="antialiased text-zayn-black bg-zayn-bg overflow-x-hidden">
+<body class="antialiased text-[#1a1a1a]">
 
     <div class="preloader" id="preloader">
         <div class="text-center">
-            <h1 class="font-display text-4xl md:text-6xl tracking-widest mb-4">ZAYN</h1>
-            <p class="font-sans text-[10px] tracking-[0.5em] uppercase opacity-60">Curating Luxury...</p>
+            <h1 class="font-serif text-4xl tracking-[0.3em]">ZAYN</h1>
+            <p class="text-[9px] uppercase tracking-[0.5em] mt-4 opacity-40">Curating Luxury...</p>
         </div>
     </div>
 
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-circle hidden md:block"></div>
 
-    <nav class="fixed w-full z-50 top-0 py-6 px-6 md:px-16 flex justify-between items-center mix-blend-difference text-white transition-all duration-500" id="navbar">
-        <div class="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.2em] font-sans">
-            <a href="#philosophy" class="hover:text-gray-300 transition">Philosophy</a>
-            <a href="#collection" class="hover:text-gray-300 transition">Collection</a>
-        </div>
-        
-        <a href="#" class="text-2xl md:text-3xl font-display tracking-widest absolute left-1/2 -translate-x-1/2">ZAYN</a>
-
-        <div class="flex gap-6 text-[10px] uppercase tracking-[0.2em] font-sans">
-            <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="hover:text-gray-300 transition flex items-center gap-2">
-                Shop Etsy <i class="fa-solid fa-arrow-right -rotate-45 text-[8px]"></i>
-            </a>
+    <nav class="fixed w-full z-50 top-0 py-8 px-6 md:px-16 flex justify-between items-center mix-blend-difference text-white">
+        <a href="#" class="text-2xl font-serif tracking-[0.3em]">ZAYN</a>
+        <div class="flex gap-8 text-[10px] uppercase tracking-widest font-sans">
+            <a href="#collection">Shop</a>
+            <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="border-b border-white pb-1">Etsy</a>
         </div>
     </nav>
 
-    <header class="relative h-screen w-full overflow-hidden bg-black text-white">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" 
-                 class="w-full h-full object-cover opacity-60 grayscale scale-110" id="hero-img">
-        </div>
-        
-        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-6">
-            <p class="text-[10px] md:text-xs uppercase tracking-[0.5em] font-sans mb-6 translate-y-10 opacity-0 anim-hero">Est. 2025 • Wyoming</p>
-            <h1 class="font-display text-[15vw] leading-none tracking-tighter mix-blend-overlay mb-6 translate-y-10 opacity-0 anim-hero">ZAYN</h1>
-            <p class="font-serif text-xl md:text-3xl italic font-light opacity-80 translate-y-10 anim-hero">"Wear silence, not fabric."</p>
-        </div>
-
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-center animate-bounce opacity-50">
-            <span class="text-[9px] uppercase tracking-widest font-sans">Scroll</span>
+    <header class="relative h-screen flex items-center justify-center bg-black overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale" id="hero-img">
+        <div class="relative z-10 text-center text-white px-6">
+            <h1 class="text-[12vw] font-serif leading-none mb-4 opacity-0 anim-hero">ZAYN</h1>
+            <p class="text-lg md:text-2xl italic font-light opacity-0 anim-hero">"Wear silence, not fabric."</p>
         </div>
     </header>
 
-    <section id="philosophy" class="py-32 md:py-48 px-6 md:px-20 bg-zayn-bg relative">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div class="relative reveal-image">
-                <div class="absolute -inset-4 border border-black/5 z-0"></div>
-                <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?w=800&q=80" class="w-full aspect-[3/4] object-cover grayscale brightness-110 relative z-10">
-            </div>
-            <div class="reveal-text">
-                <span class="block text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6 font-sans">The Philosophy</span>
-                <h2 class="font-display text-4xl md:text-6xl mb-8 leading-tight text-zayn-black">
-                    Quiet Luxury is not about being noticed, <span class="italic font-serif font-light text-gray-500">it’s about being remembered.</span>
-                </h2>
-                <p class="font-serif text-lg leading-relaxed text-gray-600 mb-10 text-justify">
-                    Born in the vast silence of Wyoming, ZAYN bridges Eastern sentiment and Western minimalism. We create spaces between the noise.
-                </p>
-                <a href="#collection" class="inline-block border-b border-black pb-1 text-xs uppercase tracking-[0.25em] hover:text-gray-500 transition">Explore Collection</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="collection" class="py-20 px-4 md:px-12 bg-white min-h-screen">
-        <div class="flex flex-col md:flex-row justify-between items-end mb-16 max-w-[1600px] mx-auto border-b border-gray-100 pb-8 gap-6">
-            <div>
-                <h2 class="font-display text-4xl md:text-5xl text-zayn-black mb-2">The Collection</h2>
-                <p class="text-xs text-gray-400 font-sans tracking-[0.2em]">Curated Pieces from Etsy</p>
+    <section id="collection" class="py-32 px-6 bg-white">
+        <div class="max-w-[1600px] mx-auto">
+            <div class="mb-20">
+                <h2 class="text-4xl font-serif mb-2">The Collection</h2>
+                <div class="flex gap-6 overflow-x-auto no-scrollbar py-4" id="category-filters">
+                    <button class="text-[10px] uppercase tracking-widest border-b border-black pb-1" onclick="filterSelection('all', this)">All</button>
+                </div>
             </div>
             
-            <div class="flex gap-8 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar" id="category-filters">
-                <button class="filter-btn text-black border-b border-black pb-1 text-[10px] uppercase tracking-[0.2em]" data-category="all">All</button>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="col-span-full text-center py-10 opacity-50 italic font-serif">
+                    Updating collection from Atelier...
                 </div>
-        </div>
-
-        <div id="product-grid" class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-16">
-            <div class="col-span-full text-center py-20 opacity-50 font-serif italic">Loading Masterpieces...</div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-zayn-bg overflow-hidden border-t border-gray-100">
-        <div class="text-center mb-12">
-            <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400">Client Stories</span>
-        </div>
-        <div class="relative w-full overflow-hidden">
-             <div class="flex gap-12 whitespace-nowrap animate-marquee" id="reviews-marquee">
-                 </div>
-        </div>
-    </section>
-
-    <footer class="bg-[#0a0a0a] text-white py-24 px-8 text-center relative overflow-hidden">
-        <div class="relative z-10">
-            <h3 class="font-display text-3xl mb-6">ZAYN</h3>
-            <p class="font-serif italic text-gray-500 text-lg mb-8">"Elegance is an attitude."</p>
-            <div class="flex justify-center gap-6 mb-12">
-                <a href="#" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition"><i class="fa-brands fa-pinterest"></i></a>
-            </div>
-            <div class="text-[9px] uppercase tracking-[0.2em] text-gray-600 font-sans">
-                &copy; 2025 ZAYN BRAND. Wyoming.
             </div>
         </div>
-        <div class="absolute bottom-[-10%] left-0 w-full text-center text-[25vw] font-display text-white/[0.03] select-none pointer-events-none leading-none">
-            ZAYN
-        </div>
-    </footer>
+    </section>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        
-        // --- 1. SMOOTH SCROLL (LENIS) ---
-        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+        // 1. PRELOADER KALDIRMA (JS ile Hızlı, CSS ile Garantili)
+        const removePreloader = () => {
+            const p = document.getElementById('preloader');
+            if(p) { 
+                p.style.opacity = '0'; 
+                // Animasyonlar başlasın (Eğer GSAP yüklendiyse)
+                if(typeof gsap !== 'undefined') {
+                    gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.3 });
+                }
+                setTimeout(() => p.remove(), 800); 
+            }
+        };
 
-        // --- 2. PRELOADER & GİRİŞ ANİMASYONLARI ---
-        const preloader = document.getElementById('preloader');
-        
-        // Yükleme tamamlanınca veya en geç 3 saniye sonra preloader'ı kaldır (SİYAH EKRAN ÇÖZÜMÜ)
-        function removePreloader() {
-            if(!preloader) return;
-            preloader.style.opacity = '0';
-            setTimeout(() => { 
-                preloader.remove(); 
-                
-                // GSAP Animasyonları
-                gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out" });
-                gsap.to("#hero-img", { scale: 1, duration: 2.5, ease: "power2.out" });
-                
-                gsap.registerPlugin(ScrollTrigger);
-                gsap.from(".reveal-text", {
-                    scrollTrigger: { trigger: "#philosophy", start: "top 70%" },
-                    y: 50, opacity: 0, duration: 1.5, ease: "power3.out"
-                });
-                gsap.from(".reveal-image", {
-                    scrollTrigger: { trigger: "#philosophy", start: "top 70%" },
-                    y: 50, opacity: 0, duration: 1.5, delay: 0.2, ease: "power3.out"
-                });
-
-            }, 800);
-        }
-
-        window.addEventListener('load', () => { setTimeout(removePreloader, 1000); });
-        // Failsafe: Her ihtimale karşı 3sn sonra zorla aç
+        // Sayfa yüklenince çalış
+        window.addEventListener('load', removePreloader);
+        // Ne olursa olsun 3sn sonra tetikle
         setTimeout(removePreloader, 3000);
 
-        // --- 3. CUSTOM CURSOR HAREKETİ ---
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorCircle = document.querySelector('.cursor-circle');
-        if (window.matchMedia("(min-width: 768px)").matches && cursorDot) {
+        // 2. MOUSE HAREKETİ (Hata kontrolü ekli)
+        if (window.matchMedia("(min-width: 768px)").matches) {
             window.addEventListener('mousemove', (e) => {
-                cursorDot.style.left = `${e.clientX}px`;
-                cursorDot.style.top = `${e.clientY}px`;
-                cursorCircle.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+                if(typeof gsap !== 'undefined') {
+                    gsap.to(".cursor-dot", { x: e.clientX, y: e.clientY, duration: 0 });
+                    gsap.to(".cursor-circle", { x: e.clientX, y: e.clientY, duration: 0.5 });
+                }
             });
         }
 
-        // --- 4. ETSY VERİLERİNİ ÇEKME & İŞLEME ---
-        // Not: Dosya yolu assets/data/products.json olmalı.
-        const productsUrl = "assets/data/products.json";
-        const reviewsUrl = "assets/data/reviews.json";
-        const grid = document.getElementById("product-grid");
-        const filterContainer = document.getElementById("category-filters");
-        const reviewsMarquee = document.getElementById("reviews-marquee");
-
-        // ÜRÜNLERİ GETİR
-        fetch(productsUrl)
-            .then(res => {
-                if (!res.ok) throw new Error("Veri bulunamadı");
-                return res.json();
+        // 3. VERİ ÇEKME (FETCH)
+        fetch("assets/data/products.json")
+            .then(r => {
+                if (!r.ok) throw new Error("Veri dosyası bulunamadı");
+                return r.json();
             })
-            .then(products => {
-                grid.innerHTML = ""; // Yükleniyor yazısını kaldır
+            .then(data => {
+                const grid = document.getElementById('product-grid');
+                grid.innerHTML = ""; // Yükleniyor yazısını sil
+                
+                // Kategorileri Topla
                 const categories = new Set();
-
-                products.forEach(item => {
+                
+                data.forEach(item => {
                     let cat = item.category || "Collection";
                     categories.add(cat);
-
-                    const card = document.createElement("div");
-                    card.className = "product-card group cursor-pointer relative";
-                    card.dataset.category = cat;
-
-                    // Görsel Mantığı (Hover)
-                    let imgHTML = `<img src="${item.image1}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0">`; 
-                    if(item.image2) {
-                        imgHTML = `
-                            <img src="${item.image1}" class="absolute inset-0 w-full h-full object-cover transition duration-700 opacity-100 group-hover:opacity-0 filter grayscale">
-                            <img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover transition duration-700 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100">
-                        `;
-                    }
-
-                    card.innerHTML = `
-                        <a href="${item.url}" target="_blank" class="block">
-                            <div class="relative w-full aspect-[3/4] overflow-hidden bg-gray-100 mb-6">
-                                ${imgHTML}
-                                <div class="absolute bottom-4 right-4 bg-white/90 px-3 py-1 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition duration-500">
-                                    View
+                    
+                    grid.innerHTML += `
+                        <div class="group cursor-pointer product-item" data-category="${cat}">
+                            <a href="${item.url}" target="_blank">
+                                <div class="aspect-[3/4] overflow-hidden bg-gray-100 mb-6 relative">
+                                    <img src="${item.image1}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                                    ${item.image2 ? `<img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-700">` : ''}
                                 </div>
-                            </div>
-                            <div class="flex flex-col text-center">
-                                <p class="text-[9px] uppercase tracking-[0.2em] text-gray-400 mb-2">${cat}</p>
-                                <h3 class="font-display text-lg leading-tight mb-2 group-hover:text-gray-600 transition">${shorten(item.title, 25)}</h3>
-                                <span class="font-serif italic text-lg text-gray-500">${item.price} ${item.currency}</span>
-                            </div>
-                        </a>
-                    `;
-                    grid.appendChild(card);
+                                <h3 class="font-serif text-lg mb-1">${item.title.substring(0,30)}...</h3>
+                                <p class="text-gray-400 text-xs">${item.price} ${item.currency}</p>
+                            </a>
+                        </div>`;
                 });
 
-                // GSAP Giriş Animasyonu
-                gsap.from(".product-card", {
-                    scrollTrigger: { trigger: "#collection", start: "top 80%" },
-                    y: 50, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out"
-                });
-
-                // Kategori Butonları
+                // Kategori Butonlarını Ekle
+                const filterContainer = document.getElementById('category-filters');
                 categories.forEach(cat => {
-                    const btn = document.createElement("button");
-                    btn.className = "filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition pb-1";
-                    btn.textContent = cat;
+                    const btn = document.createElement('button');
+                    btn.className = "text-[10px] uppercase tracking-widest text-gray-400 hover:text-black transition pb-1 filter-btn";
+                    btn.innerText = cat;
                     btn.onclick = () => filterSelection(cat, btn);
                     filterContainer.appendChild(btn);
                 });
             })
-            .catch(err => {
-                console.error(err);
-                // Hata olsa bile preloader kalkmalı
-                removePreloader(); 
-                grid.innerHTML = "<p class='col-span-full text-center'>Collection updating via Etsy...</p>";
+            .catch(e => {
+                console.log("Veri çekme hatası:", e);
+                // Hata olsa bile preloader'ı kaldır
+                removePreloader();
             });
 
-        // YORUMLARI GETİR
-        fetch(reviewsUrl)
-            .then(res => res.json())
-            .then(reviews => {
-                if(!reviewsMarquee || reviews.length === 0) return;
-                const loopReviews = [...reviews, ...reviews, ...reviews];
-                loopReviews.forEach(rev => {
-                    const div = document.createElement("div");
-                    div.className = "inline-block w-[350px] bg-white p-8 border border-gray-100 mx-4 whitespace-normal";
-                    div.innerHTML = `
-                        <div class="text-yellow-500 text-[10px] mb-4 flex gap-1"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="font-serif italic text-gray-600 text-lg mb-6 leading-relaxed">"${shorten(rev.text, 100)}..."</p>
-                        <p class="font-sans text-[9px] uppercase tracking-widest font-bold text-gray-400">- ${rev.buyer}</p>
-                    `;
-                    reviewsMarquee.appendChild(div);
-                });
-            })
-            .catch(() => {});
-
-        // --- YARDIMCI FONKSİYONLAR ---
-        function shorten(str, max) { return str && str.length > max ? str.slice(0, max) : str; }
-
-        window.filterSelection = function(category, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.classList.remove('text-black', 'border-b', 'border-black');
+        // 4. FİLTRELEME FONKSİYONU
+        window.filterSelection = (cat, btn) => {
+            // Buton stilleri
+            document.querySelectorAll('#category-filters button').forEach(b => {
+                b.classList.remove('border-b', 'border-black', 'text-black');
                 b.classList.add('text-gray-400');
             });
-            if(btn) {
-                btn.classList.remove('text-gray-400');
-                btn.classList.add('text-black', 'border-b', 'border-black');
-            } else {
-                document.querySelector('.filter-btn[data-category="all"]').classList.add('text-black', 'border-b', 'border-black');
-            }
+            btn.classList.remove('text-gray-400');
+            btn.classList.add('border-b', 'border-black', 'text-black');
 
-            const cards = document.getElementsByClassName("product-card");
-            for (let i = 0; i < cards.length; i++) {
-                if (category === "all" || cards[i].dataset.category === category) {
-                    gsap.to(cards[i], { opacity: 1, scale: 1, duration: 0.5, display: "block" });
+            // Ürünleri gizle/göster
+            document.querySelectorAll('.product-item').forEach(item => {
+                if(cat === 'all' || item.dataset.category === cat) {
+                    item.style.display = 'block';
                 } else {
-                    gsap.to(cards[i], { opacity: 0, scale: 0.9, duration: 0.3, onComplete: () => cards[i].style.display = "none" });
+                    item.style.display = 'none';
                 }
-            }
-        }
-    });
+            });
+        };
     </script>
 </body>
 </html>
