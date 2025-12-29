@@ -1,8 +1,10 @@
-name: Sync Etsy -> Zayn Website
+name: Sync Etsy -> Zayn Website (Ultra Mode)
 
 on:
-  workflow_dispatch:        # Elle "Run workflow" ile tetikleme
-  push:                     # Geçici: bu dosyaya commit atılınca otomatik çalışsın
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Her gece 12'de güncelle
+  push:
     paths:
       - ".github/workflows/sync.yml"
 
@@ -30,15 +32,18 @@ jobs:
           echo "$resp" | jq -e .access_token >/dev/null
           echo "access_token=$(echo "$resp" | jq -r .access_token)" >> "$GITHUB_OUTPUT"
 
-      - name: Build products.json with images
+      - name: Fetch Data (Products & Reviews)
         env:
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
           SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
           ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
         run: |
           set -euo pipefail
+          mkdir -p assets/data
+          
           python3 - << 'PY'
-          import json, os, urllib.request
+          import json, os, urllib.request, time
+
           ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
           CLIENT_ID    = os.environ["CLIENT_ID"].strip()
           SHOP_ID      = os.environ["SHOP_ID"].strip()
@@ -51,56 +56,117 @@ jobs:
                       "Authorization": f"Bearer {ACCESS_TOKEN}",
                   },
               )
-              with urllib.request.urlopen(req, timeout=30) as r:
-                  return json.load(r)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return json.load(r)
+              except urllib.error.HTTPError as e:
+                  print(f"Error fetching {url}: {e}")
+                  return {}
 
-          # Aktif ilanlar
+          # --- 1. ADIM: KATEGORİLERİ (SHOP SECTIONS) ÇEK ---
+          sections_map = {}
+          try:
+              sec_data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/sections")
+              for sec in sec_data.get("results", []):
+                  sections_map[sec["shop_section_id"]] = sec["title"]
+          except Exception as e:
+              print(f"Sections error: {e}")
+
+          # --- 2. ADIM: ÜRÜNLERİ DETAYLI ÇEK ---
           items, offset = [], 0
           while True:
-              data = get(f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}")
+              # Ürünleri, fiyatları ve etiketleri ile çekiyoruz
+              url = f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/listings/active?limit=100&offset={offset}&includes=Images"
+              data = get(url)
               chunk = data.get("results") or []
               if not chunk: break
               items.extend(chunk)
               if len(chunk) < 100: break
               offset += 100
+              time.sleep(0.5) # API'yi yormamak için ufak bekleme
 
-          out = []
+          products_out = []
           for it in items:
               lid = it.get("listing_id") or it.get("id")
-              title = (it.get("title") or "").strip()
               if not lid: continue
 
-              image = None
-              try:
-                  imgs = get(f"https://api.etsy.com/v3/application/listings/{lid}/images").get("results") or []
-                  if imgs:
-                      rec = imgs[0]
-                      image = rec.get("url_fullxfull") or rec.get("url_570xN") or rec.get("url_170x135")
-              except Exception:
-                  pass
+              # Fiyat Bilgisi
+              price_info = it.get("price", {})
+              amount = price_info.get("amount", 0)
+              currency = price_info.get("currency_code", "USD")
+              
+              # Kategori (Section) Bulma
+              sec_id = it.get("shop_section_id")
+              category = sections_map.get(sec_id, "Genel") # Eşleşmezse Genel yazar
 
-              out.append({
+              # Görseller (İlk 2 görseli alıyoruz)
+              img1 = None
+              img2 = None
+              images = it.get("images", []) # 'includes=Images' sayesinde direkt gelir
+              
+              # Eğer includes çalışmazsa manuel çekmeyi dener (Yedek Plan)
+              if not images:
+                   img_data = get(f"https://api.etsy.com/v3/application/listings/{lid}/images")
+                   images = img_data.get("results", [])
+
+              if len(images) > 0:
+                  img1 = images[0].get("url_fullxfull") or images[0].get("url_570xN")
+              if len(images) > 1:
+                  img2 = images[1].get("url_fullxfull") or images[1].get("url_570xN")
+
+              products_out.append({
                   "id": lid,
-                  "title": title,
-                  "href": f"https://www.etsy.com/listing/{lid}",
-                  "image": image
+                  "title": (it.get("title") or "").strip(),
+                  "price": amount,
+                  "currency": currency,
+                  "category": category,
+                  "tags": it.get("tags", []),
+                  "url": it.get("url"),
+                  "image1": img1,
+                  "image2": img2
               })
 
-          with open("products.json", "w", encoding="utf-8") as f:
-              json.dump(out, f, ensure_ascii=False, indent=2)
+          # Ürünleri Kaydet
+          with open("assets/data/products.json", "w", encoding="utf-8") as f:
+              json.dump(products_out, f, ensure_ascii=False, indent=2)
+          print(f"Saved {len(products_out)} products.")
 
-          print(f"Wrote {len(out)} items to products.json")
+          # --- 3. ADIM: YORUMLARI (REVIEWS) ÇEK ---
+          reviews_out = []
+          try:
+              # Son yorumları çek
+              r_url = f"https://api.etsy.com/v3/application/shops/{SHOP_ID}/reviews?limit=10"
+              r_data = get(r_url)
+              for rev in r_data.get("results", []):
+                  if rev.get("rating") == 5: # Sadece 5 yıldızlıları al
+                      reviews_out.append({
+                          "text": rev.get("review", ""),
+                          "rating": rev.get("rating"),
+                          "buyer": rev.get("buyer_email", "Misafir")[0:3] + "***", # Gizlilik için isim maskeleme
+                          "date": rev.get("create_timestamp")
+                      })
+          except Exception as e:
+              print(f"Reviews error: {e}")
+
+          # Yorumları Kaydet
+          with open("assets/data/reviews.json", "w", encoding="utf-8") as f:
+              json.dump(reviews_out, f, ensure_ascii=False, indent=2)
+          print(f"Saved {len(reviews_out)} reviews.")
           PY
 
       - name: Commit updated data
         run: |
           set -e
-          if git diff --quiet -- products.json; then
-            echo "No changes"
-            exit 0
-          fi
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
-          git add products.json
-          git commit -m "update products.json"
+          
+          # Değişiklik var mı kontrol et
+          git add assets/data/products.json assets/data/reviews.json
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git commit -m "Update products and reviews data (Ultra Mode)"
           git push
