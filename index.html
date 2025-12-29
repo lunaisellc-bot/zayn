@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Beyond Luxury</title>
+    <title>ZAYN | The Art of Living</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -19,15 +18,15 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        'editorial': ['"Italiana"', 'serif'],
+                        'royal': ['"Cinzel"', 'serif'],
+                        'serif': ['"Cormorant Garamond"', 'serif'],
                         'sans': ['"Montserrat"', 'sans-serif'],
                     },
                     colors: {
-                        'void': '#050505',
-                        'paper': '#F2F0EB',
-                        'gold': '#D4AF37'
-                    },
-                    cursor: { 'none': 'none' }
+                        'void': '#080808',
+                        'cream': '#F5F3EF',
+                        'gold': '#C8AA6E'
+                    }
                 }
             }
         }
@@ -35,265 +34,233 @@
 
     <style>
         /* --- ATMOSFER --- */
-        body { 
-            background-color: #F2F0EB; 
-            color: #050505; 
-            overflow-x: hidden;
+        body { background-color: #080808; color: #F5F3EF; overflow-x: hidden; }
+        
+        /* Video Background Overlay */
+        .video-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1;
+        }
+
+        /* Noise Texture (Daha hafif) */
+        .noise {
+            position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.03;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* --- PRELOADER --- */
+        .preloader {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
         }
         
-        /* Film Greni Efekti (Noise) */
-        .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 9000; mix-blend-mode: multiply;
-        }
-
-        /* --- PRELOADER (Hata Korumalı) --- */
-        @keyframes forceExit { 90% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-        .preloader {
-            position: fixed; inset: 0; background: #050505; z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
-            color: #F2F0EB; animation: forceExit 4s forwards cubic-bezier(0.7, 0, 0.3, 1);
-        }
-
-        /* --- CUSTOM CURSOR --- */
+        /* --- CURSOR --- */
         @media (min-width: 768px) {
             body { cursor: none; }
-            .cursor-dot { width: 4px; height: 4px; background: #050505; border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; }
-            .cursor-circle { 
-                width: 40px; height: 40px; border: 1px solid rgba(5,5,5,0.3); border-radius: 50%; 
-                position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.3s ease;
+            .cursor-outer {
+                width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.3); border-radius: 50%;
+                position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.2s;
             }
-            .hover-active .cursor-circle { transform: scale(2.5); background: rgba(5,5,5,0.05); border-color: transparent; backdrop-filter: blur(2px); }
+            .cursor-inner {
+                width: 4px; height: 4px; background: #fff; border-radius: 50%;
+                position: fixed; pointer-events: none; z-index: 9999;
+            }
         }
 
-        /* --- SCROLLBAR GİZLEME --- */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* --- MARQUEE --- */
-        .marquee-container { overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-gold selection:text-black">
 
-    <div class="noise-overlay"></div>
+    <div class="noise"></div>
 
     <div class="preloader" id="preloader">
-        <div class="overflow-hidden">
-            <h1 class="font-editorial text-6xl md:text-9xl tracking-tighter transform translate-y-full anim-loader">ZAYN</h1>
+        <div class="text-center">
+            <h1 class="font-royal text-4xl md:text-6xl tracking-[0.2em] text-white opacity-0 load-text">ZAYN</h1>
+            <div class="w-0 h-[1px] bg-gold mx-auto mt-4 load-line"></div>
         </div>
     </div>
 
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-circle hidden md:block"></div>
+    <div class="cursor-outer hidden md:block"></div>
+    <div class="cursor-inner hidden md:block"></div>
 
-    <nav class="fixed top-0 w-full p-8 md:p-12 flex justify-between items-center z-50 mix-blend-difference text-paper">
-        <div class="text-sm font-sans tracking-[0.2em] uppercase hover-trigger cursor-pointer">Menu</div>
-        <div class="font-editorial text-2xl tracking-widest absolute left-1/2 -translate-x-1/2 hover-trigger">ZAYN</div>
-        <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="text-sm font-sans tracking-[0.2em] uppercase border-b border-transparent hover:border-paper transition-all hover-trigger">Etsy Shop</a>
+    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50 mix-blend-difference">
+        <div class="font-sans text-[10px] tracking-[0.3em] uppercase">Est. 2025</div>
+        <div class="font-royal text-2xl tracking-widest absolute left-1/2 -translate-x-1/2">ZAYN</div>
+        <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="font-sans text-[10px] tracking-[0.3em] uppercase border-b border-white/30 pb-1 hover:text-gold transition-colors">Etsy Shop</a>
     </nav>
 
     <header class="relative w-full h-screen overflow-hidden flex items-center justify-center">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070" 
-                 class="w-full h-full object-cover grayscale opacity-90 scale-110" id="hero-img" alt="Fashion">
+            <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-60 scale-105" id="hero-video">
+                <source src="https://videos.pexels.com/video-files/3205916/3205916-uhd_2560_1440_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
         </div>
-        <div class="relative z-10 text-center mix-blend-difference text-paper">
-            <div class="overflow-hidden mb-4">
-                <p class="font-sans text-xs md:text-sm tracking-[0.4em] uppercase opacity-0 anim-hero">Est. 2025 • Worldwide</p>
-            </div>
-            <div class="overflow-hidden">
-                <h1 class="font-editorial text-[18vw] leading-[0.85] opacity-0 anim-hero">SILENCE</h1>
-            </div>
-            <div class="overflow-hidden">
-                <h1 class="font-editorial text-[18vw] leading-[0.85] italic opacity-0 anim-hero text-right mr-10 md:mr-32">& LUXURY</h1>
-            </div>
+        
+        <div class="relative z-10 text-center px-4">
+            <h1 class="font-royal text-[15vw] leading-none text-white mix-blend-overlay opacity-0 hero-anim">SILENCE</h1>
+            <p class="font-serif text-xl md:text-3xl italic text-gray-300 mt-4 opacity-0 hero-anim">"Luxury whispers."</p>
         </div>
-        <div class="absolute bottom-10 left-10 z-20 mix-blend-difference text-paper hidden md:block">
-            <p class="font-sans text-[10px] w-48 leading-relaxed">WE CURATE THE SPACE BETWEEN NOISE AND ELEGANCE.</p>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <span class="text-[9px] uppercase tracking-widest font-sans">Explore</span>
+            <div class="w-[1px] h-12 bg-white/50"></div>
         </div>
     </header>
 
-    <section class="py-32 px-6 md:px-24 bg-paper relative z-10">
-        <div class="max-w-4xl mx-auto text-center">
-            <p class="font-sans text-xs tracking-[0.3em] text-gray-400 mb-8 uppercase" data-scroll>The Philosophy</p>
-            <h2 class="font-editorial text-4xl md:text-6xl leading-tight text-void reveal-type">
-                "Fashion is the armor to survive the reality of everyday life. We don't just sell clothes; we curate <span class="italic text-gray-500">states of being.</span>"
+    <section class="py-32 px-6 md:px-24 bg-void relative z-10">
+        <div class="max-w-5xl mx-auto text-center">
+            <p class="text-gold text-xs tracking-[0.4em] uppercase mb-8">The Vision</p>
+            <h2 class="font-royal text-3xl md:text-5xl leading-relaxed text-cream reveal-text">
+                We curate the space between <br> <span class="font-serif italic text-gray-500">noise</span> and <span class="font-serif italic text-gold">elegance.</span>
             </h2>
         </div>
     </section>
 
-    <div class="py-10 border-t border-b border-gray-200 bg-paper overflow-hidden">
-        <div class="marquee-container font-editorial text-4xl md:text-6xl text-gray-300 uppercase tracking-widest italic">
-            <div class="marquee-content">
-                &nbsp;Timeless Aesthetics — Quiet Luxury — Curated in Wyoming — Global Vision —&nbsp;Timeless Aesthetics — Quiet Luxury — Curated in Wyoming — Global Vision —
+    <section id="collection" class="py-20 bg-cream text-void min-h-screen relative rounded-t-[3rem] -mt-10 z-20">
+        <div class="px-6 md:px-16 pt-12">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 border-b border-black/10 pb-8">
+                <h2 class="font-royal text-5xl md:text-7xl">Collection</h2>
+                <div class="flex gap-8 mt-6 md:mt-0 overflow-x-auto no-scrollbar" id="filters">
+                    <button class="text-xs uppercase tracking-[0.2em] font-sans border-b border-black pb-1" onclick="filterGrid('all', this)">All</button>
+                    </div>
             </div>
-        </div>
-    </div>
 
-    <section id="collection" class="py-32 bg-paper min-h-screen">
-        <div class="px-6 md:px-12 mb-20 flex flex-col md:flex-row justify-between items-end">
-            <div>
-                <h2 class="font-editorial text-5xl md:text-7xl text-void mb-4">Collection</h2>
-                <div class="h-px w-24 bg-void"></div>
-            </div>
-            <div class="mt-8 md:mt-0 flex gap-8 font-sans text-xs tracking-[0.2em] uppercase text-gray-400" id="filters">
-                <button class="text-void hover-trigger border-b border-void transition-all" onclick="filterGrid('all', this)">All</button>
+            <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
+                <div class="col-span-full text-center py-20 font-serif text-xl text-gray-400 italic">
+                    Connecting to Archive...
                 </div>
-        </div>
-
-        <div id="grid-container" class="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-24">
-            <div class="col-span-full text-center py-20 font-editorial text-2xl italic text-gray-400">Loading the Exhibition...</div>
+            </div>
+            
+            <div id="error-log" class="hidden text-center text-red-500 text-xs mt-10 font-mono"></div>
         </div>
     </section>
 
-    <footer class="bg-void text-paper py-32 px-6 md:px-12 relative overflow-hidden">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
-            <div>
-                <h3 class="font-editorial text-4xl mb-8">ZAYN.</h3>
-                <p class="font-sans text-xs tracking-widest text-gray-500 uppercase leading-loose">
-                    Curated in Wyoming.<br>Designed for the World.<br>Est. 2025
-                </p>
-            </div>
-            <div class="flex flex-col items-start md:items-end justify-between">
-                <div class="flex gap-8 font-sans text-xs tracking-[0.2em] uppercase">
-                    <a href="#" class="hover:text-gray-400 transition hover-trigger">Instagram</a>
-                    <a href="#" class="hover:text-gray-400 transition hover-trigger">Pinterest</a>
-                    <a href="https://www.etsy.com/shop/ZaynCollective" class="hover:text-gray-400 transition hover-trigger">Etsy</a>
-                </div>
-                <a href="#top" class="mt-12 md:mt-0 font-editorial text-lg italic hover:text-gray-400 transition hover-trigger">Back to top ↑</a>
-            </div>
+    <footer class="bg-void text-cream py-32 px-6 text-center">
+        <h3 class="font-royal text-9xl opacity-10 select-none">ZAYN</h3>
+        <div class="flex justify-center gap-8 mt-[-3rem] relative z-10 text-xs tracking-[0.2em] uppercase">
+            <a href="#" class="hover:text-gold transition">Instagram</a>
+            <a href="https://www.etsy.com/shop/ZaynCollective" class="hover:text-gold transition">Etsy</a>
         </div>
-        <h1 class="absolute bottom-[-5%] left-1/2 -translate-x-1/2 text-[25vw] font-editorial text-gray-900 opacity-20 pointer-events-none select-none whitespace-nowrap">COLLECTIVE</h1>
+        <p class="mt-12 text-[9px] text-gray-600 font-sans tracking-widest">&copy; 2025 ZAYN COLLECTIVE</p>
     </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            
-            // --- 1. PRELOADER & HERO GİRİŞİ ---
+            // --- 1. PRELOADER ÇIKIŞI ---
             const tl = gsap.timeline();
-            
-            // Yükleniyor yazısını yukarı kaydır
-            tl.to(".anim-loader", { y: 0, duration: 1, ease: "power4.out" })
-              // Siyah ekranı kaldır (Perde açılışı)
-              .to("#preloader", { y: "-100%", duration: 1.5, ease: "power2.inOut", delay: 0.5 })
-              // Hero görseli zoom out
-              .to("#hero-img", { scale: 1, duration: 2, ease: "power2.out" }, "-=1")
-              // Hero metinleri geliş
-              .to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=1.5");
+            tl.to(".load-text", { opacity: 1, duration: 1 })
+              .to(".load-line", { width: "100px", duration: 1 }, "-=0.5")
+              .to("#preloader", { y: "-100%", duration: 1.2, ease: "power4.inOut", delay: 0.5 })
+              .to(".hero-anim", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" }, "-=0.5");
 
             // --- 2. SMOOTH SCROLL ---
-            const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+            const lenis = new Lenis({ smooth: true });
             function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
             requestAnimationFrame(raf);
 
-            // --- 3. CUSTOM CURSOR & MAGNETIC ---
+            // --- 3. CURSOR ---
             if (window.matchMedia("(min-width: 768px)").matches) {
-                const dot = document.querySelector(".cursor-dot");
-                const circle = document.querySelector(".cursor-circle");
-                
+                const outer = document.querySelector(".cursor-outer");
+                const inner = document.querySelector(".cursor-inner");
                 window.addEventListener("mousemove", (e) => {
-                    gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
-                    gsap.to(circle, { x: e.clientX, y: e.clientY, duration: 0.5 });
-                });
-
-                // Hover efektleri
-                document.querySelectorAll('a, button, .hover-trigger').forEach(el => {
-                    el.addEventListener("mouseenter", () => document.body.classList.add("hover-active"));
-                    el.addEventListener("mouseleave", () => document.body.classList.remove("hover-active"));
+                    gsap.to(inner, { x: e.clientX, y: e.clientY, duration: 0 });
+                    gsap.to(outer, { x: e.clientX, y: e.clientY, duration: 0.15 });
                 });
             }
 
-            // --- 4. TEXT REVEAL ON SCROLL ---
+            // --- 4. SCROLL ANIMATIONS ---
             gsap.registerPlugin(ScrollTrigger);
-            gsap.from(".reveal-type", {
-                scrollTrigger: { trigger: ".reveal-type", start: "top 80%" },
-                y: 50, opacity: 0, duration: 1.5, ease: "power3.out"
+            gsap.from(".reveal-text", {
+                scrollTrigger: { trigger: ".reveal-text", start: "top 80%" },
+                opacity: 0, y: 30, duration: 1.5, ease: "power3.out"
             });
 
-            // --- 5. ETSY VERİ ENTEGRASYONU ---
+            // --- 5. DATA FETCH (KRİTİK BÖLÜM) ---
+            const grid = document.getElementById("grid-container");
+            const filters = document.getElementById("filters");
+            const errorLog = document.getElementById("error-log");
+
+            // Doğru dosya yolu kontrolü
             fetch("assets/data/products.json")
-                .then(r => r.json())
-                .then(products => {
-                    const grid = document.getElementById("grid-container");
-                    const filters = document.getElementById("filters");
-                    grid.innerHTML = ""; // Temizle
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP hatası! Durum: ${response.status}`);
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length === 0) throw new Error("Veri dosyası boş.");
                     
+                    grid.innerHTML = ""; // Yükleniyor yazısını sil
                     const categories = new Set();
 
-                    products.forEach((item, index) => {
-                        let cat = item.category || "Piece";
+                    data.forEach((item, i) => {
+                        let cat = item.category || "Collection";
                         categories.add(cat);
 
-                        const card = document.createElement("div");
-                        card.className = `group cursor-pointer product-item flex flex-col`;
-                        card.dataset.category = cat;
-                        // Hafif kaydırma efekti için margin
-                        card.style.marginTop = index % 2 === 0 ? "0" : "4rem"; 
+                        // Masonry Efekti için rastgele margin
+                        const mt = (window.innerWidth > 768 && i % 2 !== 0) ? "md:mt-20" : "";
 
-                        let imgHTML = `<img src="${item.image1}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out transform group-hover:scale-105">`;
-                        if(item.image2) {
-                            imgHTML = `
-                                <img src="${item.image1}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-100 group-hover:opacity-0 grayscale">
-                                <img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 group-hover:opacity-100 scale-105">
-                            `;
-                        }
-
-                        card.innerHTML = `
-                            <a href="${item.url}" target="_blank" class="block hover-trigger">
-                                <div class="relative w-full aspect-[4/5] overflow-hidden mb-6 bg-gray-200">
-                                    ${imgHTML}
-                                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-500"></div>
-                                </div>
-                                <div class="flex justify-between items-baseline border-b border-gray-300 pb-2 group-hover:border-black transition duration-500">
-                                    <h3 class="font-editorial text-xl md:text-2xl">${item.title.substring(0, 25)}</h3>
-                                    <span class="font-sans text-xs tracking-widest text-gray-500">${item.price} ${item.currency}</span>
-                                </div>
-                                <p class="mt-2 font-sans text-[10px] uppercase tracking-[0.2em] text-gray-400">${cat}</p>
-                            </a>
+                        grid.innerHTML += `
+                            <div class="group cursor-pointer product-item ${mt}" data-category="${cat}">
+                                <a href="${item.url}" target="_blank">
+                                    <div class="relative w-full aspect-[3/4] overflow-hidden mb-6 bg-gray-200">
+                                        <img src="${item.image1}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 ease-out transform group-hover:scale-105">
+                                        ${item.image2 ? `<img src="${item.image2}" class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-700">` : ''}
+                                    </div>
+                                    <div class="flex justify-between items-end border-b border-gray-300 pb-2 group-hover:border-black transition duration-300">
+                                        <div>
+                                            <p class="font-sans text-[9px] uppercase tracking-widest text-gray-400 mb-1">${cat}</p>
+                                            <h3 class="font-royal text-xl">${item.title.substring(0, 20)}</h3>
+                                        </div>
+                                        <span class="font-sans text-xs tracking-widest">${item.price} ${item.currency}</span>
+                                    </div>
+                                </a>
+                            </div>
                         `;
-                        grid.appendChild(card);
                     });
 
-                    // ScrollTrigger'ı yeni eklenen elemanlar için yenile
+                    // ScrollTrigger'ı yenile
                     ScrollTrigger.refresh();
 
                     // Kategori Butonları
                     categories.forEach(cat => {
                         const btn = document.createElement("button");
-                        btn.className = "text-gray-400 hover:text-void hover-trigger transition-all";
-                        btn.innerText = cat;
-                        btn.onclick = () => window.filterGrid(cat, btn);
+                        btn.className = "text-xs uppercase tracking-[0.2em] font-sans text-gray-400 hover:text-black transition pb-1 whitespace-nowrap";
+                        btn.textContent = cat;
+                        btn.onclick = () => filterGrid(cat, btn);
                         filters.appendChild(btn);
                     });
                 })
-                .catch(() => {
-                    document.getElementById("grid-container").innerHTML = "<p class='col-span-full text-center'>Artworks loading via external source...</p>";
+                .catch(err => {
+                    console.error("Fetch Hatası:", err);
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-20">
+                            <p class="font-serif text-2xl italic text-gray-400 mb-4">Collection is being curated...</p>
+                            <p class="font-sans text-xs text-red-400">System Note: Run GitHub 'Sync' Action to populate data.</p>
+                        </div>
+                    `;
+                    errorLog.innerText = err.message;
+                    errorLog.classList.remove("hidden");
                 });
 
-            // --- 6. GRID FILTRELEME ---
+            // --- 6. FILTER LOGIC ---
             window.filterGrid = (cat, btn) => {
-                // Aktif buton stili
-                document.querySelectorAll("#filters button").forEach(b => {
-                    b.classList.remove("text-void", "border-b", "border-void");
+                const buttons = filters.querySelectorAll("button");
+                buttons.forEach(b => {
+                    b.classList.remove("border-b", "border-black", "text-black");
                     b.classList.add("text-gray-400");
                 });
                 btn.classList.remove("text-gray-400");
-                btn.classList.add("text-void", "border-b", "border-void");
+                btn.classList.add("border-b", "border-black", "text-black");
 
                 const items = document.querySelectorAll(".product-item");
                 items.forEach(item => {
-                    if(cat === 'all' || item.dataset.category === cat) {
-                        gsap.to(item, { opacity: 1, scale: 1, duration: 0.5, display: 'flex' });
+                    if (cat === "all" || item.dataset.category === cat) {
+                        gsap.to(item, { display: "block", opacity: 1, duration: 0.5 });
                     } else {
-                        gsap.to(item, { opacity: 0, scale: 0.9, duration: 0.3, onComplete: () => item.style.display = 'none' });
+                        gsap.to(item, { opacity: 0, duration: 0.3, onComplete: () => item.style.display = "none" });
                     }
                 });
-                
-                // Filtreleme sonrası layout bozulmasın diye ScrollTrigger yenile
                 setTimeout(() => ScrollTrigger.refresh(), 500);
             };
         });
