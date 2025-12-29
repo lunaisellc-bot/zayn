@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZAYN — The Art of Quiet Luxury</title>
-    
+    <meta name="description" content="ZAYN bridges Eastern sentiment and Western minimalism. Curated aesthetic apparel.">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -35,16 +36,16 @@
     </script>
 
     <style>
-        body { cursor: auto; background-color: #FDFBF7; overflow-x: hidden; }
+        body { background-color: #FDFBF7; overflow-x: hidden; }
         
         /* PRELOADER */
         .preloader {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
+            position: fixed; inset: 0; background: #0a0a0a; z-index: 10000;
             display: flex; justify-content: center; align-items: center; color: white;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
         }
-        
-        /* CUSTOM CURSOR (Mobilde Gizli) */
+
+        /* CUSTOM CURSOR */
         @media (min-width: 768px) {
             body { cursor: none; }
             .cursor-dot, .cursor-circle {
@@ -53,17 +54,16 @@
             }
             .cursor-dot { width: 6px; height: 6px; background: #1a1a1a; border-radius: 50%; }
             .cursor-circle { 
-                width: 40px; height: 40px; border: 1px solid rgba(26, 26, 26, 0.3); border-radius: 50%;
-                transition: width 0.3s, height 0.3s;
+                width: 40px; height: 40px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 50%;
+                transition: width 0.3s, height 0.3s, background-color 0.3s;
+            }
+            a:hover ~ .cursor-circle, button:hover ~ .cursor-circle, .group:hover ~ .cursor-circle {
+                width: 70px; height: 70px; background-color: rgba(26,26,26,0.05); border-color: transparent;
             }
         }
         @media (max-width: 767px) {
             .cursor-dot, .cursor-circle { display: none; }
         }
-
-        /* Hover Reveal Effect */
-        .hover-reveal { clip-path: inset(0 0 100% 0); transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1); }
-        .group:hover .hover-reveal { clip-path: inset(0 0 0 0); }
     </style>
 </head>
 
@@ -72,19 +72,21 @@
     <div class="preloader" id="preloader">
         <div class="text-center">
             <h1 class="font-display text-4xl md:text-6xl tracking-widest mb-4">ZAYN</h1>
-            <p class="font-sans text-[10px] tracking-[0.5em] uppercase opacity-70">Loading Experience...</p>
+            <p class="font-sans text-[10px] tracking-[0.5em] uppercase opacity-60">Curating Luxury...</p>
         </div>
     </div>
 
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
-    <nav class="fixed w-full z-50 top-0 py-6 px-8 md:px-16 flex justify-between items-center mix-blend-difference text-white transition-all duration-500" id="navbar">
+    <nav class="fixed w-full z-50 top-0 py-6 px-6 md:px-16 flex justify-between items-center mix-blend-difference text-white transition-all duration-500" id="navbar">
         <div class="hidden md:flex gap-8 text-[10px] uppercase tracking-[0.2em] font-sans">
             <a href="#philosophy" class="hover:text-gray-300 transition">Philosophy</a>
             <a href="#collection" class="hover:text-gray-300 transition">Collection</a>
         </div>
-        <a href="#" class="text-3xl font-display tracking-widest absolute left-1/2 -translate-x-1/2">ZAYN</a>
+        
+        <a href="#" class="text-2xl md:text-3xl font-display tracking-widest absolute left-1/2 -translate-x-1/2">ZAYN</a>
+
         <div class="flex gap-6 text-[10px] uppercase tracking-[0.2em] font-sans">
             <a href="https://www.etsy.com/shop/ByZaynCo" target="_blank" class="hover:text-gray-300 transition flex items-center gap-2">
                 Shop Etsy <i class="fa-solid fa-arrow-right -rotate-45 text-[8px]"></i>
@@ -95,57 +97,69 @@
     <header class="relative h-screen w-full overflow-hidden bg-black text-white">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" 
-                 class="w-full h-full object-cover opacity-60 grayscale scale-105" id="hero-img">
+                 class="w-full h-full object-cover opacity-60 grayscale scale-110" id="hero-img">
         </div>
+        
         <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-6">
-            <p class="text-[10px] md:text-xs uppercase tracking-[0.5em] font-sans mb-4">Est. 2024 • Wyoming</p>
-            <h1 class="font-display text-[15vw] leading-none tracking-tighter mix-blend-overlay mb-4">ZAYN</h1>
-            <p class="font-serif text-xl md:text-3xl italic font-light opacity-90">"Wear silence, not fabric."</p>
+            <p class="text-[10px] md:text-xs uppercase tracking-[0.5em] font-sans mb-6 translate-y-10 opacity-0 anim-hero">Est. 2024 • Wyoming</p>
+            <h1 class="font-display text-[15vw] leading-none tracking-tighter mix-blend-overlay mb-6 translate-y-10 opacity-0 anim-hero">ZAYN</h1>
+            <p class="font-serif text-xl md:text-3xl italic font-light opacity-80 translate-y-10 anim-hero">"Wear silence, not fabric."</p>
         </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-center animate-bounce">
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-center animate-bounce opacity-50">
             <span class="text-[9px] uppercase tracking-widest font-sans">Scroll</span>
         </div>
     </header>
 
-    <section id="philosophy" class="py-32 px-6 md:px-20 bg-zayn-bg relative">
+    <section id="philosophy" class="py-32 md:py-48 px-6 md:px-20 bg-zayn-bg relative">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div>
-                <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?w=800&q=80" class="w-full aspect-[3/4] object-cover grayscale brightness-110">
+            <div class="relative">
+                <div class="absolute -inset-4 border border-black/5 z-0"></div>
+                <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?w=800&q=80" class="w-full aspect-[3/4] object-cover grayscale brightness-110 relative z-10">
             </div>
             <div>
                 <span class="block text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6 font-sans">The Philosophy</span>
-                <h2 class="font-display text-4xl md:text-5xl mb-8 leading-tight text-zayn-black">
+                <h2 class="font-display text-4xl md:text-6xl mb-8 leading-tight text-zayn-black">
                     Quiet Luxury is not about being noticed, <span class="italic font-serif font-light text-gray-500">it’s about being remembered.</span>
                 </h2>
                 <p class="font-serif text-lg leading-relaxed text-gray-600 mb-10 text-justify">
                     Born in the vast silence of Wyoming, ZAYN bridges Eastern sentiment and Western minimalism. We create spaces between the noise.
                 </p>
+                <a href="#collection" class="inline-block border-b border-black pb-1 text-xs uppercase tracking-[0.25em] hover:text-gray-500 transition">Explore Collection</a>
             </div>
         </div>
     </section>
 
-    <section id="collection" class="py-20 px-4 md:px-12 bg-white">
-        <div class="flex justify-between items-end mb-20 max-w-[1600px] mx-auto border-b border-gray-100 pb-8">
+    <section id="collection" class="py-20 px-4 md:px-12 bg-white min-h-screen">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 max-w-[1600px] mx-auto border-b border-gray-100 pb-8 gap-6">
             <div>
                 <h2 class="font-display text-4xl md:text-5xl text-zayn-black mb-2">The Collection</h2>
-                <p class="text-xs text-gray-400 font-sans tracking-[0.2em]">Curated Pieces</p>
+                <p class="text-xs text-gray-400 font-sans tracking-[0.2em]">Curated Pieces from Etsy</p>
             </div>
-            <div class="hidden md:flex gap-8">
-                <button onclick="filterSelection('all')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-black">All</button>
-                <button onclick="filterSelection('dress')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black">Dresses</button>
+            
+            <div class="flex gap-8 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+                <button onclick="filterSelection('all')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-black border-b border-black pb-1">All</button>
+                <button onclick="filterSelection('dress')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition pb-1">Dresses</button>
+                <button onclick="filterSelection('top')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition pb-1">Tops</button>
+                <button onclick="filterSelection('swim')" class="filter-btn text-[10px] uppercase tracking-[0.2em] text-gray-400 hover:text-black transition pb-1">Swim</button>
             </div>
         </div>
 
         <div id="grid" class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-16">
             </div>
-        <div id="loading-msg" class="text-center w-full py-10 text-xs uppercase tracking-widest text-gray-400">Loading Collection...</div>
     </section>
 
     <footer class="bg-[#0a0a0a] text-white py-24 px-8 text-center relative overflow-hidden">
-        <h3 class="font-display text-3xl mb-6 relative z-10">ZAYN</h3>
-        <p class="font-serif italic text-gray-500 text-lg mb-8 relative z-10">"Elegance is an attitude."</p>
-        <div class="text-[9px] uppercase tracking-[0.2em] text-gray-600 font-sans relative z-10">
-            &copy; 2025 ZAYN BRAND. Wyoming.
+        <div class="relative z-10">
+            <h3 class="font-display text-3xl mb-6">ZAYN</h3>
+            <p class="font-serif italic text-gray-500 text-lg mb-8">"Elegance is an attitude."</p>
+            <div class="flex justify-center gap-6 mb-12">
+                <a href="#" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition"><i class="fa-brands fa-pinterest"></i></a>
+            </div>
+            <div class="text-[9px] uppercase tracking-[0.2em] text-gray-600 font-sans">
+                &copy; 2025 ZAYN BRAND. Wyoming.
+            </div>
         </div>
         <div class="absolute bottom-[-10%] left-0 w-full text-center text-[25vw] font-display text-white/[0.03] select-none pointer-events-none leading-none">
             ZAYN
@@ -153,104 +167,76 @@
     </footer>
 
     <script>
-        // --- 1. PRELOADER & FAILSAFE (SİYAH EKRAN ÇÖZÜMÜ) ---
+        // --- 1. SMOOTH SCROLL & ANIMATIONS ---
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Preloader Kaldırma
         function removePreloader() {
             const preloader = document.getElementById('preloader');
             if(preloader) {
                 preloader.style.opacity = '0';
-                setTimeout(() => preloader.remove(), 500);
-                
-                // Animasyonları başlat
-                gsap.from("#navbar", {y: -100, opacity: 0, duration: 1, ease: "power2.out"});
-                gsap.from("#hero-img", {scale: 1.2, duration: 2, ease: "power2.out"});
+                setTimeout(() => {
+                    preloader.remove();
+                    // Hero Animasyonları Başlasın
+                    gsap.to(".anim-hero", { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power3.out" });
+                    gsap.to("#hero-img", { scale: 1, duration: 2.5, ease: "power2.out" });
+                }, 800);
             }
         }
-
         window.addEventListener('load', removePreloader);
-        
-        // GÜVENLİK KİLİDİ: Eğer 3 saniye içinde yüklenmezse zorla aç
-        setTimeout(removePreloader, 3000);
+        setTimeout(removePreloader, 3000); // Failsafe
 
-        // --- 2. SMOOTH SCROLL ---
-        const lenis = new Lenis();
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // --- 3. CUSTOM CURSOR ---
+        // --- 2. CUSTOM CURSOR ---
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorCircle = document.querySelector('.cursor-circle');
-        
         if (window.matchMedia("(min-width: 768px)").matches) {
             window.addEventListener('mousemove', (e) => {
                 cursorDot.style.left = `${e.clientX}px`;
                 cursorDot.style.top = `${e.clientY}px`;
-                
-                // Hafif gecikmeli takip
-                cursorCircle.animate({
-                    left: `${e.clientX}px`,
-                    top: `${e.clientY}px`
-                }, { duration: 500, fill: "forwards" });
+                cursorCircle.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
             });
         }
 
-        // --- 4. PRODUCT LOADER (BASİTLEŞTİRİLMİŞ) ---
-        let allProducts = [];
-        async function loadProducts() {
-            try {
-                const res = await fetch(`products.json?v=${Date.now()}`);
-                if (!res.ok) throw new Error("JSON not found");
-                allProducts = await res.json();
-                renderGrid('all');
-            } catch (e) {
-                console.log("Using Demo Data");
-                allProducts = [
-                    { titleEN: "Silk Slip Dress", price: "$120", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80" },
-                    { titleEN: "Linen Wide Trousers", price: "$85", image: "https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?w=800&q=80" },
-                    { titleEN: "Cashmere Coat", price: "$350", image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&q=80" },
-                    { titleEN: "Velvet Top", price: "$90", image: "https://images.unsplash.com/photo-1551163943-3f6a29e39bb7?w=800&q=80" },
-                ];
-                renderGrid('all');
-            }
-            document.getElementById('loading-msg').style.display = 'none';
-        }
-
-        function renderGrid(filter) {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '';
-            
-            allProducts.forEach(product => {
-                // Basit filtreleme
-                if (filter !== 'all' && !product.titleEN.toLowerCase().includes(filter)) return;
-
-                const card = document.createElement('a');
-                card.href = product.href || "https://www.etsy.com/shop/ByZaynCo";
-                card.target = "_blank";
-                card.className = "group block cursor-pointer";
-                card.innerHTML = `
-                    <div class="relative overflow-hidden aspect-[3/4] bg-[#f0f0f0] mb-4">
-                        <img src="${product.image}" class="w-full h-full object-cover transition duration-1000 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition duration-500 flex items-center justify-center">
-                            <span class="bg-white text-black text-[10px] uppercase tracking-widest px-4 py-2">View</span>
-                        </div>
-                    </div>
-                    <h3 class="font-serif text-lg text-black italic capitalize">${product.titleEN}</h3>
-                    <p class="text-[9px] text-gray-400 uppercase tracking-widest">${product.price || 'ZAYN'}</p>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // Filtre Butonları
-        window.filterSelection = function(cat) {
-            renderGrid(cat);
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.replace('text-black', 'text-gray-400'));
-            event.target.classList.replace('text-gray-400', 'text-black');
-        }
-
-        loadProducts();
-    </script>
-</body>
-</html>
+        // --- 3. ÜRÜN VERİ TABANI (SENİN VERİLERİN) ---
+        const etsyUrunleri = [
+          { "id": 4425126731, "title": "In Her Arms Personalized Mom Sweatshirt", "href": "https://www.etsy.com/listing/4425126731", "image": "https://i.etsystatic.com/60635710/r/il/fcaccc/7512891382/il_fullxfull.7512891382_6j7g.jpg" },
+          { "id": 4425062207, "title": "Personalized Mother Flower Sweatshirt", "href": "https://www.etsy.com/listing/4425062207", "image": "https://i.etsystatic.com/60635710/r/il/554e12/7512637246/il_fullxfull.7512637246_f9cf.jpg" },
+          { "id": 4349519312, "title": "Floral Summer Sleeveless Vest Top", "href": "https://www.etsy.com/listing/4349519312", "image": "https://i.etsystatic.com/60635710/r/il/b769d1/7555498817/il_fullxfull.7555498817_onpj.jpg" },
+          { "id": 4349404747, "title": "Floral Canvas Tote Bag", "href": "https://www.etsy.com/listing/4349404747", "image": "https://i.etsystatic.com/60635710/r/il/27ce6f/7096382688/il_fullxfull.7096382688_nouo.jpg" },
+          { "id": 4349053242, "title": "Boho Botanical A-Line Dress", "href": "https://www.etsy.com/listing/4349053242", "image": "https://i.etsystatic.com/60635710/r/il/6e7603/7094266042/il_fullxfull.7094266042_exlg.jpg" },
+          { "id": 4348667234, "title": "Boho Floral Tote Bag", "href": "https://www.etsy.com/listing/4348667234", "image": "https://i.etsystatic.com/60635710/r/il/201db9/7092679008/il_fullxfull.7092679008_9jhd.jpg" },
+          { "id": 4348214205, "title": "Floral Tote Bag LunaïStyle Print", "href": "https://www.etsy.com/listing/4348214205", "image": "https://i.etsystatic.com/60635710/r/il/95d3e4/7140188855/il_fullxfull.7140188855_62u6.jpg" },
+          { "id": 4348157796, "title": "Boho Floral Sundress with Pockets", "href": "https://www.etsy.com/listing/4348157796", "image": "https://i.etsystatic.com/60635710/r/il/d022af/7137784215/il_fullxfull.7137784215_oonl.jpg" },
+          { "id": 4419468971, "title": "Tiger Sweatshirt for Women", "href": "https://www.etsy.com/listing/4419468971", "image": "https://i.etsystatic.com/60635710/r/il/7eaed2/7531667201/il_fullxfull.7531667201_tkih.jpg" },
+          { "id": 4346141125, "title": "Floral A-Line Pocket Dress", "href": "https://www.etsy.com/listing/4346141125", "image": "https://i.etsystatic.com/60635710/r/il/870d87/7401194424/il_fullxfull.7401194424_jmmb.jpg" },
+          { "id": 4417795035, "title": "Boho Paisley Print High Waist Leggings", "href": "https://www.etsy.com/listing/4417795035", "image": "https://i.etsystatic.com/60635710/r/il/d2a69c/7535968803/il_fullxfull.7535968803_ksb2.jpg" },
+          { "id": 4345680962, "title": "Bold Floral Bodycon Mini Dress", "href": "https://www.etsy.com/listing/4345680962", "image": "https://i.etsystatic.com/60635710/r/il/a21073/7488029994/il_fullxfull.7488029994_g7bo.jpg" },
+          { "id": 4417091293, "title": "Monochrome Geometric Tunic", "href": "https://www.etsy.com/listing/4417091293", "image": "https://i.etsystatic.com/60635710/r/il/5697df/7531677103/il_fullxfull.7531677103_heqb.jpg" },
+          { "id": 4345212597, "title": "Boho Floral Maxi Sundress", "href": "https://www.etsy.com/listing/4345212597", "image": "https://i.etsystatic.com/60635710/r/il/5c70c3/7555531521/il_fullxfull.7555531521_k9f0.jpg" },
+          { "id": 4344764451, "title": "Sleeveless A-Line Pocket Dress", "href": "https://www.etsy.com/listing/4344764451", "image": "https://i.etsystatic.com/60635710/r/il/9421fd/7532066067/il_fullxfull.7532066067_hbf6.jpg" },
+          { "id": 4334757466, "title": "Orange & Blue Floral Mini Dress", "href": "https://www.etsy.com/listing/4334757466", "image": "https://i.etsystatic.com/60635710/r/il/573abb/7450321087/il_fullxfull.7450321087_sok8.jpg" },
+          { "id": 4410234516, "title": "Find Your Pace Floral Sweatshirt", "href": "https://www.etsy.com/listing/4410234516", "image": "https://i.etsystatic.com/60635710/r/il/5ac608/7429578914/il_fullxfull.7429578914_4jyh.jpg" },
+          { "id": 4409997115, "title": "Take a Deep Breath Sweatshirt", "href": "https://www.etsy.com/listing/4409997115", "image": "https://i.etsystatic.com/60635710/r/il/a094d9/7428898890/il_fullxfull.7428898890_nu4b.jpg" },
+          { "id": 4409804983, "title": "Vintage Floral Wide Leg Pants", "href": "https://www.etsy.com/listing/4409804983", "image": "https://i.etsystatic.com/60635710/r/il/e7765e/7427843936/il_fullxfull.7427843936_8yh9.jpg" },
+          { "id": 4405871227, "title": "Pastel Baroque Floral Midi Dress", "href": "https://www.etsy.com/listing/4405871227", "image": "https://i.etsystatic.com/60635710/r/il/fb1d85/7403159654/il_fullxfull.7403159654_dvxw.jpg" },
+          { "id": 4334709121, "title": "Ruffle Slip Dress Soft Boho", "href": "https://www.etsy.com/listing/4334709121", "image": "https://i.etsystatic.com/60635710/r/il/7ee12e/7473693345/il_fullxfull.7473693345_fph9.jpg" },
+          { "id": 4334657645, "title": "Boho Floral Chiffon Beach Cover Up", "href": "https://www.etsy.com/listing/4334657645", "image": "https://i.etsystatic.com/60635710/r/il/70d388/7474504843/il_fullxfull.7474504843_1lbz.jpg" },
+          { "id": 4404410423, "title": "Burgundy Beige Geometric Coat", "href": "https://www.etsy.com/listing/4404410423", "image": "https://i.etsystatic.com/60635710/r/il/37151e/7488038440/il_fullxfull.7488038440_ejkk.jpg" },
+          { "id": 4334214723, "title": "Boho Floral V-Neck Blouse", "href": "https://www.etsy.com/listing/4334214723", "image": "https://i.etsystatic.com/60635710/r/il/af0e0a/7488040404/il_fullxfull.7488040404_2uwr.jpg" },
+          { "id": 4334193305, "title": "Boho Floral Sweetheart Midi Dress", "href": "https://www.etsy.com/listing/4334193305", "image": "https://i.etsystatic.com/60635710/r/il/32ab88/7016692636/il_fullxfull.7016692636_18lb.jpg" },
+          { "id": 4403763435, "title": "Burgundy Beige Geometric Hoodie", "href": "https://www.etsy.com/listing/4403763435", "image": "https://i.etsystatic.com/60635710/r/il/09730a/7535979801/il_fullxfull.7535979801_a192.jpg" },
+          { "id": 4399507783, "title": "Navy Geometric Jumpsuit", "href": "https://www.etsy.com/listing/4399507783", "image": "https://i.etsystatic.com/60635710/r/il/0c12e2/7362479678/il_fullxfull.7362479678_sic7.jpg" },
+          { "id": 4399482565, "title": "Geometric Spiral Midi Dress", "href": "https://www.etsy.com/listing/4399482565", "image": "https://i.etsystatic.com/60635710/r/il/73bcfb/7410538763/il_fullxfull.7410538763_10va.jpg" },
+          { "id": 4397001178, "title": "Navy Architectural Maze Maxi Skirt", "href": "https://www.etsy.com/listing/4397001178", "image": "https://i.etsystatic.com/60635710/r/il/0c46d8/7406519079/il_fullxfull.7406519079_qtnp.jpg" },
+          { "id": 4397295886, "title": "Navy & Cream Striped Turtleneck", "href": "https://www.etsy.com/listing/4397295886", "image": "https://i.etsystatic.com/60635710/r/il/d86d4f/7375281836/il_fullxfull.7375281836_3kqm.jpg" },
+          { "id": 4397061683, "title": "Colorful Abstract Art Shirt", "href": "https://www.etsy.com/listing/4397061683", "image": "https://i.etsystatic.com/60635710/r/il/b44152/7396202267/il_fullxfull.7396202267_2hb7.jpg" },
+          { "id": 4396507003, "title": "Navy Geometric Maze Oversized Hoodie", "href": "https://www.etsy.com/listing/4396507003", "image": "https://i.etsystatic.com/60635710/r/il/75fb9d/7375278284/il_fullxfull.7375278284_9lof.jpg" },
+          { "id": 4395931082, "title": "Navy Geometric Print Shirt", "href": "https://www.etsy.com/listing/4395931082", "image": "https://i.etsystatic.com/60635710/r/il/180d88/7423201165/il_fullxfull.7423201165_ge1y.jpg" },
+          { "id": 4395332784, "title": "Architectural Flow Monochrome Maxi Dress", "href": "https://www.etsy.com/listing/4395332784", "image": "https://i.etsystatic.com/60635710/r/il/5346be/7362072270/il_fullxfull.7362072270_lhg1.jpg" },
+          { "id": 4395333431, "title": "Abstract Swirl Print A-Line Dress", "href": "https://www.etsy.com/listing/4395333431", "image": "https://i.etsystatic.com/60635710/r/il/a8688e/7375279328/il_fullxfull.7375279328_nq67.jpg" },
+          { "id": 4393260404, "title": "Vintage Old Miami Beach Hoodie", "href": "https://www.etsy.com/listing/4393260404", "image": "https://i.etsystatic.com/60635710/r/il/237e7c/7324692110/il_fullxfull.7324692110_1sy2.jpg" },
+          { "id": 4393084453, "title": "Vintage Miami Beach Long Sleeve Tee", "href": "https://www.etsy.com/listing/4393084453", "image": "https://i.etsystatic.com/60635710/r/il/c32979/7348929174/il_fullxfull.7348929174_7s6g.jpg" },
+          { "id": 4392948116, "title": "Unisex Geometric Shirt Velvet-Feel", "href": "https://www.etsy.com/listing/4392948116", "image": "https://i.etsystatic.com/60635710/r/il/6241f5/7327073948/il_fullxfull.7327073948_59aq.jpg" },
+          { "id": 4392953817, "title": "Hoodie Blanket Baroque Black & White", "href": "https://www.etsy.com/listing/4392953817",
