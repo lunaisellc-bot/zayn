@@ -6,187 +6,161 @@
     <title>ZAYN | The Collection</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@200;300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* GENEL AYARLAR */
-        body { background: #080808; color: #F3F3F3; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        /* TEMEL AYARLAR */
+        body { background: #050505; color: #F3F3F3; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
         h1, h2, h3, .brand-font { font-family: 'Cinzel', serif; }
         .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
         
-        /* GİRİŞ ANİMASYONU (Garanti Yöntem - CSS) */
-        @keyframes fadeInMove {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* ÖNEMLİ: Görünmezlik yaratan tüm animasyonları sildim. */
+        /* Ürünler direkt görünecek. */
+        
+        /* KART STİLLERİ */
+        .product-card { position: relative; display: block; background: #111; }
+        .product-img { transition: transform 0.5s ease; width: 100%; height: 100%; object-fit: cover; }
+        .group:hover .product-img { transform: scale(1.05); opacity: 1; }
+        
+        /* Buton Efekti */
+        .view-btn { 
+            background: rgba(255,255,255,0.1); 
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
         }
-        .product-card {
-            opacity: 0; /* Başlangıçta gizli */
-            animation: fadeInMove 0.8s ease-out forwards; /* Yüklenince aç */
-        }
-
-        /* MARQUEE (Kayan Yazı) */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee { display: flex; animation: marquee 30s linear infinite; }
-
-        /* KART EFEKTLERİ */
-        .overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); opacity: 0; transition: 0.5s; }
-        .group:hover .overlay { opacity: 1; }
-        .product-img { transition: transform 0.8s ease-in-out; }
-        .group:hover .product-img { transform: scale(1.1); }
+        .group:hover .view-btn { background: rgba(255,255,255,0.95); color: #000; }
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full px-6 py-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/90 to-transparent backdrop-blur-[2px]">
-        <div class="hidden md:block text-xs tracking-[0.3em] text-gray-400">EST. 2025</div>
+    <nav class="fixed top-0 w-full px-6 py-5 flex justify-between items-center z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="text-xs tracking-[0.2em] text-gray-400">EST. 2025</div>
         <div class="text-2xl tracking-widest font-bold text-white brand-font">ZAYN</div>
-        <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="text-xs tracking-[0.2em] border-b border-white/30 pb-1 hover:text-white hover:border-white transition">SHOP</a>
+        <a href="https://www.etsy.com/shop/ZaynCollective" class="text-xs tracking-[0.2em] text-white border-b border-white/50">SHOP</a>
     </nav>
 
-    <header class="relative h-[65vh] flex flex-col items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070" 
-                 class="w-full h-full object-cover opacity-40 grayscale scale-110">
-        </div>
-        <div class="relative z-10 text-center px-4 mix-blend-screen mt-10">
-            <p class="text-xs md:text-sm tracking-[0.5em] mb-4 text-gray-300">QUIET LUXURY</p>
-            <h1 class="text-[12vw] md:text-[8vw] leading-none text-white">SILENCE</h1>
-            <p class="serif-italic text-lg md:text-2xl mt-4 text-gray-400">"Where style meets the soul."</p>
+    <header class="relative h-[60vh] flex flex-col items-center justify-center overflow-hidden bg-[#080808]">
+        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070" 
+             class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale">
+        
+        <div class="relative z-10 text-center px-4 mt-10">
+            <h1 class="text-[12vw] md:text-[8vw] leading-none text-white brand-font">COLLECTION</h1>
+            <p class="serif-italic text-lg text-gray-400 mt-2">"Curated for the bold."</p>
         </div>
     </header>
 
-    <div class="py-3 bg-white/5 border-y border-white/10 overflow-hidden">
-        <div class="animate-marquee whitespace-nowrap">
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-gray-400">WORLDWIDE SHIPPING</span>
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-white">•</span>
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-gray-400">HANDCRAFTED DESIGNS</span>
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-white">•</span>
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-gray-400">LIMITED EDITIONS</span>
-             <span class="text-[10px] tracking-[0.3em] mx-8 text-white">•</span>
-            <span class="text-[10px] tracking-[0.3em] mx-8 text-gray-400">CURATED AESTHETICS</span>
-        </div>
-    </div>
-
-    <section class="py-16 bg-[#0a0a0a] min-h-screen relative px-4">
-        <div class="max-w-[1400px] mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-4">
-                <div>
-                    <h2 class="text-3xl md:text-4xl text-white mb-2">The Collection</h2>
-                    <div id="status-text" class="text-xs text-gray-500 font-mono tracking-widest">Connecting to Archive...</div>
-                </div>
+    <section class="py-16 px-4 bg-[#050505] min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="flex justify-between items-end mb-10 border-b border-white/10 pb-4">
+                <h2 class="text-2xl text-white">Masterpieces</h2>
+                <div id="status-text" class="text-xs text-green-500 font-mono tracking-widest">CHECKING DATA...</div>
             </div>
             
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-                <div class="col-span-full py-20 text-center">
-                    <p class="animate-pulse text-lg font-serif text-gray-600">Loading Masterpieces...</p>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="col-span-full text-center py-20 border border-white/10">
+                    <p class="text-gray-500 animate-pulse">LOADING ARCHIVE...</p>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <footer class="bg-black py-16 border-t border-white/10 text-center relative overflow-hidden">
-        <h3 class="text-[15vw] leading-none text-white/5 select-none pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2">ZAYN</h3>
-        <div class="relative z-10">
-            <p class="serif-italic text-gray-500 mb-6">"Elegance is an attitude."</p>
-            <p class="text-[10px] tracking-[0.2em] text-gray-700">&copy; 2025 ZAYN BRAND.</p>
-        </div>
+    <footer class="bg-black py-10 text-center border-t border-white/10 text-xs text-gray-600 tracking-widest">
+        &copy; 2025 ZAYN BRAND.
     </footer>
 
     <script>
+        // 1. AYARLAR
         const grid = document.getElementById('product-grid');
         const statusText = document.getElementById('status-text');
         
-        // 1. KESİN ÇALIŞAN YOL (Diagnostic Tool'dan)
+        // Diagnostic Tool'da çalışan KESİN yol
         const DATA_URL = "assets/data/products.json"; 
 
-        // 2. Fiyat Formatı
-        function formatPrice(price, currency) {
-            let num = parseFloat(price);
-            if (num > 1000) num = num / 100;
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(num);
-        }
-
-        // 3. Ekrana Basma (Render)
+        // 2. RENDER (EKRANA BASMA)
         function renderProducts(data) {
-            grid.innerHTML = "";
-            
+            grid.innerHTML = ""; // Yükleniyor yazısını temizle
+
             if(!data || data.length === 0) {
-                grid.innerHTML = "<div class='text-center text-red-500 col-span-full'>No products found.</div>";
-                statusText.innerText = "Empty Archive";
+                statusText.innerText = "NO DATA FOUND";
+                statusText.style.color = "red";
                 return;
             }
 
-            statusText.innerText = `${data.length} PIECES DISCOVERED`;
+            statusText.innerText = `ONLINE • ${data.length} ITEMS`;
 
-            data.forEach((item, index) => {
-                const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
-                const title = item.title || "Masterpiece";
-                const price = formatPrice(item.price, item.currency);
+            data.forEach(item => {
+                // Veri Güvenliği
+                const img = item.image1 || "https://via.placeholder.com/500x700?text=No+Image";
+                const title = item.title || "Untitled";
                 
-                // URL Kontrolü (Link Kesin Çalışsın)
-                const url = item.url && item.url.startsWith('http') ? item.url : '#';
-                const category = item.category || "COLLECTION";
+                // Fiyat Formatı
+                let price = parseFloat(item.price);
+                if(price > 1000) price = price / 100;
+                const priceStr = new Intl.NumberFormat('en-US', { style: 'currency', currency: item.currency || 'USD' }).format(price);
 
-                // CSS ile gecikmeli giriş (GSAP yerine daha güvenli)
-                const delayStyle = `animation-delay: ${index * 0.1}s`;
+                // Kategori & URL
+                const cat = item.category || "COLLECTION";
+                const url = item.url || "#";
 
+                // HTML OLUŞTUR (Animasyon yok, direkt görünür)
                 grid.innerHTML += `
-                    <a href="${url}" target="_blank" class="group product-card block cursor-pointer" style="${delayStyle}">
-                        <div class="relative aspect-[3/4] overflow-hidden bg-[#111] mb-4">
-                            <img src="${img}" class="product-img w-full h-full object-cover opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0">
+                    <a href="${url}" target="_blank" class="group product-card">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-3">
+                            <img src="${img}" class="product-img">
                             
-                            <div class="absolute top-0 left-0 bg-white text-black px-3 py-1 text-[9px] font-bold tracking-widest z-10">
-                                ${category.toUpperCase()}
+                            <div class="absolute top-2 left-2 bg-white text-black px-2 py-1 text-[9px] font-bold tracking-widest">
+                                ${cat.toUpperCase()}
                             </div>
 
-                            <div class="overlay absolute inset-0 flex items-end justify-center pb-6">
-                                <span class="bg-white text-black px-4 py-2 text-[10px] tracking-[0.2em] font-bold transform translate-y-4 group-hover:translate-y-0 transition duration-500">
-                                    VIEW ON ETSY
-                                </span>
+                            <div class="view-btn absolute bottom-0 w-full p-3 flex justify-between items-center translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                                <span class="text-[10px] uppercase font-bold tracking-widest">View on Etsy</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
                             </div>
                         </div>
                         
                         <div class="px-1">
-                            <h3 class="text-white text-base font-serif leading-tight mb-1 group-hover:text-gray-300 transition line-clamp-1">${title}</h3>
-                            <p class="text-[10px] text-gray-500 tracking-widest">${price}</p>
+                            <h3 class="text-white text-sm font-serif leading-tight mb-1 truncate group-hover:text-gray-400 transition">${title}</h3>
+                            <p class="text-[10px] text-gray-500 tracking-widest">${priceStr}</p>
                         </div>
                     </a>
                 `;
             });
         }
 
-        // 4. Veriyi Çek
+        // 3. VERİ ÇEKME
         async function loadData() {
-            // Cache kırmak için timestamp
+            // Cache Kırma (Çok Önemli)
             const uniqueUrl = `${DATA_URL}?t=${new Date().getTime()}`;
+            
             try {
+                console.log("Connecting to:", uniqueUrl);
                 const response = await fetch(uniqueUrl);
-                if (!response.ok) throw new Error("Connection Error");
+                
+                if (!response.ok) throw new Error("HTTP Error");
+                
                 const data = await response.json();
                 renderProducts(data);
+                
             } catch (error) {
                 console.error(error);
-                statusText.innerText = "System Error";
-                grid.innerHTML = `<div class='col-span-full text-center text-gray-500 border border-gray-800 p-4'>
-                    <p class="mb-2">Verilere ulaşılamadı.</p>
-                    <button onclick="location.reload()" class="underline">Sayfayı Yenile</button>
-                </div>`;
+                statusText.innerText = "CONNECTION FAILED";
+                statusText.style.color = "red";
+                grid.innerHTML = `
+                    <div class="col-span-full text-center text-red-500 mt-10 p-4 border border-red-900">
+                        <p class="font-bold">VERİ ALINAMADI</p>
+                        <p class="text-xs mt-2">Lütfen sayfayı yenileyin.</p>
+                        <a href="${DATA_URL}" class="text-xs underline mt-4 block">Dosyayı Kontrol Et</a>
+                    </div>
+                `;
             }
         }
 
-        // 5. Başlat
-        const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-        
+        // BAŞLAT
         loadData();
-
     </script>
 </body>
 </html>
