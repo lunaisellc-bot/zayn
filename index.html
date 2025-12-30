@@ -3,214 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | The Secret Garden</title>
+    <title>ZAYN | Neon Garden</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@200;300;400&family=Playfair+Display:ital@0;1&family=Italianno&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     
     <style>
-        /* --- GENEL AYARLAR --- */
+        /* --- RENK PALETİ --- */
+        :root {
+            --neon-green: #ccff00; /* Asit Yeşili */
+            --bg-color: #050505;
+        }
+
         body {
-            background-color: #fffbf5; /* Kremsi Lüks Renk */
-            color: #2c2c2c;
+            background-color: var(--bg-color);
+            color: #fff;
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
         }
 
-        h1, h2, .brand-font { font-family: 'Cinzel', serif; }
-        .handwriting { font-family: 'Italianno', cursive; }
-        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
+        /* --- FONTLAR --- */
+        .brand-font { font-family: 'Cinzel', serif; }
+        .cyber-font { font-family: 'Orbitron', sans-serif; }
 
-        /* --- GARANTİ GİRİŞ ANİMASYONU (CSS) --- */
-        /* JS beklemeden direkt çalışır, yazıların kaybolmasını engeller */
-        @keyframes gentleRise {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- NEON PARLAMA EFEKTLERİ --- */
+        .neon-text {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(204, 255, 0, 0.5), 0 0 20px rgba(204, 255, 0, 0.3);
         }
         
-        .anim-reveal {
-            opacity: 0; /* Başlangıçta gizli */
-            animation: gentleRise 1.5s ease-out forwards; /* Yüklenince aç */
+        .neon-border {
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
         }
-        /* Gecikme süreleri */
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-500 { animation-delay: 0.5s; }
-        .delay-700 { animation-delay: 0.7s; }
 
-        /* --- GÜL YAPRAĞI EFEKTİ --- */
-        #petal-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9999; overflow: hidden;
-        }
-        .petal {
+        /* --- ÇİÇEK GÖRSELLERİ (MİKS) --- */
+        /* Ekranın farklı yerlerinden fışkıran çiçekler */
+        .flower-blob {
             position: absolute;
-            background: linear-gradient(120deg, #ffc0cb, #ffb6c1);
-            border-radius: 150% 0 150% 0;
-            opacity: 0.6;
-            animation: fall linear infinite;
+            pointer-events: none;
+            mix-blend-mode: hard-light; /* Renkleri patlatır */
+            opacity: 0.8;
+            filter: contrast(1.2) saturation(1.5);
+            animation: floatFlower 10s infinite ease-in-out alternate;
         }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
-            10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
+        @keyframes floatFlower {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-20px) scale(1.05); }
         }
 
-        /* --- ALT BAHÇE (SABİT ÇİÇEKLER) --- */
-        .bottom-garden {
-            position: fixed; bottom: -20px; left: 0; width: 100%; 
-            display: flex; justify-content: space-between; align-items: flex-end;
-            pointer-events: none; z-index: 0; opacity: 0.8;
+        /* --- NEON YAĞMURU --- */
+        #rain-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
         }
-        .flower-img { max-height: 25vh; transition: transform 0.5s; }
+        .rain-drop {
+            position: absolute;
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, var(--neon-green));
+            opacity: 0.3;
+            animation: rainFall linear infinite;
+        }
+        @keyframes rainFall {
+            0% { transform: translateY(-100px); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
 
-        /* --- BUTON EFEKTİ --- */
-        .enchanted-btn {
-            background: #1a1a1a; color: #fff;
-            transition: all 0.5s;
-            position: relative; overflow: hidden;
+        /* --- BUTON --- */
+        .acid-btn {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
         }
-        .enchanted-btn:hover { background: #000; padding-left: 2.5rem; }
-        .enchanted-btn::before {
-            content: '✿'; position: absolute; left: -20px; top: 50%; 
-            transform: translateY(-50%); transition: 0.5s;
+        .acid-btn:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
+            transform: scale(1.05);
         }
-        .enchanted-btn:hover::before { left: 15px; }
+
+        /* --- GİRİŞ ANİMASYONU --- */
+        .zoom-in {
+            animation: zoomEntry 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        @keyframes zoomEntry {
+            from { transform: scale(1.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
-<body>
+<body class="h-screen flex flex-col justify-between relative overflow-hidden">
 
-    <div id="petal-container"></div>
+    <div id="rain-container"></div>
 
-    <div class="bottom-garden">
-        <img src="https://png.pngtree.com/png-vector/20230906/ourmid/pngtree-watercolor-flowers-png-image_9962325.png" class="flower-img w-[40vw] opacity-60">
-        <img src="https://png.pngtree.com/png-vector/20220926/ourmid/pngtree-watercolor-flower-leaves-png-image_6216834.png" class="flower-img w-[50vw] opacity-60">
-    </div>
+    <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?q=80&w=1000" 
+         class="flower-blob top-[-20%] left-[-20%] w-[70vw] md:w-[40vw] rotate-180">
+    <img src="https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=1000" 
+         class="flower-blob bottom-[-20%] right-[-20%] w-[80vw] md:w-[50vw]">
+    <img src="https://images.unsplash.com/photo-1596230529625-7ee541fb5d31?q=80&w=1000" 
+         class="flower-blob top-[10%] right-[-10%] w-[30vw] opacity-60 mix-blend-color-dodge">
 
-    <nav class="fixed top-0 w-full px-6 py-6 flex justify-between items-center z-50 mix-blend-multiply text-[#1a1a1a]">
-        <div class="text-xs tracking-[0.3em] font-bold">EST. 2025</div>
-        <div class="text-3xl tracking-widest font-extrabold brand-font">ZAYN</div>
-        <a href="shop.html" class="text-xs tracking-[0.3em] border-b border-black pb-1 hover:opacity-50 transition">ENTER SHOP</a>
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
+        <div class="text-[10px] tracking-[0.3em] neon-text font-bold">EST. 2025</div>
+        <div class="text-xs tracking-[0.3em] neon-text font-bold border border-[#ccff00] px-3 py-1 rounded-full">WORLDWIDE</div>
     </nav>
 
-    <header class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-10 z-10 pb-20">
+    <main class="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
         
-        <div class="max-w-4xl mx-auto">
-            <p class="handwriting text-5xl md:text-7xl text-[#d4af37] mb-2 anim-reveal delay-100">The Awakening</p>
-            
-            <h1 class="text-[15vw] md:text-[11vw] leading-[0.85] text-[#1a1a1a] mb-8 relative anim-reveal delay-300">
-                BLOOM
-                <span class="absolute -top-6 -right-4 text-2xl text-pink-400 opacity-60 animate-bounce">❀</span>
-            </h1>
-
-            <div class="space-y-6 anim-reveal delay-500">
-                <p class="serif-italic text-xl md:text-3xl text-gray-600">
-                    "We don't just design clothes. We cultivate elegance."
-                </p>
-                <p class="text-sm md:text-base text-gray-500 max-w-lg mx-auto leading-relaxed tracking-wide font-light">
-                    In a world full of noise, ZAYN invites you to a secret garden of silence and style. 
-                    Every fabric is a petal, every stitch is a root.
-                </p>
-            </div>
-
-            <div class="mt-12 anim-reveal delay-700">
-                <a href="shop.html" class="enchanted-btn inline-block px-10 py-4 text-xs uppercase tracking-[0.3em] rounded-full shadow-xl">
-                    Discover Collection
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <section class="py-20 relative z-10 bg-white/60 backdrop-blur-sm border-y border-[#d4af37]/20">
-        <div class="text-center mb-10">
-            <span class="text-xs tracking-[0.5em] text-[#d4af37] uppercase">Curated Masterpieces</span>
-            <h2 class="text-2xl mt-2 brand-font">Visual Poetry</h2>
-        </div>
-
-        <div class="swiper mySwiper w-full max-w-[1400px] h-[450px] px-4">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide relative overflow-hidden rounded shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/10"></div>
-                    <div class="absolute bottom-6 left-6 text-white text-xl font-serif italic">Ethereal</div>
-                </div>
-                <div class="swiper-slide relative overflow-hidden rounded shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1545959728-66c3c58d2087?q=80&w=1000" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/10"></div>
-                    <div class="absolute bottom-6 left-6 text-white text-xl font-serif italic">Vintage Soul</div>
-                </div>
-                <div class="swiper-slide relative overflow-hidden rounded shadow-lg">
-                    <img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?q=80&w=1000" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/10"></div>
-                    <div class="absolute bottom-6 left-6 text-white text-xl font-serif italic">Floral Dreams</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-32 text-center relative z-10 pb-40">
-        <p class="serif-italic text-2xl text-gray-500 mb-6">"Beauty begins the moment you decide to be yourself."</p>
-        <h2 class="text-3xl md:text-4xl mb-8 text-[#1a1a1a] brand-font">Are you ready to bloom?</h2>
+        <p class="cyber-font text-sm md:text-lg neon-text tracking-[0.5em] mb-4 zoom-in" style="animation-delay: 0.1s;">
+            FUTURE OF FASHION
+        </p>
         
-        <a href="shop.html" class="inline-block border-b border-black pb-1 text-xs tracking-[0.3em] hover:text-[#d4af37] transition font-bold">
-            ENTER THE BOUTIQUE
-        </a>
-    </section>
+        <h1 class="brand-font text-[18vw] md:text-[13vw] leading-[0.8] text-white tracking-tighter mix-blend-overlay zoom-in" style="animation-delay: 0.3s;">
+            ZAYN
+        </h1>
+        <h2 class="absolute text-[4vw] md:text-[2vw] cyber-font text-[#ccff00] tracking-[0.8em] mt-2 font-bold zoom-in" style="animation-delay: 0.5s; text-shadow: 0 0 20px #ccff00;">
+            COLLECTIVE
+        </h2>
+
+        <p class="mt-16 md:mt-24 text-gray-300 max-w-lg text-xs md:text-sm tracking-widest leading-relaxed zoom-in" style="animation-delay: 0.7s;">
+            WHERE NATURE MEETS NEON. <br>
+            A CURATED COLLECTION OF VIBRANT SOULS.
+        </p>
+
+        <div class="mt-10 zoom-in" style="animation-delay: 0.9s;">
+            <a href="shop.html" class="acid-btn px-10 py-4 inline-block rounded-none clip-path-polygon">
+                ENTER THE ACID GARDEN
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="fixed bottom-0 w-full p-4 text-center z-50">
+        <p class="text-[9px] text-[#ccff00] opacity-70 tracking-[0.3em] uppercase">
+            © 2025 ZAYN BRAND • DIGITAL LUXURY
+        </p>
+    </footer>
 
     <script>
-        // 1. Smooth Scroll (Yumuşak Kaydırma)
-        const lenis = new Lenis({ duration: 1.5, smooth: true });
+        // 1. Smooth Scroll
+        const lenis = new Lenis();
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // 2. Gül Yaprağı Yağmuru
-        function createPetals() {
-            const container = document.getElementById('petal-container');
-            const petalCount = 12; // Ekranda aynı anda olacak yaprak sayısı
+        // 2. Neon Yağmuru
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const count = 40; // Çizgi sayısı
 
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
+            for (let i = 0; i < count; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('rain-drop');
                 
-                // Rastgele boyut ve konum
-                const size = Math.random() * 10 + 5 + 'px';
-                petal.style.width = size;
-                petal.style.height = size;
-                petal.style.left = Math.random() * 100 + 'vw';
-                
-                // Rastgele animasyon süresi
-                petal.style.animationDuration = Math.random() * 5 + 8 + 's';
-                petal.style.animationDelay = Math.random() * 5 + 's';
+                // Rastgele konum ve hız
+                drop.style.left = Math.random() * 100 + 'vw';
+                drop.style.animationDuration = Math.random() * 2 + 1 + 's'; // 1-3 saniye arası hız
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.height = Math.random() * 50 + 20 + 'px'; // Rastgele uzunluk
 
-                container.appendChild(petal);
+                container.appendChild(drop);
             }
         }
-        createPetals();
-
-        // 3. Slider Başlat
-        var swiper = new Swiper(".mySwiper", {
-            effect: "coverflow",
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: "auto",
-            coverflowEffect: {
-                rotate: 0,
-                stretch: 0,
-                depth: 150,
-                modifier: 1,
-                slideShadows: false,
-            },
-            loop: true,
-            autoplay: {
-                delay: 3000,
-                disableOnInteraction: false,
-            },
-        });
+        createRain();
     </script>
 </body>
 </html>
