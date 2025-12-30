@@ -37,39 +37,43 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
                 <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-gray-500 font-mono">Loading...</div>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Initializing...</div>
             </div>
             
             <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
-                    Initializing Data Stream...
+                    Looking for data...
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // --- 1. AYARLAR ---
+        // --- AYARLAR ---
         const statusText = document.getElementById('status-text');
         const grid = document.getElementById('grid');
         
-        // KESİN VE NET ADRES (Senin kanıtladığın çalışan link)
-        const DATA_URL = "https://zaynbrand.com/assets/data/products.json";
-        
-        // Cache (Önbellek) Kırma kodu
-        const uniqueUrl = `${DATA_URL}?v=${new Date().getTime()}`;
+        // Cache (Önbellek) Kırıcı Zaman Damgası
+        const v = new Date().getTime();
 
-        // --- 2. YARDIMCI FONKSİYONLAR ---
-        
-        // Fiyat Düzenleyici (Etsy bazen kuruşsuz gönderir, 5991 -> 59.91 yapar)
+        // DENENECEK YOLLAR (Sırasıyla dener)
+        // 1. Yol: Göreceli yol (Domain bağımsız, en güvenlisi)
+        // 2. Yol: Ana dizin
+        // 3. Yol: Tam adres (Yedek)
+        const paths = [
+            `assets/data/products.json?v=${v}`,
+            `./assets/data/products.json?v=${v}`,
+            `/assets/data/products.json?v=${v}`,
+            `https://zaynbrand.com/assets/data/products.json?v=${v}`
+        ];
+
+        // --- YARDIMCI FONKSİYONLAR ---
         function formatPrice(price, currency) {
             let num = parseFloat(price);
-            // Eğer fiyat çok yüksekse (örn: 1000'den büyük) muhtemelen kuruşludur, 100'e böl
             if (num > 1000) { num = num / 100; }
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num);
         }
 
-        // --- 3. EKRANA BASMA ---
         function renderProducts(data) {
             grid.innerHTML = "";
             
@@ -81,7 +85,6 @@
             statusText.innerHTML = `${data.length} Items Loaded`;
 
             data.forEach(item => {
-                // Veri güvenliği
                 const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
                 const title = item.title || "Untitled Masterpiece";
                 const currency = item.currency || "USD";
@@ -93,11 +96,9 @@
                     <a href="${url}" target="_blank" class="group cursor-pointer block">
                         <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
                             <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
-                            
                             <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
                                 ${category}
                             </div>
-
                             <div class="absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 translate-y-full group-hover:translate-y-0 transition duration-300 flex justify-between items-center">
                                 <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
                                 <i class="fa-solid fa-arrow-right text-white text-xs"></i>
@@ -110,36 +111,41 @@
             });
         }
 
-        // --- 4. VERİ ÇEKME (FETCH) ---
-        fetch(uniqueUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP Hata: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Veri Başarıyla Geldi:", data);
-                renderProducts(data);
-            })
-            .catch(error => {
-                console.error("Hata:", error);
-                statusText.innerHTML = "Connection Error";
+        // --- AKILLI VERİ ÇEKİCİ (Recursive Fetch) ---
+        async function smartFetch(pathIndex) {
+            if (pathIndex >= paths.length) {
+                statusText.innerHTML = "Connection Failed";
                 grid.innerHTML = `
-                    <div class="col-span-full text-center text-red-400 mt-10 border border-red-900 p-4 rounded bg-red-900/10">
-                        <p class="font-bold">SYSTEM ERROR</p>
-                        <p class="text-xs font-mono mt-2">${error.message}</p>
-                        <p class="text-xs mt-4 text-gray-400">Veri dosyasına ulaşılamıyor. Lütfen sayfayı yenileyin.</p>
-                        <a href="${DATA_URL}" target="_blank" class="text-xs underline mt-2 block hover:text-white">Dosyayı Kontrol Et</a>
+                    <div class="col-span-full text-center text-red-500 mt-10">
+                        <p>Veri çekilemedi. Lütfen bağlantınızı kontrol edin.</p>
                     </div>
                 `;
-            });
+                return;
+            }
 
-        // --- 5. ANİMASYON BAŞLAT ---
+            const currentPath = paths[pathIndex];
+            console.log(`Trying path: ${currentPath}`);
+            statusText.innerHTML = `Connecting... (${pathIndex + 1}/${paths.length})`;
+
+            try {
+                const response = await fetch(currentPath);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                renderProducts(data); // Başarılıysa bas ve bitir
+            } catch (error) {
+                console.warn(`Path failed: ${currentPath}`, error);
+                smartFetch(pathIndex + 1); // Başarısızsa bir sonrakini dene
+            }
+        }
+
+        // --- BAŞLAT ---
         gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
         const lenis = new Lenis();
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
+
+        // İşlemi Başlat
+        smartFetch(0);
 
     </script>
 </body>
