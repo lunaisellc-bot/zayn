@@ -3,189 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Acid Garden</title>
+    <title>ZAYN | Vector Garden</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     
     <style>
         /* --- TEMEL AYARLAR --- */
         :root {
-            --neon-acid: #ccff00; /* Asit Yeşili */
-            --deep-black: #000000;
+            --off-white: #faf8f0; /* Kırık Beyaz / Krem */
+            --text-dark: #2c2c2c; /* Koyu Antrasit Yazı Rengi */
+            --accent-gold: #cfa158; /* Altın Detay Rengi */
         }
 
         body {
-            background-color: var(--deep-black);
-            color: #ffffff;
+            background-color: var(--off-white);
+            color: var(--text-dark);
             font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            overflow-y: hidden; /* Tek ekran deneyimi */
+            overflow-x: hidden; /* Yatay kaymayı engelle */
         }
 
         /* --- TİPOGRAFİ --- */
         .brand-font { font-family: 'Cinzel', serif; }
-        .cyber-font { font-family: 'Orbitron', sans-serif; }
+        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* --- NEON EFEKTLERİ --- */
-        .neon-glow {
-            color: var(--neon-acid);
-            text-shadow: 0 0 10px rgba(204, 255, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.4);
-        }
-        
-        .neon-box {
-            border: 1px solid var(--neon-acid);
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2), inset 0 0 10px rgba(204, 255, 0, 0.1);
-        }
-
-        /* --- ÇİÇEK PATLAMALARI --- */
-        .flower-asset {
-            position: absolute;
-            pointer-events: none;
-            mix-blend-mode: hard-light; /* Renkleri neon gibi yakar */
-            opacity: 0.85;
-            filter: contrast(1.3) saturation(1.8) brightness(0.9);
-            z-index: 1;
-            animation: floaty 8s infinite alternate ease-in-out;
-        }
-        
-        @keyframes floaty {
-            from { transform: translateY(0) scale(1); }
-            to { transform: translateY(-15px) scale(1.05); }
-        }
-
-        /* --- MATRIX YAĞMURU --- */
-        #matrix-rain {
+        /* --- VEKTÖREL ÇİÇEK ALANI --- */
+        #vector-garden-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0;
-        }
-        .rain-line {
-            position: absolute;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--neon-acid), transparent);
-            opacity: 0.4;
-            animation: dropDown linear infinite;
-        }
-        @keyframes dropDown {
-            0% { transform: translateY(-100px); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(110vh); opacity: 0; }
+            pointer-events: none; /* Tıklamaları engelle */
+            z-index: 0; /* İçeriğin arkasında kalsın */
+            overflow: hidden;
         }
 
-        /* --- GİRİŞ ANİMASYONU (Saf CSS - Garanti Görünürlük) --- */
+        .vector-flora {
+            position: absolute;
+            bottom: 0; /* Zemine yapışık */
+            max-height: 85vh; /* Ekranın %85'ine kadar uzasın */
+            width: auto;
+            opacity: 0; /* Başlangıçta gizli */
+            transform-origin: bottom center; /* Büyüme noktası alt taraf */
+            animation: growUp 2s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Büyüme animasyonu */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05)); /* Hafif gölge ile derinlik */
+        }
+
+        /* Sol Çiçek Grubu */
+        .flora-left {
+            left: -5%; /* Hafif dışarıdan başlasın */
+            transform-origin: bottom left;
+            animation-delay: 0.2s;
+        }
+
+        /* Sağ Çiçek Grubu */
+        .flora-right {
+            right: -5%; /* Hafif dışarıdan başlasın */
+            transform-origin: bottom right;
+            animation-delay: 0.4s;
+        }
+
+        /* Büyüme Animasyonu */
+        @keyframes growUp {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(100px); /* Küçük ve aşağıda başla */
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0); /* Normal boyuta gel */
+            }
+        }
+
+        /* --- GİRİŞ ANİMASYONU (İçerik İçin) --- */
         .entry-anim {
             opacity: 0;
-            animation: textEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp 1.2s ease-out forwards;
         }
-        @keyframes textEnter {
-            0% { opacity: 0; transform: scale(1.1) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- BUTON (GLITCH EFEKTLİ) --- */
-        .cyber-btn {
-            background: transparent;
-            color: var(--neon-acid);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            letter-spacing: 0.3em;
+        /* --- BUTON --- */
+        .elegant-btn {
+            background: var(--text-dark);
+            color: var(--off-white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            padding: 20px 40px;
-            border: 2px solid var(--neon-acid);
+            padding: 18px 40px;
+            border: 1px solid var(--text-dark);
             position: relative;
             overflow: hidden;
-            transition: all 0.3s;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.4s ease;
         }
-        .cyber-btn:hover {
-            background: var(--neon-acid);
-            color: #000;
-            box-shadow: 0 0 30px var(--neon-acid);
-            transform: scale(1.05);
+        .elegant-btn:hover {
+            background: transparent;
+            color: var(--text-dark);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body class="flex flex-col h-screen justify-between relative">
 
-    <div id="matrix-rain"></div>
+    <div id="vector-garden-container">
+        <img src="https://www.pngmart.com/files/22/Floral-Vector-PNG-Clipart.png" 
+             class="vector-flora flora-left" alt="Abstract Vector Flowers Left">
+             
+        <img src="https://www.pngmart.com/files/22/Floral-Vector-PNG-Transparent.png" 
+             class="vector-flora flora-right" alt="Abstract Vector Flowers Right">
+    </div>
 
-    <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?q=80&w=800" 
-         class="flower-asset top-[-10%] left-[-10%] w-[60vw] md:w-[30vw] rotate-180">
-    
-    <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=800" 
-         class="flower-asset bottom-[-10%] right-[-10%] w-[70vw] md:w-[40vw]">
 
-    <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=800" 
-         class="flower-asset bottom-[10%] left-[-10%] w-[40vw] md:w-[20vw] opacity-60 mix-blend-screen">
-
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
-        <div class="text-[10px] tracking-[0.4em] font-bold text-white entry-anim" style="animation-delay: 0.1s;">EST. 2025</div>
-        <div class="text-[9px] tracking-[0.3em] font-bold text-black bg-[#ccff00] px-2 py-1 entry-anim" style="animation-delay: 0.2s;">
-            ACID COLLECTION
+    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50">
+        <div class="text-[10px] tracking-[0.3em] font-bold text-gray-500 entry-anim" style="animation-delay: 0.5s;">EST. 2025</div>
+        <div class="text-[10px] tracking-[0.2em] font-bold text-gray-500 border border-gray-300 px-3 py-1 rounded-full entry-anim" style="animation-delay: 0.6s;">
+            MODERN ISTANBUL
         </div>
     </nav>
 
-    <main class="relative z-20 w-full h-full flex flex-col items-center justify-center text-center px-4">
+    <main class="relative z-20 w-full h-full flex flex-col items-center justify-center text-center px-6">
         
-        <p class="cyber-font text-xs md:text-sm neon-glow tracking-[0.6em] mb-4 entry-anim" style="animation-delay: 0.3s;">
-            DIGITAL NATURE
+        <p class="serif-italic text-lg md:text-xl text-[#cfa158] mb-4 entry-anim" style="animation-delay: 0.7s;">
+            Where elegance blooms from the ground up.
         </p>
         
-        <div class="relative">
-            <h1 class="brand-font text-[18vw] md:text-[14vw] leading-[0.85] text-white tracking-tighter mix-blend-lighten entry-anim" style="animation-delay: 0.4s;">
+        <div class="relative w-full mb-8">
+            <h1 class="brand-font text-[16vw] md:text-[12vw] leading-none text-[#2c2c2c] tracking-tighter font-black entry-anim" style="animation-delay: 0.8s;">
                 ZAYN
             </h1>
-            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-[4vw] md:text-[2.5vw] cyber-font text-[#ccff00] tracking-[0.8em] font-black mix-blend-difference entry-anim" style="animation-delay: 0.6s; white-space: nowrap;">
-                COLLECTIVE
-            </h2>
         </div>
 
-        <p class="mt-12 text-gray-400 max-w-md text-[10px] md:text-xs tracking-[0.3em] leading-loose uppercase entry-anim" style="animation-delay: 0.7s;">
-            Where the organic meets the electric.<br>
-            <span class="text-[#ccff00]">Bloom in the dark.</span>
+        <p class="mt-4 text-gray-600 max-w-md text-xs md:text-sm tracking-[0.2em] leading-relaxed font-medium uppercase entry-anim" style="animation-delay: 1s;">
+            A curated collection of modern vector aesthetics.<br>
+            Rooted in style.
         </p>
 
-        <div class="mt-12 entry-anim" style="animation-delay: 0.9s;">
-            <a href="shop.html" class="cyber-btn inline-block">
-                Enter The Garden
+        <div class="mt-16 entry-anim" style="animation-delay: 1.2s;">
+            <a href="shop.html" class="elegant-btn inline-block rounded-sm">
+                Enter The Collection
             </a>
         </div>
 
     </main>
 
-    <footer class="fixed bottom-0 w-full p-5 text-center z-50">
-        <p class="text-[8px] text-[#ccff00] opacity-60 tracking-[0.5em] uppercase animate-pulse">
-            System Online • Ready to shop
+    <footer class="fixed bottom-0 w-full p-6 text-center z-50">
+        <p class="text-[9px] text-gray-400 tracking-[0.3em] uppercase">
+            © 2025 ZAYN COLLECTIVE
         </p>
     </footer>
 
     <script>
-        // 1. Smooth Scroll
         const lenis = new Lenis();
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
-
-        // 2. Matrix Yağmuru Oluşturucu
-        function createRain() {
-            const container = document.getElementById('matrix-rain');
-            const count = 30; // Çizgi sayısı
-
-            for (let i = 0; i < count; i++) {
-                const drop = document.createElement('div');
-                drop.classList.add('rain-line');
-                
-                // Rastgele özellikler
-                drop.style.left = Math.random() * 100 + 'vw';
-                drop.style.height = Math.random() * 100 + 50 + 'px'; // Uzunluk
-                drop.style.animationDuration = Math.random() * 2 + 1 + 's'; // Hız
-                drop.style.animationDelay = Math.random() * 2 + 's'; // Gecikme
-
-                container.appendChild(drop);
-            }
-        }
-        createRain();
     </script>
 </body>
 </html>
