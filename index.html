@@ -15,16 +15,6 @@
         body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Cinzel', serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* Debug Kutusu */
-        #status-box {
-            font-family: monospace;
-            font-size: 10px;
-            color: #666;
-            margin-top: 10px;
-            border-top: 1px solid #222;
-            padding-top: 5px;
-        }
     </style>
 </head>
 <body>
@@ -35,118 +25,121 @@
         <div class="text-xs tracking-[0.3em]">SHOP</div>
     </nav>
 
-    <header class="h-[70vh] flex items-center justify-center relative overflow-hidden">
+    <header class="h-[60vh] flex items-center justify-center relative overflow-hidden">
         <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale">
         <div class="relative z-10 text-center px-4">
-            <h1 class="text-[12vw] md:text-[8vw] leading-none opacity-0 anim-hero">MASTERPIECES</h1>
-            <p class="text-sm md:text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Connecting to Etsy...</p>
-            <div id="status-box">Initializing...</div>
+            <h1 class="text-[12vw] md:text-[8vw] leading-none opacity-0 anim-hero">COLLECTION</h1>
+            <p class="text-sm md:text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Curated from Etsy</p>
         </div>
     </header>
 
     <section class="py-12 px-4 bg-[#0a0a0a] min-h-screen">
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
-                <h2 class="text-2xl md:text-3xl text-white">The Collection</h2>
-                <div class="text-xs text-gray-500">Curated</div>
+                <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Loading...</div>
             </div>
             
             <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="col-span-full flex flex-col items-center justify-center py-20 text-gray-600 animate-pulse">
-                    <span class="text-2xl">Loading Data...</span>
-                    <span class="text-xs mt-2">Please wait</span>
+                <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
+                    Initializing Data Stream...
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // --- AYARLAR ---
-        const statusBox = document.getElementById('status-box');
+        // --- 1. AYARLAR ---
+        const statusText = document.getElementById('status-text');
         const grid = document.getElementById('grid');
-        const timeHash = new Date().getTime(); // Önbelleği kırmak için
-
-        // Denenecek Yollar (Sırasıyla)
-        const pathsToTry = [
-            `assets/data/products.json?v=${timeHash}`,       // 1. Öncelik: Yeni yapı
-            `./assets/data/products.json?v=${timeHash}`,     // 2. Öncelik: Noktalı yapı
-            `products.json?v=${timeHash}`                    // 3. Öncelik: Ana dizin (Eski)
-        ];
-
-        // --- FONKSİYONLAR ---
         
-        function log(msg, color = "#666") {
-            console.log(msg);
-            statusBox.innerHTML = `<span style="color:${color}">${msg}</span>`;
+        // KESİN VE NET ADRES (Senin kanıtladığın çalışan link)
+        const DATA_URL = "https://zaynbrand.com/assets/data/products.json";
+        
+        // Cache (Önbellek) Kırma kodu
+        const uniqueUrl = `${DATA_URL}?v=${new Date().getTime()}`;
+
+        // --- 2. YARDIMCI FONKSİYONLAR ---
+        
+        // Fiyat Düzenleyici (Etsy bazen kuruşsuz gönderir, 5991 -> 59.91 yapar)
+        function formatPrice(price, currency) {
+            let num = parseFloat(price);
+            // Eğer fiyat çok yüksekse (örn: 1000'den büyük) muhtemelen kuruşludur, 100'e böl
+            if (num > 1000) { num = num / 100; }
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num);
         }
 
+        // --- 3. EKRANA BASMA ---
         function renderProducts(data) {
             grid.innerHTML = "";
             
             if(!data || data.length === 0) {
-                log("JSON Dosyası Boş Geldi!", "red");
+                statusText.innerHTML = "No Items Found";
                 return;
             }
 
+            statusText.innerHTML = `${data.length} Items Loaded`;
+
             data.forEach(item => {
-                // Veri güvenliği (Boş alan varsa hata vermesin)
-                const img = item.image1 || item.image || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
+                // Veri güvenliği
+                const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
                 const title = item.title || "Untitled Masterpiece";
-                const price = item.price || "Check";
-                const currency = item.currency || "Site";
+                const currency = item.currency || "USD";
+                const displayPrice = formatPrice(item.price, currency);
                 const url = item.url || "#";
+                const category = item.category || "Collection";
                 
                 grid.innerHTML += `
                     <a href="${url}" target="_blank" class="group cursor-pointer block">
                         <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
-                            <img src="${img}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
-                            <div class="absolute bottom-0 w-full bg-black/60 backdrop-blur-sm p-3 translate-y-full group-hover:translate-y-0 transition duration-300">
+                            <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
+                            
+                            <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
+                                ${category}
+                            </div>
+
+                            <div class="absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 translate-y-full group-hover:translate-y-0 transition duration-300 flex justify-between items-center">
                                 <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
+                                <i class="fa-solid fa-arrow-right text-white text-xs"></i>
                             </div>
                         </div>
-                        <h3 class="text-lg text-white font-serif leading-tight group-hover:text-gray-300 transition">${title}</h3>
-                        <p class="text-xs text-gray-500 tracking-widest mt-1">${price} ${currency}</p>
+                        <h3 class="text-lg text-white font-serif leading-tight group-hover:text-gray-300 transition line-clamp-2">${title}</h3>
+                        <p class="text-xs text-gray-500 tracking-widest mt-2 border-t border-white/10 pt-2 inline-block">${displayPrice}</p>
                     </a>
                 `;
             });
-            log(`Successfully loaded ${data.length} items from Etsy.`, "#4ade80");
         }
 
-        async function tryFetch(pathIndex) {
-            if (pathIndex >= pathsToTry.length) {
-                log("HATA: Hiçbir veri dosyası bulunamadı. Lütfen 'Actions' kısmını kontrol edin.", "red");
-                return;
-            }
-
-            const currentPath = pathsToTry[pathIndex];
-            log(`Trying path: ${currentPath}...`, "orange");
-
-            try {
-                const response = await fetch(currentPath);
-                
+        // --- 4. VERİ ÇEKME (FETCH) ---
+        fetch(uniqueUrl)
+            .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+                    throw new Error(`HTTP Hata: ${response.status}`);
                 }
-
-                const data = await response.json();
+                return response.json();
+            })
+            .then(data => {
+                console.log("Veri Başarıyla Geldi:", data);
                 renderProducts(data);
+            })
+            .catch(error => {
+                console.error("Hata:", error);
+                statusText.innerHTML = "Connection Error";
+                grid.innerHTML = `
+                    <div class="col-span-full text-center text-red-400 mt-10 border border-red-900 p-4 rounded bg-red-900/10">
+                        <p class="font-bold">SYSTEM ERROR</p>
+                        <p class="text-xs font-mono mt-2">${error.message}</p>
+                        <p class="text-xs mt-4 text-gray-400">Veri dosyasına ulaşılamıyor. Lütfen sayfayı yenileyin.</p>
+                        <a href="${DATA_URL}" target="_blank" class="text-xs underline mt-2 block hover:text-white">Dosyayı Kontrol Et</a>
+                    </div>
+                `;
+            });
 
-            } catch (error) {
-                console.warn(`Failed path ${currentPath}:`, error);
-                // Bir sonraki yolu dene
-                tryFetch(pathIndex + 1);
-            }
-        }
-
-        // --- BAŞLAT ---
-        // Animasyon
+        // --- 5. ANİMASYON BAŞLAT ---
         gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
         const lenis = new Lenis();
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
-
-        // Veri Çekmeyi Başlat
-        tryFetch(0);
 
     </script>
 </body>
