@@ -40,7 +40,7 @@
         <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale">
         <div class="relative z-10 text-center">
             <h1 class="text-[12vw] leading-none opacity-0 anim-hero">SILENCE</h1>
-            <p class="text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">The collection is loading...</p>
+            <p class="text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Curating the collection...</p>
         </div>
     </header>
 
@@ -48,11 +48,12 @@
         <div class="max-w-7xl mx-auto">
             <div class="flex justify-between items-end mb-16 border-b border-white/10 pb-6">
                 <h2 class="text-4xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-gray-500 font-mono">Connecting to Etsy...</div>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Connecting to Etsy Database...</div>
             </div>
             
             <div id="grid" class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                </div>
+                <div class="col-span-full text-center text-gray-600 animate-pulse">Loading data...</div>
+            </div>
         </div>
     </section>
 
@@ -62,59 +63,79 @@
         const status = document.getElementById('status-text');
         const grid = document.getElementById('grid');
 
+        // Loglama Fonksiyonu (Hata ve Başarı Mesajları için)
         function log(msg, isError = false) {
             console.log(msg);
             if(isError) {
                 debug.style.display = 'block';
-                debug.innerHTML = `ERROR LOG: ${msg} <br> <a href="#" onclick="location.reload()" style="color:white; text-decoration:underline;">Click to Retry</a>`;
-                status.innerHTML = `<span class="text-red-500">${msg}</span>`;
+                debug.innerHTML = `ERROR LOG: ${msg} <br> <a href="#" onclick="location.reload()" style="color:white; text-decoration:underline;">Click to Force Reload</a>`;
+                status.innerHTML = `<span class="text-red-500 font-bold">SYSTEM ERROR: ${msg}</span>`;
             } else {
-                status.innerHTML = `<span class="text-green-500">${msg}</span>`;
+                status.innerHTML = `<span class="text-green-500">● ${msg}</span>`;
             }
         }
 
-        // --- 2. ANİMASYONLAR ---
+        // --- 2. ANİMASYONLAR (GSAP & LENIS) ---
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+        
         gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
 
-        // --- 3. SAHTE VERİ (YEDEK PLAN) ---
-        // Eğer Etsy verisi çekilemezse, tasarımın çalıştığını kanıtlamak için bu ürünleri gösterir.
+        // --- 3. SAHTE VERİ (YEDEK PLAN - SADECE HATA OLURSA ÇALIŞIR) ---
         const mockData = [
-            { title: "Zebra Print Shirt (Demo)", price: 45, currency: "USD", image1: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500", category: "Demo" },
-            { title: "Silk Evening Dress (Demo)", price: 120, currency: "USD", image1: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500", category: "Demo" },
-            { title: "Velvet Blazer (Demo)", price: 85, currency: "USD", image1: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500", category: "Demo" }
+            { title: "Connection Failed (Demo Item)", price: 0, currency: "ERR", image1: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500", category: "System", url: "#" },
+            { title: "Check Console (Demo Item)", price: 0, currency: "ERR", image1: "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500", category: "System", url: "#" }
         ];
 
+        // Ürünleri Ekrana Basan Fonksiyon
         function renderProducts(data) {
             grid.innerHTML = "";
             data.forEach(item => {
+                // Link Kontrolü: URL yoksa # koy, varsa yeni sekmede aç
+                const link = item.url ? item.url : "#";
+                const target = item.url ? 'target="_blank"' : '';
+                
+                // Kategori ve Resim Kontrolü
+                const cat = item.category || "Collection";
+                const img = item.image1 || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500";
+
                 grid.innerHTML += `
-                    <div class="group cursor-pointer">
-                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-800 mb-4">
-                            <img src="${item.image1}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
+                    <a href="${link}" ${target} class="group cursor-pointer block">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-800 mb-4 border border-white/5">
+                            <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
+                            <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 text-[10px] text-white opacity-0 group-hover:opacity-100 transition">VIEW</div>
                         </div>
-                        <h3 class="text-lg text-white font-serif">${item.title}</h3>
-                        <p class="text-xs text-gray-400 tracking-widest mt-1">${item.price} ${item.currency}</p>
-                    </div>
+                        <h3 class="text-lg text-white font-serif leading-tight group-hover:underline decoration-1 underline-offset-4">${item.title}</h3>
+                        <div class="flex justify-between items-center mt-2">
+                            <p class="text-xs text-gray-400 tracking-widest">${item.price} ${item.currency}</p>
+                            <span class="text-[10px] uppercase text-gray-600 border border-gray-800 px-2 py-0.5 rounded-full">${cat}</span>
+                        </div>
+                    </a>
                 `;
             });
         }
 
-        // --- 4. VERİ ÇEKME ---
-        const jsonUrl = "assets/data/products.json";
+        // --- 4. VERİ ÇEKME OPERASYONU (CACHE BUSTING AKTİF) ---
+        // ?v=... kısmı tarayıcıyı "Bu yeni dosya!" diye kandırır.
+        const jsonUrl = "assets/data/products.json?v=" + new Date().getTime();
         
+        log(`Fetching data from: ${jsonUrl}...`);
+
         fetch(jsonUrl)
             .then(res => {
-                if(!res.ok) throw new Error(`HTTP ${res.status} - Dosya Bulunamadı`);
+                if(!res.ok) throw new Error(`HTTP ${res.status} - Dosya Bulunamadı (Klasör yolunu kontrol et)`);
                 return res.json();
             })
             .then(data => {
-                if(data.length === 0) throw new Error("JSON Dosyası Boş (Ürün yok)");
+                if(!data || data.length === 0) throw new Error("JSON Dosyası Boş (İçerik yok)");
                 log("Data loaded successfully.");
                 renderProducts(data);
             })
             .catch(err => {
-                log(`Etsy Bağlantı Hatası: ${err.message}. Gösterim modu açılıyor.`, true);
-                // Hata olsa bile tasarımı göstermek için sahte veriyi bas
+                log(`HATA: ${err.message}`, true);
+                console.error(err);
+                // Hata durumunda bile tasarımı göstermek için demo veri
                 renderProducts(mockData);
             });
     </script>
