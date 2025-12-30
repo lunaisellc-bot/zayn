@@ -6,19 +6,29 @@
     <title>ZAYN | The Collection</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Cinzel', serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Kart Hover Efektleri */
-        .product-card:hover .product-img { transform: scale(1.05); }
-        .product-card:hover .view-btn { opacity: 1; transform: translateY(0); }
+        /* Yükleme Animasyonu (Fade In) */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .anim-entry {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0; /* Başlangıçta gizli */
+        }
+        
+        /* Hover Efektleri */
+        .product-img { transition: transform 0.7s ease; }
+        .group:hover .product-img { transform: scale(1.05); }
+        .view-btn { transition: all 0.3s ease; transform: translateY(100%); opacity: 0; }
+        .group:hover .view-btn { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
@@ -30,49 +40,53 @@
     </nav>
 
     <header class="h-[60vh] flex items-center justify-center relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale anim-entry" style="animation-delay: 0.1s;">
         <div class="relative z-10 text-center px-4">
-            <h1 class="text-[12vw] md:text-[8vw] leading-none opacity-0 anim-hero text-white">COLLECTION</h1>
-            <p class="text-sm md:text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Curated from Etsy</p>
+            <h1 class="text-[12vw] md:text-[8vw] leading-none text-white anim-entry" style="animation-delay: 0.3s;">COLLECTION</h1>
+            <p class="text-sm md:text-xl italic text-gray-400 mt-4 anim-entry" style="animation-delay: 0.5s;">Curated from Etsy</p>
         </div>
     </header>
 
     <section class="py-12 px-4 bg-[#050505] min-h-screen">
         <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
+            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4 anim-entry" style="animation-delay: 0.7s;">
                 <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-gray-500 font-mono">Loading...</div>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Connecting...</div>
             </div>
             
             <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                 <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
-                    Accessing Archive...
+                    Loading Collection...
                 </div>
             </div>
         </div>
     </section>
 
+    <footer class="text-center py-10 text-gray-600 text-xs tracking-widest border-t border-white/10 mt-10">
+        &copy; 2025 ZAYN COLLECTIVE
+    </footer>
+
     <script>
-        // --- 1. AYARLAR ---
         const statusText = document.getElementById('status-text');
         const grid = document.getElementById('grid');
         
-        // Testte çalışan KESİN yol
-        const DATA_PATH = "assets/data/products.json"; 
-        
-        // --- 2. YARDIMCI FONKSİYONLAR ---
+        // TEŞHİS ARACINDA ÇALIŞAN KESİN YOL
+        const DATA_URL = "assets/data/products.json"; 
+
+        // Fiyat Düzenleyici
         function formatPrice(price, currency) {
             let num = parseFloat(price);
-            if (num > 1000) { num = num / 100; } // Kuruş düzeltmesi
+            if (num > 1000) { num = num / 100; } 
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(num);
         }
 
-        // --- 3. EKRANA BASMA (LİNKLER DAHİL) ---
+        // Ürünleri Ekrana Basma
         function renderProducts(data) {
             grid.innerHTML = "";
             
             if(!data || data.length === 0) {
                 statusText.innerHTML = "No Items Found";
+                grid.innerHTML = "<div class='text-center text-red-500 col-span-full'>Koleksiyon boş görünüyor.</div>";
                 return;
             }
 
@@ -84,21 +98,23 @@
                 const currency = item.currency || "USD";
                 const displayPrice = formatPrice(item.price, currency);
                 
-                // URL KONTROLÜ VE ATAMA
-                // Eğer URL yoksa '#' koyar ama Etsy'den geldiği için kesin vardır.
+                // URL KONTROLÜ (Etsy Linki)
                 const url = item.url && item.url.startsWith('http') ? item.url : '#';
                 const category = item.category || "Collection";
                 
+                // Animasyon gecikmesi (Sırayla gelmeleri için)
+                const delay = (index * 0.05) + 0.2; 
+
                 grid.innerHTML += `
-                    <a href="${url}" target="_blank" class="group product-card block cursor-pointer opacity-0 anim-item">
+                    <a href="${url}" target="_blank" class="group block cursor-pointer anim-entry" style="animation-delay: ${delay}s; animation-fill-mode: forwards;">
                         <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
-                            <img src="${img}" class="product-img w-full h-full object-cover opacity-80 transition duration-700 ease-in-out">
+                            <img src="${img}" class="product-img w-full h-full object-cover opacity-80">
                             
                             <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
                                 ${category}
                             </div>
 
-                            <div class="view-btn absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 translate-y-full transition duration-300 flex justify-between items-center opacity-0">
+                            <div class="view-btn absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 flex justify-between items-center">
                                 <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
                                 <i class="fa-solid fa-arrow-right text-white text-xs"></i>
                             </div>
@@ -108,15 +124,12 @@
                     </a>
                 `;
             });
-
-            // Animasyonlu giriş
-            gsap.to(".anim-item", { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power3.out" });
         }
 
-        // --- 4. VERİ ÇEKME ---
+        // Veri Çekme Fonksiyonu
         async function loadData() {
-            // Önbelleği kırmak için timestamp (Testte işe yarayan yöntem)
-            const uniqueUrl = `${DATA_PATH}?t=${new Date().getTime()}`;
+            // Cache'i kırmak için timestamp ekliyoruz
+            const uniqueUrl = `${DATA_URL}?t=${new Date().getTime()}`;
             
             try {
                 const response = await fetch(uniqueUrl);
@@ -131,22 +144,14 @@
                 grid.innerHTML = `
                     <div class="col-span-full text-center mt-10 p-6 border border-red-900 bg-red-900/10 rounded">
                         <p class="text-red-400 font-mono text-xs mb-2">VERİ ÇEKİLEMEDİ</p>
-                        <p class="text-gray-400 text-xs">Lütfen bağlantınızı kontrol edin.</p>
+                        <p class="text-gray-400 text-xs">İnternet bağlantınızı kontrol edin.</p>
+                        <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-white text-black text-xs uppercase tracking-widest">Tekrar Dene</button>
                     </div>
                 `;
             }
         }
 
-        // --- 5. BAŞLAT ---
-        // Smooth Scroll
-        const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // Hero Animasyonu
-        gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
-
-        // Verileri Getir
+        // Başlat
         loadData();
 
     </script>
