@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- ATMOSFERİK AYARLAR --- */
+        /* --- GENEL AYARLAR --- */
         body {
-            background-color: #fffbf5;
+            background-color: #fffbf5; /* Kremsi Lüks Renk */
             color: #2c2c2c;
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
@@ -27,7 +27,7 @@
         .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
 
         /* --- GARANTİ GİRİŞ ANİMASYONU (CSS) --- */
-        /* JS beklemeden direkt çalışır */
+        /* JS beklemeden direkt çalışır, yazıların kaybolmasını engeller */
         @keyframes gentleRise {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -37,6 +37,11 @@
             opacity: 0; /* Başlangıçta gizli */
             animation: gentleRise 1.5s ease-out forwards; /* Yüklenince aç */
         }
+        /* Gecikme süreleri */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-700 { animation-delay: 0.7s; }
 
         /* --- GÜL YAPRAĞI EFEKTİ --- */
         #petal-container {
@@ -56,15 +61,15 @@
             100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
         }
 
-        /* --- ALT BAHÇE --- */
+        /* --- ALT BAHÇE (SABİT ÇİÇEKLER) --- */
         .bottom-garden {
             position: fixed; bottom: -20px; left: 0; width: 100%; 
             display: flex; justify-content: space-between; align-items: flex-end;
             pointer-events: none; z-index: 0; opacity: 0.8;
         }
-        .flower-img { max-height: 25vh; }
+        .flower-img { max-height: 25vh; transition: transform 0.5s; }
 
-        /* --- BUTON --- */
+        /* --- BUTON EFEKTİ --- */
         .enchanted-btn {
             background: #1a1a1a; color: #fff;
             transition: all 0.5s;
@@ -87,23 +92,23 @@
         <img src="https://png.pngtree.com/png-vector/20220926/ourmid/pngtree-watercolor-flower-leaves-png-image_6216834.png" class="flower-img w-[50vw] opacity-60">
     </div>
 
-    <nav class="fixed top-0 w-full px-8 py-6 flex justify-between items-center z-50 mix-blend-multiply text-[#1a1a1a]">
+    <nav class="fixed top-0 w-full px-6 py-6 flex justify-between items-center z-50 mix-blend-multiply text-[#1a1a1a]">
         <div class="text-xs tracking-[0.3em] font-bold">EST. 2025</div>
         <div class="text-3xl tracking-widest font-extrabold brand-font">ZAYN</div>
-        <a href="shop.html" class="text-xs tracking-[0.3em] border-b border-black pb-1">ENTER SHOP</a>
+        <a href="shop.html" class="text-xs tracking-[0.3em] border-b border-black pb-1 hover:opacity-50 transition">ENTER SHOP</a>
     </nav>
 
-    <header class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-10 z-10">
+    <header class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-10 z-10 pb-20">
         
         <div class="max-w-4xl mx-auto">
-            <p class="handwriting text-5xl md:text-7xl text-[#d4af37] mb-2 anim-reveal" style="animation-delay: 0.1s;">The Awakening</p>
+            <p class="handwriting text-5xl md:text-7xl text-[#d4af37] mb-2 anim-reveal delay-100">The Awakening</p>
             
-            <h1 class="text-[15vw] md:text-[11vw] leading-[0.85] text-[#1a1a1a] mb-8 relative anim-reveal" style="animation-delay: 0.3s;">
+            <h1 class="text-[15vw] md:text-[11vw] leading-[0.85] text-[#1a1a1a] mb-8 relative anim-reveal delay-300">
                 BLOOM
                 <span class="absolute -top-6 -right-4 text-2xl text-pink-400 opacity-60 animate-bounce">❀</span>
             </h1>
 
-            <div class="space-y-6 anim-reveal" style="animation-delay: 0.5s;">
+            <div class="space-y-6 anim-reveal delay-500">
                 <p class="serif-italic text-xl md:text-3xl text-gray-600">
                     "We don't just design clothes. We cultivate elegance."
                 </p>
@@ -113,7 +118,7 @@
                 </p>
             </div>
 
-            <div class="mt-12 anim-reveal" style="animation-delay: 0.8s;">
+            <div class="mt-12 anim-reveal delay-700">
                 <a href="shop.html" class="enchanted-btn inline-block px-10 py-4 text-xs uppercase tracking-[0.3em] rounded-full shadow-xl">
                     Discover Collection
                 </a>
@@ -124,7 +129,7 @@
     <section class="py-20 relative z-10 bg-white/60 backdrop-blur-sm border-y border-[#d4af37]/20">
         <div class="text-center mb-10">
             <span class="text-xs tracking-[0.5em] text-[#d4af37] uppercase">Curated Masterpieces</span>
-            <h2 class="text-2xl mt-2">Visual Poetry</h2>
+            <h2 class="text-2xl mt-2 brand-font">Visual Poetry</h2>
         </div>
 
         <div class="swiper mySwiper w-full max-w-[1400px] h-[450px] px-4">
@@ -150,39 +155,44 @@
 
     <section class="py-32 text-center relative z-10 pb-40">
         <p class="serif-italic text-2xl text-gray-500 mb-6">"Beauty begins the moment you decide to be yourself."</p>
-        <h2 class="text-3xl md:text-4xl mb-8 text-[#1a1a1a]">Are you ready to bloom?</h2>
+        <h2 class="text-3xl md:text-4xl mb-8 text-[#1a1a1a] brand-font">Are you ready to bloom?</h2>
         
-        <a href="shop.html" class="inline-block border-b border-black pb-1 text-xs tracking-[0.3em] hover:text-[#d4af37] transition">
+        <a href="shop.html" class="inline-block border-b border-black pb-1 text-xs tracking-[0.3em] hover:text-[#d4af37] transition font-bold">
             ENTER THE BOUTIQUE
         </a>
     </section>
 
     <script>
-        // 1. Smooth Scroll
+        // 1. Smooth Scroll (Yumuşak Kaydırma)
         const lenis = new Lenis({ duration: 1.5, smooth: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // 2. Gül Yaprakları (Otomatik Düşen)
+        // 2. Gül Yaprağı Yağmuru
         function createPetals() {
             const container = document.getElementById('petal-container');
-            const petalCount = 12; 
+            const petalCount = 12; // Ekranda aynı anda olacak yaprak sayısı
 
             for (let i = 0; i < petalCount; i++) {
                 const petal = document.createElement('div');
                 petal.classList.add('petal');
+                
+                // Rastgele boyut ve konum
                 const size = Math.random() * 10 + 5 + 'px';
                 petal.style.width = size;
                 petal.style.height = size;
                 petal.style.left = Math.random() * 100 + 'vw';
+                
+                // Rastgele animasyon süresi
                 petal.style.animationDuration = Math.random() * 5 + 8 + 's';
                 petal.style.animationDelay = Math.random() * 5 + 's';
+
                 container.appendChild(petal);
             }
         }
         createPetals();
 
-        // 3. Slider
+        // 3. Slider Başlat
         var swiper = new Swiper(".mySwiper", {
             effect: "coverflow",
             grabCursor: true,
