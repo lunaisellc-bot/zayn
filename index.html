@@ -3,397 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Botanical Luxury</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-    
+    <title>ZAYN | Organic Architecture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-        /* --- LÜKS PALET & AYARLAR --- */
         :root {
-            --bg-color: #EBE9E4; /* Ham Keten Rengi */
-            --text-dark: #2C2622; /* Koyu Toprak */
-            --accent-floral: #A67B71; /* Kurumuş Gül */
-            --glass-white: rgba(255, 255, 255, 0.6);
-            --font-display: 'Cormorant Garamond', serif;
-            --font-body: 'Jost', sans-serif;
+            --bg-paper: #F9F7F2; /* Eski Kağıt */
+            --text-ink: #3D342B;
+            --accent-vine: #7A6B5D;
+            --soft-gold: #Cfb997;
+            --font-display: 'Italiana', serif; /* Zarif, ince serif */
+            --font-body: 'Tenor Sans', sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
+            background-color: var(--bg-paper);
+            color: var(--text-ink);
             font-family: var(--font-body);
             overflow-x: hidden;
+            /* Arka plana çok silik bir keten dokusu */
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
         }
 
-        /* --- YAPISAL ÇİÇEKLER (Sitenin İskeleti) --- */
-        /* Bu çiçekler arka plan değil, düzenin bir parçasıdır */
-        .structural-flower {
-            position: absolute;
-            pointer-events: none;
-            mix-blend-mode: multiply; /* Sırrı burada: Arka planla kaynaşır */
-            z-index: 1; /* Metnin arkasında veya önünde olması ayarlanacak */
-            filter: contrast(1.1) saturate(0.8);
-        }
-
-        .flower-hero-right {
-            top: -10%;
-            right: -10%;
-            width: 60vw;
-            height: auto;
-            transform: rotate(-15deg);
-            z-index: 2; /* Başlığın üzerine biner */
-            opacity: 0.8;
-        }
-
-        .flower-section-left {
-            top: 20%;
-            left: -15%;
-            width: 50vw;
-            z-index: 0;
-            transform: rotate(45deg);
-        }
-
-        /* --- HEADER --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px 60px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .brand {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            letter-spacing: -1px;
-            font-weight: 600;
-            z-index: 101;
-            position: relative;
-        }
+        /* --- YAPISAL ÖĞELER (Çiçekler Süs Değil, Çerçevedir) --- */
         
-        /* Logo Çiçeği - Logonun içinden çıkar */
-        .brand::after {
-            content: '';
-            position: absolute;
-            top: -20px; left: -20px;
-            width: 60px; height: 60px;
-            background: url('https://purepng.com/public/uploads/large/purepng.com-flower-natureflower-nature-851520332822j2j1w.png') no-repeat center/contain;
-            opacity: 0.4;
-            z-index: -1;
-            mix-blend-mode: multiply;
-        }
-
-        .nav-links a {
-            margin-left: 40px;
-            text-decoration: none;
-            color: var(--text-dark);
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '✿'; /* Link hover efekti olarak küçük çiçek */
-            position: absolute;
-            top: -10px; right: -15px;
-            opacity: 0;
-            transition: 0.3s;
-            color: var(--accent-floral);
-        }
-        .nav-links a:hover::after { opacity: 1; top: -15px; }
-
-        /* --- HERO AREA: Editorial Dergi Kapağı Gibi --- */
-        .hero-container {
-            height: 90vh;
-            display: grid;
-            grid-template-columns: 45% 55%;
-            padding: 0 60px;
-            position: relative;
-            align-items: center;
-        }
-
-        .hero-text {
-            z-index: 3; /* Çiçeğin üzerinde */
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: 7rem;
-            line-height: 0.85;
-            color: var(--text-dark);
-            margin-bottom: 30px;
-        }
-        
-        .hero-title span {
-            display: block;
-            margin-left: 80px;
-            font-style: italic;
-            color: var(--accent-floral);
-        }
-
-        .hero-desc {
-            max-width: 400px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            background: rgba(235, 233, 228, 0.7); /* Okunabilirlik için hafif fon */
-            backdrop-filter: blur(5px);
-            padding: 10px;
-        }
-
-        /* Ana Görsel Maskeleme - Organik Şekil */
-        .hero-image-wrapper {
-            width: 100%;
-            height: 80vh;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-img {
+        /* 1. TEKNİK: CSS MASKING (Resimler kare değil, organik formdadır) */
+        .organic-shape {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Resim dikdörtgen değil, organik bir şekil */
-            border-radius: 200px 200px 0 0; 
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            /* Resmi amip/yaprak benzeri bir şekle sokar */
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+            transition: 0.5s ease;
         }
 
-        /* --- PRODUCT SCROLL (Horizontal) --- */
-        .products-section {
-            padding: 100px 60px;
+        .hero-section {
             position: relative;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: flex-end;
-            margin-bottom: 60px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-header h2 {
-            font-family: var(--font-display);
-            font-size: 4rem;
-            margin-right: 30px;
-        }
-
-        .scroll-container {
-            display: flex;
-            gap: 40px;
-            overflow-x: auto;
-            padding-bottom: 50px;
-            scrollbar-width: none; /* Scrollbar gizle */
-        }
-        .scroll-container::-webkit-scrollbar { display: none; }
-
-        /* ORGANİK ÜRÜN KARTLARI */
-        .product-card {
-            min-width: 350px;
-            position: relative;
-            transition: 0.4s;
-            cursor: pointer;
-        }
-
-        .card-image-box {
-            height: 450px;
-            overflow: hidden;
-            position: relative;
-            /* Köşeler simetrik değil, organik */
-            border-radius: 10px 100px 10px 100px; 
-            transition: 0.5s ease-in-out;
-        }
-
-        .product-card:hover .card-image-box {
-            border-radius: 100px 10px 100px 10px; /* Hover'da şekil değiştirir */
-        }
-
-        .card-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
-        .product-card:hover .card-img { transform: scale(1.1); }
-
-        /* Ürün Detayları */
-        .card-details {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(44, 38, 34, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .p-name { font-family: var(--font-display); font-size: 1.5rem; }
-        .p-price { font-weight: 500; }
-
-        /* Çiçek Detayı: Kartın bir parçası */
-        .card-flower {
-            position: absolute;
-            top: -30px;
-            left: -30px;
-            width: 100px;
-            height: 100px;
-            background: url('https://purepng.com/public/uploads/large/purepng.com-pink-rose-flowerrose-flower-love-red-green-pink-nature-roses-1701521639352eag5g.png') no-repeat center/contain;
-            opacity: 0;
-            transition: 0.5s;
-            transform: scale(0.5) rotate(-45deg);
-            z-index: 5;
-            pointer-events: none;
-        }
-        
-        .product-card:hover .card-flower {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-        }
-
-        /* --- CTA BANNER --- */
-        .cta-banner {
-            margin: 100px 60px;
-            height: 400px;
-            background: #2C2622;
-            color: #EBE9E4;
+            min-height: 90vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            padding: 20px;
             overflow: hidden;
-            border-radius: 20px;
         }
 
-        .cta-text {
-            text-align: center;
+        /* Arka planda devasa silik çiçek deseni (Sitenin duvar kağıdı gibi) */
+        .floral-watermark-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1576014131795-d440191a8e8b?q=80&w=2000&auto=format&fit=crop') no-repeat center center;
+            background-size: cover;
+            opacity: 0.08; /* Çok silik, sadece doku verir */
+            z-index: 0;
+            filter: grayscale(100%);
+        }
+
+        /* Ortadaki Ana Çerçeve - Bir Sarmaşık Gibi */
+        .center-frame {
+            position: relative;
             z-index: 2;
+            text-align: center;
+            border: 1px solid transparent;
+            padding: 40px;
+            max-width: 600px;
         }
-        .cta-text h3 {
+
+        /* Çerçevenin kenarlarını süsleyen dallar (SVG) */
+        .center-frame::before, .center-frame::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .center-frame::before {
+            top: -20px; left: -20px;
+            /* Sol üst köşe için yaprak deseni */
+            background-image: url('https://www.svgrepo.com/show/305263/floral-corner-decoration-flower.svg');
+            transform: rotate(0deg);
+        }
+
+        .center-frame::after {
+            bottom: -20px; right: -20px;
+            /* Sağ alt köşe için yaprak deseni */
+            background-image: url('https://www.svgrepo.com/show/305263/floral-corner-decoration-flower.svg');
+            transform: rotate(180deg);
+        }
+
+        h1 {
             font-family: var(--font-display);
-            font-size: 3.5rem;
+            font-size: 4.5rem;
+            line-height: 1;
             margin-bottom: 20px;
+            color: var(--text-ink);
         }
-        .cta-btn {
+
+        p.subtitle {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-vine);
+            margin-bottom: 40px;
+        }
+
+        /* Buton: Bir dalın üzerinde duruyormuş gibi */
+        .botanical-btn {
             display: inline-block;
             padding: 15px 40px;
-            border: 1px solid #EBE9E4;
-            color: #EBE9E4;
+            background: transparent;
+            border: 1px solid var(--text-ink);
+            color: var(--text-ink);
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             transition: 0.3s;
+            position: relative;
+            overflow: hidden;
         }
-        .cta-btn:hover { background: #EBE9E4; color: #2C2622; }
-
-        /* Banner içi çiçek bütünleşmesi */
-        .cta-flower {
-            position: absolute;
-            width: 300px;
-            opacity: 0.4;
-            mix-blend-mode: soft-light;
+        
+        .botanical-btn:hover {
+            background: var(--text-ink);
+            color: #fff;
         }
-        .cta-f1 { bottom: -50px; left: -50px; transform: rotate(20deg); }
-        .cta-f2 { top: -50px; right: -50px; transform: rotate(180deg); }
 
+        /* --- ÜRÜN KARTLARI (ÇİÇEK FORMUNDA) --- */
+        .gallery-section {
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        /* Başlığın altındaki çizgi yerine çiçek dalı */
+        .section-title::after {
+            content: '❦'; /* Basit bir çiçek sembolü */
+            display: block;
+            font-size: 2rem;
+            color: var(--soft-gold);
+            margin-top: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .botanical-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .img-holder {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            margin-bottom: 20px;
+            /* Resimler burada kare değil, KEMER şeklinde kesiliyor */
+            clip-path: ellipse(65% 100% at 50% 0%); /* Kemer Formu */
+            transition: 0.4s;
+        }
+
+        .botanical-card:hover .img-holder {
+            clip-path: ellipse(90% 100% at 50% 0%); /* Hoverda genişler */
+        }
+
+        .img-holder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%); /* Hafif nostaljik ton */
+        }
+
+        .product-meta h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .product-meta span {
+            color: var(--accent-vine);
+            font-weight: 600;
+        }
+
+        /* --- NAVİGASYON (Sarmaşık Menü) --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(249, 247, 242, 0.9);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo { font-family: var(--font-display); font-size: 2rem; font-weight: 700; }
+        .etsy-link { text-decoration: none; color: var(--text-ink); text-transform: uppercase; font-size: 0.8rem; border-bottom: 1px solid var(--text-ink); }
+
+        /* MOBİL DÜZENLEMELERİ */
         @media (max-width: 768px) {
-            .hero-container { grid-template-columns: 1fr; height: auto; padding-top: 100px; }
-            .hero-title { font-size: 4rem; }
-            .flower-hero-right { width: 100vw; top: 0; opacity: 0.15; }
-            .products-section { padding: 60px 20px; }
+            h1 { font-size: 3rem; }
+            .center-frame { padding: 20px; border: none; } /* Mobilde kutuyu kaldır */
+            
+            /* Mobilde çerçeve süslerini başlığın yanına al */
+            .center-frame::before { 
+                top: -30px; left: 50%; transform: translateX(-50%) rotate(90deg);
+                width: 60px; height: 60px;
+            }
+            .center-frame::after {
+                display: none; /* Alt süsü mobilde gizle, sadelik için */
+            }
+            
+            .img-holder {
+                height: 350px;
+                clip-path: ellipse(80% 90% at 50% 0%); /* Mobilde daha geniş kemer */
+            }
         }
-
     </style>
 </head>
 <body>
 
-    <img src="https://images.unsplash.com/photo-1548586038-422956247c4c?q=80&w=2000&auto=format&fit=crop" class="structural-flower flower-hero-right" alt="Structure">
-    <img src="https://images.unsplash.com/photo-1507290439931-a861b5a38200?q=80&w=2000&auto=format&fit=crop" class="structural-flower flower-section-left" alt="Structure">
-
     <nav>
-        <div class="brand">ZAYN</div>
-        <div class="nav-links">
-            <a href="#">Koleksiyon</a>
-            <a href="#">Atölye</a>
-            <a href="#" style="border-bottom: 1px solid var(--text-dark);">Etsy Mağazası</a>
-        </div>
+        <div class="logo">ZAYN</div>
+        <a href="#" class="etsy-link">Etsy Mağazası</a>
     </nav>
 
-    <div class="hero-container">
-        <div class="hero-text">
-            <h1 class="hero-title">Doğal<br><span>Lüks.</span></h1>
-            <p class="hero-desc">
-                Zayn Collective, modern kadının gardırobunu doğanın en saf formlarıyla yeniden inşa ediyor. 
-                Her parça, organik bir dokunuşla tasarlandı.
-            </p>
-            <a href="#" style="font-family: var(--font-display); font-size: 1.5rem; text-decoration: none; border-bottom: 1px solid #000; color: #000;">Keşfetmeye Başla &rarr;</a>
-        </div>
-        <div class="hero-image-wrapper">
-            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop" class="hero-img" alt="Zayn Model">
-        </div>
-    </div>
+    <header class="hero-section">
+        <div class="floral-watermark-bg"></div>
 
-    <section class="products-section">
-        <div class="section-header">
-            <h2>Yeni Sezon</h2>
-            <p style="font-style: italic; margin-bottom: 15px;">Etsy'de şimdi yayında.</p>
+        <div class="center-frame">
+            <p class="subtitle">Etsy Koleksiyonu 2025</p>
+            <h1>Organik<br>Zarafet</h1>
+            <p style="margin-bottom: 30px; font-style: italic; opacity: 0.8;">Doğanın formlarından ilham alan modern tasarımlar.</p>
+            <a href="#" class="botanical-btn">Koleksiyonu İncele</a>
+        </div>
+    </header>
+
+    <section class="gallery-section">
+        <div class="section-title">
+            <h2>İmza Parçalar</h2>
         </div>
 
-        <div class="scroll-container">
-            <div class="product-card">
-                <div class="card-flower"></div> <div class="card-image-box">
-                    <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1946&auto=format&fit=crop" class="card-img" alt="Elbise">
+        <div class="grid">
+            <div class="botanical-card">
+                <div class="img-holder">
+                    <img src="https://images.unsplash.com/photo-1548586038-422956247c4c?q=80&w=2000&auto=format&fit=crop" alt="Zayn Model 1">
                 </div>
-                <div class="card-details">
-                    <span class="p-name">İpek Şakayık Elbise</span>
-                    <span class="p-price">₺2,850</span>
+                <div class="product-meta">
+                    <h3>Flora Elbise</h3>
+                    <span>₺2,450</span>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="card-flower"></div>
-                <div class="card-image-box" style="border-radius: 100px 100px 10px 10px;"> <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?q=80&w=1964&auto=format&fit=crop" class="card-img" alt="Bluz">
+            <div class="botanical-card">
+                <div class="img-holder">
+                    <img src="https://images.unsplash.com/photo-1605763240004-7e93b172d754?q=80&w=1887&auto=format&fit=crop" alt="Zayn Model 2">
                 </div>
-                <div class="card-details">
-                    <span class="p-name">Keten Yaprak Gömlek</span>
-                    <span class="p-price">₺1,450</span>
+                <div class="product-meta">
+                    <h3>Keten Kimono</h3>
+                    <span>₺1,800</span>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="card-flower"></div>
-                <div class="card-image-box" style="border-radius: 10px 10px 100px 100px;">
-                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2073&auto=format&fit=crop" class="card-img" alt="Etek">
+            <div class="botanical-card">
+                <div class="img-holder">
+                    <img src="https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1908&auto=format&fit=crop" alt="Zayn Model 3">
                 </div>
-                <div class="card-details">
-                    <span class="p-name">Flora Maksi Etek</span>
-                    <span class="p-price">₺1,900</span>
-                </div>
-            </div>
-            
-             <div class="product-card">
-                <div class="card-flower"></div>
-                <div class="card-image-box" style="border-radius: 100px 10px 100px 10px;">
-                    <img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?q=80&w=1000&auto=format&fit=crop" class="card-img" alt="Etek">
-                </div>
-                <div class="card-details">
-                    <span class="p-name">Barok Desen Tunik</span>
-                    <span class="p-price">₺2,100</span>
+                <div class="product-meta">
+                    <h3>Yaprak Tunik</h3>
+                    <span>₺1,200</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="cta-banner">
-        <img src="https://purepng.com/public/uploads/large/purepng.com-flower-natureflower-nature-851520332822j2j1w.png" class="cta-flower cta-f1" alt="">
-        <img src="https://purepng.com/public/uploads/large/purepng.com-flower-natureflower-nature-851520332822j2j1w.png" class="cta-flower cta-f2" alt="">
-        
-        <div class="cta-text">
-            <h3>Sizin İçin Tasarlandı</h3>
-            <a href="#" class="cta-btn">Tüm Etsy Mağazasını Gör</a>
-        </div>
-    </div>
+    <footer style="text-align: center; padding: 50px; border-top: 1px solid #ddd;">
+        <p style="font-family: var(--font-display); font-size: 1.5rem;">ZAYN</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">© 2025 Tüm hakları saklıdır.</p>
+    </footer>
 
 </body>
 </html>
