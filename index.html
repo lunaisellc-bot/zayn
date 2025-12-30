@@ -3,82 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Welcome to the Garden</title>
+    <title>ZAYN | The Secret Garden</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@200;300;400&family=Playfair+Display:ital@0;1&family=Italianno&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- ÖZEL ARKA PLAN TEKNİĞİ --- */
+        /* --- ATMOSFERİK AYARLAR --- */
         body {
-            /* 1. Katman: Açık krem rengi taban */
-            background-color: #f8f5f0;
-            /* 2. Katman: Kabartma kağıt dokusu ve Rengarenk Çiçekler */
-            /* Not: Bu görselleri birleştirip özel bir efekt yaratıyoruz */
-            background-image: 
-                linear-gradient(to bottom, rgba(248, 245, 240, 0.8), rgba(248, 245, 240, 0.9)), /* Yazıların altını aydınlatma */
-                url('https://www.transparenttextures.com/patterns/cream-paper.png'), /* Kabartma Dokusu */
-                url('https://images.unsplash.com/photo-1558451832-c602f9603327?q=80&w=2070'); /* Rengarenk Çiçekler */
-            
-            background-blend-mode: overlay, multiply, normal;
-            background-size: cover, auto, cover;
-            background-position: center, center, center;
-            background-attachment: fixed;
-            color: #2a2a2a; /* Koyu gri yazı rengi (siyah çok sert durur) */
+            background-color: #fffbf5; /* Kremsi, sıcak bir ton */
+            color: #2c2c2c;
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Kaydırmayı kapat, tek ekran */
+            overflow-x: hidden;
         }
 
-        h1, .brand-font { font-family: 'Cinzel', serif; }
+        h1, h2, .brand-font { font-family: 'Cinzel', serif; }
+        .handwriting { font-family: 'Italianno', cursive; }
         .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* Buton Efekti */
-        .enter-btn {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s ease;
+        /* --- GÜL YAPRAĞI EFEKTİ (CSS) --- */
+        #petal-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; overflow: hidden;
         }
-        .enter-btn::before {
-            content: '';
+        .petal {
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: 0.5s;
+            background: linear-gradient(120deg, #ffc0cb, #ffb6c1);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.6;
+            animation: fall linear infinite;
         }
-        .enter-btn:hover::before { left: 100%; }
-        .enter-btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(50px); opacity: 0; }
+        }
+
+        /* --- ALT BAHÇE (FIXED FLOWERS) --- */
+        .bottom-garden {
+            position: fixed; bottom: -50px; left: 0; width: 100%; 
+            display: flex; justify-content: space-between; align-items: flex-end;
+            pointer-events: none; z-index: 0; opacity: 0.8;
+            filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.05));
+        }
+        .flower-img {
+            max-height: 30vh; transition: transform 0.5s;
+        }
+
+        /* --- SLIDER ÖZELLEŞTİRME --- */
+        .swiper-slide img {
+            transition: transform 1.5s ease;
+        }
+        .swiper-slide:hover img {
+            transform: scale(1.1);
+        }
+
+        /* --- BUTON --- */
+        .enchanted-btn {
+            background: #1a1a1a; color: #fff;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .enchanted-btn:hover {
+            letter-spacing: 0.5em; background: #000; padding-left: 3rem;
+        }
+        .enchanted-btn::before {
+            content: '✿'; position: absolute; left: -20px; top: 50%; 
+            transform: translateY(-50%); transition: 0.5s;
+        }
+        .enchanted-btn:hover::before { left: 20px; }
+
     </style>
 </head>
-<body class="h-screen flex flex-col justify-between py-10 px-6">
+<body>
 
-    <nav class="flex justify-between items-center text-xs tracking-[0.2em] text-gray-600 uppercase">
-        <div>Est. 2025</div>
-        <div>Worldwide</div>
+    <div id="petal-container"></div>
+
+    <div class="bottom-garden">
+        <img src="https://png.pngtree.com/png-vector/20230906/ourmid/pngtree-watercolor-flowers-png-image_9962325.png" class="flower-img w-[40vw] md:w-[20vw] transform -translate-x-10 translate-y-10">
+        <img src="https://png.pngtree.com/png-vector/20220926/ourmid/pngtree-watercolor-flower-leaves-png-image_6216834.png" class="flower-img w-[50vw] md:w-[25vw] transform translate-x-10 translate-y-5">
+    </div>
+
+    <nav class="fixed top-0 w-full px-8 py-6 flex justify-between items-center z-50 mix-blend-multiply text-[#1a1a1a]">
+        <div class="text-xs tracking-[0.3em] font-bold">EST. 2025</div>
+        <div class="text-3xl tracking-widest font-extrabold brand-font">ZAYN</div>
+        <a href="shop.html" class="text-xs tracking-[0.3em] border-b border-black pb-1 hover:opacity-50 transition">ENTER SHOP</a>
     </nav>
 
-    <main class="flex flex-col items-center justify-center text-center relative z-10">
+    <header class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 pb-40 z-10">
         
-        <p class="serif-italic text-xl md:text-2xl text-gray-500 mb-6 animate-pulse">Where elegance blooms.</p>
-        
-        <h1 class="text-[15vw] md:text-[12vw] leading-none brand-font font-extrabold text-[#1a1a1a] tracking-tighter mb-10 drop-shadow-lg">
-            ZAYN
-        </h1>
+        <div class="max-w-4xl mx-auto">
+            <p class="handwriting text-5xl md:text-7xl text-[#d4af37] mb-2 opacity-0 anim-reveal">The Awakening</p>
+            
+            <h1 class="text-[15vw] md:text-[11vw] leading-[0.85] text-[#1a1a1a] mb-8 opacity-0 anim-reveal relative">
+                BLOOM
+                <span class="absolute -top-10 -right-10 text-2xl text-pink-400 opacity-60 animate-bounce">❀</span>
+            </h1>
 
-        <div class="flex flex-col md:flex-row gap-6 items-center">
-            <a href="shop.html" class="enter-btn px-12 py-4 bg-[#1a1a1a] text-white text-sm tracking-[0.3em] uppercase font-bold hover:bg-[#333] transition-all duration-300">
-                Enter Collection
-            </a>
-            <a href="shop.html" class="text-xs tracking-[0.2em] uppercase border-b border-gray-400 pb-1 hover:text-black hover:border-black transition">
-                Discover More
-            </a>
+            <div class="space-y-6 opacity-0 anim-reveal delay-300">
+                <p class="serif-italic text-xl md:text-3xl text-gray-600">
+                    "We don't just design clothes. We cultivate elegance."
+                </p>
+                <p class="text-sm md:text-base text-gray-500 max-w-lg mx-auto leading-relaxed tracking-wide font-light">
+                    In a world full of noise, ZAYN invites you to a secret garden of silence and style. 
+                    Every fabric is a petal, every stitch is a root. Immerse yourself in the art of slow fashion.
+                </p>
+            </div>
+
+            <div class="mt-12 opacity-0 anim-reveal delay-500">
+                <a href="shop.html" class="enchanted-btn inline-block px-12 py-5 text-xs uppercase tracking-[0.3em] rounded-full shadow-xl">
+                    Discover The Collection
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-20 relative z-10 bg-white/50 backdrop-blur-sm border-y border-[#d4af37]/20">
+        <div class="text-center mb-12">
+            <span class="text-xs tracking-[0.5em] text-[#d4af37] uppercase">Curated Masterpieces</span>
+            <h2 class="text-3xl mt-3">Visual Poetry</h2>
         </div>
 
-    </main>
+        <div class="swiper mySwiper w-full max-w-[1400px] h-[500px] md:h-[600px] px-4">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide relative overflow-hidden rounded-sm shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20"></div>
+                    <div class="absolute bottom-10 left-10 text-white">
+                        <p class="handwriting text-5xl">Ethereal</p>
+                        <p class="text-xs tracking-widest uppercase mt-2">Summer Collection</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative overflow-hidden rounded-sm shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1545959728-66c3c58d2087?q=80&w=1000" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20"></div>
+                    <div class="absolute bottom-10 left-10 text-white">
+                        <p class="handwriting text-5xl">Vintage Soul</p>
+                        <p class="text-xs tracking-widest uppercase mt-2">Timeless Pieces</p>
+                    </div>
+                </div>
+                <div class="swiper-slide relative overflow-hidden rounded-sm shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?q=80&w=1000" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20"></div>
+                    <div class="absolute bottom-10 left-10 text-white">
+                        <p class="handwriting text-5xl">Floral Dreams</p>
+                        <p class="text-xs tracking-widest uppercase mt-2">Handpicked</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer class="text-center text-[10px] tracking-[0.2em] text-gray-500 uppercase">
-        &copy; 2025 Zayn Collective. Art of Living.
+    <section class="py-32 text-center relative z-10">
+        <div class="max-w-2xl mx-auto px-6">
+            <p class="serif-italic text-2xl text-gray-500 mb-6">"Beauty begins the moment you decide to be yourself."</p>
+            <h2 class="text-4xl md:text-5xl mb-10 text-[#1a1a1a]">Are you ready to bloom?</h2>
+            
+            <a href="shop.html" class="inline-block border-b-2 border-black pb-2 text-sm tracking-[0.3em] hover:text-[#d4af37] hover:border-[#d4af37] transition duration-300">
+                ENTER THE BOUTIQUE <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-[9px] tracking-[0.3em] text-gray-400 relative z-10 bg-[#fffbf5]">
+        &copy; 2025 ZAYN • MADE WITH LOVE & SILENCE
     </footer>
 
+    <script>
+        // 1. Smooth Scroll (Lenis)
+        const lenis = new Lenis({ duration: 1.5, smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // 2. Gül Yaprağı Yağmuru (Petal Generator)
+        function createPetals() {
+            const container = document.getElementById('petal-container');
+            const petalCount = 15; // Aynı anda ekranda olacak yaprak sayısı (Performans için az tuttum)
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Rastgele boyut ve konum
+                const size = Math.random() * 10 + 5 + 'px';
+                petal.style.width = size;
+                petal.style.height = size;
+                petal.style.left = Math.random() * 100 + 'vw';
+                
+                // Rastgele animasyon süresi (daha doğal düşüş)
+                const duration = Math.random() * 5 + 5 + 's';
+                const delay = Math.random() * 5 + 's';
+                petal.style.animationDuration = duration;
+                petal.style.animationDelay = delay;
+
+                container.appendChild(petal);
+            }
+        }
+        createPetals();
+
+        // 3. Giriş Animasyonları (GSAP)
+        gsap.to(".anim-reveal", {
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            stagger: 0.3,
+            ease: "power3.out",
+            delay: 0.2
+        });
+
+        // 4. Slider Başlat
+        var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 200,
+                modifier: 1,
+                slideShadows: false,
+            },
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+    </script>
 </body>
 </html>
