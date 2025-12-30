@@ -3,164 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | The Collection</title>
+    <title>ZAYN | Welcome to the Garden</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Montserrat:wght@300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     
     <style>
-        /* TEMEL AYARLAR */
-        body { background: #050505; color: #F3F3F3; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-        h1, h2, h3, .brand-font { font-family: 'Cinzel', serif; }
-        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
-        
-        /* ÖNEMLİ: Görünmezlik yaratan tüm animasyonları sildim. */
-        /* Ürünler direkt görünecek. */
-        
-        /* KART STİLLERİ */
-        .product-card { position: relative; display: block; background: #111; }
-        .product-img { transition: transform 0.5s ease; width: 100%; height: 100%; object-fit: cover; }
-        .group:hover .product-img { transform: scale(1.05); opacity: 1; }
-        
-        /* Buton Efekti */
-        .view-btn { 
-            background: rgba(255,255,255,0.1); 
-            backdrop-filter: blur(5px);
-            transition: all 0.3s;
+        /* --- ÖZEL ARKA PLAN TEKNİĞİ --- */
+        body {
+            /* 1. Katman: Açık krem rengi taban */
+            background-color: #f8f5f0;
+            /* 2. Katman: Kabartma kağıt dokusu ve Rengarenk Çiçekler */
+            /* Not: Bu görselleri birleştirip özel bir efekt yaratıyoruz */
+            background-image: 
+                linear-gradient(to bottom, rgba(248, 245, 240, 0.8), rgba(248, 245, 240, 0.9)), /* Yazıların altını aydınlatma */
+                url('https://www.transparenttextures.com/patterns/cream-paper.png'), /* Kabartma Dokusu */
+                url('https://images.unsplash.com/photo-1558451832-c602f9603327?q=80&w=2070'); /* Rengarenk Çiçekler */
+            
+            background-blend-mode: overlay, multiply, normal;
+            background-size: cover, auto, cover;
+            background-position: center, center, center;
+            background-attachment: fixed;
+            color: #2a2a2a; /* Koyu gri yazı rengi (siyah çok sert durur) */
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden; /* Kaydırmayı kapat, tek ekran */
         }
-        .group:hover .view-btn { background: rgba(255,255,255,0.95); color: #000; }
+
+        h1, .brand-font { font-family: 'Cinzel', serif; }
+        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
+
+        /* Buton Efekti */
+        .enter-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .enter-btn:hover::before { left: 100%; }
+        .enter-btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); }
     </style>
 </head>
-<body>
+<body class="h-screen flex flex-col justify-between py-10 px-6">
 
-    <nav class="fixed top-0 w-full px-6 py-5 flex justify-between items-center z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
-        <div class="text-xs tracking-[0.2em] text-gray-400">EST. 2025</div>
-        <div class="text-2xl tracking-widest font-bold text-white brand-font">ZAYN</div>
-        <a href="https://www.etsy.com/shop/ZaynCollective" class="text-xs tracking-[0.2em] text-white border-b border-white/50">SHOP</a>
+    <nav class="flex justify-between items-center text-xs tracking-[0.2em] text-gray-600 uppercase">
+        <div>Est. 2025</div>
+        <div>Worldwide</div>
     </nav>
 
-    <header class="relative h-[60vh] flex flex-col items-center justify-center overflow-hidden bg-[#080808]">
-        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070" 
-             class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale">
+    <main class="flex flex-col items-center justify-center text-center relative z-10">
         
-        <div class="relative z-10 text-center px-4 mt-10">
-            <h1 class="text-[12vw] md:text-[8vw] leading-none text-white brand-font">COLLECTION</h1>
-            <p class="serif-italic text-lg text-gray-400 mt-2">"Curated for the bold."</p>
+        <p class="serif-italic text-xl md:text-2xl text-gray-500 mb-6 animate-pulse">Where elegance blooms.</p>
+        
+        <h1 class="text-[15vw] md:text-[12vw] leading-none brand-font font-extrabold text-[#1a1a1a] tracking-tighter mb-10 drop-shadow-lg">
+            ZAYN
+        </h1>
+
+        <div class="flex flex-col md:flex-row gap-6 items-center">
+            <a href="shop.html" class="enter-btn px-12 py-4 bg-[#1a1a1a] text-white text-sm tracking-[0.3em] uppercase font-bold hover:bg-[#333] transition-all duration-300">
+                Enter Collection
+            </a>
+            <a href="shop.html" class="text-xs tracking-[0.2em] uppercase border-b border-gray-400 pb-1 hover:text-black hover:border-black transition">
+                Discover More
+            </a>
         </div>
-    </header>
 
-    <section class="py-16 px-4 bg-[#050505] min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            
-            <div class="flex justify-between items-end mb-10 border-b border-white/10 pb-4">
-                <h2 class="text-2xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-green-500 font-mono tracking-widest">CHECKING DATA...</div>
-            </div>
-            
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <div class="col-span-full text-center py-20 border border-white/10">
-                    <p class="text-gray-500 animate-pulse">LOADING ARCHIVE...</p>
-                </div>
-            </div>
+    </main>
 
-        </div>
-    </section>
-
-    <footer class="bg-black py-10 text-center border-t border-white/10 text-xs text-gray-600 tracking-widest">
-        &copy; 2025 ZAYN BRAND.
+    <footer class="text-center text-[10px] tracking-[0.2em] text-gray-500 uppercase">
+        &copy; 2025 Zayn Collective. Art of Living.
     </footer>
 
-    <script>
-        // 1. AYARLAR
-        const grid = document.getElementById('product-grid');
-        const statusText = document.getElementById('status-text');
-        
-        // Diagnostic Tool'da çalışan KESİN yol
-        const DATA_URL = "assets/data/products.json"; 
-
-        // 2. RENDER (EKRANA BASMA)
-        function renderProducts(data) {
-            grid.innerHTML = ""; // Yükleniyor yazısını temizle
-
-            if(!data || data.length === 0) {
-                statusText.innerText = "NO DATA FOUND";
-                statusText.style.color = "red";
-                return;
-            }
-
-            statusText.innerText = `ONLINE • ${data.length} ITEMS`;
-
-            data.forEach(item => {
-                // Veri Güvenliği
-                const img = item.image1 || "https://via.placeholder.com/500x700?text=No+Image";
-                const title = item.title || "Untitled";
-                
-                // Fiyat Formatı
-                let price = parseFloat(item.price);
-                if(price > 1000) price = price / 100;
-                const priceStr = new Intl.NumberFormat('en-US', { style: 'currency', currency: item.currency || 'USD' }).format(price);
-
-                // Kategori & URL
-                const cat = item.category || "COLLECTION";
-                const url = item.url || "#";
-
-                // HTML OLUŞTUR (Animasyon yok, direkt görünür)
-                grid.innerHTML += `
-                    <a href="${url}" target="_blank" class="group product-card">
-                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-3">
-                            <img src="${img}" class="product-img">
-                            
-                            <div class="absolute top-2 left-2 bg-white text-black px-2 py-1 text-[9px] font-bold tracking-widest">
-                                ${cat.toUpperCase()}
-                            </div>
-
-                            <div class="view-btn absolute bottom-0 w-full p-3 flex justify-between items-center translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                                <span class="text-[10px] uppercase font-bold tracking-widest">View on Etsy</span>
-                                <i class="fa-solid fa-arrow-right text-xs"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="px-1">
-                            <h3 class="text-white text-sm font-serif leading-tight mb-1 truncate group-hover:text-gray-400 transition">${title}</h3>
-                            <p class="text-[10px] text-gray-500 tracking-widest">${priceStr}</p>
-                        </div>
-                    </a>
-                `;
-            });
-        }
-
-        // 3. VERİ ÇEKME
-        async function loadData() {
-            // Cache Kırma (Çok Önemli)
-            const uniqueUrl = `${DATA_URL}?t=${new Date().getTime()}`;
-            
-            try {
-                console.log("Connecting to:", uniqueUrl);
-                const response = await fetch(uniqueUrl);
-                
-                if (!response.ok) throw new Error("HTTP Error");
-                
-                const data = await response.json();
-                renderProducts(data);
-                
-            } catch (error) {
-                console.error(error);
-                statusText.innerText = "CONNECTION FAILED";
-                statusText.style.color = "red";
-                grid.innerHTML = `
-                    <div class="col-span-full text-center text-red-500 mt-10 p-4 border border-red-900">
-                        <p class="font-bold">VERİ ALINAMADI</p>
-                        <p class="text-xs mt-2">Lütfen sayfayı yenileyin.</p>
-                        <a href="${DATA_URL}" class="text-xs underline mt-4 block">Dosyayı Kontrol Et</a>
-                    </div>
-                `;
-            }
-        }
-
-        // BAŞLAT
-        loadData();
-    </script>
 </body>
 </html>
