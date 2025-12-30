@@ -3,155 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | The Collection</title>
+    <title>ZAYN | The Art of Silence</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@200;300;400&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Cinzel', serif; }
+        /* GENEL AYARLAR */
+        body { background: #080808; color: #F3F3F3; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        h1, h2, h3, .brand-font { font-family: 'Cinzel', serif; }
+        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
         
-        /* Yükleme Animasyonu (Fade In) */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* SCROLLBAR GİZLEME (Slider İçin) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* MARQUEE (Kayan Yazı) */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .anim-entry {
-            animation: fadeIn 0.8s ease-out forwards;
-            opacity: 0; /* Başlangıçta gizli */
-        }
-        
-        /* Hover Efektleri */
-        .product-img { transition: transform 0.7s ease; }
-        .group:hover .product-img { transform: scale(1.05); }
-        .view-btn { transition: all 0.3s ease; transform: translateY(100%); opacity: 0; }
-        .group:hover .view-btn { transform: translateY(0); opacity: 1; }
+        .animate-marquee { display: flex; animation: marquee 30s linear infinite; }
+
+        /* ÜRÜN KART EFEKTLERİ */
+        .product-card .overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); opacity: 0; transition: 0.5s; }
+        .product-card:hover .overlay { opacity: 1; }
+        .product-card img { transition: transform 0.8s ease-in-out; }
+        .product-card:hover img { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/90 to-transparent">
-        <div class="text-xs tracking-[0.3em] text-gray-400">EST. 2025</div>
-        <div class="text-2xl tracking-widest font-bold text-white">ZAYN</div>
-        <div class="text-xs tracking-[0.3em] text-gray-400">SHOP</div>
+    <nav class="fixed top-0 w-full px-8 py-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/90 to-transparent backdrop-blur-[2px]">
+        <div class="hidden md:block text-xs tracking-[0.3em] text-gray-400">EST. 2025</div>
+        <div class="text-3xl tracking-widest font-bold text-white brand-font">ZAYN</div>
+        <a href="https://www.etsy.com/shop/ZaynCollective" target="_blank" class="text-xs tracking-[0.2em] border-b border-white/30 pb-1 hover:text-white hover:border-white transition">SHOP ETSY</a>
     </nav>
 
-    <header class="h-[60vh] flex items-center justify-center relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale anim-entry" style="animation-delay: 0.1s;">
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-[12vw] md:text-[8vw] leading-none text-white anim-entry" style="animation-delay: 0.3s;">COLLECTION</h1>
-            <p class="text-sm md:text-xl italic text-gray-400 mt-4 anim-entry" style="animation-delay: 0.5s;">Curated from Etsy</p>
+    <header class="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070" 
+                 class="w-full h-full object-cover opacity-40 grayscale scale-110 anim-hero-img">
+        </div>
+        
+        <div class="relative z-10 text-center px-4 mix-blend-screen">
+            <p class="text-sm md:text-lg tracking-[0.5em] mb-4 text-gray-300 opacity-0 anim-hero-text">QUIET LUXURY</p>
+            <h1 class="text-[15vw] md:text-[10vw] leading-none text-white opacity-0 anim-hero-text">SILENCE</h1>
+            <p class="serif-italic text-xl md:text-3xl mt-6 text-gray-400 opacity-0 anim-hero-text">"Where style meets the soul."</p>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce opacity-50">
+            <i class="fa-solid fa-arrow-down text-white text-xl"></i>
         </div>
     </header>
 
-    <section class="py-12 px-4 bg-[#050505] min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4 anim-entry" style="animation-delay: 0.7s;">
-                <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-gray-500 font-mono">Connecting...</div>
+    <div class="py-4 bg-white/5 border-y border-white/10 overflow-hidden">
+        <div class="animate-marquee whitespace-nowrap">
+            <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">WORLDWIDE SHIPPING</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-white">•</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">HANDCRAFTED DESIGNS</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-white">•</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">LIMITED EDITIONS</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-white">•</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">CURATED AESTHETICS</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-white">•</span>
+             <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">WORLDWIDE SHIPPING</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-white">•</span>
+            <span class="text-xs tracking-[0.3em] mx-8 text-gray-400">HANDCRAFTED DESIGNS</span>
+        </div>
+    </div>
+
+    <section class="py-32 px-6 md:px-20 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+        <div class="reveal-text">
+            <h2 class="text-4xl md:text-6xl mb-8 leading-tight">Not just fashion,<br><span class="serif-italic text-gray-500">an statement.</span></h2>
+            <p class="text-gray-400 leading-relaxed mb-8 text-justify font-light">
+                ZAYN is born from the desire to create spaces between the noise. Our collection bridges the gap between Eastern sentiment and Western minimalism. Every piece you see is curated directly from our atelier to your wardrobe.
+            </p>
+            <div class="h-px w-24 bg-white/50"></div>
+        </div>
+        <div class="relative reveal-img">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000" class="w-full aspect-[4/5] object-cover opacity-80 grayscale hover:grayscale-0 transition duration-700">
+            <div class="absolute -bottom-6 -right-6 border border-white/20 p-6 backdrop-blur-md">
+                <span class="text-xs tracking-widest">EST. 2025</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[#0a0a0a] min-h-screen relative">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        
+        <div class="max-w-[1600px] mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <h2 class="text-4xl md:text-5xl text-white mb-2">The Collection</h2>
+                    <p class="text-sm text-gray-500 tracking-widest">CONNECTING TO ETSY ARCHIVE...</p>
+                </div>
+                <div class="flex gap-6 mt-6 md:mt-0 text-xs tracking-widest text-gray-500">
+                    <span class="text-white border-b border-white cursor-pointer">ALL</span>
+                    <span class="hover:text-white cursor-pointer transition">DRESSES</span>
+                    <span class="hover:text-white cursor-pointer transition">TOPS</span>
+                </div>
             </div>
             
-            <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
-                    Loading Collection...
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12">
+                <div class="col-span-full py-20 text-center">
+                    <p class="animate-pulse text-xl font-serif text-gray-600">Loading Masterpieces...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-center py-10 text-gray-600 text-xs tracking-widest border-t border-white/10 mt-10">
-        &copy; 2025 ZAYN COLLECTIVE
+    <section class="py-24 border-t border-white/5 overflow-hidden">
+        <div class="text-center mb-12">
+            <span class="text-xs tracking-[0.4em] text-gray-500">VOICES</span>
+            <h2 class="text-3xl mt-2">Client Stories</h2>
+        </div>
+        
+        <div class="flex overflow-x-auto gap-8 px-6 md:px-20 pb-10 no-scrollbar snap-x snap-mandatory" id="reviews-slider">
+            <div class="min-w-[300px] md:min-w-[400px] bg-[#111] p-8 border border-white/5 snap-center">
+                <div class="text-yellow-600 text-xs mb-4">★★★★★</div>
+                <p class="serif-italic text-gray-400 text-lg mb-6">"Absolutely stunning quality. The fabric feels like a dream and the fit is perfect."</p>
+                <p class="text-xs tracking-widest text-gray-600">- EMMA R.</p>
+            </div>
+             <div class="min-w-[300px] md:min-w-[400px] bg-[#111] p-8 border border-white/5 snap-center">
+                <div class="text-yellow-600 text-xs mb-4">★★★★★</div>
+                <p class="serif-italic text-gray-400 text-lg mb-6">"More than just clothing, it's a piece of art. Fast shipping to NYC."</p>
+                <p class="text-xs tracking-widest text-gray-600">- SARAH K.</p>
+            </div>
+            <div class="min-w-[300px] md:min-w-[400px] bg-[#111] p-8 border border-white/5 snap-center">
+                <div class="text-yellow-600 text-xs mb-4">★★★★★</div>
+                <p class="serif-italic text-gray-400 text-lg mb-6">"The packaging alone was an experience. ZAYN is my new favorite."</p>
+                <p class="text-xs tracking-widest text-gray-600">- JESSICA M.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-20 border-t border-white/10 text-center relative overflow-hidden">
+        <h3 class="text-[15vw] leading-none text-white/5 select-none pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2">ZAYN</h3>
+        <div class="relative z-10">
+            <p class="serif-italic text-gray-500 mb-8">"Elegance is an attitude."</p>
+            <div class="flex justify-center gap-8 text-xl text-gray-400 mb-10">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="https://www.etsy.com/shop/ZaynCollective" class="hover:text-white transition"><i class="fa-brands fa-etsy"></i></a>
+            </div>
+            <p class="text-[10px] tracking-[0.2em] text-gray-700">&copy; 2025 ZAYN BRAND. ALL RIGHTS RESERVED.</p>
+        </div>
     </footer>
 
     <script>
-        const statusText = document.getElementById('status-text');
-        const grid = document.getElementById('grid');
-        
-        // TEŞHİS ARACINDA ÇALIŞAN KESİN YOL
-        const DATA_URL = "assets/data/products.json"; 
+        // 1. AYARLAR & SELECTORS
+        const grid = document.getElementById('product-grid');
+        const DATA_URL = "assets/data/products.json"; // Çalışan Kesin Yol
 
-        // Fiyat Düzenleyici
+        // 2. YARDIMCI: Fiyat Formatla
         function formatPrice(price, currency) {
             let num = parseFloat(price);
-            if (num > 1000) { num = num / 100; } 
+            if (num > 1000) num = num / 100;
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(num);
         }
 
-        // Ürünleri Ekrana Basma
+        // 3. ÜRÜNLERİ OLUŞTUR
         function renderProducts(data) {
             grid.innerHTML = "";
             
             if(!data || data.length === 0) {
-                statusText.innerHTML = "No Items Found";
-                grid.innerHTML = "<div class='text-center text-red-500 col-span-full'>Koleksiyon boş görünüyor.</div>";
+                grid.innerHTML = "<div class='text-center text-red-500 col-span-full'>No products found.</div>";
                 return;
             }
 
-            statusText.innerHTML = `${data.length} Items Available`;
-
             data.forEach((item, index) => {
+                // Veri Kontrolleri
                 const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
-                const title = item.title || "Untitled Masterpiece";
-                const currency = item.currency || "USD";
-                const displayPrice = formatPrice(item.price, currency);
-                
-                // URL KONTROLÜ (Etsy Linki)
+                const title = item.title || "Masterpiece";
+                const price = formatPrice(item.price, item.currency);
                 const url = item.url && item.url.startsWith('http') ? item.url : '#';
-                const category = item.category || "Collection";
-                
-                // Animasyon gecikmesi (Sırayla gelmeleri için)
-                const delay = (index * 0.05) + 0.2; 
+                const category = item.category || "COLLECTION";
+
+                // Animasyon Gecikmesi
+                const delay = index * 0.1;
 
                 grid.innerHTML += `
-                    <a href="${url}" target="_blank" class="group block cursor-pointer anim-entry" style="animation-delay: ${delay}s; animation-fill-mode: forwards;">
-                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
-                            <img src="${img}" class="product-img w-full h-full object-cover opacity-80">
+                    <a href="${url}" target="_blank" class="group product-card block cursor-pointer opacity-0 anim-item">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-[#111] mb-5">
+                            <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0">
                             
-                            <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
-                                ${category}
+                            <div class="absolute top-0 left-0 bg-white text-black px-3 py-1 text-[9px] font-bold tracking-widest z-10">
+                                ${category.toUpperCase()}
                             </div>
 
-                            <div class="view-btn absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 flex justify-between items-center">
-                                <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
-                                <i class="fa-solid fa-arrow-right text-white text-xs"></i>
+                            <div class="overlay absolute inset-0 flex items-end justify-center pb-6">
+                                <span class="bg-white text-black px-6 py-2 text-xs tracking-[0.2em] font-bold transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                                    VIEW ON ETSY
+                                </span>
                             </div>
                         </div>
-                        <h3 class="text-lg text-white font-serif leading-tight group-hover:text-gray-300 transition line-clamp-2">${title}</h3>
-                        <p class="text-xs text-gray-500 tracking-widest mt-2 border-t border-white/10 pt-2 inline-block">${displayPrice}</p>
+                        
+                        <div class="text-center px-2">
+                            <h3 class="text-white text-lg font-serif leading-tight mb-2 group-hover:text-gray-300 transition line-clamp-1">${title}</h3>
+                            <p class="text-xs text-gray-500 tracking-widest">${price}</p>
+                        </div>
                     </a>
                 `;
             });
+
+            // GSAP ile Giriş Animasyonu
+            gsap.to(".anim-item", { 
+                scrollTrigger: { trigger: "#product-grid", start: "top 80%" },
+                opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power3.out" 
+            });
         }
 
-        // Veri Çekme Fonksiyonu
+        // 4. VERİYİ ÇEK (ÇALIŞAN YÖNTEM)
         async function loadData() {
-            // Cache'i kırmak için timestamp ekliyoruz
             const uniqueUrl = `${DATA_URL}?t=${new Date().getTime()}`;
-            
             try {
                 const response = await fetch(uniqueUrl);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
+                if (!response.ok) throw new Error("Connection Error");
                 const data = await response.json();
                 renderProducts(data);
-                
             } catch (error) {
-                console.error("Hata:", error);
-                statusText.innerHTML = "Connection Error";
-                grid.innerHTML = `
-                    <div class="col-span-full text-center mt-10 p-6 border border-red-900 bg-red-900/10 rounded">
-                        <p class="text-red-400 font-mono text-xs mb-2">VERİ ÇEKİLEMEDİ</p>
-                        <p class="text-gray-400 text-xs">İnternet bağlantınızı kontrol edin.</p>
-                        <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-white text-black text-xs uppercase tracking-widest">Tekrar Dene</button>
-                    </div>
-                `;
+                console.error(error);
+                grid.innerHTML = `<div class='col-span-full text-center text-gray-500'>Trying to connect... Refresh page.</div>`;
             }
         }
 
-        // Başlat
+        // 5. BAŞLAT & ANİMASYONLAR
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Hero Animasyonları
+        const tl = gsap.timeline();
+        tl.to(".anim-hero-img", { scale: 1, opacity: 0.6, duration: 2, ease: "power2.out" })
+          .to(".anim-hero-text", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }, "-=1.5");
+
+        // Felsefe Bölümü Animasyonu
+        gsap.from(".reveal-text", {
+            scrollTrigger: { trigger: ".reveal-text", start: "top 70%" },
+            y: 50, opacity: 0, duration: 1.5, ease: "power3.out"
+        });
+        gsap.from(".reveal-img", {
+            scrollTrigger: { trigger: ".reveal-text", start: "top 70%" },
+            y: 50, opacity: 0, duration: 1.5, delay: 0.2, ease: "power3.out"
+        });
+
+        // Veriyi Yükle
         loadData();
 
     </script>
