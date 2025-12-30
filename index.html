@@ -3,149 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Luxury Collection</title>
-    
+    <title>ZAYN | SYSTEM DIAGNOSTIC</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-    
     <style>
-        body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Cinzel', serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        body { background-color: #111; color: #fff; font-family: monospace; padding: 20px; }
+        .log-box { background: #222; border: 1px solid #444; padding: 15px; margin-bottom: 10px; border-radius: 5px; font-size: 12px; white-space: pre-wrap; word-wrap: break-word; }
+        .success { border-color: #2ecc71; color: #2ecc71; }
+        .error { border-color: #e74c3c; color: #e74c3c; background: #2c0b0b; }
+        .info { border-color: #3498db; color: #3498db; }
+        img { width: 100px; height: 150px; object-fit: cover; border: 1px solid #555; margin: 5px; }
+        .grid-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/90 to-transparent">
-        <div class="text-xs tracking-[0.3em]">EST. 2025</div>
-        <div class="text-2xl tracking-widest font-bold">ZAYN</div>
-        <div class="text-xs tracking-[0.3em]">SHOP</div>
-    </nav>
+    <h1 class="text-xl mb-4 font-bold border-b border-gray-700 pb-2">ZAYN DIAGNOSTIC TOOL v1.0</h1>
+    <p class="text-xs text-gray-500 mb-6">Bu sayfa hatayı bulmak için tasarlanmıştır. Lütfen ekran görüntüsü alın.</p>
 
-    <header class="h-[60vh] flex items-center justify-center relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-40 grayscale">
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-[12vw] md:text-[8vw] leading-none opacity-0 anim-hero">COLLECTION</h1>
-            <p class="text-sm md:text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Curated from Etsy</p>
-        </div>
-    </header>
+    <div id="console-output"></div>
 
-    <section class="py-12 px-4 bg-[#0a0a0a] min-h-screen">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
-                <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
-                <div id="status-text" class="text-xs text-gray-500 font-mono">Initializing...</div>
-            </div>
-            
-            <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
-                    Looking for data...
-                </div>
-            </div>
-        </div>
-    </section>
+    <div id="preview-area" class="grid-preview"></div>
 
     <script>
-        // --- AYARLAR ---
-        const statusText = document.getElementById('status-text');
-        const grid = document.getElementById('grid');
-        
-        // Cache (Önbellek) Kırıcı Zaman Damgası
-        const v = new Date().getTime();
+        const output = document.getElementById('console-output');
+        const preview = document.getElementById('preview-area');
 
-        // DENENECEK YOLLAR (Sırasıyla dener)
-        // 1. Yol: Göreceli yol (Domain bağımsız, en güvenlisi)
-        // 2. Yol: Ana dizin
-        // 3. Yol: Tam adres (Yedek)
-        const paths = [
-            `assets/data/products.json?v=${v}`,
-            `./assets/data/products.json?v=${v}`,
-            `/assets/data/products.json?v=${v}`,
-            `https://zaynbrand.com/assets/data/products.json?v=${v}`
+        // Ekrana Log Yazdırma Fonksiyonu
+        function printLog(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log-box ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            output.appendChild(div);
+        }
+
+        // --- ADIM 1: YOL KONTROLÜ ---
+        // GitHub Pages'de klasör yapısını anlamak için
+        const possiblePaths = [
+            "assets/data/products.json",
+            "./assets/data/products.json",
+            "/assets/data/products.json",
+            "https://zaynbrand.com/assets/data/products.json" 
         ];
 
-        // --- YARDIMCI FONKSİYONLAR ---
-        function formatPrice(price, currency) {
-            let num = parseFloat(price);
-            if (num > 1000) { num = num / 100; }
-            return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(num);
-        }
-
-        function renderProducts(data) {
-            grid.innerHTML = "";
+        async function runDiagnostics() {
+            printLog("Sistem başlatılıyor... Tarayıcı: " + navigator.userAgent);
             
-            if(!data || data.length === 0) {
-                statusText.innerHTML = "No Items Found";
-                return;
+            let success = false;
+
+            for (let path of possiblePaths) {
+                printLog(`Deneniyor: ${path}...`, 'info');
+                
+                try {
+                    // Cache'i kırmak için timestamp ekle
+                    const urlWithCache = path + "?t=" + new Date().getTime();
+                    
+                    const response = await fetch(urlWithCache);
+                    printLog(`HTTP Yanıt Kodu: ${response.status} (${response.statusText})`, response.ok ? 'success' : 'error');
+
+                    if (response.ok) {
+                        // Dosya bulundu, şimdi içeriği kontrol et
+                        const textData = await response.text();
+                        
+                        // İçerik HTML mi JSON mı? (Bazen 404 sayfası HTML döner)
+                        if (textData.trim().startsWith("<")) {
+                            printLog("HATA: JSON beklenirken HTML geldi. Dosya yolunda 404 sayfası dönüyor olabilir.", 'error');
+                            printLog("Gelen Veri Başı: " + textData.substring(0, 100), 'error');
+                            continue; // Diğer yolu dene
+                        }
+
+                        // JSON parse etmeyi dene
+                        try {
+                            const jsonData = JSON.parse(textData);
+                            printLog(`BAŞARILI! ${jsonData.length} adet ürün bulundu.`, 'success');
+                            printLog("Örnek Ürün: " + jsonData[0].title, 'success');
+                            
+                            // Ürünleri ekrana bas
+                            renderPreview(jsonData);
+                            success = true;
+                            break; // Döngüyü kır, bulduk!
+                        } catch (e) {
+                            printLog("JSON PARSE HATASI: Dosya indirildi ama bozuk. " + e.message, 'error');
+                        }
+                    } else {
+                        printLog("Bu yoldan dosya çekilemedi.", 'error');
+                    }
+
+                } catch (err) {
+                    printLog(`AĞ HATASI (Fetch Failed): ${err.message}`, 'error');
+                }
             }
 
-            statusText.innerHTML = `${data.length} Items Loaded`;
-
-            data.forEach(item => {
-                const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
-                const title = item.title || "Untitled Masterpiece";
-                const currency = item.currency || "USD";
-                const displayPrice = formatPrice(item.price, currency);
-                const url = item.url || "#";
-                const category = item.category || "Collection";
-                
-                grid.innerHTML += `
-                    <a href="${url}" target="_blank" class="group cursor-pointer block">
-                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
-                            <img src="${img}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700">
-                            <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
-                                ${category}
-                            </div>
-                            <div class="absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 translate-y-full group-hover:translate-y-0 transition duration-300 flex justify-between items-center">
-                                <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
-                                <i class="fa-solid fa-arrow-right text-white text-xs"></i>
-                            </div>
-                        </div>
-                        <h3 class="text-lg text-white font-serif leading-tight group-hover:text-gray-300 transition line-clamp-2">${title}</h3>
-                        <p class="text-xs text-gray-500 tracking-widest mt-2 border-t border-white/10 pt-2 inline-block">${displayPrice}</p>
-                    </a>
-                `;
-            });
+            if (!success) {
+                printLog("SONUÇ: Hiçbir yoldan veri alınamadı. Lütfen repo klasör yapısını kontrol edin.", 'error');
+            }
         }
 
-        // --- AKILLI VERİ ÇEKİCİ (Recursive Fetch) ---
-        async function smartFetch(pathIndex) {
-            if (pathIndex >= paths.length) {
-                statusText.innerHTML = "Connection Failed";
-                grid.innerHTML = `
-                    <div class="col-span-full text-center text-red-500 mt-10">
-                        <p>Veri çekilemedi. Lütfen bağlantınızı kontrol edin.</p>
+        function renderPreview(data) {
+            preview.innerHTML = "";
+            data.forEach(item => {
+                const img = item.image1 || "";
+                preview.innerHTML += `
+                    <div style="width:120px; background:#222; padding:5px;">
+                        <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
+                        <div style="font-size:10px; margin-top:5px;">${item.price} ${item.currency}</div>
                     </div>
                 `;
-                return;
-            }
-
-            const currentPath = paths[pathIndex];
-            console.log(`Trying path: ${currentPath}`);
-            statusText.innerHTML = `Connecting... (${pathIndex + 1}/${paths.length})`;
-
-            try {
-                const response = await fetch(currentPath);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                renderProducts(data); // Başarılıysa bas ve bitir
-            } catch (error) {
-                console.warn(`Path failed: ${currentPath}`, error);
-                smartFetch(pathIndex + 1); // Başarısızsa bir sonrakini dene
-            }
+            });
+            printLog("Görseller yükleniyor...", 'info');
         }
 
-        // --- BAŞLAT ---
-        gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
-        const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // İşlemi Başlat
-        smartFetch(0);
+        // Başlat
+        runDiagnostics();
 
     </script>
 </body>
