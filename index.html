@@ -3,117 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | SYSTEM DIAGNOSTIC</title>
+    <title>ZAYN | The Collection</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { background-color: #111; color: #fff; font-family: monospace; padding: 20px; }
-        .log-box { background: #222; border: 1px solid #444; padding: 15px; margin-bottom: 10px; border-radius: 5px; font-size: 12px; white-space: pre-wrap; word-wrap: break-word; }
-        .success { border-color: #2ecc71; color: #2ecc71; }
-        .error { border-color: #e74c3c; color: #e74c3c; background: #2c0b0b; }
-        .info { border-color: #3498db; color: #3498db; }
-        img { width: 100px; height: 150px; object-fit: cover; border: 1px solid #555; margin: 5px; }
-        .grid-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        body { background: #050505; color: #F5F3EF; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Kart Hover Efektleri */
+        .product-card:hover .product-img { transform: scale(1.05); }
+        .product-card:hover .view-btn { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <h1 class="text-xl mb-4 font-bold border-b border-gray-700 pb-2">ZAYN DIAGNOSTIC TOOL v1.0</h1>
-    <p class="text-xs text-gray-500 mb-6">Bu sayfa hatayı bulmak için tasarlanmıştır. Lütfen ekran görüntüsü alın.</p>
+    <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50 bg-gradient-to-b from-black/90 to-transparent">
+        <div class="text-xs tracking-[0.3em] text-gray-400">EST. 2025</div>
+        <div class="text-2xl tracking-widest font-bold text-white">ZAYN</div>
+        <div class="text-xs tracking-[0.3em] text-gray-400">SHOP</div>
+    </nav>
 
-    <div id="console-output"></div>
+    <header class="h-[60vh] flex items-center justify-center relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070" class="absolute inset-0 w-full h-full object-cover opacity-30 grayscale">
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-[12vw] md:text-[8vw] leading-none opacity-0 anim-hero text-white">COLLECTION</h1>
+            <p class="text-sm md:text-xl italic text-gray-400 mt-4 opacity-0 anim-hero">Curated from Etsy</p>
+        </div>
+    </header>
 
-    <div id="preview-area" class="grid-preview"></div>
+    <section class="py-12 px-4 bg-[#050505] min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-4">
+                <h2 class="text-2xl md:text-3xl text-white">Masterpieces</h2>
+                <div id="status-text" class="text-xs text-gray-500 font-mono">Loading...</div>
+            </div>
+            
+            <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                <div class="col-span-full text-center text-gray-600 animate-pulse mt-10">
+                    Accessing Archive...
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        const output = document.getElementById('console-output');
-        const preview = document.getElementById('preview-area');
-
-        // Ekrana Log Yazdırma Fonksiyonu
-        function printLog(msg, type = 'info') {
-            const div = document.createElement('div');
-            div.className = `log-box ${type}`;
-            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${msg}`;
-            output.appendChild(div);
+        // --- 1. AYARLAR ---
+        const statusText = document.getElementById('status-text');
+        const grid = document.getElementById('grid');
+        
+        // Testte çalışan KESİN yol
+        const DATA_PATH = "assets/data/products.json"; 
+        
+        // --- 2. YARDIMCI FONKSİYONLAR ---
+        function formatPrice(price, currency) {
+            let num = parseFloat(price);
+            if (num > 1000) { num = num / 100; } // Kuruş düzeltmesi
+            return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(num);
         }
 
-        // --- ADIM 1: YOL KONTROLÜ ---
-        // GitHub Pages'de klasör yapısını anlamak için
-        const possiblePaths = [
-            "assets/data/products.json",
-            "./assets/data/products.json",
-            "/assets/data/products.json",
-            "https://zaynbrand.com/assets/data/products.json" 
-        ];
-
-        async function runDiagnostics() {
-            printLog("Sistem başlatılıyor... Tarayıcı: " + navigator.userAgent);
+        // --- 3. EKRANA BASMA (LİNKLER DAHİL) ---
+        function renderProducts(data) {
+            grid.innerHTML = "";
             
-            let success = false;
+            if(!data || data.length === 0) {
+                statusText.innerHTML = "No Items Found";
+                return;
+            }
 
-            for (let path of possiblePaths) {
-                printLog(`Deneniyor: ${path}...`, 'info');
+            statusText.innerHTML = `${data.length} Items Available`;
+
+            data.forEach((item, index) => {
+                const img = item.image1 || "https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500";
+                const title = item.title || "Untitled Masterpiece";
+                const currency = item.currency || "USD";
+                const displayPrice = formatPrice(item.price, currency);
                 
-                try {
-                    // Cache'i kırmak için timestamp ekle
-                    const urlWithCache = path + "?t=" + new Date().getTime();
-                    
-                    const response = await fetch(urlWithCache);
-                    printLog(`HTTP Yanıt Kodu: ${response.status} (${response.statusText})`, response.ok ? 'success' : 'error');
-
-                    if (response.ok) {
-                        // Dosya bulundu, şimdi içeriği kontrol et
-                        const textData = await response.text();
-                        
-                        // İçerik HTML mi JSON mı? (Bazen 404 sayfası HTML döner)
-                        if (textData.trim().startsWith("<")) {
-                            printLog("HATA: JSON beklenirken HTML geldi. Dosya yolunda 404 sayfası dönüyor olabilir.", 'error');
-                            printLog("Gelen Veri Başı: " + textData.substring(0, 100), 'error');
-                            continue; // Diğer yolu dene
-                        }
-
-                        // JSON parse etmeyi dene
-                        try {
-                            const jsonData = JSON.parse(textData);
-                            printLog(`BAŞARILI! ${jsonData.length} adet ürün bulundu.`, 'success');
-                            printLog("Örnek Ürün: " + jsonData[0].title, 'success');
+                // URL KONTROLÜ VE ATAMA
+                // Eğer URL yoksa '#' koyar ama Etsy'den geldiği için kesin vardır.
+                const url = item.url && item.url.startsWith('http') ? item.url : '#';
+                const category = item.category || "Collection";
+                
+                grid.innerHTML += `
+                    <a href="${url}" target="_blank" class="group product-card block cursor-pointer opacity-0 anim-item">
+                        <div class="relative aspect-[3/4] overflow-hidden bg-gray-900 mb-4 border border-white/5">
+                            <img src="${img}" class="product-img w-full h-full object-cover opacity-80 transition duration-700 ease-in-out">
                             
-                            // Ürünleri ekrana bas
-                            renderPreview(jsonData);
-                            success = true;
-                            break; // Döngüyü kır, bulduk!
-                        } catch (e) {
-                            printLog("JSON PARSE HATASI: Dosya indirildi ama bozuk. " + e.message, 'error');
-                        }
-                    } else {
-                        printLog("Bu yoldan dosya çekilemedi.", 'error');
-                    }
+                            <div class="absolute top-2 left-2 bg-black/60 px-2 py-1 text-[9px] uppercase tracking-widest text-white backdrop-blur-sm">
+                                ${category}
+                            </div>
 
-                } catch (err) {
-                    printLog(`AĞ HATASI (Fetch Failed): ${err.message}`, 'error');
-                }
-            }
-
-            if (!success) {
-                printLog("SONUÇ: Hiçbir yoldan veri alınamadı. Lütfen repo klasör yapısını kontrol edin.", 'error');
-            }
-        }
-
-        function renderPreview(data) {
-            preview.innerHTML = "";
-            data.forEach(item => {
-                const img = item.image1 || "";
-                preview.innerHTML += `
-                    <div style="width:120px; background:#222; padding:5px;">
-                        <img src="${img}" onerror="this.src='https://via.placeholder.com/100'">
-                        <div style="font-size:10px; margin-top:5px;">${item.price} ${item.currency}</div>
-                    </div>
+                            <div class="view-btn absolute bottom-0 w-full bg-white/10 backdrop-blur-md p-3 translate-y-full transition duration-300 flex justify-between items-center opacity-0">
+                                <span class="text-xs uppercase tracking-widest text-white">View on Etsy</span>
+                                <i class="fa-solid fa-arrow-right text-white text-xs"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-lg text-white font-serif leading-tight group-hover:text-gray-300 transition line-clamp-2">${title}</h3>
+                        <p class="text-xs text-gray-500 tracking-widest mt-2 border-t border-white/10 pt-2 inline-block">${displayPrice}</p>
+                    </a>
                 `;
             });
-            printLog("Görseller yükleniyor...", 'info');
+
+            // Animasyonlu giriş
+            gsap.to(".anim-item", { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power3.out" });
         }
 
-        // Başlat
-        runDiagnostics();
+        // --- 4. VERİ ÇEKME ---
+        async function loadData() {
+            // Önbelleği kırmak için timestamp (Testte işe yarayan yöntem)
+            const uniqueUrl = `${DATA_PATH}?t=${new Date().getTime()}`;
+            
+            try {
+                const response = await fetch(uniqueUrl);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
+                const data = await response.json();
+                renderProducts(data);
+                
+            } catch (error) {
+                console.error("Hata:", error);
+                statusText.innerHTML = "Connection Error";
+                grid.innerHTML = `
+                    <div class="col-span-full text-center mt-10 p-6 border border-red-900 bg-red-900/10 rounded">
+                        <p class="text-red-400 font-mono text-xs mb-2">VERİ ÇEKİLEMEDİ</p>
+                        <p class="text-gray-400 text-xs">Lütfen bağlantınızı kontrol edin.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // --- 5. BAŞLAT ---
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Hero Animasyonu
+        gsap.to(".anim-hero", { opacity: 1, y: 0, duration: 1.5, stagger: 0.2, ease: "power3.out" });
+
+        // Verileri Getir
+        loadData();
 
     </script>
 </body>
