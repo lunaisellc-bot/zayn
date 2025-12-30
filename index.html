@@ -3,151 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Neon Garden</title>
+    <title>ZAYN | Acid Garden</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- RENK PALETİ --- */
+        /* --- TEMEL AYARLAR --- */
         :root {
-            --neon-green: #ccff00; /* Asit Yeşili */
-            --bg-color: #050505;
+            --neon-acid: #ccff00; /* Asit Yeşili */
+            --deep-black: #000000;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: #fff;
+            background-color: var(--deep-black);
+            color: #ffffff;
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
+            overflow-y: hidden; /* Tek ekran deneyimi */
         }
 
-        /* --- FONTLAR --- */
+        /* --- TİPOGRAFİ --- */
         .brand-font { font-family: 'Cinzel', serif; }
         .cyber-font { font-family: 'Orbitron', sans-serif; }
 
-        /* --- NEON PARLAMA EFEKTLERİ --- */
-        .neon-text {
-            color: var(--neon-green);
-            text-shadow: 0 0 10px rgba(204, 255, 0, 0.5), 0 0 20px rgba(204, 255, 0, 0.3);
+        /* --- NEON EFEKTLERİ --- */
+        .neon-glow {
+            color: var(--neon-acid);
+            text-shadow: 0 0 10px rgba(204, 255, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.4);
         }
         
-        .neon-border {
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
+        .neon-box {
+            border: 1px solid var(--neon-acid);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2), inset 0 0 10px rgba(204, 255, 0, 0.1);
         }
 
-        /* --- ÇİÇEK GÖRSELLERİ (MİKS) --- */
-        /* Ekranın farklı yerlerinden fışkıran çiçekler */
-        .flower-blob {
+        /* --- ÇİÇEK PATLAMALARI --- */
+        .flower-asset {
             position: absolute;
             pointer-events: none;
-            mix-blend-mode: hard-light; /* Renkleri patlatır */
-            opacity: 0.8;
-            filter: contrast(1.2) saturation(1.5);
-            animation: floatFlower 10s infinite ease-in-out alternate;
+            mix-blend-mode: hard-light; /* Renkleri neon gibi yakar */
+            opacity: 0.85;
+            filter: contrast(1.3) saturation(1.8) brightness(0.9);
+            z-index: 1;
+            animation: floaty 8s infinite alternate ease-in-out;
         }
-        @keyframes floatFlower {
+        
+        @keyframes floaty {
             from { transform: translateY(0) scale(1); }
-            to { transform: translateY(-20px) scale(1.05); }
+            to { transform: translateY(-15px) scale(1.05); }
         }
 
-        /* --- NEON YAĞMURU --- */
-        #rain-container {
+        /* --- MATRIX YAĞMURU --- */
+        #matrix-rain {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
         }
-        .rain-drop {
+        .rain-line {
             position: absolute;
             width: 1px;
-            height: 50px;
-            background: linear-gradient(to bottom, transparent, var(--neon-green));
-            opacity: 0.3;
-            animation: rainFall linear infinite;
+            background: linear-gradient(to bottom, transparent, var(--neon-acid), transparent);
+            opacity: 0.4;
+            animation: dropDown linear infinite;
         }
-        @keyframes rainFall {
+        @keyframes dropDown {
             0% { transform: translateY(-100px); opacity: 0; }
             50% { opacity: 0.5; }
-            100% { transform: translateY(100vh); opacity: 0; }
+            100% { transform: translateY(110vh); opacity: 0; }
         }
 
-        /* --- BUTON --- */
-        .acid-btn {
-            background: transparent;
-            color: var(--neon-green);
-            border: 2px solid var(--neon-green);
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 0.2em;
-            font-weight: bold;
-            transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
-        }
-        .acid-btn:hover {
-            background: var(--neon-green);
-            color: #000;
-            box-shadow: 0 0 30px rgba(204, 255, 0, 0.8);
-            transform: scale(1.05);
-        }
-
-        /* --- GİRİŞ ANİMASYONU --- */
-        .zoom-in {
-            animation: zoomEntry 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+        /* --- GİRİŞ ANİMASYONU (Saf CSS - Garanti Görünürlük) --- */
+        .entry-anim {
             opacity: 0;
+            animation: textEnter 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes zoomEntry {
-            from { transform: scale(1.5); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes textEnter {
+            0% { opacity: 0; transform: scale(1.1) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* --- BUTON (GLITCH EFEKTLİ) --- */
+        .cyber-btn {
+            background: transparent;
+            color: var(--neon-acid);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 20px 40px;
+            border: 2px solid var(--neon-acid);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+        .cyber-btn:hover {
+            background: var(--neon-acid);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-acid);
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="h-screen flex flex-col justify-between relative overflow-hidden">
+<body class="flex flex-col h-screen justify-between relative">
 
-    <div id="rain-container"></div>
+    <div id="matrix-rain"></div>
 
-    <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?q=80&w=1000" 
-         class="flower-blob top-[-20%] left-[-20%] w-[70vw] md:w-[40vw] rotate-180">
-    <img src="https://images.unsplash.com/photo-1533038590840-1cde6e668a91?q=80&w=1000" 
-         class="flower-blob bottom-[-20%] right-[-20%] w-[80vw] md:w-[50vw]">
-    <img src="https://images.unsplash.com/photo-1596230529625-7ee541fb5d31?q=80&w=1000" 
-         class="flower-blob top-[10%] right-[-10%] w-[30vw] opacity-60 mix-blend-color-dodge">
+    <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?q=80&w=800" 
+         class="flower-asset top-[-10%] left-[-10%] w-[60vw] md:w-[30vw] rotate-180">
+    
+    <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=800" 
+         class="flower-asset bottom-[-10%] right-[-10%] w-[70vw] md:w-[40vw]">
+
+    <img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=800" 
+         class="flower-asset bottom-[10%] left-[-10%] w-[40vw] md:w-[20vw] opacity-60 mix-blend-screen">
 
     <nav class="fixed top-0 w-full p-6 flex justify-between items-center z-50">
-        <div class="text-[10px] tracking-[0.3em] neon-text font-bold">EST. 2025</div>
-        <div class="text-xs tracking-[0.3em] neon-text font-bold border border-[#ccff00] px-3 py-1 rounded-full">WORLDWIDE</div>
+        <div class="text-[10px] tracking-[0.4em] font-bold text-white entry-anim" style="animation-delay: 0.1s;">EST. 2025</div>
+        <div class="text-[9px] tracking-[0.3em] font-bold text-black bg-[#ccff00] px-2 py-1 entry-anim" style="animation-delay: 0.2s;">
+            ACID COLLECTION
+        </div>
     </nav>
 
-    <main class="relative z-10 w-full h-full flex flex-col items-center justify-center text-center px-4">
+    <main class="relative z-20 w-full h-full flex flex-col items-center justify-center text-center px-4">
         
-        <p class="cyber-font text-sm md:text-lg neon-text tracking-[0.5em] mb-4 zoom-in" style="animation-delay: 0.1s;">
-            FUTURE OF FASHION
+        <p class="cyber-font text-xs md:text-sm neon-glow tracking-[0.6em] mb-4 entry-anim" style="animation-delay: 0.3s;">
+            DIGITAL NATURE
         </p>
         
-        <h1 class="brand-font text-[18vw] md:text-[13vw] leading-[0.8] text-white tracking-tighter mix-blend-overlay zoom-in" style="animation-delay: 0.3s;">
-            ZAYN
-        </h1>
-        <h2 class="absolute text-[4vw] md:text-[2vw] cyber-font text-[#ccff00] tracking-[0.8em] mt-2 font-bold zoom-in" style="animation-delay: 0.5s; text-shadow: 0 0 20px #ccff00;">
-            COLLECTIVE
-        </h2>
+        <div class="relative">
+            <h1 class="brand-font text-[18vw] md:text-[14vw] leading-[0.85] text-white tracking-tighter mix-blend-lighten entry-anim" style="animation-delay: 0.4s;">
+                ZAYN
+            </h1>
+            <h2 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-[4vw] md:text-[2.5vw] cyber-font text-[#ccff00] tracking-[0.8em] font-black mix-blend-difference entry-anim" style="animation-delay: 0.6s; white-space: nowrap;">
+                COLLECTIVE
+            </h2>
+        </div>
 
-        <p class="mt-16 md:mt-24 text-gray-300 max-w-lg text-xs md:text-sm tracking-widest leading-relaxed zoom-in" style="animation-delay: 0.7s;">
-            WHERE NATURE MEETS NEON. <br>
-            A CURATED COLLECTION OF VIBRANT SOULS.
+        <p class="mt-12 text-gray-400 max-w-md text-[10px] md:text-xs tracking-[0.3em] leading-loose uppercase entry-anim" style="animation-delay: 0.7s;">
+            Where the organic meets the electric.<br>
+            <span class="text-[#ccff00]">Bloom in the dark.</span>
         </p>
 
-        <div class="mt-10 zoom-in" style="animation-delay: 0.9s;">
-            <a href="shop.html" class="acid-btn px-10 py-4 inline-block rounded-none clip-path-polygon">
-                ENTER THE ACID GARDEN
+        <div class="mt-12 entry-anim" style="animation-delay: 0.9s;">
+            <a href="shop.html" class="cyber-btn inline-block">
+                Enter The Garden
             </a>
         </div>
 
     </main>
 
-    <footer class="fixed bottom-0 w-full p-4 text-center z-50">
-        <p class="text-[9px] text-[#ccff00] opacity-70 tracking-[0.3em] uppercase">
-            © 2025 ZAYN BRAND • DIGITAL LUXURY
+    <footer class="fixed bottom-0 w-full p-5 text-center z-50">
+        <p class="text-[8px] text-[#ccff00] opacity-60 tracking-[0.5em] uppercase animate-pulse">
+            System Online • Ready to shop
         </p>
     </footer>
 
@@ -157,20 +167,20 @@
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // 2. Neon Yağmuru
+        // 2. Matrix Yağmuru Oluşturucu
         function createRain() {
-            const container = document.getElementById('rain-container');
-            const count = 40; // Çizgi sayısı
+            const container = document.getElementById('matrix-rain');
+            const count = 30; // Çizgi sayısı
 
             for (let i = 0; i < count; i++) {
                 const drop = document.createElement('div');
-                drop.classList.add('rain-drop');
+                drop.classList.add('rain-line');
                 
-                // Rastgele konum ve hız
+                // Rastgele özellikler
                 drop.style.left = Math.random() * 100 + 'vw';
-                drop.style.animationDuration = Math.random() * 2 + 1 + 's'; // 1-3 saniye arası hız
-                drop.style.animationDelay = Math.random() * 2 + 's';
-                drop.style.height = Math.random() * 50 + 20 + 'px'; // Rastgele uzunluk
+                drop.style.height = Math.random() * 100 + 50 + 'px'; // Uzunluk
+                drop.style.animationDuration = Math.random() * 2 + 1 + 's'; // Hız
+                drop.style.animationDelay = Math.random() * 2 + 's'; // Gecikme
 
                 container.appendChild(drop);
             }
