@@ -1,163 +1,346 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Vector Garden</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <title>ZAYN | Official Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- TEMEL AYARLAR --- */
+        /* --- GENEL AYARLAR & DEĞİŞKENLER --- */
         :root {
-            --off-white: #faf8f0; /* Kırık Beyaz / Krem */
-            --text-dark: #2c2c2c; /* Koyu Antrasit Yazı Rengi */
-            --accent-gold: #cfa158; /* Altın Detay Rengi */
+            --bg-color: #FAF9F6; /* Kırık beyaz / Off-white */
+            --text-color: #333333;
+            --accent-color: #8E7F7F; /* Soluk Gül Kurusu */
+            --gold-color: #D4AF37;
+            --font-main: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--off-white);
-            color: var(--text-dark);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden; /* Yatay kaymayı engelle */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* --- TİPOGRAFİ --- */
-        .brand-font { font-family: 'Cinzel', serif; }
-        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
 
-        /* --- VEKTÖREL ÇİÇEK ALANI --- */
-        #vector-garden-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Tıklamaları engelle */
-            z-index: 0; /* İçeriğin arkasında kalsın */
-            overflow: hidden;
+        /* --- HEADER & NAV --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(250, 249, 246, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .vector-flora {
-            position: absolute;
-            bottom: 0; /* Zemine yapışık */
-            max-height: 85vh; /* Ekranın %85'ine kadar uzasın */
-            width: auto;
-            opacity: 0; /* Başlangıçta gizli */
-            transform-origin: bottom center; /* Büyüme noktası alt taraf */
-            animation: growUp 2s cubic-bezier(0.25, 1, 0.5, 1) forwards; /* Büyüme animasyonu */
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05)); /* Hafif gölge ile derinlik */
-        }
-
-        /* Sol Çiçek Grubu */
-        .flora-left {
-            left: -5%; /* Hafif dışarıdan başlasın */
-            transform-origin: bottom left;
-            animation-delay: 0.2s;
-        }
-
-        /* Sağ Çiçek Grubu */
-        .flora-right {
-            right: -5%; /* Hafif dışarıdan başlasın */
-            transform-origin: bottom right;
-            animation-delay: 0.4s;
-        }
-
-        /* Büyüme Animasyonu */
-        @keyframes growUp {
-            from {
-                opacity: 0;
-                transform: scale(0.8) translateY(100px); /* Küçük ve aşağıda başla */
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0); /* Normal boyuta gel */
-            }
-        }
-
-        /* --- GİRİŞ ANİMASYONU (İçerik İçin) --- */
-        .entry-anim {
-            opacity: 0;
-            animation: fadeUp 1.2s ease-out forwards;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- BUTON --- */
-        .elegant-btn {
-            background: var(--text-dark);
-            color: var(--off-white);
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            letter-spacing: 0.2em;
+        .logo {
+            font-family: var(--font-main);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            padding: 18px 40px;
-            border: 1px solid var(--text-dark);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
         }
-        .elegant-btn:hover {
-            background: transparent;
-            color: var(--text-dark);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .nav-links a:hover { color: var(--accent-color); }
+
+        .etsy-btn-nav {
+            border: 1px solid var(--text-color);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .etsy-btn-nav:hover {
+            background: var(--text-color);
+            color: #fff;
+        }
+
+        /* --- HERO SECTION (Çiçeksi & Modern) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Arkaplan Görseli - Unsplash'ten Moda/Çiçek temalı */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1490750967868-58cb7506a90a?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            opacity: 0.25; /* Çok hafif, zarif görünüm için */
+            z-index: -1;
+            transform: scale(1.1);
+            animation: breathe 10s infinite alternate;
+        }
+
+        @keyframes breathe { from { transform: scale(1.1); } to { transform: scale(1.0); } }
+
+        .hero-content h1 {
+            font-family: var(--font-main);
+            font-size: 5rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        
+        .hero-content h1 span {
+            display: block;
+            font-size: 1.5rem;
+            font-family: var(--font-body);
+            letter-spacing: 5px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: var(--font-body);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border-radius: 50px; /* Hap şeklinde buton */
+        }
+        
+        .hero-btn:hover { background-color: var(--accent-color); transform: translateY(-3px); }
+
+        /* --- PRODUCT SHOWCASE --- */
+        .section { padding: 100px 10%; }
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        .section-title h2 {
+            font-family: var(--font-main);
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .section-title p {
+            color: #666;
+            font-style: italic;
+            font-family: var(--font-main);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: #fff;
+            padding: 20px;
+            transition: 0.4s;
+            opacity: 0; /* JS ile açılacak */
+            transform: translateY(30px);
+        }
+
+        .product-card.visible { opacity: 1; transform: translateY(0); }
+        .product-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+
+        .p-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            filter: grayscale(20%);
+            transition: 0.3s;
+        }
+
+        .product-card:hover .p-image { filter: grayscale(0%); }
+
+        .p-info h3 {
+            font-family: var(--font-main);
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        .p-price {
+            color: var(--accent-color);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .buy-btn:hover { border-color: #000; background: #000; color: #fff; }
+
+        /* --- ABOUT / FLORAL DIVIDER --- */
+        .floral-divider {
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1508610048659-a06b669e3321?q=80&w=2070&auto=format&fit=crop') fixed center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .floral-overlay {
+            background: rgba(255,255,255,0.85);
+            padding: 60px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 60px 50px;
+            text-align: center;
+        }
+        .social-icons { margin-bottom: 30px; }
+        .social-icons a { font-size: 1.5rem; margin: 0 15px; color: #888; }
+        .social-icons a:hover { color: #fff; }
+        .footer-text { font-size: 0.8rem; color: #666; letter-spacing: 1px; }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            header { padding: 20px; }
+            .nav-links { display: none; } /* Basitlik için mobilde gizledim */
+            .hero-content h1 { font-size: 3rem; }
+            .section { padding: 60px 5%; }
         }
     </style>
 </head>
-<body class="flex flex-col h-screen justify-between relative">
+<body>
 
-    <div id="vector-garden-container">
-        <img src="https://www.pngmart.com/files/22/Floral-Vector-PNG-Clipart.png" 
-             class="vector-flora flora-left" alt="Abstract Vector Flowers Left">
-             
-        <img src="https://www.pngmart.com/files/22/Floral-Vector-PNG-Transparent.png" 
-             class="vector-flora flora-right" alt="Abstract Vector Flowers Right">
-    </div>
+    <header>
+        <div class="logo">ZAYN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#koleksiyon">Koleksiyon</a></li>
+                <li><a href="#hikaye">Hikayemiz</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="etsy-btn-nav">Etsy Mağazası</a>
+    </header>
 
-
-    <nav class="fixed top-0 w-full p-8 flex justify-between items-center z-50">
-        <div class="text-[10px] tracking-[0.3em] font-bold text-gray-500 entry-anim" style="animation-delay: 0.5s;">EST. 2025</div>
-        <div class="text-[10px] tracking-[0.2em] font-bold text-gray-500 border border-gray-300 px-3 py-1 rounded-full entry-anim" style="animation-delay: 0.6s;">
-            MODERN ISTANBUL
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1><span>Estetik & Tasarım</span>ZAYN STUDIO</h1>
+            <p style="margin-bottom: 20px; font-weight: 300;">Özel Tasarım Giyim & Yaşam Ürünleri</p>
+            <a href="#" class="hero-btn">Koleksiyonu Keşfet</a>
         </div>
-    </nav>
+    </section>
 
-    <main class="relative z-20 w-full h-full flex flex-col items-center justify-center text-center px-6">
-        
-        <p class="serif-italic text-lg md:text-xl text-[#cfa158] mb-4 entry-anim" style="animation-delay: 0.7s;">
-            Where elegance blooms from the ground up.
-        </p>
-        
-        <div class="relative w-full mb-8">
-            <h1 class="brand-font text-[16vw] md:text-[12vw] leading-none text-[#2c2c2c] tracking-tighter font-black entry-anim" style="animation-delay: 0.8s;">
-                ZAYN
-            </h1>
-        </div>
-
-        <p class="mt-4 text-gray-600 max-w-md text-xs md:text-sm tracking-[0.2em] leading-relaxed font-medium uppercase entry-anim" style="animation-delay: 1s;">
-            A curated collection of modern vector aesthetics.<br>
-            Rooted in style.
-        </p>
-
-        <div class="mt-16 entry-anim" style="animation-delay: 1.2s;">
-            <a href="shop.html" class="elegant-btn inline-block rounded-sm">
-                Enter The Collection
-            </a>
+    <section id="koleksiyon" class="section">
+        <div class="section-title">
+            <h2>Öne Çıkanlar</h2>
+            <p>Sanatın giyilebilir hali. Minimal ve zamansız.</p>
         </div>
 
-    </main>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" alt="Floral Dress" class="p-image">
+                <div class="p-info">
+                    <h3>Floral İpek Elbise</h3>
+                    <span class="p-price">₺2,450.00</span>
+                    <a href="#" class="buy-btn">Etsy'de İncele</a>
+                </div>
+            </div>
 
-    <footer class="fixed bottom-0 w-full p-6 text-center z-50">
-        <p class="text-[9px] text-gray-400 tracking-[0.3em] uppercase">
-            © 2025 ZAYN COLLECTIVE
-        </p>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?q=80&w=1000&auto=format&fit=crop" alt="White Blouse" class="p-image">
+                <div class="p-info">
+                    <h3>Minimalist Keten Bluz</h3>
+                    <span class="p-price">₺1,200.00</span>
+                    <a href="#" class="buy-btn">Etsy'de İncele</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?q=80&w=1000&auto=format&fit=crop" alt="Pattern Skirt" class="p-image">
+                <div class="p-info">
+                    <h3>Modern Desenli Etek</h3>
+                    <span class="p-price">₺1,850.00</span>
+                    <a href="#" class="buy-btn">Etsy'de İncele</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hikaye" class="floral-divider">
+        <div class="floral-overlay">
+            <h2 style="font-family: var(--font-main); font-size: 2.5rem; margin-bottom: 20px;">Tasarımın Ruhu</h2>
+            <p style="font-weight: 300;">
+                Zayn Collective, doğanın zarafetini modern çizgilerle buluşturuyor. 
+                Her bir parça, Etsy mağazamızda sizin için özenle hazırlanıyor. 
+                Sadece bir kıyafet değil, bir yaşam tarzı sunuyoruz.
+            </p>
+        </div>
+    </section>
+
+    <footer id="iletisim">
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-pinterest"></i></a>
+            <a href="#"><i class="fab fa-etsy"></i></a>
+        </div>
+        <p class="footer-text">&copy; 2025 ZAYN COLLECTIVE. Tüm Hakları Saklıdır.</p>
     </footer>
 
     <script>
-        const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+        // Sayfa aşağı kaydırıldıkça ürünlerin efektli gelmesi için
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            observer.observe(card);
+        });
     </script>
+
 </body>
 </html>
