@@ -3,500 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Masterpiece Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <title>ZAYN | Organic Luxury Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
     
     <style>
-        /* --- DÜNYA STANDARDI CSS --- */
         :root {
-            --bg: #FDFBF6;
-            --ink: #1a1a1a;
-            --gold: #Cfb997;
-            --font-display: 'Cinzel Decorative', cursive;
-            --font-body: 'Tenor Sans', sans-serif;
+            --bg-color: #FDFCF8; /* Çok açık krem, kağıt dokusu hissi */
+            --text-main: #1a1a1a; /* Tam siyah değil, antrasit */
+            --gold-accent: #D4AF37; /* Lüks vurgular için */
+            --soft-green: #6B705C;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Standart mouse'u gizle */ }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
-            color: var(--ink);
-            font-family: var(--font-body);
-            overflow-x: hidden;
+            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden; /* Yan taşmaları engelle */
+            height: 100vh;
             width: 100vw;
         }
 
-        /* 1. Lüks Kağıt Dokusu (Noise Effect) */
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.05;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
+        /* --- LOADER (Açılış Efekti) --- */
+        .loader-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            animation: fadeOutLoader 1.5s ease-in-out 2s forwards;
+        }
+        .loader-text {
+            font-family: 'Cinzel', serif; letter-spacing: 5px; font-size: 1.2rem;
+            animation: pulse 1.5s infinite;
         }
 
-        /* 2. Özel İmleç (Senin Halka Görselin) */
-        .cursor-follower {
-            position: fixed;
-            width: 80px; height: 80px;
-            pointer-events: none;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            mix-blend-mode: difference;
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            padding: 30px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
         }
-        
-        .cursor-img {
-            width: 100%; height: 100%;
-            animation: spin 10s linear infinite;
-        }
-
-        /* --- PARALLAX KATMANLARI --- */
-        .parallax-wrapper {
+        .nav-links a {
+            text-decoration: none; color: var(--text-main);
+            margin-left: 30px; font-size: 0.8rem; letter-spacing: 2px;
+            text-transform: uppercase; transition: 0.3s;
             position: relative;
-            height: 100vh;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 1px; background: var(--text-main);
+            transition: 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- MAIN HERO SECTION --- */
+        .hero-section {
+            position: relative; width: 100%; height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* Görsel 7 (Soyut) - En Arkada Dev Gibi */
-        .bg-abstract {
-            position: absolute;
-            width: 60vw;
-            opacity: 0.08;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            transition: transform 0.2s ease-out;
+        /* --- LOGO & TEXT AREA --- */
+        .brand-container {
+            text-align: center; z-index: 10;
+            position: relative;
+            /* Glassmorphism: Arkadaki çiçekler yazıyı bozmasın diye hafif buzlu cam */
+            background: rgba(253, 252, 248, 0.3);
+            backdrop-filter: blur(2px);
+            padding: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 1.5s ease-out 2.2s backwards;
         }
 
-        /* Görsel 2 (Yapraklar) - Önde Uçuşan */
-        .floating-leaves {
-            position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.6;
-            z-index: 1;
-            pointer-events: none;
+        .main-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 6rem; /* Büyük ZAYN yazısı */
+            font-weight: 400;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        /* Z harfinin kuyruğunu biraz uzatmak istersek font yeteneğine bağlı */
+        
+        .tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 8px; /* Çok geniş aralık = Lüks hissiyatı */
+            text-transform: uppercase;
+            border-top: 1px solid var(--text-main);
+            border-bottom: 1px solid var(--text-main);
+            padding: 8px 0;
+            display: inline-block;
+            margin-top: 10px;
         }
 
-        /* Görsel 5 (Sol Üst) */
-        .corner-top {
+        .handwritten-note {
+            font-family: 'Pinyon Script', cursive;
+            color: var(--soft-green);
+            font-size: 1.5rem;
             position: absolute;
-            top: -50px; left: -50px;
-            width: 25vw;
-            z-index: 10;
+            bottom: -40px; right: 0;
+            transform: rotate(-5deg);
+        }
+
+        /* --- CTA BUTTON --- */
+        .btn-discover {
+            margin-top: 50px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--text-main);
+            border-radius: 100px;
+            font-size: 0.8rem; letter-spacing: 3px;
+            text-transform: uppercase; cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative; overflow: hidden;
+            z-index: 11;
+        }
+        .btn-discover:hover {
+            background: var(--text-main);
+            color: #fff;
+            padding: 15px 60px; /* Hoverda uzama efekti */
+        }
+
+        /* --- ORGANIC LAYERS (Çiçekler ve Yapraklar) --- */
+        /* Bu katmanlar fare hareketine göre oynayacak (JS ile) */
+        .layer {
+            position: absolute; pointer-events: none;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* 1. Sol Üst Sarkan */
+        .flower-top-left {
+            top: -50px; left: -50px; width: 30vw;
+            opacity: 0.9; z-index: 5;
+            mix-blend-mode: multiply; /* Arka planla kaynaşır */
+        }
+
+        /* 2. Sağ Alt Ana Çiçek */
+        .flower-bottom-right {
+            bottom: -50px; right: -50px; width: 35vw;
+            z-index: 12; /* Butonun üstüne hafif taşabilir, derinlik katar */
             filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
         }
 
-        /* Görsel 3 (Sağ Alt) */
-        .corner-bottom {
-            position: absolute;
-            bottom: -50px; right: -50px;
-            width: 30vw;
-            z-index: 10;
-            transform: rotate(-10deg);
-        }
-
-        /* Görsel 6 (Yan Dal) - Sol Kenarda Dikey */
-        .side-stem {
-            position: absolute;
-            left: 5%; top: 40%;
-            width: 8vw;
-            opacity: 0.6;
-            mix-blend-mode: multiply;
+        /* 3. Yan Dal (Flu) */
+        .stem-side {
+            top: 40%; left: -5%; width: 15vw;
+            opacity: 0.6; filter: blur(3px); /* Odak dışı hissi */
             z-index: 2;
         }
 
-        /* --- ANA İÇERİK --- */
-        .hero-text {
-            position: relative;
-            z-index: 5;
-            text-align: center;
-            mix-blend-mode: darken;
+        /* 4. Arka Plan Dev Silüet */
+        .bg-abstract {
+            top: 50%; left: 50%; width: 60vw;
+            transform: translate(-50%, -50%);
+            opacity: 0.05; /* Çok silik */
+            z-index: 1;
         }
 
-        .brand-name {
-            font-family: var(--font-display);
-            font-size: 12vw; /* Ekran genişliğine göre büyür */
-            line-height: 0.8;
-            color: var(--ink);
-            letter-spacing: -5px;
-            opacity: 0;
-            animation: fadeUp 1.5s ease forwards 0.5s;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-top: 20px;
-            display: inline-block;
-            border-bottom: 1px solid var(--ink);
-            padding-bottom: 5px;
-            opacity: 0;
-            animation: fadeUp 1.5s ease forwards 1s;
-        }
-
-        .btn-shop {
-            display: block;
-            margin: 50px auto 0;
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 1px solid var(--ink);
-            background: transparent;
-            color: var(--ink);
-            font-family: var(--font-body);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: none; /* Özel cursor kullanıyoruz */
-            transition: 0.4s;
-            line-height: 150px; /* Dikey ortala */
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-shop:hover {
-            background: var(--ink);
-            color: #fff;
-            transform: scale(1.1);
-        }
-
-        /* Görsel 1 (Footer Bahçesi) - Ekranın Altında Başlar */
-        .garden-layer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: auto;
-            z-index: 20;
-            transform: translateY(30%); /* Birazı gizli başlar */
-            transition: transform 0.5s;
+        /* 5. Uçuşan Yapraklar (Ön Plan) */
+        .floating-leaf-1 {
+            top: 20%; right: 20%; width: 5vw;
+            z-index: 15; filter: blur(1px);
         }
         
-        /* --- ANİMASYONLAR --- */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        .floating-leaf-2 {
+            bottom: 30%; left: 15%; width: 4vw;
+            z-index: 4; opacity: 0.7;
         }
 
-        /* Mobil Ayarları */
-        @media (max-width: 768px) {
-            * { cursor: auto; } /* Mobilde özel cursor olmaz */
-            .cursor-follower { display: none; }
-            .brand-name { font-size: 20vw; letter-spacing: -2px; }
-            .corner-top { width: 50vw; }
-            .corner-bottom { width: 60vw; }
-            .side-stem { display: none; }
-            .bg-abstract { width: 90vw; opacity: 0.1; }
+        /* --- ANIMATIONS --- */
+        @keyframes fadeOutLoader {
+            to { opacity: 0; visibility: hidden; }
         }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            50% { opacity: 0.5; }
+        }
+
+        /* Mobil Uyumluluk */
+        @media (max-width: 768px) {
+            .main-logo { font-size: 4rem; }
+            .tagline { font-size: 0.6rem; letter-spacing: 4px; }
+            .flower-top-left { width: 60vw; }
+            .flower-bottom-right { width: 70vw; }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
-
-    <div class="cursor-follower" id="cursor">
-        <img src="ozel-etiket.png" class="cursor-img" alt="Cursor">
+    <div class="loader-overlay">
+        <div class="loader-text">Z A Y N</div>
     </div>
 
-    <div class="parallax-wrapper" id="scene">
+    <nav>
+        <div style="font-family:'Cinzel'; font-weight:600;">ZAYN.</div>
+        <div class="nav-links">
+            <a href="#">Koleksiyon</a>
+            <a href="#">Hikaye</a>
+            <a href="#">İletişim</a>
+        </div>
+    </nav>
+
+    <section class="hero-section" id="scene">
         
-        <img src="orta-soyut.png" class="bg-abstract" data-speed="2" alt="Background">
+        <img src="assets/images/bg-abstract.png" class="layer bg-abstract" data-speed="-2" alt="">
+        <img src="assets/images/stem-side.png" class="layer stem-side" data-speed="2" alt="">
         
-        <img src="yapraklar.png" class="floating-leaves" data-speed="-1" alt="Leaves">
-        
-        <img src="sol-ust.png" class="corner-top" data-speed="4" alt="Corner">
-        <img src="yan-dal.png" class="side-stem" data-speed="1" alt="Stem">
-        
-        <div class="hero-text" data-speed="0">
-            <h1 class="brand-name">ZAYN</h1>
-            <span class="tagline">Organic Luxury Studio</span>
-            <a href="#" class="btn-shop">Keşfet</a>
+        <div class="brand-container">
+            <h1 class="main-logo">ZAYN</h1>
+            <div class="tagline">Organic Luxury Studio</div>
+            <div class="handwritten-note">est. 2025</div>
         </div>
 
-        <img src="sag-alt.png" class="corner-bottom" data-speed="3" alt="Corner">
-        <img src="footer-bahce.png" class="garden-layer" alt="Garden">
+        <button class="btn-discover">Koleksiyonu Keşfet</button>
 
-    </div>
+        <img src="assets/images/corner-top.png" class="layer flower-top-left" data-speed="4" alt="">
+        <img src="assets/images/corner-bottom.png" class="layer flower-bottom-right" data-speed="6" alt="">
+        
+        <img src="assets/images/floating-leaves.png" class="layer floating-leaf-1" data-speed="8" alt="">
+        <img src="assets/images/floating-leaves.png" class="layer floating-leaf-2" data-speed="-4" style="transform: rotate(45deg);" alt="">
+
+    </section>
 
     <script>
-        // 1. Mouse Takip Eden Halka
-        const cursor = document.getElementById('cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Butonun üzerine gelince halka büyüsün
-        const btn = document.querySelector('.btn-shop');
-        btn.addEventListener('mouseenter', () => {
-            cursor.style.transform = "translate(-50%, -50%) scale(2)"; 
-            cursor.style.mixBlendMode = "normal"; 
-        });
-        btn.addEventListener('mouseleave', () => {
-            cursor.style.transform = "translate(-50%, -50%) scale(1)"; 
-            cursor.style.mixBlendMode = "difference";
-        });
-
-        // 2. Parallax Etkisi
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener("mousemove", (e) => {
+            const layers = document.querySelectorAll('.layer');
             const x = (window.innerWidth - e.pageX * 2) / 100;
             const y = (window.innerHeight - e.pageY * 2) / 100;
 
-            document.querySelectorAll('[data-speed]').forEach(layer => {
+            layers.forEach(layer => {
                 const speed = layer.getAttribute('data-speed');
-                const xPos = x * speed;
-                const yPos = y * speed;
-                
-                if(layer.classList.contains('bg-abstract')) {
-                    layer.style.transform = `translate(-50%, -50%) translate(${xPos}px, ${yPos}px)`;
-                } else {
-                    layer.style.transform = `translate(${xPos}px, ${yPos}px)`;
-                }
+                layer.style.transform = `translateX(${x * speed}px) translateY(${y * speed}px)`;
             });
         });
     </script>
-
-</body>
-</html>
-        }
-
-        /* 2. Özel İmleç (Senin Halka Görselin) */
-        .cursor-follower {
-            position: fixed;
-            width: 80px; height: 80px;
-            pointer-events: none;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            mix-blend-mode: difference; /* Renklerin tersini alır, çok havalı durur */
-        }
-        
-        .cursor-img {
-            width: 100%; height: 100%;
-            animation: spin 10s linear infinite;
-        }
-
-        /* --- PARALLAX KATMANLARI --- */
-        .parallax-wrapper {
-            position: relative;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Görsel 7 (Soyut) - En Arkada Dev Gibi */
-        .bg-abstract {
-            position: absolute;
-            width: 60vw;
-            opacity: 0.08;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            transition: transform 0.2s ease-out;
-        }
-
-        /* Görsel 2 (Yapraklar) - Önde Uçuşan */
-        .floating-leaves {
-            position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.6;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Görsel 5 (Sol Üst) */
-        .corner-top {
-            position: absolute;
-            top: -50px; left: -50px;
-            width: 25vw;
-            z-index: 10;
-            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
-        }
-
-        /* Görsel 3 (Sağ Alt) */
-        .corner-bottom {
-            position: absolute;
-            bottom: -50px; right: -50px;
-            width: 30vw;
-            z-index: 10;
-            transform: rotate(-10deg);
-        }
-
-        /* Görsel 6 (Yan Dal) - Sol Kenarda Dikey */
-        .side-stem {
-            position: absolute;
-            left: 5%; top: 40%;
-            width: 8vw;
-            opacity: 0.6;
-            mix-blend-mode: multiply;
-            z-index: 2;
-        }
-
-        /* --- ANA İÇERİK --- */
-        .hero-text {
-            position: relative;
-            z-index: 5;
-            text-align: center;
-            mix-blend-mode: darken;
-        }
-
-        .brand-name {
-            font-family: var(--font-display);
-            font-size: 12vw; /* Ekran genişliğine göre büyür */
-            line-height: 0.8;
-            color: var(--ink);
-            letter-spacing: -5px;
-            opacity: 0;
-            animation: fadeUp 1.5s ease forwards 0.5s;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-top: 20px;
-            display: inline-block;
-            border-bottom: 1px solid var(--ink);
-            padding-bottom: 5px;
-            opacity: 0;
-            animation: fadeUp 1.5s ease forwards 1s;
-        }
-
-        .btn-shop {
-            display: block;
-            margin: 50px auto 0;
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            border: 1px solid var(--ink);
-            background: transparent;
-            color: var(--ink);
-            font-family: var(--font-body);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: none; /* Özel cursor kullanıyoruz */
-            transition: 0.4s;
-            line-height: 150px; /* Dikey ortala */
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-shop:hover {
-            background: var(--ink);
-            color: #fff;
-            transform: scale(1.1);
-        }
-
-        /* Görsel 1 (Footer Bahçesi) - Ekranın Altında Başlar */
-        .garden-layer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: auto;
-            z-index: 20;
-            transform: translateY(30%); /* Birazı gizli başlar */
-            transition: transform 0.5s;
-        }
-        
-        /* --- ANİMASYONLAR --- */
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Mobil Ayarları */
-        @media (max-width: 768px) {
-            * { cursor: auto; } /* Mobilde özel cursor olmaz */
-            .cursor-follower { display: none; }
-            .brand-name { font-size: 20vw; letter-spacing: -2px; }
-            .corner-top { width: 50vw; }
-            .corner-bottom { width: 60vw; }
-            .side-stem { display: none; }
-            .bg-abstract { width: 90vw; opacity: 0.1; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="noise-overlay"></div>
-
-    <div class="cursor-follower" id="cursor">
-        <img src="assets/ozel-etiket.png" class="cursor-img" alt="Cursor">
-    </div>
-
-    <div class="parallax-wrapper" id="scene">
-        
-        <img src="assets/orta-soyut.png" class="bg-abstract" data-speed="2" alt="Background">
-        
-        <img src="assets/yapraklar.png" class="floating-leaves" data-speed="-1" alt="Leaves">
-        
-        <img src="assets/sol-ust.png" class="corner-top" data-speed="4" alt="Corner">
-        <img src="assets/yan-dal.png" class="side-stem" data-speed="1" alt="Stem">
-        
-        <div class="hero-text" data-speed="0">
-            <h1 class="brand-name">ZAYN</h1>
-            <span class="tagline">Organic Luxury Studio</span>
-            <a href="#" class="btn-shop">Keşfet</a>
-        </div>
-
-        <img src="assets/sag-alt.png" class="corner-bottom" data-speed="3" alt="Corner">
-        <img src="assets/footer-bahce.png" class="garden-layer" alt="Garden">
-
-    </div>
-
-    <script>
-        // 1. Mouse Takip Eden Halka
-        const cursor = document.getElementById('cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            // Halka mouse'un tam ortasında olsun
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Butonun üzerine gelince halka büyüsün
-        const btn = document.querySelector('.btn-shop');
-        btn.addEventListener('mouseenter', () => {
-            cursor.style.transform = "translate(-50%, -50%) scale(2)"; // Büyüt
-            cursor.style.mixBlendMode = "normal"; // Rengi düzelt
-        });
-        btn.addEventListener('mouseleave', () => {
-            cursor.style.transform = "translate(-50%, -50%) scale(1)"; // Normale dön
-            cursor.style.mixBlendMode = "difference";
-        });
-
-
-        // 2. Parallax Etkisi (Mouse hareketine göre derinlik)
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth - e.pageX * 2) / 100;
-            const y = (window.innerHeight - e.pageY * 2) / 100;
-
-            // Her elementin 'data-speed' değerine göre farklı hızda hareket etmesini sağla
-            document.querySelectorAll('[data-speed]').forEach(layer => {
-                const speed = layer.getAttribute('data-speed');
-                const xPos = x * speed;
-                const yPos = y * speed;
-                
-                // Mevcut stilleri bozmadan transform ekle
-                if(layer.classList.contains('bg-abstract')) {
-                    layer.style.transform = `translate(-50%, -50%) translate(${xPos}px, ${yPos}px)`;
-                } else {
-                    layer.style.transform = `translate(${xPos}px, ${yPos}px)`;
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>
