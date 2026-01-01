@@ -3,247 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Organic Luxury Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <title>ZAYN | Ruhuna Dokunan Zarafet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #FDFCF8; /* Çok açık krem, kağıt dokusu hissi */
-            --text-main: #1a1a1a; /* Tam siyah değil, antrasit */
-            --gold-accent: #D4AF37; /* Lüks vurgular için */
-            --soft-green: #6B705C;
+            --bg-color: #FDFCF8; 
+            --text-main: #2c2c2c; 
+            --accent-gold: #C5A059;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Standart mouse'u gizle */ }
 
         body {
             background-color: var(--bg-color);
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
             color: var(--text-main);
-            overflow-x: hidden; /* Yan taşmaları engelle */
+            overflow: hidden;
             height: 100vh;
-            width: 100vw;
         }
 
-        /* --- LOADER (Açılış Efekti) --- */
-        .loader-overlay {
+        /* --- SİHİRLİ İMLEÇ (AURA) --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: var(--text-main);
+        }
+        .cursor-outline {
+            width: 50px; height: 50px;
+            border: 1px solid rgba(44, 44, 44, 0.2);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            background: rgba(197, 160, 89, 0.1); /* Hafif altın rengi dolgu */
+            filter: blur(2px);
+        }
+
+        /* --- DUYGUSAL AÇILIŞ --- */
+        .intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-            animation: fadeOutLoader 1.5s ease-in-out 2s forwards;
-        }
-        .loader-text {
-            font-family: 'Cinzel', serif; letter-spacing: 5px; font-size: 1.2rem;
-            animation: pulse 1.5s infinite;
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%;
-            padding: 30px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100;
-        }
-        .nav-links a {
-            text-decoration: none; color: var(--text-main);
-            margin-left: 30px; font-size: 0.8rem; letter-spacing: 2px;
-            text-transform: uppercase; transition: 0.3s;
-            position: relative;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0;
-            width: 0; height: 1px; background: var(--text-main);
-            transition: 0.3s;
-        }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* --- MAIN HERO SECTION --- */
-        .hero-section {
-            position: relative; width: 100%; height: 100vh;
+            background: #fff; z-index: 1000;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            overflow: hidden;
+            animation: curtainUp 2s ease-in-out 3.5s forwards;
+        }
+        .intro-text {
+            font-family: 'Pinyon Script', cursive; font-size: 2rem;
+            color: var(--text-main); opacity: 0;
+            animation: fadeInText 3s ease-in-out forwards;
         }
 
-        /* --- LOGO & TEXT AREA --- */
-        .brand-container {
-            text-align: center; z-index: 10;
+        /* --- ANA SAHNE --- */
+        .hero {
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             position: relative;
-            /* Glassmorphism: Arkadaki çiçekler yazıyı bozmasın diye hafif buzlu cam */
-            background: rgba(253, 252, 248, 0.3);
-            backdrop-filter: blur(2px);
-            padding: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: fadeInUp 1.5s ease-out 2.2s backwards;
         }
 
-        .main-logo {
-            font-family: 'Cinzel', serif;
-            font-size: 6rem; /* Büyük ZAYN yazısı */
-            font-weight: 400;
-            letter-spacing: -2px;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-        /* Z harfinin kuyruğunu biraz uzatmak istersek font yeteneğine bağlı */
-        
-        .tagline {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 8px; /* Çok geniş aralık = Lüks hissiyatı */
-            text-transform: uppercase;
-            border-top: 1px solid var(--text-main);
-            border-bottom: 1px solid var(--text-main);
-            padding: 8px 0;
-            display: inline-block;
-            margin-top: 10px;
+        /* Logo ve Başlık */
+        .center-piece {
+            text-align: center; z-index: 10;
+            animation: breathe 6s infinite ease-in-out; /* Nefes alma efekti */
         }
 
-        .handwritten-note {
-            font-family: 'Pinyon Script', cursive;
-            color: var(--soft-green);
-            font-size: 1.5rem;
-            position: absolute;
-            bottom: -40px; right: 0;
-            transform: rotate(-5deg);
+        .brand-name {
+            font-family: 'Cinzel', serif; font-size: 5.5rem;
+            letter-spacing: 10px; margin-bottom: 10px;
+            color: #1a1a1a;
         }
 
-        /* --- CTA BUTTON --- */
-        .btn-discover {
-            margin-top: 50px;
-            padding: 15px 40px;
-            background: transparent;
-            border: 1px solid var(--text-main);
-            border-radius: 100px;
-            font-size: 0.8rem; letter-spacing: 3px;
-            text-transform: uppercase; cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative; overflow: hidden;
-            z-index: 11;
+        .soul-message {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem; letter-spacing: 1px; font-style: italic;
+            color: #555; margin-top: 15px;
+            position: relative; display: inline-block;
         }
-        .btn-discover:hover {
-            background: var(--text-main);
-            color: #fff;
-            padding: 15px 60px; /* Hoverda uzama efekti */
+        .soul-message::before, .soul-message::after {
+            content: ''; position: absolute; top: 50%; width: 30px; height: 1px; background: #ddd;
+        }
+        .soul-message::before { left: -40px; }
+        .soul-message::after { right: -40px; }
+
+        /* Buton: Sert çizgiler yerine yumuşak geçiş */
+        .btn-soul {
+            margin-top: 50px; padding: 15px 45px;
+            background: transparent; border: 1px solid rgba(44,44,44,0.3);
+            border-radius: 50px;
+            font-family: 'Cinzel', serif; font-size: 0.9rem;
+            transition: 0.5s; position: relative; overflow: hidden;
+        }
+        .btn-soul:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+            transform: scale(1.05);
         }
 
-        /* --- ORGANIC LAYERS (Çiçekler ve Yapraklar) --- */
-        /* Bu katmanlar fare hareketine göre oynayacak (JS ile) */
+        /* --- ATMOSFER KATMANLARI --- */
         .layer {
             position: absolute; pointer-events: none;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.2s ease-out; /* Yumuşak takip */
         }
 
-        /* 1. Sol Üst Sarkan */
-        .flower-top-left {
-            top: -50px; left: -50px; width: 30vw;
-            opacity: 0.9; z-index: 5;
-            mix-blend-mode: multiply; /* Arka planla kaynaşır */
+        .flower-corner {
+            width: 35vw; opacity: 0.85; z-index: 5;
+            filter: contrast(0.9) brightness(1.1); /* Daha yumuşak tonlar */
+        }
+        .top-left { top: -60px; left: -60px; }
+        .bottom-right { bottom: -60px; right: -60px; }
+
+        .blur-stem {
+            position: absolute; left: -5%; top: 30%;
+            width: 15vw; filter: blur(4px); opacity: 0.6;
+            animation: float 8s infinite ease-in-out;
         }
 
-        /* 2. Sağ Alt Ana Çiçek */
-        .flower-bottom-right {
-            bottom: -50px; right: -50px; width: 35vw;
-            z-index: 12; /* Butonun üstüne hafif taşabilir, derinlik katar */
-            filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
+        /* --- ANİMASYONLAR --- */
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(20px); }
+            50% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
         }
-
-        /* 3. Yan Dal (Flu) */
-        .stem-side {
-            top: 40%; left: -5%; width: 15vw;
-            opacity: 0.6; filter: blur(3px); /* Odak dışı hissi */
-            z-index: 2;
-        }
-
-        /* 4. Arka Plan Dev Silüet */
-        .bg-abstract {
-            top: 50%; left: 50%; width: 60vw;
-            transform: translate(-50%, -50%);
-            opacity: 0.05; /* Çok silik */
-            z-index: 1;
-        }
-
-        /* 5. Uçuşan Yapraklar (Ön Plan) */
-        .floating-leaf-1 {
-            top: 20%; right: 20%; width: 5vw;
-            z-index: 15; filter: blur(1px);
-        }
-        
-        .floating-leaf-2 {
-            bottom: 30%; left: 15%; width: 4vw;
-            z-index: 4; opacity: 0.7;
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes fadeOutLoader {
+        @keyframes curtainUp {
             to { opacity: 0; visibility: hidden; }
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); } /* Çok hafif büyüme */
         }
-        @keyframes pulse {
-            50% { opacity: 0.5; }
-        }
-
-        /* Mobil Uyumluluk */
-        @media (max-width: 768px) {
-            .main-logo { font-size: 4rem; }
-            .tagline { font-size: 0.6rem; letter-spacing: 4px; }
-            .flower-top-left { width: 60vw; }
-            .flower-bottom-right { width: 70vw; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
 
+        /* Mobil */
+        @media(max-width: 768px) {
+            .brand-name { font-size: 3rem; }
+            .soul-message { font-size: 1rem; }
+            .flower-corner { width: 60vw; }
+            * { cursor: auto; } /* Mobilde özel cursor kapat */
+            .cursor-dot, .cursor-outline { display: none; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="loader-overlay">
-        <div class="loader-text">Z A Y N</div>
+    <div class="intro-overlay">
+        <div class="intro-text">"Doğa, ruhun sessizce konuştuğu yerdir..."</div>
     </div>
 
-    <nav>
-        <div style="font-family:'Cinzel'; font-weight:600;">ZAYN.</div>
-        <div class="nav-links">
-            <a href="#">Koleksiyon</a>
-            <a href="#">Hikaye</a>
-            <a href="#">İletişim</a>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <section class="hero">
+        
+        <img src="assets/images/corner-top.png" class="layer flower-corner top-left" data-speed="2" alt="">
+        <img src="assets/images/corner-bottom.png" class="layer flower-corner bottom-right" data-speed="4" alt="">
+        <img src="assets/images/stem-side.png" class="layer blur-stem" alt="">
+
+        <div class="center-piece">
+            <h1 class="brand-name">ZAYN</h1>
+            <div class="soul-message">Sadece giymek için değil, hissetmek için.</div>
+            <br>
+            <button class="btn-soul" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Hikayeni Başlat</button>
         </div>
-    </nav>
-
-    <section class="hero-section" id="scene">
-        
-        <img src="assets/images/bg-abstract.png" class="layer bg-abstract" data-speed="-2" alt="">
-        <img src="assets/images/stem-side.png" class="layer stem-side" data-speed="2" alt="">
-        
-        <div class="brand-container">
-            <h1 class="main-logo">ZAYN</h1>
-            <div class="tagline">Organic Luxury Studio</div>
-            <div class="handwritten-note">est. 2025</div>
-        </div>
-
-        <button class="btn-discover">Koleksiyonu Keşfet</button>
-
-        <img src="assets/images/corner-top.png" class="layer flower-top-left" data-speed="4" alt="">
-        <img src="assets/images/corner-bottom.png" class="layer flower-bottom-right" data-speed="6" alt="">
-        
-        <img src="assets/images/floating-leaves.png" class="layer floating-leaf-1" data-speed="8" alt="">
-        <img src="assets/images/floating-leaves.png" class="layer floating-leaf-2" data-speed="-4" style="transform: rotate(45deg);" alt="">
 
     </section>
 
     <script>
-        document.addEventListener("mousemove", (e) => {
-            const layers = document.querySelectorAll('.layer');
-            const x = (window.innerWidth - e.pageX * 2) / 100;
-            const y = (window.innerHeight - e.pageY * 2) / 100;
+        // Mouse Takip Eden Aura
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
 
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Nokta anında gelir
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Halka biraz geriden yumuşak gelir
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+
+            // Parallax (Çiçeklerin Hareketi)
+            const layers = document.querySelectorAll('.layer');
             layers.forEach(layer => {
                 const speed = layer.getAttribute('data-speed');
-                layer.style.transform = `translateX(${x * speed}px) translateY(${y * speed}px)`;
+                if(speed) {
+                    const x = (window.innerWidth - posX * speed) / 100;
+                    const y = (window.innerHeight - posY * speed) / 100;
+                    layer.style.transform = `translateX(${x}px) translateY(${y}px)`;
+                }
             });
         });
+
+        // Butonun üzerine gelince cursor büyüsün
+        function expandCursor() {
+            cursorOutline.style.width = "80px";
+            cursorOutline.style.height = "80px";
+            cursorOutline.style.backgroundColor = "rgba(197, 160, 89, 0.2)";
+        }
+        function shrinkCursor() {
+            cursorOutline.style.width = "50px";
+            cursorOutline.style.height = "50px";
+            cursorOutline.style.backgroundColor = "rgba(197, 160, 89, 0.1)";
+        }
     </script>
 </body>
 </html>
