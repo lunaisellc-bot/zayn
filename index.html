@@ -1,221 +1,213 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZAYN | Ruhuna Dokunan Zarafet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <title>ZAYN | Abstract Botanical Atelier</title>
+    <meta name="description" content="Quiet luxury editorial fashion featuring abstract botanical prints. Shop the ZAYN collection securely via Etsy.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'zayn-bone': '#F9F8F6',
+                        'zayn-ink': '#1C1C1E',
+                        'zayn-sage': '#8E9189',
+                        'zayn-rose': '#C4AFA5',
+                        'zayn-gold': '#D4AF37',
+                    },
+                    fontFamily: {
+                        'serif': ['Cinzel', 'serif'],
+                        'sans': ['Lato', 'sans-serif'],
+                    },
+                    animation: {
+                        'drift': 'drift 25s ease-in-out infinite alternate',
+                        'fade-in': 'fadeIn 1.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        drift: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '100%': { backgroundPosition: '100% 50%' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #FDFCF8; 
-            --text-main: #2c2c2c; 
-            --accent-gold: #C5A059;
+        /* The Ambient Light & Texture Logic */
+        .ambient-bg {
+            background: linear-gradient(-45deg, #F9F8F6, #F2EFE9, #EBECE8, #F9F8F6);
+            background-size: 400% 400%;
+            animation: drift 25s ease-in-out infinite;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Standart mouse'u gizle */ }
-
-        body {
-            background-color: var(--bg-color);
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--text-main);
-            overflow: hidden;
-            height: 100vh;
-        }
-
-        /* --- SİHİRLİ İMLEÇ (AURA) --- */
-        .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            pointer-events: none; z-index: 9999;
-        }
-        .cursor-dot {
-            width: 8px; height: 8px; background-color: var(--text-main);
-        }
-        .cursor-outline {
-            width: 50px; height: 50px;
-            border: 1px solid rgba(44, 44, 44, 0.2);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            background: rgba(197, 160, 89, 0.1); /* Hafif altın rengi dolgu */
-            filter: blur(2px);
-        }
-
-        /* --- DUYGUSAL AÇILIŞ --- */
-        .intro-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 1000;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            animation: curtainUp 2s ease-in-out 3.5s forwards;
-        }
-        .intro-text {
-            font-family: 'Pinyon Script', cursive; font-size: 2rem;
-            color: var(--text-main); opacity: 0;
-            animation: fadeInText 3s ease-in-out forwards;
-        }
-
-        /* --- ANA SAHNE --- */
-        .hero {
-            height: 100vh; width: 100%;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            position: relative;
-        }
-
-        /* Logo ve Başlık */
-        .center-piece {
-            text-align: center; z-index: 10;
-            animation: breathe 6s infinite ease-in-out; /* Nefes alma efekti */
-        }
-
-        .brand-name {
-            font-family: 'Cinzel', serif; font-size: 5.5rem;
-            letter-spacing: 10px; margin-bottom: 10px;
-            color: #1a1a1a;
-        }
-
-        .soul-message {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem; letter-spacing: 1px; font-style: italic;
-            color: #555; margin-top: 15px;
-            position: relative; display: inline-block;
-        }
-        .soul-message::before, .soul-message::after {
-            content: ''; position: absolute; top: 50%; width: 30px; height: 1px; background: #ddd;
-        }
-        .soul-message::before { left: -40px; }
-        .soul-message::after { right: -40px; }
-
-        /* Buton: Sert çizgiler yerine yumuşak geçiş */
-        .btn-soul {
-            margin-top: 50px; padding: 15px 45px;
-            background: transparent; border: 1px solid rgba(44,44,44,0.3);
-            border-radius: 50px;
-            font-family: 'Cinzel', serif; font-size: 0.9rem;
-            transition: 0.5s; position: relative; overflow: hidden;
-        }
-        .btn-soul:hover {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* --- ATMOSFER KATMANLARI --- */
-        .layer {
-            position: absolute; pointer-events: none;
-            transition: transform 0.2s ease-out; /* Yumuşak takip */
-        }
-
-        .flower-corner {
-            width: 35vw; opacity: 0.85; z-index: 5;
-            filter: contrast(0.9) brightness(1.1); /* Daha yumuşak tonlar */
-        }
-        .top-left { top: -60px; left: -60px; }
-        .bottom-right { bottom: -60px; right: -60px; }
-
-        .blur-stem {
-            position: absolute; left: -5%; top: 30%;
-            width: 15vw; filter: blur(4px); opacity: 0.6;
-            animation: float 8s infinite ease-in-out;
-        }
-
-        /* --- ANİMASYONLAR --- */
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateY(20px); }
-            50% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-20px); }
-        }
-        @keyframes curtainUp {
-            to { opacity: 0; visibility: hidden; }
-        }
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); } /* Çok hafif büyüme */
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Mobil */
-        @media(max-width: 768px) {
-            .brand-name { font-size: 3rem; }
-            .soul-message { font-size: 1rem; }
-            .flower-corner { width: 60vw; }
-            * { cursor: auto; } /* Mobilde özel cursor kapat */
-            .cursor-dot, .cursor-outline { display: none; }
+        .floral-texture {
+            background-image: url('path-to-large-grayscale-flower.webp'); 
+            /* Use a very large, soft, desaturated flower image here */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05; /* VERY LOW OPACITY - Texture only */
+            mix-blend-mode: multiply;
+            pointer-events: none;
         }
     </style>
 </head>
-<body>
+<body class="bg-zayn-bone text-zayn-ink font-sans antialiased overflow-x-hidden">
 
-    <div class="intro-overlay">
-        <div class="intro-text">"Doğa, ruhun sessizce konuştuğu yerdir..."</div>
-    </div>
+    <nav class="fixed w-full z-50 top-0 py-6 px-8 flex justify-between items-center mix-blend-multiply">
+        <div class="text-xs tracking-[0.3em] font-bold uppercase">ZAYN Atelier</div>
+        <div class="hidden md:flex gap-8 text-xs tracking-widest uppercase">
+            <a href="#collection" class="hover:text-zayn-sage transition duration-500">Collection</a>
+            <a href="#journal" class="hover:text-zayn-sage transition duration-500">Journal</a>
+            <a href="#about" class="hover:text-zayn-sage transition duration-500">About</a>
+        </div>
+        <a href="https://etsy.com/shop/yourshopname" class="text-xs font-bold border-b border-zayn-ink pb-1 hover:text-zayn-sage hover:border-zayn-sage transition duration-300">
+            Etsy Shop
+        </a>
+    </nav>
 
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
-
-    <section class="hero">
+    <header class="relative h-screen w-full flex items-center justify-center overflow-hidden ambient-bg">
+        <div class="absolute inset-0 floral-texture"></div>
         
-        <img src="assets/images/corner-top.png" class="layer flower-corner top-left" data-speed="2" alt="">
-        <img src="assets/images/corner-bottom.png" class="layer flower-corner bottom-right" data-speed="4" alt="">
-        <img src="assets/images/stem-side.png" class="layer blur-stem" alt="">
+        <div class="relative z-10 text-center px-4 animate-fade-in">
+            <p class="text-zayn-sage text-xs tracking-[0.4em] uppercase mb-6">Abstract Botanical Atelier</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl mb-8 leading-tight text-zayn-ink">
+                The Art of <br> <span class="italic text-zayn-sage/80">Botanical Silence</span>
+            </h1>
+            <p class="max-w-md mx-auto text-sm md:text-base font-light leading-relaxed mb-10 text-gray-600">
+                Curated floral abstractions for the modern wardrobe. <br>Designed in the studio, secured by Etsy.
+            </p>
+            <div class="flex flex-col items-center gap-4">
+                <a href="https://etsy.com/shop/yourshopname" class="bg-zayn-ink text-zayn-bone px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-gray-800 transition duration-500">
+                    Shop The Collection
+                </a>
+                <a href="#prints" class="text-xs tracking-widest border-b border-transparent hover:border-zayn-ink transition duration-300 pb-1 mt-2">
+                    Explore the Prints
+                </a>
+            </div>
+        </div>
+    </header>
 
-        <div class="center-piece">
-            <h1 class="brand-name">ZAYN</h1>
-            <div class="soul-message">Sadece giymek için değil, hissetmek için.</div>
-            <br>
-            <button class="btn-soul" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Hikayeni Başlat</button>
+    <section id="prints" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-3xl md:text-4xl italic mb-2">Narrative Threads</h2>
+            <div class="w-12 h-[1px] bg-zayn-gold mx-auto"></div>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
+            <div class="group cursor-pointer">
+                <div class="h-[500px] overflow-hidden bg-gray-200 relative mb-6">
+                    <img src="https://images.unsplash.com/photo-1490750967868-58cb75069ed6?q=80&w=800&auto=format&fit=crop" 
+                         alt="Midnight Garden Dark Floral Print" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000 transform group-hover:scale-105 opacity-90">
+                </div>
+                <h3 class="font-serif text-xl mb-2">The Midnight Garden</h3>
+                <p class="text-xs tracking-wide text-gray-500 mb-3">Deep hues and shadow play.</p>
+                <span class="text-[10px] uppercase tracking-[0.2em] border-b border-gray-300 group-hover:border-zayn-ink transition duration-300">View Series</span>
+            </div>
+
+            <div class="group cursor-pointer md:mt-12"> <div class="h-[500px] overflow-hidden bg-gray-200 relative mb-6">
+                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" 
+                         alt="Geometric Bloom Abstract Print" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000 transform group-hover:scale-105 opacity-90">
+                </div>
+                <h3 class="font-serif text-xl mb-2">Geometric Bloom</h3>
+                <p class="text-xs tracking-wide text-gray-500 mb-3">Structure meets organic chaos.</p>
+                <span class="text-[10px] uppercase tracking-[0.2em] border-b border-gray-300 group-hover:border-zayn-ink transition duration-300">View Series</span>
+            </div>
+
+            <div class="group cursor-pointer">
+                <div class="h-[500px] overflow-hidden bg-gray-200 relative mb-6">
+                    <img src="https://images.unsplash.com/photo-1576014131795-d44019926d2e?q=80&w=800&auto=format&fit=crop" 
+                         alt="Ethereal Wash Watercolor Print" 
+                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-1000 transform group-hover:scale-105 opacity-90">
+                </div>
+                <h3 class="font-serif text-xl mb-2">Ethereal Wash</h3>
+                <p class="text-xs tracking-wide text-gray-500 mb-3">Watercolor whispers on fabric.</p>
+                <span class="text-[10px] uppercase tracking-[0.2em] border-b border-gray-300 group-hover:border-zayn-ink transition duration-300">View Series</span>
+            </div>
+        </div>
     </section>
 
-    <script>
-        // Mouse Takip Eden Aura
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorOutline = document.getElementById("cursor-outline");
+    <section class="bg-[#F2EFE9] py-20 px-6">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="font-serif text-3xl mb-6">Quiet Luxury, <br>Loud Expression.</h2>
+                <p class="text-sm font-light leading-7 text-gray-600 mb-8">
+                    We do not follow micro-trends. ZAYN translates botanical forms into wearable modern art. Crafted on premium fabrics that drape, breathe, and endure.
+                </p>
+                <div class="grid grid-cols-3 gap-4 border-t border-gray-300 pt-8">
+                    <div>
+                        <span class="block text-2xl font-serif mb-1">01</span>
+                        <span class="text-[10px] uppercase tracking-widest">Select</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-serif mb-1">02</span>
+                        <span class="text-[10px] uppercase tracking-widest">Secure (Etsy)</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-serif mb-1">03</span>
+                        <span class="text-[10px] uppercase tracking-widest">Create</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-[400px] bg-white p-8 flex items-center justify-center text-center shadow-lg shadow-gray-200/50">
+                <div>
+                    <i class="text-3xl text-zayn-gold mb-4 serif italic">"</i>
+                    <p class="font-serif text-xl italic mb-6">
+                        The fabric feels like a second skin, and the print is even more stunning in person. It feels like wearing a painting.
+                    </p>
+                    <p class="text-xs font-bold uppercase tracking-widest">— Sarah J., New York</p>
+                    <div class="mt-8 flex justify-center gap-1">
+                        <span class="text-zayn-gold">★</span><span class="text-zayn-gold">★</span><span class="text-zayn-gold">★</span><span class="text-zayn-gold">★</span><span class="text-zayn-gold">★</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-2 uppercase">Verified Etsy Review</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        window.addEventListener("mousemove", function (e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
+    <section id="journal" class="py-24 px-6 max-w-6xl mx-auto">
+        <div class="flex justify-between items-end mb-12">
+            <h2 class="font-serif text-3xl">The Journal</h2>
+            <a href="#" class="text-xs uppercase tracking-widest border-b border-gray-300 hover:border-zayn-ink pb-1">Read All</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <article class="group cursor-pointer">
+                <div class="h-64 bg-gray-100 mb-6 overflow-hidden">
+                     <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="text-[10px] text-zayn-sage uppercase tracking-widest mb-2">Style Guide</div>
+                <h3 class="font-serif text-xl group-hover:text-gray-600 transition">How to Style Abstract Florals in Winter</h3>
+            </article>
+            <article class="group cursor-pointer">
+                <div class="h-64 bg-gray-100 mb-6 overflow-hidden">
+                     <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                </div>
+                <div class="text-[10px] text-zayn-sage uppercase tracking-widest mb-2">Philosophy</div>
+                <h3 class="font-serif text-xl group-hover:text-gray-600 transition">Why "Quiet Luxury" is More Than a Trend</h3>
+            </article>
+        </div>
+    </section>
 
-            // Nokta anında gelir
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
+    <footer class="bg-zayn-ink text-zayn-bone py-16 px-6 text-center">
+        <h2 class="font-serif text-3xl md:text-5xl mb-8">Elevate Your Everyday.</h2>
+        <a href="https://etsy.com/shop/yourshopname" class="inline-block border border-zayn-bone px-10 py-4 text-xs tracking-[0.2em] uppercase hover:bg-zayn-bone hover:text-zayn-ink transition duration-500">
+            Shop ZAYN on Etsy
+        </a>
+        <div class="mt-16 text-[10px] text-gray-500 uppercase tracking-widest flex flex-col md:flex-row justify-center gap-6">
+            <span>© 2026 ZAYN Atelier</span>
+            <span>Secured by Etsy</span>
+            <span>Worldwide Shipping</span>
+        </div>
+    </footer>
 
-            // Halka biraz geriden yumuşak gelir
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-
-            // Parallax (Çiçeklerin Hareketi)
-            const layers = document.querySelectorAll('.layer');
-            layers.forEach(layer => {
-                const speed = layer.getAttribute('data-speed');
-                if(speed) {
-                    const x = (window.innerWidth - posX * speed) / 100;
-                    const y = (window.innerHeight - posY * speed) / 100;
-                    layer.style.transform = `translateX(${x}px) translateY(${y}px)`;
-                }
-            });
-        });
-
-        // Butonun üzerine gelince cursor büyüsün
-        function expandCursor() {
-            cursorOutline.style.width = "80px";
-            cursorOutline.style.height = "80px";
-            cursorOutline.style.backgroundColor = "rgba(197, 160, 89, 0.2)";
-        }
-        function shrinkCursor() {
-            cursorOutline.style.width = "50px";
-            cursorOutline.style.height = "50px";
-            cursorOutline.style.backgroundColor = "rgba(197, 160, 89, 0.1)";
-        }
-    </script>
 </body>
 </html>
