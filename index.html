@@ -5,50 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>ZAYN | Vintage Floral & Bohemian Soul</title>
-  <meta name="description" content="Sanat ve modanın buluştuğu vintage çiçek desenli koleksiyonlar. Etsy üzerinden güvenli alışveriş ve global gönderim.">
-  <meta name="author" content="Zayn Collective">
-  
-  <meta property="og:title" content="ZAYN | Vintage Floral & Bohemian Soul">
-  <meta property="og:description" content="Sanat ve modanın buluştuğu vintage çiçek desenli koleksiyonlar.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://zaynbrand.com/">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200">
-
-  <link rel="canonical" href="https://zaynbrand.com/">
-  <link rel="icon" href="assets/favicon.ico" />
+  <meta name="description" content="Sanat ve modanın buluştuğu vintage çiçek desenli koleksiyonlar.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Monsieur+La+Doulaise&family=Inter:wght@300;400&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
             serif: ['Cormorant Garamond', 'serif'],
-            script: ['Pinyon Script', 'cursive'],
+            display: ['Cinzel Decorative', 'serif'], /* Barok Başlıklar için */
+            script: ['Monsieur La Doulaise', 'cursive'], /* Çok eski el yazısı */
             sans: ['Inter', 'sans-serif']
           },
           colors: {
-            'ink': '#3E2F28',       /* Koyu Kahve/Mürekkep */
-            'paper': '#F5F1E6',     /* Eski Kağıt */
-            'rose': '#C29591',      /* Tozlu Gül */
-            'olive': '#8A9A5B',     /* Zeytin */
-            'gold': '#B89B5E'       /* Eski Altın */
+            'ink': '#2C1A1D',       /* Çok koyu bordo-siyah */
+            'paper': '#F0E6D2',     /* Daha koyu, yaşanmış kağıt */
+            'rose': '#B06E6E',      /* Kurumuş gül rengi */
+            'olive': '#6B705C',     /* Solgun yeşil */
+            'gold': '#C5A065'       /* Antik altın */
           },
           animation: {
-            'fade-slow': 'fadeIn 1.5s ease-out forwards',
-            'float': 'float 6s ease-in-out infinite'
+            'float': 'float 8s ease-in-out infinite'
           },
           keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0', transform: 'translateY(20px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
             float: {
               '0%, 100%': { transform: 'translateY(0)' },
               '50%': { transform: 'translateY(-10px)' }
@@ -60,418 +46,380 @@
   </script>
 
   <style>
-    /* --- TEXTURES & BACKGROUNDS --- */
+    /* --- VINTAGE ATMOSFER --- */
     body {
-      background-color: #F5F1E6;
-      /* Layered Textures: Floral overlay (subtle) + Aged Paper */
-      background-image: 
-        url('assets/textures/floral-damask.png'), /* Local Fallback 1 */
-        url('assets/textures/aged-paper.png'),   /* Local Fallback 2 */
-        url('https://www.transparenttextures.com/patterns/aged-paper.png'); /* Remote Fallback */
-      background-repeat: repeat;
-      background-blend-mode: multiply, normal, normal;
+      background-color: #F0E6D2;
+      /* Eski kağıt dokusu + Hafif kirli overlay */
+      background-image: url('https://www.transparenttextures.com/patterns/dust.png'), url('https://www.transparenttextures.com/patterns/aged-paper.png');
+      background-blend-mode: multiply;
+      color: #2C1A1D;
     }
 
-    /* Baroque Pattern Overlay (CSS SVG) */
-    .baroque-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      opacity: 0.04;
+    /* DEKORATİF BOTANİK GÖRSELLER (CSS ile yerleşim) */
+    .botanical-corner-tl {
+      position: absolute;
+      top: 0; left: 0;
+      width: 300px;
+      opacity: 0.15;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233E2F28' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      transform: rotate(0deg);
+      z-index: 0;
+    }
+    .botanical-corner-br {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 400px;
+      opacity: 0.15;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      transform: rotate(180deg);
+      z-index: 0;
     }
 
-    /* --- SCRAPBOOK UI ELEMENTS --- */
-
-    /* Torn Edge Button */
-    .btn-scrapbook {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 40px;
-      background: #C29591;
-      color: #F5F1E6;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      border: none;
-      /* CSS Clip Path for torn paper effect */
-      clip-path: polygon(0% 0%, 100% 2%, 98% 100%, 2% 95%);
-      transition: all 0.3s ease;
-      box-shadow: 5px 5px 0px rgba(62, 47, 40, 0.15);
-      cursor: pointer;
+    /* SCRAPBOOK FOTOĞRAF ÇERÇEVESİ */
+    .polaroid {
+      background: #fff;
+      padding: 12px 12px 35px 12px;
+      box-shadow: 2px 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.4s ease;
       position: relative;
     }
-    .btn-scrapbook:hover {
-      background: #3E2F28;
-      color: #C29591;
-      transform: translateY(-2px) rotate(-1deg);
-      box-shadow: 8px 8px 0px rgba(194, 149, 145, 0.3);
-    }
-    .btn-scrapbook:focus {
-      outline: 2px solid #3E2F28;
-      outline-offset: 4px;
-    }
-
-    /* Wax Seal */
-    .wax-seal {
-      width: 60px;
-      height: 60px;
-      background: radial-gradient(circle at 30% 30%, #D45D55, #8E2E28);
-      border-radius: 50%;
-      box-shadow: 
-        inset 0 0 10px rgba(0,0,0,0.3),
-        2px 4px 6px rgba(0,0,0,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 4px solid #A83832;
-      outline: 2px dashed rgba(255,255,255,0.2);
-      outline-offset: -8px;
-    }
-
-    /* Photo Frame */
-    .scrapbook-frame {
-      position: relative;
-      background: #F5F1E6;
-      padding: 16px 16px 40px 16px; /* Polaroid style bottom padding */
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      transition: all 0.5s ease;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .scrapbook-frame:hover {
-      transform: scale(1.02) rotate(0deg) !important; /* Reset rotation on hover */
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    .polaroid:hover {
+      transform: scale(1.02) rotate(0deg) !important;
       z-index: 20;
+      box-shadow: 5px 10px 25px rgba(0,0,0,0.25);
     }
-    .scrapbook-frame img {
-      filter: sepia(30%) contrast(90%);
-      transition: all 0.5s ease;
-      display: block;
-      width: 100%;
+    .polaroid::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 40%, rgba(165, 142, 100, 0.1) 100%);
+      pointer-events: none;
+      z-index: 2;
     }
-    .scrapbook-frame:hover img {
-      filter: sepia(0%) contrast(100%);
-    }
-
-    /* Washi Tape (CSS Only - Reliable) */
-    .washi-tape {
+    
+    /* BANT EFEKTİ (Daha gerçekçi) */
+    .tape-strip {
       position: absolute;
       top: -12px;
       left: 50%;
       transform: translateX(-50%) rotate(-2deg);
-      width: 90px;
-      height: 28px;
-      background-color: rgba(194, 149, 145, 0.65); /* Rose transparent */
-      /* Serrated edges using conic-gradient or clip-path */
-      clip-path: polygon(
-        0% 10%, 5% 0%, 10% 10%, 15% 0%, 20% 10%, 25% 0%, 30% 10%, 35% 0%, 40% 10%, 45% 0%, 50% 10%, 55% 0%, 60% 10%, 65% 0%, 70% 10%, 75% 0%, 80% 10%, 85% 0%, 90% 10%, 95% 0%, 100% 10%,
-        100% 90%, 95% 100%, 90% 90%, 85% 100%, 80% 90%, 75% 100%, 70% 90%, 65% 100%, 60% 90%, 55% 100%, 50% 90%, 45% 100%, 40% 90%, 35% 100%, 30% 90%, 25% 100%, 20% 90%, 15% 100%, 10% 90%, 5% 100%, 0% 90%
-      );
-      z-index: 20;
-      mix-blend-mode: multiply;
+      width: 80px;
+      height: 25px;
+      background-color: rgba(220, 200, 180, 0.7);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+      /* Tırtıklı kenar */
+      clip-path: polygon(2% 0%, 98% 0%, 100% 100%, 0% 100%); 
     }
 
-    /* Ornamental Divider */
-    .divider-ornament {
+    /* DİL SEÇİCİ */
+    .lang-btn {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: bold;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.3s;
+    }
+    .lang-btn.active {
+      opacity: 1;
+      text-decoration: underline;
+      color: #B06E6E;
+    }
+
+    /* DÜĞME STİLİ: Eski Mühür Gibi */
+    .btn-vintage {
+      border: 1px solid #2C1A1D;
+      padding: 12px 30px;
+      font-family: 'Cinzel Decorative', serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.4s;
+      position: relative;
+      background: transparent;
+      overflow: hidden;
+    }
+    .btn-vintage:hover {
+      background: #2C1A1D;
+      color: #F0E6D2;
+    }
+
+    .divider-flower {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-      opacity: 0.4;
+      gap: 15px;
+      margin: 30px 0;
+      opacity: 0.6;
     }
-    .divider-line {
-      height: 1px;
-      width: 60px;
-      background: #3E2F28;
-    }
+    .divider-line { height: 1px; width: 80px; background: #2C1A1D; }
 
-    /* Animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 1s cubic-bezier(0.2, 1, 0.2, 1);
-    }
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* Animasyonlar */
+    .reveal { opacity: 0; transform: translateY(20px); transition: 1s; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 
-<body class="text-ink font-serif selection:bg-rose selection:text-paper overflow-x-hidden">
-  
-  <div class="baroque-overlay"></div>
+<body class="overflow-x-hidden selection:bg-rose selection:text-paper">
 
-  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop')] opacity-[0.03] mix-blend-multiply bg-repeat"></div>
-  </div>
+  <img src="https://img.freepik.com/free-vector/vintage-flowers-illustration_53876-101186.jpg?t=st=1736500000~exp=1736503600~hmac=x" class="botanical-corner-tl" style="width: 500px; opacity: 0.1; top:-100px; left:-100px;">
+  <img src="https://img.freepik.com/free-vector/hand-drawn-vintage-flowers_23-2148115469.jpg" class="botanical-corner-br" style="width: 600px; opacity: 0.1; bottom:-100px; right:-100px;">
 
-  <nav class="fixed top-0 w-full z-50 bg-paper/95 backdrop-blur-sm border-b border-ink/10 transition-all py-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-      <a href="index.html" class="flex flex-col items-center group leading-none focus:outline-none focus:ring-2 focus:ring-rose/50 rounded-lg p-1">
-        <span class="font-serif italic text-3xl text-ink group-hover:text-rose transition">Zayn</span>
-        <span class="font-script text-xl text-rose -mt-2">Collective</span>
+  <nav class="fixed top-0 w-full z-50 py-4 transition-all bg-[#F0E6D2]/90 backdrop-blur-sm border-b border-ink/10">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <a href="index.html" class="text-center group">
+        <div class="font-display text-2xl tracking-widest text-ink group-hover:text-rose transition">ZAYN</div>
+        <div class="font-script text-xl text-rose -mt-1 opacity-80">Collective</div>
       </a>
-      
-      <div class="flex items-center gap-6 md:gap-8 font-sans text-[10px] md:text-xs uppercase tracking-widest font-bold text-ink/60">
-        <a href="shop.html" class="hover:text-rose transition hidden sm:block focus:outline-none focus:underline">Koleksiyon</a>
-        <a href="#story" class="hover:text-rose transition hidden sm:block focus:outline-none focus:underline">Hikaye</a>
-        <a id="navEtsyLink" href="#" target="_blank" class="bg-ink text-paper px-6 py-2 rounded-sm hover:bg-rose hover:text-white transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink">
+
+      <div class="flex items-center gap-6 md:gap-10">
+        <div class="hidden md:flex gap-6 font-display text-xs tracking-widest text-ink/70">
+          <a href="shop.html" class="hover:text-rose transition" data-i18n="nav_shop">KOLEKSİYON</a>
+          <a href="#story" class="hover:text-rose transition" data-i18n="nav_story">HİKAYE</a>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs border-l border-ink/20 pl-6">
+          <button onclick="setLang('tr')" class="lang-btn active" id="btn-tr">TR</button>
+          <span class="opacity-30">|</span>
+          <button onclick="setLang('en')" class="lang-btn" id="btn-en">EN</button>
+        </div>
+
+        <a id="navEtsyLink" href="#" target="_blank" class="hidden sm:block btn-vintage text-[10px] py-2 px-4 hover:bg-rose hover:border-rose">
           Etsy Shop
         </a>
       </div>
     </div>
   </nav>
 
-  <main class="relative z-10 pt-24">
-    
-    <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
-      
-      <img src="https://images.unsplash.com/photo-1596436574246-88222e967a14?q=80&w=500&auto=format&fit=crop" class="absolute top-10 -left-20 w-80 opacity-10 rotate-[-20deg] pointer-events-none mix-blend-multiply rounded-full blur-[1px]" alt="">
-      <img src="https://images.unsplash.com/photo-1596436574246-88222e967a14?q=80&w=500&auto=format&fit=crop" class="absolute bottom-0 -right-20 w-96 opacity-10 rotate-[30deg] pointer-events-none mix-blend-multiply rounded-full blur-[1px]" alt="">
+  <header class="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+    <div class="max-w-4xl relative z-10 pt-20">
+      <p class="font-script text-4xl md:text-5xl text-rose mb-4 opacity-80 rotate-[-3deg] animate-float" data-i18n="hero_est">
+        Est. 2024, sevgiyle...
+      </p>
 
-      <div class="max-w-3xl mx-auto relative z-10">
-        <span class="font-script text-3xl md:text-5xl text-rose absolute -top-16 -left-4 md:-left-20 rotate-[-10deg] opacity-90 animate-float drop-shadow-sm">Est. 2024, with love...</span>
+      <h1 class="font-display text-5xl md:text-8xl text-ink leading-[1.1] mb-8 drop-shadow-sm">
+        <span class="block" data-i18n="hero_t1">Eski Ruhlar,</span>
+        <span class="block text-rose italic font-serif" data-i18n="hero_t2">Çiçekli Kalpler.</span>
+      </h1>
 
-        <h1 class="text-7xl md:text-9xl italic leading-[0.8] text-ink mb-8 animate-fade-slow drop-shadow-sm">
-          <span class="block">Vintage Souls,</span>
-          <span class="block text-rose">Floral Hearts.</span>
-        </h1>
+      <div class="divider-flower">
+        <div class="divider-line"></div>
+        <i class="fa-brands fa-pagelines text-2xl text-olive"></i>
+        <div class="divider-line"></div>
+      </div>
 
-        <div class="divider-ornament">
-          <div class="divider-line"></div>
-          <i class="fa-solid fa-leaf text-olive text-sm"></i>
-          <div class="divider-line"></div>
+      <p class="font-serif text-xl md:text-2xl text-ink/70 italic max-w-lg mx-auto mb-12" data-i18n="hero_desc">
+        Geçmişin romantizmini bugüne taşıyoruz. Her parça, sandıktan çıkmış gibi özel, ruhu olan tasarımlar.
+      </p>
+
+      <div class="flex justify-center gap-4">
+        <a href="shop.html" class="btn-vintage" data-i18n="hero_cta">
+          Koleksiyonu Keşfet
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section id="story" class="py-24 px-6 relative">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+      <div class="w-full md:w-1/2 relative reveal">
+        <div class="polaroid rotate-[-3deg]">
+          <div class="tape-strip"></div>
+          <img src="https://images.unsplash.com/photo-1550614000-4b9519e0037a?q=80&w=800&auto=format&fit=crop" class="w-full h-[500px] object-cover grayscale-[30%] sepia-[20%]" alt="Vintage Girl">
+          <p class="font-script text-3xl text-center mt-4 text-ink/60" data-i18n="story_caption">Bizim Hikayemiz</p>
         </div>
+        <img src="https://png.pngtree.com/png-vector/20230906/ourmid/pngtree-cream-rose-flower-png-image_9998896.png" class="absolute -bottom-10 -left-10 w-32 opacity-80 mix-blend-multiply pointer-events-none">
+      </div>
 
-        <div class="relative inline-block mb-12 animate-fade-slow" style="animation-delay: 0.3s;">
-           <p class="text-xl md:text-2xl text-ink/80 italic max-w-lg mx-auto leading-relaxed relative z-10 font-serif">
-            Eski zamanların romantizmini, bugünün kadınları için yeniden dokuyoruz. Her parça, giyilebilir bir anı.
-           </p>
-        </div>
+      <div class="w-full md:w-1/2 reveal">
+        <h2 class="font-display text-4xl md:text-5xl text-ink mb-6" data-i18n="story_title">
+          Atölyemizden,<br><span class="text-rose font-serif italic">Sizin Dolabınıza.</span>
+        </h2>
+        <p class="font-serif text-lg text-ink/80 mb-6 leading-relaxed" data-i18n="story_p1">
+          Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz. Her bir parça Etsy üzerinden siparişinizle birlikte size özel hazırlanıyor.
+        </p>
+        <p class="font-serif text-lg text-ink/80 mb-8 leading-relaxed border-l-2 border-rose/40 pl-4 italic" data-i18n="story_p2">
+          "Moda geçicidir, ama stil ve ruh ebedidir. Tıpkı büyükannenizin sandığından çıkan o eşsiz parça gibi."
+        </p>
+        <a id="customEtsyLink" href="#" target="_blank" class="font-display text-sm tracking-widest border-b border-ink hover:text-rose hover:border-rose transition pb-1" data-i18n="story_link">
+          ETSY MAĞAZASINA GİT &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
 
-        <div class="flex flex-col sm:flex-row gap-8 justify-center items-center animate-fade-slow relative" style="animation-delay: 0.6s;">
-          <div class="absolute -left-16 top-1/2 -translate-y-1/2 hidden md:flex wax-seal rotate-[-15deg] animate-float">
-            <span class="font-serif font-bold text-white/90 text-2xl italic">Z</span>
+  <section class="py-24 px-6 bg-[#EBE0CC] relative border-t border-b border-ink/5">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <span class="font-display text-xs tracking-[0.3em] text-ink/50 uppercase" data-i18n="feat_sub">Seçilmiş Parçalar</span>
+        <h2 class="font-display text-4xl md:text-5xl text-ink mt-2 mb-2" data-i18n="feat_title">Öne Çıkanlar</h2>
+        <p class="font-script text-4xl text-rose" data-i18n="feat_quote">"Çiçeklerin Fısıltısı"</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-4">
+        <a href="shop.html?cat=Dresses" class="block reveal group rotate-[-2deg] hover:rotate-0 transition duration-500">
+          <div class="polaroid">
+            <div class="tape-strip bg-rose/30"></div>
+            <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="aspect-[3/4] object-cover w-full grayscale-[20%]" alt="Dresses">
+            <div class="text-center mt-4">
+              <h3 class="font-display text-xl text-ink" data-i18n="cat_dresses">Elbiseler</h3>
+            </div>
           </div>
+        </a>
 
-          <a href="shop.html" class="btn-scrapbook text-sm">
-            Koleksiyonu Keşfet
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section id="story" class="py-24 px-6 relative">
-      <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
-        
-        <div class="relative w-full md:w-1/2 rotate-[-3deg] reveal group">
-          <div class="scrapbook-frame">
-            <div class="washi-tape"></div>
-            <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop" class="w-full h-[450px] object-cover" alt="Vintage Mood Board">
-            <div class="font-script text-2xl text-ink/60 text-center mt-4 -rotate-2">Bizim Hikayemiz</div>
+        <a href="shop.html?cat=Hoodies" class="block reveal group rotate-[2deg] hover:rotate-0 transition duration-500 md:-mt-10">
+          <div class="polaroid">
+            <div class="tape-strip bg-olive/30"></div>
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="aspect-[3/4] object-cover w-full grayscale-[20%]" alt="Hoodies">
+            <div class="text-center mt-4">
+              <h3 class="font-display text-xl text-ink" data-i18n="cat_hoodies">Rahat Giyim</h3>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <div class="w-full md:w-1/2 space-y-8 reveal">
-          <h2 class="text-5xl italic text-ink leading-tight">
-            Atölyemizden, <br> <span class="font-script text-rose text-6xl">Sizin Dolabınıza.</span>
-          </h2>
-          
-          <div class="divider-ornament justify-start opacity-30">
-             <div class="divider-line w-20"></div>
-             <i class="fa-solid fa-asterisk text-rose text-xs"></i>
+        <a href="shop.html?cat=Skirts" class="block reveal group rotate-[-1deg] hover:rotate-0 transition duration-500">
+          <div class="polaroid">
+            <div class="tape-strip bg-gold/30"></div>
+            <img src="https://images.unsplash.com/photo-1582142327373-5b672fd34d98?q=80&w=800&auto=format&fit=crop" class="aspect-[3/4] object-cover w-full grayscale-[20%]" alt="Skirts">
+            <div class="text-center mt-4">
+              <h3 class="font-display text-xl text-ink" data-i18n="cat_skirts">Etekler</h3>
+            </div>
           </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-          <p class="text-lg text-ink/70 leading-relaxed font-sans border-l-2 border-rose/30 pl-6">
-            Biz sadece kıyafet satmıyoruz, bir **hissi** paylaşıyoruz. 70'lerin o özgür, bohem ruhunu, solmuş çiçek desenlerinde ve uçuşan kumaşlarda saklıyoruz.
-          </p>
-          <p class="text-lg text-ink/70 leading-relaxed font-sans">
-            Etsy mağazamız, bizim dijital pazar tezgahımız. Burada gördüğünüz her şey, siparişinizle birlikte, sanki eski bir dosttan gelen bir hediye paketi gibi özenle hazırlanır.
-          </p>
-          <div class="pt-6">
-            <a id="customEtsyLink" href="#" target="_blank" class="font-script text-3xl text-ink hover:text-rose transition border-b border-ink/20 hover:border-rose pb-1 focus:outline-none focus:border-ink">
-              Etsy'de Bize Katılın &rarr;
-            </a>
-          </div>
+  <section class="py-24 px-6 relative">
+    <div class="max-w-4xl mx-auto text-center">
+      <i class="fa-solid fa-seedling text-3xl text-olive mb-6 animate-pulse"></i>
+      <h2 class="font-display text-3xl text-ink mb-12" data-i18n="reviews_title">Sizden Gelenler</h2>
+      <div id="reviewsStrip" class="grid md:grid-cols-2 gap-10 text-left">
         </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="py-24 px-6 bg-white/40 border-t border-ink/5 border-dashed relative">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-rose/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16 reveal">
-          <h2 class="text-5xl italic text-ink mb-2">Öne Çıkanlar</h2>
-          <div class="divider-ornament">
-             <div class="divider-line"></div>
-             <span class="font-serif text-ink/50 italic px-2">Koleksiyonlar</span>
-             <div class="divider-line"></div>
-          </div>
-          <p class="font-script text-4xl text-rose mt-2">"Çiçeklerin Fısıltısı"</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-4">
-          <a href="shop.html?cat=Dresses" class="group relative block transition-all duration-500 reveal" style="transform: rotate(-2deg);">
-            <div class="scrapbook-frame">
-              <div class="washi-tape bg-olive/50"></div>
-              <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Vintage Elbiseler">
-            </div>
-            <div class="text-center mt-6">
-              <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Elbiseler</h3>
-              <p class="font-script text-xl text-ink/50">Romantik & Uçuşan</p>
-            </div>
-          </a>
-          
-          <a href="shop.html?cat=Hoodies" class="group relative block md:-mt-10 transition-all duration-500 z-10 reveal" style="transform: rotate(2deg);">
-            <div class="scrapbook-frame">
-              <div class="washi-tape bg-rose/60"></div>
-              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Hoodies & Sweatshirts">
-            </div>
-            <div class="text-center mt-6">
-              <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Rahat Giyim</h3>
-              <p class="font-script text-xl text-ink/50">Sanatsal Dokunuş</p>
-            </div>
-          </a>
-
-          <a href="shop.html?cat=Skirts" class="group relative block transition-all duration-500 reveal" style="transform: rotate(-1deg);">
-            <div class="scrapbook-frame">
-              <div class="washi-tape bg-gold/50"></div>
-              <img src="https://images.unsplash.com/photo-1606166492713-33609110942d?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Etekler">
-            </div>
-            <div class="text-center mt-6">
-              <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Etekler</h3>
-              <p class="font-script text-xl text-ink/50">Retro Pileler</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-24 px-6 relative overflow-hidden bg-paper">
-      <div class="max-w-4xl mx-auto text-center relative z-10">
-         <i class="fa-solid fa-heart text-rose/30 text-3xl mb-8 animate-pulse"></i>
-         <h2 class="text-3xl italic text-ink mb-12">Sizden Gelenler</h2>
-         
-         <div id="reviewsStrip" class="grid md:grid-cols-2 gap-10 text-left">
-           <p class="text-center w-full col-span-2 text-ink/40 font-script text-xl">Yorumlar yükleniyor...</p>
-         </div>
-      </div>
-    </section>
-
-    <footer class="py-16 text-center border-t border-ink/10 relative bg-white/30">
-      <div class="w-16 h-16 bg-ink text-paper rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-serif italic">Z</div>
-      <h3 class="font-serif italic text-5xl text-ink mb-2">Zayn</h3>
-      <p class="font-script text-2xl text-rose mb-10">Collective</p>
-
-      <div class="divider-ornament mb-10 opacity-20">
-         <div class="divider-line w-32"></div>
-      </div>
-
-      <div class="flex justify-center gap-8 mb-10 font-sans text-xs font-bold uppercase tracking-widest text-ink/50">
-        <a href="shop.html" class="hover:text-rose transition focus:outline-none focus:text-ink">Koleksiyon</a>
-        <a id="footerEtsyLink" href="#" target="_blank" class="hover:text-rose transition focus:outline-none focus:text-ink">Etsy Mağazası</a>
-      </div>
-      <p class="font-serif italic text-ink/30 text-sm">© 2025 Zayn Brand. Sevgiyle tasarlandı.</p>
-    </footer>
-
-  </main>
+  <footer class="py-16 text-center border-t border-ink/10 relative bg-white/20">
+    <h3 class="font-display text-4xl text-ink mb-2">Zayn</h3>
+    <p class="font-script text-2xl text-rose mb-8">Collective</p>
+    <div class="flex justify-center gap-6 font-display text-xs tracking-widest text-ink/60 mb-8">
+      <a href="shop.html" class="hover:text-rose transition" data-i18n="nav_shop">KOLEKSİYON</a>
+      <a href="#" class="hover:text-rose transition">INSTAGRAM</a>
+    </div>
+    <p class="font-serif italic text-ink/40 text-sm">© 2025 Zayn Brand.</p>
+  </footer>
 
   <script>
-    // --- CONFIG ---
-    const DATA_PRODUCTS = "assets/data/products.json";
-    const DATA_REVIEWS  = "assets/data/reviews.json";
-    const ETSY_FALLBACK = "https://www.etsy.com/shop/ZaynCollective"; 
+    // --- ÇOKLU DİL SÖZLÜĞÜ ---
+    const translations = {
+      tr: {
+        nav_shop: "KOLEKSİYON", nav_story: "HİKAYE",
+        hero_est: "Est. 2024, sevgiyle...",
+        hero_t1: "Eski Ruhlar,", hero_t2: "Çiçekli Kalpler.",
+        hero_desc: "Geçmişin romantizmini bugüne taşıyoruz. Her parça, sandıktan çıkmış gibi özel, ruhu olan tasarımlar.",
+        hero_cta: "KOLEKSİYONU KEŞFET",
+        story_caption: "Bizim Hikayemiz",
+        story_title: "Atölyemizden, Sizin Dolabınıza.",
+        story_p1: "Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz.",
+        story_p2: "\"Moda geçicidir, ama stil ve ruh ebedidir. Tıpkı büyükannenizin sandığından çıkan o eşsiz parça gibi.\"",
+        story_link: "ETSY MAĞAZASINA GİT →",
+        feat_sub: "SEÇİLMİŞ PARÇALAR", feat_title: "Öne Çıkanlar", feat_quote: "\"Çiçeklerin Fısıltısı\"",
+        cat_dresses: "Elbiseler", cat_hoodies: "Rahat Giyim", cat_skirts: "Etekler",
+        reviews_title: "Sizden Gelenler",
+        buyer_verify: "Etsy Onaylı Alıcı"
+      },
+      en: {
+        nav_shop: "COLLECTION", nav_story: "STORY",
+        hero_est: "Est. 2024, with love...",
+        hero_t1: "Vintage Souls,", hero_t2: "Floral Hearts.",
+        hero_desc: "Bringing the romance of the past to today. Designs with a soul, as if fresh from a vintage chest.",
+        hero_cta: "EXPLORE COLLECTION",
+        story_caption: "Our Story",
+        story_title: "From Our Atelier, To Your Closet.",
+        story_p1: "We don't just sew clothes, we freeze time. Blending the free bohemian spirit of the 70s with faded floral patterns.",
+        story_p2: "\"Fashion fades, only style remains the same. Just like that unique piece from your grandmother's chest.\"",
+        story_link: "VISIT ETSY SHOP →",
+        feat_sub: "CURATED PIECES", feat_title: "Highlights", feat_quote: "\"Whisper of Flowers\"",
+        cat_dresses: "Dresses", cat_hoodies: "Loungewear", cat_skirts: "Skirts",
+        reviews_title: "From You",
+        buyer_verify: "Verified Buyer"
+      }
+    };
 
-    // --- HELPERS ---
-    const qs = (s) => document.querySelector(s);
-    const qsa = (s) => document.querySelectorAll(s);
+    let currentLang = 'tr';
 
-    // --- ANIMATIONS ---
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('active');
+    function setLang(lang) {
+      currentLang = lang;
+      // Buton aktiflik durumu
+      document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      
+      // Metinleri değiştir
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
         }
       });
-    }, { threshold: 0.1 });
-
-    function initReveal() {
-      qsa('.reveal').forEach(el => observer.observe(el));
+      // Yeniden yorumları render et (Dil değişince etiketler değişsin)
+      renderReviews(document.getElementById('reviewsStrip'));
     }
 
-    // --- LINK BINDING ---
-    function bindLinks(products) {
-      // Logic: Use first product's shop URL or fallback
-      const url = (products && products[0] && products[0].url) 
-        ? products[0].url.split("/listing/")[0] 
-        : ETSY_FALLBACK;
-      
-      ['navEtsyLink', 'customEtsyLink', 'footerEtsyLink'].forEach(id => {
-        const el = qs(`#${id}`);
-        if(el) el.href = url;
+    // --- GENEL JS ---
+    const DATA_PRODUCTS = "assets/data/products.json";
+    const DATA_REVIEWS = "assets/data/reviews.json";
+    const ETSY_FALLBACK = "https://www.etsy.com/shop/ZaynCollective";
+
+    // Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('active');
       });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Link Binding
+    async function bindLinks() {
+      try {
+        const res = await fetch(DATA_PRODUCTS);
+        const products = await res.json();
+        const url = (products[0] && products[0].url) ? products[0].url.split("/listing/")[0] : ETSY_FALLBACK;
+        ['navEtsyLink', 'customEtsyLink'].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.href = url;
+        });
+      } catch(e) {}
     }
 
-    // --- REVIEWS RENDER ---
+    // Reviews
     async function renderReviews(container) {
+      if(!container) return;
       try {
         const res = await fetch(DATA_REVIEWS);
         const reviews = await res.json();
-        
-        container.innerHTML = reviews.slice(0, 4).map((r, i) => {
-          // Fix 1: Calculate rotation in JS for style attribute
-          const rotation = (i % 2 === 0 ? -1 : 1) * (Math.random() * 3 + 1); // 1 to 4 deg
-          
-          return `
-            <div class="bg-white p-8 shadow-[0_4px_10px_rgba(0,0,0,0.05)] border border-ink/5 relative reveal transition-transform hover:z-10 hover:scale-105" 
-                 style="transform: rotate(${rotation.toFixed(2)}deg);">
-              
-              <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gold shadow-sm border border-black/10"></div>
-              
-              <div class="mb-4 text-rose/40 text-xs">
-                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              </div>
+        const verifyText = translations[currentLang].buyer_verify;
 
-              <p class="font-serif italic text-xl text-ink/80 mb-6 leading-relaxed">
-                "${r.text}"
-              </p>
-              
-              <div class="text-right border-t border-ink/5 pt-4">
-                  <p class="font-script text-2xl text-rose">- ${r.buyer || 'Misafir'}</p>
-                  <div class="text-[10px] text-ink/30 uppercase tracking-widest mt-1">Etsy Onaylı Alıcı</div>
+        container.innerHTML = reviews.slice(0, 4).map((r, i) => {
+          const rotation = (i % 2 === 0 ? -2 : 2);
+          return `
+            <div class="polaroid transition hover:scale-105" style="transform: rotate(${rotation}deg);">
+              <div class="tape-strip bg-rose/20"></div>
+              <p class="font-serif italic text-lg text-ink/80 mb-4 mt-4 leading-relaxed">"${r.text}"</p>
+              <div class="text-right border-t border-ink/10 pt-2">
+                <p class="font-script text-2xl text-rose">- ${r.buyer || 'Guest'}</p>
+                <div class="text-[10px] text-ink/40 uppercase tracking-widest">${verifyText}</div>
               </div>
             </div>
           `;
         }).join('');
-        
-        // Re-init observer for new elements
-        initReveal();
-        
-      } catch(e) { 
-        container.innerHTML = '<p class="col-span-2 text-center text-ink/30 italic">Henüz yorum yok.</p>'; 
-      }
+      } catch(e) { container.innerHTML = '<p class="text-center w-full italic opacity-50">...</p>'; }
     }
 
-    // --- INIT ---
-    document.addEventListener('DOMContentLoaded', async () => {
-      initReveal();
-      
-      // Load Data Logic
-      try {
-        const res = await fetch(DATA_PRODUCTS);
-        const products = await res.json();
-        bindLinks(products);
-      } catch(e) { console.log("Products load failed/empty"); }
-
-      const reviewsContainer = qs('#reviewsStrip');
-      if(reviewsContainer) renderReviews(reviewsContainer);
+    document.addEventListener('DOMContentLoaded', () => {
+      bindLinks();
+      renderReviews(document.getElementById('reviewsStrip'));
     });
   </script>
 </body>
