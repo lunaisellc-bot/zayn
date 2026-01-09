@@ -18,6 +18,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Install jq
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y jq
+
       - name: Get Etsy access token
         id: token
         env:
@@ -29,7 +35,7 @@ jobs:
           resp="$(curl -sS -X POST 'https://api.etsy.com/v3/public/oauth/token' \
             -H 'Content-Type: application/x-www-form-urlencoded' \
             -d "grant_type=refresh_token&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}")"
-          echo "$resp" | jq -e .access_token >/dev/null
+          echo "$resp" | jq -e .access_token >/dev/null || { echo "Token response: $resp"; exit 1; }
           echo "access_token=$(echo "$resp" | jq -r .access_token)" >> "$GITHUB_OUTPUT"
 
       - name: Fetch Data (Products & Reviews)
@@ -37,6 +43,7 @@ jobs:
           CLIENT_ID: ${{ secrets.ETSY_CLIENT_ID }}
           SHOP_ID: ${{ secrets.ETSY_SHOP_ID }}
           ACCESS_TOKEN: ${{ steps.token.outputs.access_token }}
+          PLACEHOLDER_IMAGE: "il_1140xN.7441254245_9bvj.jpg"
         run: |
           set -euo pipefail
           mkdir -p assets/data
@@ -47,6 +54,10 @@ jobs:
           ACCESS_TOKEN = os.environ["ACCESS_TOKEN"].strip()
           CLIENT_ID    = os.environ["CLIENT_ID"].strip()
           SHOP_ID      = os.environ["SHOP_ID"].strip()
+          PLACEHOLDER_IMAGE = os.environ.get("PLACEHOLDER_IMAGE", "").strip()
+
+          if not ACCESS_TOKEN:
+              raise SystemExit("Missing ACCESS_TOKEN")
 
           def get(url: str):
               req = urllib.request.Request(
@@ -60,8 +71,8 @@ jobs:
                   with urllib.request.urlopen(req, timeout=30) as r:
                       return json.load(r)
               except urllib.error.HTTPError as e:
-                  print(f"Error fetching {url}: {e}")
-                  return {}
+                  body = e.read().decode("utf-8", errors="ignore")
+                  raise RuntimeError(f"Error fetching {url}: {e} {body}") from e
 
           # --- 1. ADIM: KATEGORİLERİ (SHOP SECTIONS) ÇEK ---
           sections_map = {}
@@ -86,6 +97,8 @@ jobs:
               time.sleep(0.5) # API'yi yormamak için ufak bekleme
 
           products_out = []
+          if not items:
+              raise RuntimeError("No products returned from Etsy API.")
           for it in items:
               lid = it.get("listing_id") or it.get("id")
               if not lid: continue
@@ -114,6 +127,11 @@ jobs:
               if len(images) > 1:
                   img2 = images[1].get("url_fullxfull") or images[1].get("url_570xN")
 
+              if not img1:
+                  img1 = PLACEHOLDER_IMAGE or None
+              if not img2:
+                  img2 = img1
+
               products_out.append({
                   "id": lid,
                   "title": (it.get("title") or "").strip(),
@@ -139,10 +157,12 @@ jobs:
               r_data = get(r_url)
               for rev in r_data.get("results", []):
                   if rev.get("rating") == 5: # Sadece 5 yıldızlıları al
+                      buyer_name = (rev.get("buyer_name") or "Guest").strip()
+                      masked_name = (buyer_name[:3] + "***") if len(buyer_name) >= 3 else "Guest"
                       reviews_out.append({
                           "text": rev.get("review", ""),
                           "rating": rev.get("rating"),
-                          "buyer": rev.get("buyer_email", "Misafir")[0:3] + "***", # Gizlilik için isim maskeleme
+                          "buyer": masked_name, # Gizlilik için isim maskeleme
                           "date": rev.get("create_timestamp")
                       })
           except Exception as e:
