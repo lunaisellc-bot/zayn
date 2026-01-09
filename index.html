@@ -62,69 +62,174 @@
         url('https://www.transparenttextures.com/patterns/aged-paper.png');
       background-blend-mode: multiply, normal, multiply, normal;
       color: #2C1A1D;
-      overflow-x: hidden; /* Yatay kaymayı engelle */
     }
 
-    /* Soft vignette */
+    /* Soft vignette/patina */
     body::before{
-      content:""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
-      background: radial-gradient(1200px 700px at 50% 10%, rgba(255,255,255,0.40), rgba(0,0,0,0) 60%),
-                  radial-gradient(900px 650px at 50% 88%, rgba(0,0,0,0.12), rgba(0,0,0,0) 58%);
-      mix-blend-mode: multiply; opacity: 0.45;
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(1200px 700px at 50% 10%, rgba(255,255,255,0.40), rgba(0,0,0,0) 60%),
+        radial-gradient(900px 650px at 50% 88%, rgba(0,0,0,0.12), rgba(0,0,0,0) 58%);
+      mix-blend-mode: multiply;
+      opacity: 0.45;
     }
 
-    /* --- FLORAL LAYER SYSTEM --- */
-    .floral-layer{ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    .orn{ position:absolute; user-select:none; -webkit-user-drag:none; filter: contrast(1.1) saturate(1.1); }
+    /* --- FLORAL LAYER SYSTEM (Görünürlük Artırıldı) --- */
+    .floral-layer{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .orn{ 
+      position:absolute; 
+      user-select:none; 
+      -webkit-user-drag:none; 
+      /* Genel kontrast artırma: Çiçekler daha canlı dursun ama background ile blend olsun */
+      filter: contrast(1.1) saturate(1.1); 
+    }
 
-    .ivy{ width: min(520px, 45vw); opacity: 0.45; mix-blend-mode: multiply; }
+    /* 5.png ivy corners */
+    .ivy{
+      width: min(520px, 45vw);
+      opacity: 0.45; /* Artırıldı (Eski: 0.18) */
+      mix-blend-mode: multiply;
+    }
     .ivy-tl{ top:-30px; left:-50px; transform: rotate(-2deg); }
     .ivy-tr{ top:-30px; right:-50px; transform: scaleX(-1) rotate(-2deg); }
 
-    .bouquet-center{ left: 50%; top: 130px; transform: translateX(-50%); width: min(540px, 56vw); opacity: 0.35; mix-blend-mode: multiply; filter: blur(0.5px) contrast(1.1); }
-    .petals{ right: -80px; top: 140px; width: min(420px, 46vw); opacity: 0.25; mix-blend-mode: multiply; }
-    .meadow-bottom{ left: 50%; bottom: -40px; transform: translateX(-50%); width: min(1200px, 125vw); opacity: 0.55; mix-blend-mode: multiply; }
-    .wreath{ left: 50%; top: -18px; transform: translateX(-50%); width: 120px; opacity: 0.40; mix-blend-mode: multiply; }
+    /* 3.png bouquet watermark behind hero */
+    .bouquet-center{
+      left: 50%;
+      top: 130px;
+      transform: translateX(-50%);
+      width: min(540px, 56vw);
+      opacity: 0.35; /* Artırıldı (Eski: 0.12) */
+      mix-blend-mode: multiply;
+      /* Hafif blur ile arka planda derinlik kalsın */
+      filter: blur(0.5px) contrast(1.1); 
+    }
 
-    /* --- COMPONENTS --- */
+    /* 2.png petals dust */
+    .petals{
+      right: -80px;
+      top: 140px;
+      width: min(420px, 46vw);
+      opacity: 0.25; /* Artırıldı (Eski: 0.08) */
+      mix-blend-mode: multiply;
+    }
+
+    /* 1.png meadow bottom border */
+    .meadow-bottom{
+      left: 50%;
+      bottom: -40px;
+      transform: translateX(-50%);
+      width: min(1200px, 125vw);
+      opacity: 0.55; /* Artırıldı (Eski: 0.22) */
+      mix-blend-mode: multiply;
+    }
+
+    /* 4.png wreath */
+    .wreath{
+      left: 50%;
+      top: -18px;
+      transform: translateX(-50%);
+      width: 120px;
+      opacity: 0.40; /* Artırıldı (Eski: 0.18) */
+      mix-blend-mode: multiply;
+    }
+
+    /* --- HERO TEXT WASH (Okunurluk Katmanı) --- */
+    /* Çiçekler koyulaştığı için metnin arkasına çok hafif aydınlık veriyoruz */
     .paper-wash {
       position: relative;
-      background: radial-gradient(closest-side, rgba(240,230,210,0.75) 20%, rgba(240,230,210,0) 100%);
+      background: radial-gradient(closest-side, rgba(240,230,210,0.7) 0%, rgba(240,230,210,0) 100%);
       z-index: 5;
       padding: 2rem;
     }
 
+    /* --- SCRAPBOOK & UI --- */
     .polaroid {
-      background: #fff; padding: 12px 12px 35px 12px;
+      background: #fff;
+      padding: 12px 12px 35px 12px;
       box-shadow: 2px 4px 15px rgba(0,0,0,0.15);
-      transition: transform 0.4s ease, box-shadow 0.4s ease; position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
     }
-    .polaroid:hover { transform: scale(1.02) rotate(0deg) !important; z-index: 20; box-shadow: 5px 10px 25px rgba(0,0,0,0.25); }
-    .polaroid::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, transparent 40%, rgba(165, 142, 100, 0.10) 100%); pointer-events: none; z-index: 2; }
+    .polaroid:hover {
+      transform: scale(1.02) rotate(0deg) !important;
+      z-index: 20;
+      box-shadow: 5px 10px 25px rgba(0,0,0,0.25);
+    }
+    .polaroid::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 40%, rgba(165, 142, 100, 0.10) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
     .polaroid img{ width: 100%; height: auto; display: block; position: relative; z-index: 1; border: 1px solid rgba(44,26,29,0.06); }
     .polaroid .thumb{ aspect-ratio: 3 / 4; width: 100%; overflow: hidden; background: #f3f3f3; position: relative; z-index: 1; }
     .polaroid .thumb img{ width: 100%; height: 100%; object-fit: cover; border: none; }
 
     .tape-strip {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-2deg);
-      width: 86px; height: 26px; background: rgba(220, 200, 180, 0.72);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.10); z-index: 10; border-radius: 2px; overflow: hidden;
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 86px;
+      height: 26px;
+      background: rgba(220, 200, 180, 0.72);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+      z-index: 10;
+      border-radius: 2px;
+      overflow: hidden;
     }
-    .tape-strip::before, .tape-strip::after{ content:""; position:absolute; top:0; bottom:0; width: 10px; background: rgba(255,255,255,0.12); filter: blur(0.2px); }
+    .tape-strip::before, .tape-strip::after{
+      content:""; position:absolute; top:0; bottom:0; width: 10px; background: rgba(255,255,255,0.12); filter: blur(0.2px);
+    }
     .tape-strip::before{ left: -3px; transform: skewX(-12deg); }
     .tape-strip::after{ right: -3px; transform: skewX(12deg); }
 
-    .lang-btn { font-family: 'Cinzel Decorative', serif; font-weight: 700; cursor: pointer; opacity: 0.6; transition: all 0.25s ease; padding: 4px 6px; border-radius: 4px; }
+    .lang-btn {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 700;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all 0.25s ease;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
     .lang-btn.active { opacity: 1; text-decoration: underline; color: #B06E6E; }
 
     .btn-vintage {
-      border: 1px solid #2C1A1D; padding: 12px 30px; font-family: 'Cinzel Decorative', serif; text-transform: uppercase; letter-spacing: 0.12em;
-      transition: all 0.35s ease; position: relative; background: rgba(240,230,210,0.35); overflow: hidden;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 10px 24px rgba(44,26,29,0.12); backdrop-filter: blur(2px);
+      border: 1px solid #2C1A1D;
+      padding: 12px 30px;
+      font-family: 'Cinzel Decorative', serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: all 0.35s ease;
+      position: relative;
+      background: rgba(240,230,210,0.35);
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 10px 24px rgba(44,26,29,0.12);
+      backdrop-filter: blur(2px);
     }
-    .btn-vintage:hover { background: #2C1A1D; color: #F0E6D2; transform: translateY(-1px); }
+    .btn-vintage:hover {
+      background: #2C1A1D;
+      color: #F0E6D2;
+      transform: translateY(-1px);
+    }
 
-    .divider-flower { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 26px 0 18px; opacity: 0.75; }
+    .divider-flower {
+      display: flex; align-items: center; justify-content: center; gap: 14px; margin: 26px 0 18px; opacity: 0.75;
+    }
     .divider-line { height: 1px; width: 88px; background: rgba(44,26,29,0.55); }
 
     .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.2,1,0.2,1); }
@@ -132,26 +237,12 @@
 
     /* --- MOBILE OPTIMIZATION --- */
     @media (max-width: 768px){
+      /* Mobilde çiçekler küçülür ve opaklığı masaüstüne göre biraz kısılır ki metni kapatmasın */
       .ivy{ opacity: 0.30; width: 50vw; }
       .bouquet-center{ top: 110px; width: 70vw; opacity: 0.20; }
-      .petals{ display:none; }
+      .petals{ display:none; } /* Mobilde kalabalık yapmasın */
       .meadow-bottom{ width: 140vw; opacity: 0.40; bottom: -50px; }
-      .divider-line{ width: 50px; }
-      
-      /* Mobile Menu Styles */
-      #mobile-menu {
-        transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
-      }
-      #mobile-menu.hidden-menu {
-        transform: translateY(-100%);
-        opacity: 0;
-        pointer-events: none;
-      }
-      #mobile-menu.active-menu {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
+      .divider-line{ width: 64px; }
     }
   </style>
 </head>
@@ -168,108 +259,87 @@
 
   <div class="relative z-10">
 
-    <nav class="fixed top-0 w-full z-50 py-3 md:py-4 transition-all backdrop-blur-sm border-b border-ink/10"
+    <nav class="fixed top-0 w-full z-50 py-4 transition-all backdrop-blur-sm border-b border-ink/10"
          style="background-color: rgba(240,230,210,0.92);">
-      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center relative z-50">
-        <a href="index.html" class="text-center group leading-none z-50">
-          <div class="font-display text-xl md:text-2xl tracking-widest text-ink group-hover:text-rose transition">ZAYN</div>
-          <div class="font-script text-lg md:text-xl text-rose -mt-1 opacity-80">Collective</div>
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="index.html" class="text-center group leading-none">
+          <div class="font-display text-2xl tracking-widest text-ink group-hover:text-rose transition">ZAYN</div>
+          <div class="font-script text-xl text-rose -mt-1 opacity-80">Collective</div>
         </a>
 
-        <div class="hidden md:flex items-center gap-10">
-          <div class="flex gap-6 font-display text-xs tracking-widest text-ink/70">
+        <div class="flex items-center gap-4 md:gap-10">
+          <div class="hidden md:flex gap-6 font-display text-xs tracking-widest text-ink/70">
             <a href="shop.html" class="hover:text-rose transition" data-i18n="nav_shop">KOLEKSİYON</a>
             <a href="#story" class="hover:text-rose transition" data-i18n="nav_story">HİKAYE</a>
           </div>
 
-          <div class="flex items-center gap-2 text-xs border-l border-ink/20 pl-6">
-            <button onclick="setLang('tr')" class="lang-btn active" id="btn-tr-dt" aria-label="Türkçe">TR</button>
+          <div class="flex items-center gap-2 text-[11px] md:text-xs border-l border-ink/20 pl-4 md:pl-6">
+            <button onclick="setLang('tr')" class="lang-btn active" id="btn-tr" aria-label="Türkçe">TR</button>
             <span class="opacity-30">|</span>
-            <button onclick="setLang('en')" class="lang-btn" id="btn-en-dt" aria-label="English">EN</button>
+            <button onclick="setLang('en')" class="lang-btn" id="btn-en" aria-label="English">EN</button>
           </div>
 
           <a id="navEtsyLink" href="#" target="_blank" rel="noopener"
-             class="btn-vintage text-[10px] py-2 px-4 hover:bg-rose hover:border-rose">
+             class="hidden sm:block btn-vintage text-[10px] py-2 px-4 hover:bg-rose hover:border-rose">
             Etsy Shop
           </a>
         </div>
-
-        <button id="hamburgerBtn" aria-label="Menu" class="md:hidden z-50 text-ink focus:outline-none p-2">
-          <i class="fa-solid fa-bars text-2xl"></i>
-        </button>
-      </div>
-
-      <div id="mobile-menu" class="hidden-menu fixed inset-0 w-full h-screen bg-[#F0E6D2] z-40 flex flex-col items-center justify-center gap-8 text-center">
-        <div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: url('assets/textures/aged-paper.png'); background-blend-mode: multiply;"></div>
-        
-        <a href="shop.html" onclick="toggleMobileMenu()" class="font-display text-2xl text-ink tracking-widest hover:text-rose transition" data-i18n="nav_shop">KOLEKSİYON</a>
-        <a href="#story" onclick="toggleMobileMenu()" class="font-display text-2xl text-ink tracking-widest hover:text-rose transition" data-i18n="nav_story">HİKAYE</a>
-        
-        <div class="flex items-center gap-6 mt-4">
-          <button onclick="setLang('tr'); toggleMobileMenu()" class="lang-btn text-xl" id="btn-tr-mb">TR</button>
-          <span class="text-ink/20">|</span>
-          <button onclick="setLang('en'); toggleMobileMenu()" class="lang-btn text-xl" id="btn-en-mb">EN</button>
-        </div>
-
-        <a id="mobileEtsyLink" href="#" target="_blank" rel="noopener" class="btn-vintage text-xs mt-6">
-          Etsy Shop
-        </a>
       </div>
     </nav>
 
     <header class="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden">
-      <div class="max-w-4xl relative z-10 pt-28 md:pt-24 paper-wash rounded-full">
-        <p class="font-script text-3xl md:text-5xl text-rose mb-4 opacity-90 rotate-[-3deg] animate-float" data-i18n="hero_est">
+      <div class="max-w-4xl relative z-10 pt-24 md:pt-24 paper-wash rounded-full">
+        <p class="font-script text-4xl md:text-5xl text-rose mb-4 opacity-90 rotate-[-3deg] animate-float" data-i18n="hero_est">
           Est. 2024, sevgiyle...
         </p>
 
-        <h1 class="font-display text-4xl sm:text-5xl md:text-8xl text-ink leading-[1.15] mb-6 drop-shadow-sm">
+        <h1 class="font-display text-4xl sm:text-5xl md:text-8xl text-ink leading-[1.12] mb-6 drop-shadow-sm">
           <span class="block" data-i18n="hero_t1">Eski Ruhlar,</span>
           <span class="block text-rose italic font-serif" data-i18n="hero_t2">Çiçekli Kalpler.</span>
         </h1>
 
         <div class="divider-flower">
           <div class="divider-line"></div>
-          <img src="7.png" alt="" class="w-8 md:w-10 opacity-70" loading="lazy" decoding="async">
+          <img src="7.png" alt="" class="w-10 opacity-70" loading="lazy" decoding="async">
           <div class="divider-line"></div>
         </div>
 
-        <p class="font-serif text-lg sm:text-xl md:text-2xl text-ink/80 italic max-w-xl mx-auto mb-10 px-4" data-i18n="hero_desc">
+        <p class="font-serif text-lg sm:text-xl md:text-2xl text-ink/80 italic max-w-xl mx-auto mb-10" data-i18n="hero_desc">
           Geçmişin romantizmini bugüne taşıyoruz. Her parça, sandıktan çıkmış gibi özel, ruhu olan tasarımlar.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="shop.html" class="btn-vintage w-full sm:w-auto" data-i18n="hero_cta">
+          <a href="shop.html" class="btn-vintage" data-i18n="hero_cta">
             Koleksiyonu Keşfet
           </a>
         </div>
 
-        <p class="mt-6 text-[10px] md:text-xs font-sans tracking-widest uppercase text-ink/50" data-i18n="etsy_note">
+        <p class="mt-5 text-[11px] md:text-xs font-sans tracking-widest uppercase text-ink/50" data-i18n="etsy_note">
           Ödeme güvenle Etsy üzerinden tamamlanır.
         </p>
       </div>
     </header>
 
-    <section id="story" class="py-16 md:py-24 px-6 relative">
+    <section id="story" class="py-20 md:py-24 px-6 relative">
       <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16">
         <div class="w-full md:w-1/2 relative reveal">
-          <div class="polaroid rotate-[-2deg] md:rotate-[-3deg]">
+          <div class="polaroid rotate-[-3deg]">
             <div class="tape-strip"></div>
             <img src="6.png" alt="" class="orn" style="top:-18px; right:-18px; width:74px; opacity:0.85; transform: rotate(-10deg); mix-blend-mode:multiply;" loading="lazy" decoding="async">
             <div class="thumb" style="aspect-ratio: 4 / 5;">
-              <img src="il_1140xN.7401194424_jmmb.jpg" alt="ZAYN lookbook" loading="lazy" decoding="async">
+              <img src="il_1140xN.7401194424_jmmb.jpg" alt="ZAYN vintage floral lookbook" loading="lazy" decoding="async">
             </div>
-            <p class="font-script text-2xl md:text-3xl text-center mt-4 text-ink/60" data-i18n="story_caption">Bizim Hikayemiz</p>
+            <p class="font-script text-3xl text-center mt-4 text-ink/60" data-i18n="story_caption">Bizim Hikayemiz</p>
           </div>
         </div>
 
         <div class="w-full md:w-1/2 reveal">
-          <h2 class="font-display text-3xl md:text-5xl text-ink mb-6" data-i18n="story_title">
+          <h2 class="font-display text-4xl md:text-5xl text-ink mb-6" data-i18n="story_title">
             Atölyemizden,<br><span class="text-rose font-serif italic">Sizin Dolabınıza.</span>
           </h2>
 
           <p class="font-serif text-lg text-ink/80 mb-6 leading-relaxed" data-i18n="story_p1">
-            Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz.
+            Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz. Her bir parça Etsy üzerinden siparişinizle birlikte size özel hazırlanıyor.
           </p>
 
           <p class="font-serif text-lg text-ink/80 mb-8 leading-relaxed border-l-2 border-rose/40 pl-4 italic" data-i18n="story_p2">
@@ -285,12 +355,12 @@
       </div>
     </section>
 
-    <section class="py-16 md:py-24 px-6 bg-[#EBE0CC] relative border-t border-b border-ink/5">
+    <section class="py-20 md:py-24 px-6 bg-[#EBE0CC] relative border-t border-b border-ink/5">
       <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12 md:mb-16 reveal">
+        <div class="text-center mb-14 md:mb-16 reveal">
           <span class="font-display text-xs tracking-[0.3em] text-ink/50 uppercase" data-i18n="feat_sub">Seçilmiş Parçalar</span>
-          <h2 class="font-display text-3xl md:text-5xl text-ink mt-2 mb-2" data-i18n="feat_title">Öne Çıkanlar</h2>
-          <p class="font-script text-3xl md:text-4xl text-rose" data-i18n="feat_quote">"Çiçeklerin Fısıltısı"</p>
+          <h2 class="font-display text-4xl md:text-5xl text-ink mt-2 mb-2" data-i18n="feat_title">Öne Çıkanlar</h2>
+          <p class="font-script text-4xl text-rose" data-i18n="feat_quote">"Çiçeklerin Fısıltısı"</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 px-2 md:px-4">
@@ -333,12 +403,12 @@
       </div>
     </section>
 
-    <section class="py-16 md:py-24 px-6 relative">
+    <section class="py-20 md:py-24 px-6 relative">
       <div class="max-w-4xl mx-auto text-center relative">
         <img src="4.png" class="orn wreath" alt="" loading="lazy" decoding="async">
         <i class="fa-solid fa-feather-pointed text-3xl text-olive mb-5 opacity-70" aria-hidden="true"></i>
-        <h2 class="font-display text-3xl md:text-3xl text-ink mb-10" data-i18n="reviews_title">Sizden Gelenler</h2>
-        <div id="reviewsStrip" class="grid md:grid-cols-2 gap-8 md:gap-10 text-left">
+        <h2 class="font-display text-3xl text-ink mb-10" data-i18n="reviews_title">Sizden Gelenler</h2>
+        <div id="reviewsStrip" class="grid md:grid-cols-2 gap-10 text-left">
           <p class="col-span-2 text-center font-serif italic text-ink/50">Yorumlar yükleniyor...</p>
         </div>
       </div>
@@ -362,39 +432,53 @@
   </div>
 
   <script>
-    // --- TRANSLATIONS ---
+    // --- ÇOKLU DİL ---
     const translations = {
       tr: {
-        nav_shop: "KOLEKSİYON", nav_story: "HİKAYE",
+        nav_shop: "KOLEKSİYON",
+        nav_story: "HİKAYE",
         hero_est: "Est. 2024, sevgiyle...",
-        hero_t1: "Eski Ruhlar,", hero_t2: "Çiçekli Kalpler.",
+        hero_t1: "Eski Ruhlar,",
+        hero_t2: "Çiçekli Kalpler.",
         hero_desc: "Geçmişin romantizmini bugüne taşıyoruz. Her parça, sandıktan çıkmış gibi özel, ruhu olan tasarımlar.",
         hero_cta: "KOLEKSİYONU KEŞFET",
         etsy_note: "Ödeme güvenle Etsy üzerinden tamamlanır.",
         story_caption: "Bizim Hikayemiz",
         story_title: "Atölyemizden, Sizin Dolabınıza.",
-        story_p1: "Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz.",
+        story_p1: "Biz sadece kıyafet dikmiyoruz, zamanı donduruyoruz. 70'lerin o özgür bohem havasını, solmuş çiçek desenleriyle birleştiriyoruz. Her bir parça Etsy üzerinden siparişinizle birlikte size özel hazırlanıyor.",
         story_p2: "\"Moda geçicidir, ama stil ve ruh ebedidir. Tıpkı büyükannenizin sandığından çıkan o eşsiz parça gibi.\"",
         story_link: "ETSY MAĞAZASINA GİT →",
-        feat_sub: "SEÇİLMİŞ PARÇALAR", feat_title: "Öne Çıkanlar", feat_quote: "\"Çiçeklerin Fısıltısı\"",
-        cat_dresses: "Elbiseler", cat_hoodies: "Rahat Giyim", cat_skirts: "Etekler",
-        reviews_title: "Sizden Gelenler", buyer_verify: "Etsy Onaylı Alıcı"
+        feat_sub: "SEÇİLMİŞ PARÇALAR",
+        feat_title: "Öne Çıkanlar",
+        feat_quote: "\"Çiçeklerin Fısıltısı\"",
+        cat_dresses: "Elbiseler",
+        cat_hoodies: "Rahat Giyim",
+        cat_skirts: "Etekler",
+        reviews_title: "Sizden Gelenler",
+        buyer_verify: "Etsy Onaylı Alıcı"
       },
       en: {
-        nav_shop: "COLLECTION", nav_story: "STORY",
+        nav_shop: "COLLECTION",
+        nav_story: "STORY",
         hero_est: "Est. 2024, with love...",
-        hero_t1: "Vintage Souls,", hero_t2: "Floral Hearts.",
+        hero_t1: "Vintage Souls,",
+        hero_t2: "Floral Hearts.",
         hero_desc: "Bringing the romance of the past to today. Designs with a soul, as if fresh from a vintage chest.",
         hero_cta: "EXPLORE COLLECTION",
         etsy_note: "Secure checkout is completed on Etsy.",
         story_caption: "Our Story",
         story_title: "From Our Atelier, To Your Closet.",
-        story_p1: "We don't just sew clothes, we freeze time. Blending the free bohemian spirit of the 70s with faded floral patterns.",
+        story_p1: "We don't just sew clothes, we freeze time. Blending the free bohemian spirit of the 70s with faded floral patterns. Each piece is prepared for you after your Etsy order.",
         story_p2: "\"Fashion fades, only style remains the same. Just like that unique piece from your grandmother's chest.\"",
         story_link: "VISIT ETSY SHOP →",
-        feat_sub: "CURATED PIECES", feat_title: "Highlights", feat_quote: "\"Whisper of Flowers\"",
-        cat_dresses: "Dresses", cat_hoodies: "Loungewear", cat_skirts: "Skirts",
-        reviews_title: "From You", buyer_verify: "Verified Buyer"
+        feat_sub: "CURATED PIECES",
+        feat_title: "Highlights",
+        feat_quote: "\"Whisper of Flowers\"",
+        cat_dresses: "Dresses",
+        cat_hoodies: "Loungewear",
+        cat_skirts: "Skirts",
+        reviews_title: "From You",
+        buyer_verify: "Verified Buyer"
       }
     };
 
@@ -417,32 +501,10 @@
       currentLang = lang;
       try { localStorage.setItem('zayn_lang', lang); } catch(e) {}
 
-      // Toggle both Desktop and Mobile buttons
-      document.querySelectorAll('#btn-tr-dt, #btn-tr-mb').forEach(b => b.classList.toggle('active', lang === 'tr'));
-      document.querySelectorAll('#btn-en-dt, #btn-en-mb').forEach(b => b.classList.toggle('active', lang === 'en'));
-
+      document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
       applyTranslations(lang);
       renderReviews(document.getElementById('reviewsStrip'));
-    }
-
-    // Mobile Menu Toggle
-    function toggleMobileMenu() {
-      const menu = document.getElementById('mobile-menu');
-      const btnIcon = document.querySelector('#hamburgerBtn i');
-      
-      if (menu.classList.contains('hidden-menu')) {
-        menu.classList.remove('hidden-menu');
-        menu.classList.add('active-menu');
-        btnIcon.classList.remove('fa-bars');
-        btnIcon.classList.add('fa-times');
-        document.body.style.overflow = 'hidden';
-      } else {
-        menu.classList.add('hidden-menu');
-        menu.classList.remove('active-menu');
-        btnIcon.classList.remove('fa-times');
-        btnIcon.classList.add('fa-bars');
-        document.body.style.overflow = 'auto';
-      }
     }
 
     // Scroll Animation
@@ -456,11 +518,13 @@
 
     // Linkleri Zorla Sabitleme
     function bindLinks() {
-      ['navEtsyLink', 'customEtsyLink', 'mobileEtsyLink'].forEach(id => {
+      // 1. Etsy Linkleri
+      ['navEtsyLink', 'customEtsyLink'].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.href = CONST_ETSY_URL;
       });
 
+      // 2. Instagram Linki
       const ig = document.getElementById('igLink');
       if(ig) {
         ig.href = CONST_IG_URL;
@@ -495,19 +559,18 @@
       }
     }
 
-    // Init
     document.addEventListener('DOMContentLoaded', async () => {
-      // Hamburger
-      document.getElementById('hamburgerBtn').addEventListener('click', toggleMobileMenu);
-
-      // Language
+      // Dil ayarı
       try {
         const saved = localStorage.getItem('zayn_lang');
         if (saved && (saved === 'tr' || saved === 'en')) currentLang = saved;
       } catch(e) {}
       
-      setLang(currentLang); // applies logic and buttons
+      document.getElementById('btn-tr').classList.toggle('active', currentLang === 'tr');
+      document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+      applyTranslations(currentLang);
 
+      // Linkleri ve Reviewları yükle
       bindLinks();
       observeReveals(document);
       renderReviews(document.getElementById('reviewsStrip'));
