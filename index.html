@@ -4,20 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>ZAYN | Botanical Quiet Luxury</title>
-  <meta name="description" content="Floral prints designed like art. Made-to-order pieces with secure checkout via Etsy." />
-  <meta name="keywords" content="ZAYN, floral fashion, botanical prints, quiet luxury, abstract floral, Etsy shop" />
-  <meta name="author" content="ZAYN" />
-
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="ZAYN | Botanical Quiet Luxury" />
-  <meta property="og:description" content="Floral prints designed like art. Secure checkout via Etsy." />
-  <meta property="og:url" content="https://www.zaynbrand.com/" />
-  <link rel="icon" href="assets/favicon.ico" />
-
+  <title>ZAYN | Wearable Art & Vintage Soul</title>
+  <meta name="description" content="Vintage-inspired floral fashion. Designed by artists, sold on Etsy." />
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -25,201 +17,156 @@
       theme: {
         extend: {
           fontFamily: {
-            editorial: ['Cormorant Garamond', 'serif'],
-            ui: ['Inter', 'sans-serif']
+            serif: ['Playfair Display', 'serif'],
+            sans: ['Outfit', 'sans-serif']
+          },
+          colors: {
+            'deep': '#050805', /* Gece Yeşili/Siyah */
+            'glass': 'rgba(255, 255, 255, 0.03)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
+            'gold': '#D4AF37',
+            'paper': '#F2F0E9'
+          },
+          animation: {
+            'float': 'float 8s ease-in-out infinite',
+            'fade-up': 'fadeUp 1s cubic-bezier(0.2, 1, 0.2, 1) forwards'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(40px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            }
           }
         }
       }
     }
   </script>
-
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="font-ui">
-  <header class="sticky top-0 z-50 border-b border-[rgba(22,22,22,0.08)] backdrop-blur bg-[rgba(247,242,234,0.72)]">
-    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-      <a href="index.html" class="tracking-[0.22em] text-sm uppercase text-ink">ZAYN</a>
+<body class="bg-deep text-paper font-sans selection:bg-gold selection:text-deep overflow-x-hidden">
 
-      <nav class="hidden md:flex items-center gap-8 text-sm text-ink/80">
-        <a class="link-underline" href="#prints">Prints</a>
-        <a class="link-underline" href="#why">Why ZAYN</a>
-        <a class="link-underline" href="#how">How it works</a>
-        <a class="link-underline" href="#reviews">Reviews</a>
-      </nav>
+  <div class="fixed inset-0 z-0 pointer-events-none">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-deep via-deep/90 to-deep"></div>
+    
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-green-900/30 rounded-full blur-[120px] animate-float"></div>
+    <div class="absolute bottom-[10%] right-[-10%] w-[500px] h-[500px] bg-gold/10 rounded-full blur-[120px] animate-float" style="animation-delay: 4s;"></div>
+  </div>
 
-      <div class="flex items-center gap-3">
-        <a href="shop.html" class="hidden sm:inline-flex btn-ghost">Shop</a>
-        <a id="navEtsyLink" href="#" target="_blank" rel="noopener" class="btn-primary">Shop on Etsy</a>
+  <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-deep/80 backdrop-blur-xl transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+      <a href="index.html" class="font-serif italic text-2xl tracking-wide text-white hover:text-gold transition duration-500">
+        Zayn <span class="not-italic text-xs tracking-[0.3em] uppercase opacity-50 ml-1 font-sans">Collective</span>
+      </a>
+      
+      <div class="flex items-center gap-8">
+        <a href="shop.html" class="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-gold transition">Collection</a>
+        <a href="#reviews" class="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-gold transition">Reviews</a>
+        <a id="navEtsyLink" href="#" target="_blank" class="border border-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gold hover:border-gold hover:text-deep transition duration-300">
+          Etsy Store
+        </a>
       </div>
     </div>
-  </header>
+  </nav>
 
-  <main class="relative">
-    <section class="hero-wrap">
-      <div class="mx-auto max-w-6xl px-4 pt-16 pb-14 md:pt-24 md:pb-20">
-        <div class="max-w-2xl">
-          <div class="reveal">
-            <p class="kicker">ZAYN / Abstract Botanical Atelier</p>
-            <h1 class="font-editorial text-5xl md:text-6xl leading-[0.95] text-ink mt-4">
-              Floral prints, designed like art.
-            </h1>
-            <p class="mt-6 text-[15px] md:text-base text-ink/70 leading-relaxed">
-              Made-to-order pieces with worldwide shipping. Secure checkout via Etsy.
-            </p>
-          </div>
+  <main class="relative z-10 pt-32 pb-20">
+    <section class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 relative">
+      
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] border border-white/5 rounded-full opacity-30 blur-[1px]"></div>
 
-          <div class="reveal mt-8 flex flex-wrap items-center gap-3">
-            <a href="shop.html" class="btn-primary">Shop the Collection</a>
-            <a href="#prints" class="btn-ghost">Explore the Prints</a>
-          </div>
+      <div class="reveal max-w-4xl mx-auto space-y-8">
+        <span class="inline-block px-4 py-1 rounded-full border border-gold/30 bg-gold/5 text-gold text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
+          Est. 2024 · Vintage Soul
+        </span>
+        
+        <h1 class="font-serif text-6xl md:text-8xl leading-[0.9] text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40 italic">
+          Wearable Art <br> <span class="not-italic font-light">for the Dreamers.</span>
+        </h1>
 
-          <div class="reveal mt-10 flex flex-wrap gap-x-6 gap-y-2 text-xs text-ink/60">
-            <span class="pill">Made-to-order: 2–6 days</span>
-            <span class="pill">Worldwide shipping</span>
-            <span class="pill">Checkout by Etsy</span>
-          </div>
+        <p class="text-white/60 text-lg md:text-xl font-light max-w-xl mx-auto leading-relaxed">
+          Retro floral patterns, re-imagined. <br>
+          Designed by artists, crafted for you, secure via Etsy.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-5 justify-center pt-8">
+          <a href="shop.html" class="bg-paper text-deep px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gold transition duration-500 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            Explore Gallery
+          </a>
+          <a href="#featured" class="px-10 py-4 rounded-full border border-white/10 font-bold uppercase tracking-widest text-xs hover:bg-white/5 transition duration-300">
+            View Prints
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="prints" class="section">
-      <div class="mx-auto max-w-6xl px-4">
-        <div class="reveal flex items-end justify-between gap-6">
-          <div>
-            <h2 class="font-editorial text-3xl md:text-4xl text-ink">Featured prints</h2>
-            <p class="mt-2 text-sm text-ink/65">A curated selection from the live Etsy inventory.</p>
-          </div>
-          <a href="shop.html" class="hidden sm:inline-flex link-underline text-sm text-ink/80">View all</a>
-        </div>
-
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="reveal card">
-            <p class="text-xs uppercase tracking-[0.22em] text-ink/55">Floral</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Soft botanical expression</h3>
-            <p class="mt-3 text-sm text-ink/65">Refined florals with modern restraint.</p>
-            <a href="shop.html?cat=Floral" class="mt-6 inline-flex link-underline text-sm text-ink/80">Explore</a>
-          </div>
-
-          <div class="reveal card">
-            <p class="text-xs uppercase tracking-[0.22em] text-ink/55">Abstract</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Art-led composition</h3>
-            <p class="mt-3 text-sm text-ink/65">Prints that feel like gallery pieces.</p>
-            <a href="shop.html?cat=Abstract" class="mt-6 inline-flex link-underline text-sm text-ink/80">Explore</a>
-          </div>
-
-          <div class="reveal card">
-            <p class="text-xs uppercase tracking-[0.22em] text-ink/55">Botanical Geometry</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Structure meets bloom</h3>
-            <p class="mt-3 text-sm text-ink/65">Clean lines, floral intelligence.</p>
-            <a href="shop.html?cat=Botanical%20Geometry" class="mt-6 inline-flex link-underline text-sm text-ink/80">Explore</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="why" class="section section-soft">
-      <div class="mx-auto max-w-6xl px-4">
-        <div class="reveal">
-          <h2 class="font-editorial text-3xl md:text-4xl text-ink">Why ZAYN</h2>
-          <p class="mt-2 text-sm text-ink/65 max-w-2xl">
-            Quiet luxury isn’t silence—it’s precision. We build prints like art and garments like essentials.
-          </p>
-        </div>
-
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="reveal card">
-            <h3 class="font-editorial text-2xl text-ink">Art-driven design</h3>
-            <p class="mt-3 text-sm text-ink/65">Botanical inspiration refined into editorial prints.</p>
-          </div>
-          <div class="reveal card">
-            <h3 class="font-editorial text-2xl text-ink">Premium minimalism</h3>
-            <p class="mt-3 text-sm text-ink/65">No noise—just form, fabric presence, and balance.</p>
-          </div>
-          <div class="reveal card">
-            <h3 class="font-editorial text-2xl text-ink">Made-to-order</h3>
-            <p class="mt-3 text-sm text-ink/65">Produced when you purchase. Fresh, intentional, global.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="how" class="section">
-      <div class="mx-auto max-w-6xl px-4">
-        <div class="reveal flex items-end justify-between gap-6">
-          <div>
-            <h2 class="font-editorial text-3xl md:text-4xl text-ink">How it works</h2>
-            <p class="mt-2 text-sm text-ink/65">Simple, transparent, and built for trust.</p>
-          </div>
-        </div>
-
-        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="reveal card">
-            <p class="step">01</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Choose your piece</h3>
-            <p class="mt-3 text-sm text-ink/65">Browse the curated selection and select your print.</p>
-          </div>
-          <div class="reveal card">
-            <p class="step">02</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Crafted on demand</h3>
-            <p class="mt-3 text-sm text-ink/65">We produce after purchase—typically within 2–6 days.</p>
-          </div>
-          <div class="reveal card">
-            <p class="step">03</p>
-            <h3 class="mt-2 font-editorial text-2xl text-ink">Delivered worldwide</h3>
-            <p class="mt-3 text-sm text-ink/65">Shipping and tracking handled through Etsy order flow.</p>
-          </div>
-        </div>
-
-        <div class="reveal mt-10 trustbar">
-          <div class="trustitem">Secure checkout via Etsy</div>
-          <div class="trustitem">Worldwide shipping</div>
-          <div class="trustitem">Made-to-order 2–6 days</div>
-          <div class="trustitem">7-day message-based support</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="reviews" class="section section-soft">
-      <div class="mx-auto max-w-6xl px-4">
-        <div class="reveal flex items-end justify-between gap-6">
-          <div>
-            <h2 class="font-editorial text-3xl md:text-4xl text-ink">Loved on Etsy</h2>
-            <p class="mt-2 text-sm text-ink/65">Recent 5-star moments from real buyers.</p>
-          </div>
-        </div>
-
-        <div class="mt-8">
-          <div id="reviewsStrip" class="reviews-strip">
-            </div>
-          <p id="reviewsFallback" class="hidden mt-4 text-sm text-ink/60">
-            Reviews will appear here as they sync from Etsy.
-          </p>
-        </div>
-
-        <div class="reveal mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="max-w-2xl">
-            <h3 class="font-editorial text-2xl text-ink">Ready to wear art?</h3>
-            <p class="mt-2 text-sm text-ink/65">Browse the live collection and check out securely on Etsy.</p>
-          </div>
-          <a id="finalEtsyLink" href="#" target="_blank" rel="noopener" class="btn-primary">Shop ZAYN on Etsy</a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="border-t border-[rgba(22,22,22,0.08)]">
-      <div class="mx-auto max-w-6xl px-4 py-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+    <section id="featured" class="py-24 px-6 max-w-7xl mx-auto">
+      <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-6 reveal">
         <div>
-          <div class="tracking-[0.22em] text-xs uppercase text-ink">ZAYN</div>
-          <p class="mt-2 text-sm text-ink/60">Botanical quiet luxury. Built as a brand bridge to Etsy.</p>
+          <h2 class="font-serif text-4xl text-white italic">The Curator's Pick</h2>
+          <p class="text-white/40 text-sm mt-2 font-light">Hand-drawn patterns inspired by the 70s.</p>
         </div>
-        <div class="flex flex-wrap gap-6 text-sm text-ink/70">
-          <a class="link-underline" href="shop.html">Shop</a>
-          <a class="link-underline" href="#why">Why</a>
-          <a class="link-underline" href="#how">How</a>
+        <a href="shop.html" class="text-gold text-xs font-bold uppercase tracking-widest hover:text-white transition">View All <span class="ml-1">&rarr;</span></a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="shop.html?cat=Dresses" class="group relative h-[500px] overflow-hidden rounded-sm reveal delay-100">
+          <div class="absolute inset-0 bg-gray-800 animate-pulse"></div> <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="Floral Dress">
+          <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <span class="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2 block">Collection</span>
+            <h3 class="font-serif text-3xl italic text-white group-hover:translate-x-2 transition duration-500">Vintage Dresses</h3>
+          </div>
+        </a>
+
+        <a href="shop.html?cat=Sweatshirts" class="group relative h-[500px] overflow-hidden rounded-sm reveal delay-200">
+          <div class="absolute inset-0 bg-gray-800 animate-pulse"></div>
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="Retro Hoodie">
+          <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-transparent to-transparent"></div>
+          <div class="absolute bottom-8 left-8">
+            <span class="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2 block">Cozy</span>
+            <h3 class="font-serif text-3xl italic text-white group-hover:translate-x-2 transition duration-500">Art Hoodies</h3>
+          </div>
+        </a>
+
+        <div class="group relative h-[500px] bg-glass border border-white/5 p-8 flex flex-col justify-center items-center text-center reveal delay-300">
+          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+          <h3 class="font-serif text-4xl text-white mb-4 italic">Custom Orders</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-8 max-w-xs">
+            "I dream of painting and then I paint my dream." <br>— Van Gogh
+          </p>
+          <a id="customEtsyLink" href="#" class="text-xs font-bold uppercase tracking-widest border-b border-gold pb-1 text-gold hover:text-white hover:border-white transition">Request on Etsy</a>
         </div>
       </div>
+    </section>
+
+    <section id="reviews" class="py-20 border-y border-white/5 bg-deep/50 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 mb-10 text-center reveal">
+        <i class="text-gold text-2xl font-serif italic">"Real art for real people."</i>
+        <p class="text-xs uppercase tracking-widest text-white/30 mt-4">Verified Etsy Reviews</p>
+      </div>
+      
+      <div class="marquee-container relative">
+        <div id="reviewsStrip" class="flex gap-8 animate-marquee pl-6">
+          </div>
+      </div>
+    </section>
+
+    <footer class="py-12 text-center text-white/30 text-xs tracking-widest relative z-10">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-12 bg-gradient-to-b from-white/20 to-transparent"></div>
+      <p class="mb-4 font-serif italic text-lg text-white/50">Zayn Collective</p>
+      <div class="flex justify-center gap-6 mb-8">
+        <a href="shop.html" class="hover:text-white transition">Shop</a>
+        <a href="#" class="hover:text-white transition">Instagram</a>
+        <a href="#" class="hover:text-white transition">Etsy</a>
+      </div>
+      <p>&copy; 2025 Zayn Brand. Designed by VitrinY.</p>
     </footer>
+
   </main>
 
   <script src="script.js"></script>
