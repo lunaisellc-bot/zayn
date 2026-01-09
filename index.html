@@ -39,15 +39,13 @@
             sans: ['Inter', 'sans-serif']
           },
           colors: {
-            ink: '#2C1A1D',   // NBSP / gizli karakter temizlendi
+            ink: '#2C1A1D',  // NBSP / gizli karakter temizlendi
             paper: '#F0E6D2',
             rose: '#B06E6E',
             olive: '#6B705C',
             gold: '#C5A065'
           },
-          animation: {
-            'float': 'float 8s ease-in-out infinite'
-          },
+          animation: { 'float': 'float 8s ease-in-out infinite' },
           keyframes: {
             float: {
               '0%, 100%': { transform: 'translateY(0)' },
@@ -86,7 +84,7 @@
       opacity: 0.45;
     }
 
-    /* --- FLORAL LAYER SYSTEM (Görünürlük Artırıldı) --- */
+    /* --- FLORAL LAYER SYSTEM --- */
     .floral-layer{
       position: fixed;
       inset: 0;
@@ -151,7 +149,7 @@
     }
 
     /* --- HERO TEXT WASH (Okunurluk Katmanı) --- */
-    .paper-wash {
+    .paper-wash{
       position: relative;
       background: radial-gradient(closest-side, rgba(240,230,210,0.7) 0%, rgba(240,230,210,0) 100%);
       z-index: 5;
@@ -159,19 +157,19 @@
     }
 
     /* --- SCRAPBOOK & UI --- */
-    .polaroid {
+    .polaroid{
       background: #fff;
       padding: 12px 12px 35px 12px;
       box-shadow: 2px 4px 15px rgba(0,0,0,0.15);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       position: relative;
     }
-    .polaroid:hover {
+    .polaroid:hover{
       transform: scale(1.02) rotate(0deg) !important;
       z-index: 20;
       box-shadow: 5px 10px 25px rgba(0,0,0,0.25);
     }
-    .polaroid::before {
+    .polaroid::before{
       content: '';
       position: absolute;
       inset: 0;
@@ -183,7 +181,7 @@
     .polaroid .thumb{ aspect-ratio: 3 / 4; width: 100%; overflow: hidden; background: #f3f3f3; position: relative; z-index: 1; }
     .polaroid .thumb img{ width: 100%; height: 100%; object-fit: cover; border: none; }
 
-    .tape-strip {
+    .tape-strip{
       position: absolute;
       top: -12px;
       left: 50%;
@@ -202,7 +200,7 @@
     .tape-strip::before{ left: -3px; transform: skewX(-12deg); }
     .tape-strip::after{ right: -3px; transform: skewX(12deg); }
 
-    .lang-btn {
+    .lang-btn{
       font-family: 'Cinzel Decorative', serif;
       font-weight: 700;
       cursor: pointer;
@@ -211,9 +209,9 @@
       padding: 2px 4px;
       border-radius: 4px;
     }
-    .lang-btn.active { opacity: 1; text-decoration: underline; color: #B06E6E; }
+    .lang-btn.active{ opacity: 1; text-decoration: underline; color: #B06E6E; }
 
-    .btn-vintage {
+    .btn-vintage{
       border: 1px solid #2C1A1D;
       padding: 12px 30px;
       font-family: 'Cinzel Decorative', serif;
@@ -226,27 +224,44 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 10px 24px rgba(44,26,29,0.12);
       backdrop-filter: blur(2px);
     }
-    .btn-vintage:hover {
+    .btn-vintage:hover{
       background: #2C1A1D;
       color: #F0E6D2;
       transform: translateY(-1px);
     }
 
-    .divider-flower {
+    .divider-flower{
       display: flex; align-items: center; justify-content: center; gap: 14px; margin: 26px 0 18px; opacity: 0.75;
     }
-    .divider-line { height: 1px; width: 88px; background: rgba(44,26,29,0.55); }
+    .divider-line{ height: 1px; width: 88px; background: rgba(44,26,29,0.55); }
 
-    .reveal { opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.2,1,0.2,1); }
-    .reveal.active { opacity: 1; transform: translateY(0); }
+    .reveal{ opacity: 0; transform: translateY(20px); transition: 1s cubic-bezier(0.2,1,0.2,1); }
+    .reveal.active{ opacity: 1; transform: translateY(0); }
 
-    /* --- MOBILE OPTIMIZATION --- */
+    /* --- MOBILE OPTIMIZATION (mevcut) --- */
     @media (max-width: 768px){
       .ivy{ opacity: 0.30; width: 50vw; }
       .bouquet-center{ top: 110px; width: 70vw; opacity: 0.20; }
       .petals{ display:none; }
       .meadow-bottom{ width: 140vw; opacity: 0.40; bottom: -50px; }
       .divider-line{ width: 64px; }
+    }
+
+    /* --- MOBILE: iOS 100vh + kırpılma + tıklanabilir alan iyileştirmesi --- */
+    :root{ --vh: 1vh; }
+
+    @supports (height: 100dvh){
+      .min-h-screen{ min-height: 100dvh !important; }
+    }
+
+    @media (max-width: 768px){
+      .paper-wash{
+        border-radius: 24px !important; /* mobilde rounded-full kırpma riskini azaltır */
+        padding: 1.25rem !important;
+        background: radial-gradient(closest-side, rgba(240,230,210,0.82) 0%, rgba(240,230,210,0) 100%);
+      }
+      .lang-btn{ padding: 6px 8px; }      /* dokunmatik hedef büyür */
+      .btn-vintage{ padding: 12px 22px; } /* CTA mobilde dengeli */
     }
   </style>
 </head>
@@ -291,7 +306,9 @@
       </div>
     </nav>
 
-    <header class="relative min-h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+    <!-- iOS Safari için dinamik min-height -->
+    <header class="relative flex items-center justify-center text-center px-4 overflow-hidden"
+            style="min-height: calc(var(--vh, 1vh) * 100);">
       <div class="max-w-4xl relative z-10 pt-24 md:pt-24 paper-wash rounded-full">
         <p class="font-script text-4xl md:text-5xl text-rose mb-4 opacity-90 rotate-[-3deg] animate-float" data-i18n="hero_est">
           Est. 2024, sevgiyle...
@@ -436,6 +453,14 @@
   </div>
 
   <script>
+    // iOS Safari 100vh zıplama azaltma
+    function setVH(){
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setVH();
+    window.addEventListener('resize', setVH);
+
     // --- ÇOKLU DİL ---
     const translations = {
       tr: {
@@ -522,25 +547,25 @@
 
     // Linkleri Zorla Sabitleme
     function bindLinks() {
-      // 1. Etsy Linkleri
       ['navEtsyLink', 'customEtsyLink'].forEach(id => {
         const el = document.getElementById(id);
         if(el) el.href = CONST_ETSY_URL;
       });
 
-      // 2. Instagram Linki
       const ig = document.getElementById('igLink');
-      if(ig) {
-        ig.href = CONST_IG_URL;
-        ig.classList.remove('hidden');
-      }
+      if(ig) ig.href = CONST_IG_URL;
+    }
+
+    // Basit XSS kaçınma (reviews.json içeriği için)
+    function esc(s){
+      return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
     }
 
     // Reviews
     async function renderReviews(container) {
       if(!container) return;
       try {
-        const res = await fetch(DATA_REVIEWS, { cache: "no-store" }); // cache kaynaklı "eski yorum" riskini azaltır
+        const res = await fetch(DATA_REVIEWS, { cache: "no-store" });
         if(!res.ok) throw new Error("reviews fetch failed");
         const reviews = await res.json();
         const verifyText = translations[currentLang].buyer_verify;
@@ -550,9 +575,9 @@
           return `
             <div class="polaroid reveal" style="transform: rotate(${rotation}deg);">
               <div class="tape-strip" style="background: rgba(176,110,110,0.20);"></div>
-              <p class="font-serif italic text-lg text-ink/80 mb-4 mt-4 leading-relaxed">"${String(r.text || "").replace(/</g,"&lt;").replace(/>/g,"&gt;")}"</p>
+              <p class="font-serif italic text-lg text-ink/80 mb-4 mt-4 leading-relaxed">"${esc(r.text)}"</p>
               <div class="text-right border-t border-ink/10 pt-2">
-                <p class="font-script text-2xl text-rose">- ${String(r.buyer || 'Guest').replace(/</g,"&lt;").replace(/>/g,"&gt;")}</p>
+                <p class="font-script text-2xl text-rose">- ${esc(r.buyer || 'Guest')}</p>
                 <div class="text-[10px] text-ink/40 uppercase tracking-widest">${verifyText}</div>
               </div>
             </div>
@@ -564,8 +589,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Dil ayarı
+    document.addEventListener('DOMContentLoaded', () => {
       try {
         const saved = localStorage.getItem('zayn_lang');
         if (saved && (saved === 'tr' || saved === 'en')) currentLang = saved;
@@ -573,9 +597,8 @@
 
       document.getElementById('btn-tr').classList.toggle('active', currentLang === 'tr');
       document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
-      applyTranslations(currentLang);
 
-      // Linkleri ve Reviewları yükle
+      applyTranslations(currentLang);
       bindLinks();
       observeReveals(document);
       renderReviews(document.getElementById('reviewsStrip'));
