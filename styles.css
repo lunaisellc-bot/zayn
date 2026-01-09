@@ -1,0 +1,337 @@
+:root{
+  --bg: #F7F2EA;
+  --surface: #FFFFFF;
+  --text: #161616;
+  --muted: #6B6B6B;
+  --sage: #8FA59A;
+  --rose: #B68D8A;
+  --gold: #C9B37E;
+
+  --border: rgba(22,22,22,0.10);
+  --shadow: 0 12px 30px rgba(22,22,22,0.08);
+  --radius: 22px;
+}
+
+*{ box-sizing: border-box; }
+html, body{ background: var(--bg); color: var(--text); }
+a{ text-decoration: none; color: inherit; }
+img{ max-width: 100%; display:block; }
+
+.text-ink{ color: var(--text); }
+
+.section{
+  padding: 72px 0;
+}
+.section-soft{
+  background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0));
+  border-top: 1px solid rgba(22,22,22,0.06);
+  border-bottom: 1px solid rgba(22,22,22,0.06);
+}
+
+.kicker{
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(22,22,22,0.58);
+}
+
+.pill{
+  padding: 6px 10px;
+  border: 1px solid rgba(22,22,22,0.10);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.35);
+}
+
+.card{
+  border: 1px solid rgba(22,22,22,0.10);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.55);
+  box-shadow: 0 1px 0 rgba(22,22,22,0.02);
+  padding: 22px;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  background: rgba(255,255,255,0.70);
+}
+
+.step{
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(22,22,22,0.55);
+}
+
+.btn-primary{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform .2s ease, opacity .2s ease;
+}
+.btn-primary:hover{ opacity: .92; transform: translateY(-1px); }
+
+.btn-ghost{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,22,22,0.16);
+  background: rgba(255,255,255,0.35);
+  color: rgba(22,22,22,0.86);
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform .2s ease, background .2s ease;
+}
+.btn-ghost:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.55); }
+
+.link-underline{
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: rgba(22,22,22,0.35);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s ease;
+}
+.link-underline:hover::after{ transform: scaleX(1); }
+
+/* HERO: botanical texture + ambient blobs */
+.hero-wrap{
+  position: relative;
+  overflow: hidden;
+}
+
+/* Inline botanical engraving (single-color line art, transparent background) */
+.hero-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity: 0.055;
+  background-repeat: no-repeat;
+  background-position: 70% 10%;
+  background-size: 1100px;
+  mix-blend-mode: multiply;
+
+  /* Inline SVG (botanical engraving vibe) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'%3E%3Cg fill='none' stroke='%23161616' stroke-width='1' stroke-linecap='round' opacity='0.9'%3E%3Cpath d='M820 140c-70 40-110 110-105 185 5 82 66 150 150 162 90 13 175-48 196-140 22-97-45-191-145-208-35-6-68-2-96 1z'/%3E%3Cpath d='M885 205c-24 54-12 108 30 144 40 34 96 35 140 2'/%3E%3Cpath d='M735 315c-52 34-82 80-86 140-5 77 48 150 130 170 80 20 165-24 198-102'/%3E%3Cpath d='M950 510c-30 45-78 70-130 70-64 0-125-38-150-98'/%3E%3Cpath d='M770 210c-130 120-180 260-170 420'/%3E%3Cpath d='M770 210c20 85 80 165 170 240'/%3E%3Cpath d='M830 370c-60 30-95 75-108 132'/%3E%3Cpath d='M960 330c55 40 85 90 88 150'/%3E%3Cpath d='M910 275c0 110-55 210-155 300'/%3E%3Cpath d='M840 180c40 15 75 40 105 75'/%3E%3Cpath d='M810 155c-20 35-30 68-30 110'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Ambient light blobs */
+.hero-wrap::after{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  pointer-events:none;
+  background:
+    radial-gradient(600px 420px at 20% 35%, rgba(143,165,154,0.20), rgba(143,165,154,0.0) 60%),
+    radial-gradient(720px 520px at 75% 30%, rgba(182,141,138,0.18), rgba(182,141,138,0.0) 65%),
+    radial-gradient(680px 480px at 70% 80%, rgba(201,179,126,0.12), rgba(201,179,126,0.0) 70%);
+  filter: blur(40px);
+  animation: ambientDrift 30s ease-in-out infinite alternate;
+  opacity: 0.95;
+}
+
+@keyframes ambientDrift{
+  0%{ transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  100%{ transform: translate3d(1.5%, 1%, 0) scale(1.03); }
+}
+
+/* Shop wrap background echo */
+.shop-wrap{
+  position: relative;
+  overflow-x: clip;
+}
+.shop-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity: 0.03;
+  background-repeat: no-repeat;
+  background-position: 10% 0%;
+  background-size: 900px;
+  mix-blend-mode: multiply;
+  background-image: inherit;
+}
+
+/* Form fields */
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.field-label{
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(22,22,22,0.55);
+}
+.field-input{
+  width: 240px;
+  max-width: 100%;
+  border: 1px solid rgba(22,22,22,0.14);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.55);
+  outline: none;
+  font-size: 14px;
+  color: rgba(22,22,22,0.85);
+}
+.field-input:focus{
+  border-color: rgba(22,22,22,0.28);
+  box-shadow: 0 0 0 4px rgba(143,165,154,0.18);
+}
+
+/* Trust bar */
+.trustbar{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.trustitem{
+  border: 1px solid rgba(22,22,22,0.10);
+  border-radius: 999px;
+  padding: 10px 12px;
+  text-align:center;
+  font-size: 12px;
+  color: rgba(22,22,22,0.72);
+  background: rgba(255,255,255,0.35);
+}
+@media (max-width: 900px){
+  .trustbar{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px){
+  .trustbar{ grid-template-columns: 1fr; }
+}
+
+/* Reviews strip */
+.reviews-strip{
+  display:flex;
+  gap: 12px;
+  overflow-x:auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+}
+.review-pill{
+  min-width: 320px;
+  max-width: 360px;
+  scroll-snap-align: start;
+  border: 1px solid rgba(22,22,22,0.10);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.55);
+  padding: 18px;
+}
+.review-text{
+  font-size: 14px;
+  color: rgba(22,22,22,0.78);
+  line-height: 1.5;
+}
+.review-meta{
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(22,22,22,0.55);
+  display:flex;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+/* Product cards */
+.product-card{
+  border: 1px solid rgba(22,22,22,0.10);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.55);
+  overflow:hidden;
+  transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.product-card:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  background: rgba(255,255,255,0.70);
+}
+.product-media{
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  overflow:hidden;
+  background: rgba(22,22,22,0.03);
+}
+.product-media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: opacity .25s ease, transform .45s ease;
+}
+.product-card:hover .product-media img{ transform: scale(1.06); }
+
+.product-body{
+  padding: 16px 16px 18px;
+}
+.product-title{
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(22,22,22,0.88);
+  line-height: 1.25;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow:hidden;
+  min-height: 40px;
+}
+.product-meta{
+  margin-top: 10px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size: 13px;
+  color: rgba(22,22,22,0.62);
+}
+.product-cta{
+  margin-top: 12px;
+  display:inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(22,22,22,0.82);
+}
+
+/* Scroll reveal */
+.reveal{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.reveal.is-in{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile sticky CTA */
+.mobile-cta{
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  padding: 12px 16px;
+  background: rgba(247,242,234,0.82);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(22,22,22,0.08);
+  display: none;
+}
+@media (max-width: 640px){
+  .mobile-cta{ display:block; }
+  .field-input{ width: 100%; }
+}
