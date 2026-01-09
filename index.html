@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>ZAYN | Wearable Art & Vintage Soul</title>
-  <meta name="description" content="Vintage-inspired floral fashion. Designed by artists, sold on Etsy." />
+  <title>ZAYN | Vintage Soul & Floral Art</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,28 +15,22 @@
       theme: {
         extend: {
           fontFamily: {
-            serif: ['Playfair Display', 'serif'],
-            sans: ['Outfit', 'sans-serif']
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Inter', 'sans-serif']
           },
           colors: {
-            'deep': '#050805', /* Gece Yeşili/Siyah */
-            'glass': 'rgba(255, 255, 255, 0.03)',
-            'glass-border': 'rgba(255, 255, 255, 0.08)',
-            'gold': '#D4AF37',
-            'paper': '#F2F0E9'
+            'noir': '#121010',      /* Siyah değil, eski mürekkep rengi */
+            'paper': '#E8E6E1',     /* Kirli beyaz / Eski kağıt */
+            'gold': '#C5A059',      /* Mat Altın */
+            'rose': '#B78F8E'       /* Kurumuş Gül */
           },
           animation: {
-            'float': 'float 8s ease-in-out infinite',
-            'fade-up': 'fadeUp 1s cubic-bezier(0.2, 1, 0.2, 1) forwards'
+            'fade-slow': 'fadeIn 2s ease-out forwards',
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' }
-            },
-            fadeUp: {
-              '0%': { opacity: '0', transform: 'translateY(40px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' }
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
             }
           }
         }
@@ -48,127 +40,162 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="bg-deep text-paper font-sans selection:bg-gold selection:text-deep overflow-x-hidden">
+<body class="bg-noir text-paper font-sans selection:bg-rose selection:text-noir overflow-x-hidden">
 
   <div class="fixed inset-0 z-0 pointer-events-none">
-    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-deep via-deep/90 to-deep"></div>
     
-    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-green-900/30 rounded-full blur-[120px] animate-float"></div>
-    <div class="absolute bottom-[10%] right-[-10%] w-[500px] h-[500px] bg-gold/10 rounded-full blur-[120px] animate-float" style="animation-delay: 4s;"></div>
+    <div class="absolute inset-0 opacity-[0.08]" style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');"></div>
+    
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1596502012028-29471138b346?q=80&w=1920&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay grayscale contrast-125"></div>
+    
+    <div class="absolute inset-0 bg-radial-gradient"></div>
   </div>
 
-  <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-deep/80 backdrop-blur-xl transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-      <a href="index.html" class="font-serif italic text-2xl tracking-wide text-white hover:text-gold transition duration-500">
-        Zayn <span class="not-italic text-xs tracking-[0.3em] uppercase opacity-50 ml-1 font-sans">Collective</span>
+  <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-noir/80 backdrop-blur-md transition-all">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+      <a href="index.html" class="group flex flex-col items-center leading-none">
+        <span class="font-serif italic text-3xl text-paper group-hover:text-gold transition duration-500">Zayn</span>
+        <span class="text-[8px] uppercase tracking-[0.4em] text-white/40 group-hover:text-white/80 transition">Collective</span>
       </a>
       
       <div class="flex items-center gap-8">
-        <a href="shop.html" class="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-gold transition">Collection</a>
-        <a href="#reviews" class="hidden md:block text-xs font-bold uppercase tracking-widest hover:text-gold transition">Reviews</a>
-        <a id="navEtsyLink" href="#" target="_blank" class="border border-white/20 px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-gold hover:border-gold hover:text-deep transition duration-300">
-          Etsy Store
+        <a href="shop.html" class="hidden md:block font-serif italic text-lg text-white/70 hover:text-rose transition">The Collection</a>
+        <a href="#story" class="hidden md:block font-serif italic text-lg text-white/70 hover:text-rose transition">Our Story</a>
+        <a id="navEtsyLink" href="#" target="_blank" class="border border-gold/30 px-6 py-2 rounded-sm text-xs font-bold uppercase tracking-widest text-gold hover:bg-gold hover:text-noir transition duration-500">
+          Etsy Shop
         </a>
       </div>
     </div>
   </nav>
 
-  <main class="relative z-10 pt-32 pb-20">
-    <section class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 relative">
+  <main class="relative z-10">
+    <section class="min-h-screen flex items-center justify-center px-6 relative">
       
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] border border-white/5 rounded-full opacity-30 blur-[1px]"></div>
-
-      <div class="reveal max-w-4xl mx-auto space-y-8">
-        <span class="inline-block px-4 py-1 rounded-full border border-gold/30 bg-gold/5 text-gold text-[10px] uppercase tracking-[0.3em] font-bold mb-4">
-          Est. 2024 · Vintage Soul
-        </span>
-        
-        <h1 class="font-serif text-6xl md:text-8xl leading-[0.9] text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40 italic">
-          Wearable Art <br> <span class="not-italic font-light">for the Dreamers.</span>
-        </h1>
-
-        <p class="text-white/60 text-lg md:text-xl font-light max-w-xl mx-auto leading-relaxed">
-          Retro floral patterns, re-imagined. <br>
-          Designed by artists, crafted for you, secure via Etsy.
+      <div class="text-center max-w-4xl mx-auto space-y-6">
+        <p class="text-rose text-xs md:text-sm font-bold uppercase tracking-[0.3em] animate-fade-slow">
+          Est. 2024 · Bohemian Luxury
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-5 justify-center pt-8">
-          <a href="shop.html" class="bg-paper text-deep px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gold transition duration-500 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-            Explore Gallery
-          </a>
-          <a href="#featured" class="px-10 py-4 rounded-full border border-white/10 font-bold uppercase tracking-widest text-xs hover:bg-white/5 transition duration-300">
-            View Prints
+        <h1 class="font-serif text-6xl md:text-9xl text-paper italic leading-[0.85] mix-blend-lighten opacity-90 animate-fade-slow" style="animation-delay: 0.2s;">
+          Floral <br> <span class="not-italic font-light text-white/60">Nostalgia.</span>
+        </h1>
+
+        <p class="text-lg md:text-xl font-serif italic text-white/50 max-w-lg mx-auto leading-relaxed animate-fade-slow" style="animation-delay: 0.4s;">
+          "Çiçeklerin diliyle konuşan elbiseler." <br>
+          <span class="text-sm font-sans not-italic text-white/30 mt-2 block">Retro desenler, modern sanat, Etsy güvencesi.</span>
+        </p>
+
+        <div class="pt-10 flex justify-center gap-6 animate-fade-slow" style="animation-delay: 0.6s;">
+          <a href="shop.html" class="btn-vintage">
+            Start Exploring
           </a>
         </div>
+      </div>
+
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/20 animate-bounce">
+        <span class="text-[10px] uppercase tracking-widest block mb-2">Scroll</span>
+        <i class="fa-solid fa-chevron-down"></i>
       </div>
     </section>
 
-    <section id="featured" class="py-24 px-6 max-w-7xl mx-auto">
-      <div class="flex justify-between items-end mb-12 border-b border-white/10 pb-6 reveal">
-        <div>
-          <h2 class="font-serif text-4xl text-white italic">The Curator's Pick</h2>
-          <p class="text-white/40 text-sm mt-2 font-light">Hand-drawn patterns inspired by the 70s.</p>
+    <section id="story" class="py-32 px-6 border-t border-white/5 bg-noir relative overflow-hidden">
+      <img src="https://i.imgur.com/8Qe7X9s.png" class="absolute -left-20 top-20 w-[600px] opacity-[0.03] rotate-12 pointer-events-none grayscale" alt="Vintage Flower">
+
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="relative">
+            <div class="absolute inset-0 border border-gold/30 translate-x-3 translate-y-3"></div>
+            <img src="https://images.unsplash.com/photo-1617391654499-195971439223?q=80&w=1000&auto=format&fit=crop" class="relative z-10 w-full h-[500px] object-cover grayscale hover:grayscale-0 transition duration-1000 ease-in-out" alt="Vintage Dress Detail">
+          </div>
         </div>
-        <a href="shop.html" class="text-gold text-xs font-bold uppercase tracking-widest hover:text-white transition">View All <span class="ml-1">&rarr;</span></a>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <a href="shop.html?cat=Dresses" class="group relative h-[500px] overflow-hidden rounded-sm reveal delay-100">
-          <div class="absolute inset-0 bg-gray-800 animate-pulse"></div> <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="Floral Dress">
-          <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-transparent to-transparent"></div>
-          <div class="absolute bottom-8 left-8">
-            <span class="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2 block">Collection</span>
-            <h3 class="font-serif text-3xl italic text-white group-hover:translate-x-2 transition duration-500">Vintage Dresses</h3>
-          </div>
-        </a>
-
-        <a href="shop.html?cat=Sweatshirts" class="group relative h-[500px] overflow-hidden rounded-sm reveal delay-200">
-          <div class="absolute inset-0 bg-gray-800 animate-pulse"></div>
-          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100" alt="Retro Hoodie">
-          <div class="absolute inset-0 bg-gradient-to-t from-deep/90 via-transparent to-transparent"></div>
-          <div class="absolute bottom-8 left-8">
-            <span class="font-sans text-[10px] uppercase tracking-[0.2em] text-gold mb-2 block">Cozy</span>
-            <h3 class="font-serif text-3xl italic text-white group-hover:translate-x-2 transition duration-500">Art Hoodies</h3>
-          </div>
-        </a>
-
-        <div class="group relative h-[500px] bg-glass border border-white/5 p-8 flex flex-col justify-center items-center text-center reveal delay-300">
-          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-          <h3 class="font-serif text-4xl text-white mb-4 italic">Custom Orders</h3>
-          <p class="text-white/50 text-sm leading-relaxed mb-8 max-w-xs">
-            "I dream of painting and then I paint my dream." <br>— Van Gogh
+        
+        <div class="reveal">
+          <h2 class="font-serif text-5xl text-rose italic mb-6">A Vintage Soul in a Digital World.</h2>
+          <p class="text-white/60 font-light leading-relaxed mb-6">
+            Biz modayı sadece giyinmek olarak görmüyoruz. Her desenin bir tarihi, her çiçeğin bir anısı var. 70'lerin özgür ruhunu, modern kumaş teknolojisiyle birleştiriyoruz.
           </p>
-          <a id="customEtsyLink" href="#" class="text-xs font-bold uppercase tracking-widest border-b border-gold pb-1 text-gold hover:text-white hover:border-white transition">Request on Etsy</a>
+          <p class="text-white/60 font-light leading-relaxed mb-8">
+            Etsy mağazamızda sunduğumuz her parça, siparişiniz üzerine sizin için özel olarak üretiliyor. Stok fazlası yok, israf yok. Sadece sanat var.
+          </p>
+          <a href="#featured" class="text-gold border-b border-gold/50 pb-1 hover:text-white hover:border-white transition font-serif italic text-xl">
+            See the Prints &rarr;
+          </a>
         </div>
       </div>
     </section>
 
-    <section id="reviews" class="py-20 border-y border-white/5 bg-deep/50 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-6 mb-10 text-center reveal">
-        <i class="text-gold text-2xl font-serif italic">"Real art for real people."</i>
-        <p class="text-xs uppercase tracking-widest text-white/30 mt-4">Verified Etsy Reviews</p>
-      </div>
-      
-      <div class="marquee-container relative">
-        <div id="reviewsStrip" class="flex gap-8 animate-marquee pl-6">
-          </div>
+    <section id="featured" class="py-24 px-6 bg-[#0f0e0e]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+          <span class="text-gold text-xs font-bold uppercase tracking-[0.3em]">The Gallery</span>
+          <h2 class="font-serif text-5xl text-white italic mt-4">Curated Selections</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <a href="shop.html?cat=Dresses" class="group block reveal">
+            <div class="relative overflow-hidden aspect-[3/4] mb-6">
+              <div class="absolute inset-0 border-[0.5px] border-white/10 z-20 m-4 pointer-events-none"></div>
+              <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="Dresses">
+              <div class="absolute bottom-6 left-0 w-full text-center z-30">
+                <span class="bg-noir/80 backdrop-blur px-4 py-2 text-white font-serif italic text-xl border border-white/10 group-hover:bg-rose group-hover:text-noir transition">Dresses</span>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-white/40 text-xs uppercase tracking-widest group-hover:text-white transition">Boho & Maxi</p>
+            </div>
+          </a>
+
+          <a href="shop.html?cat=Hoodies" class="group block reveal md:-mt-12"> <div class="relative overflow-hidden aspect-[3/4] mb-6">
+              <div class="absolute inset-0 border-[0.5px] border-white/10 z-20 m-4 pointer-events-none"></div>
+              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="Hoodies">
+              <div class="absolute bottom-6 left-0 w-full text-center z-30">
+                <span class="bg-noir/80 backdrop-blur px-4 py-2 text-white font-serif italic text-xl border border-white/10 group-hover:bg-rose group-hover:text-noir transition">Cozy Layers</span>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-white/40 text-xs uppercase tracking-widest group-hover:text-white transition">Hoodies & Sweatshirts</p>
+            </div>
+          </a>
+
+          <a href="shop.html?cat=Skirts" class="group block reveal">
+            <div class="relative overflow-hidden aspect-[3/4] mb-6">
+              <div class="absolute inset-0 border-[0.5px] border-white/10 z-20 m-4 pointer-events-none"></div>
+              <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" alt="Skirts">
+              <div class="absolute bottom-6 left-0 w-full text-center z-30">
+                <span class="bg-noir/80 backdrop-blur px-4 py-2 text-white font-serif italic text-xl border border-white/10 group-hover:bg-rose group-hover:text-noir transition">Skirts</span>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-white/40 text-xs uppercase tracking-widest group-hover:text-white transition">Flowy & Retro</p>
+            </div>
+          </a>
+        </div>
       </div>
     </section>
 
-    <footer class="py-12 text-center text-white/30 text-xs tracking-widest relative z-10">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-12 bg-gradient-to-b from-white/20 to-transparent"></div>
-      <p class="mb-4 font-serif italic text-lg text-white/50">Zayn Collective</p>
-      <div class="flex justify-center gap-6 mb-8">
-        <a href="shop.html" class="hover:text-white transition">Shop</a>
-        <a href="#" class="hover:text-white transition">Instagram</a>
-        <a href="#" class="hover:text-white transition">Etsy</a>
+    <section id="reviews" class="py-24 px-6 border-t border-white/5 bg-[#141212]">
+      <div class="max-w-4xl mx-auto text-center">
+         <i class="fa-solid fa-quote-left text-gold/30 text-4xl mb-6"></i>
+         <div id="reviewsStrip" class="space-y-8">
+           </div>
+         <p class="text-white/20 text-xs uppercase tracking-widest mt-10">Trusted by Etsy Buyers Worldwide</p>
       </div>
-      <p>&copy; 2025 Zayn Brand. Designed by VitrinY.</p>
+    </section>
+
+    <footer class="py-16 text-center border-t border-white/5 bg-noir relative">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-white/10"></div>
+      <h3 class="font-serif italic text-4xl text-white mb-6 pt-10">Zayn</h3>
+      <div class="flex justify-center gap-8 mb-8 text-xs font-bold uppercase tracking-widest text-white/40">
+        <a href="shop.html" class="hover:text-rose transition">Shop</a>
+        <a href="#" class="hover:text-rose transition">Instagram</a>
+        <a href="#" class="hover:text-rose transition">Contact</a>
+      </div>
+      <p class="text-white/20 text-[10px] tracking-widest">&copy; 2025 Zayn Collective. Powered by VitrinY.</p>
     </footer>
 
   </main>
-
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="script.js"></script>
 </body>
 </html>
