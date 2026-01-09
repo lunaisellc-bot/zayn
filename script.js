@@ -1,4 +1,4 @@
-/* ZAYN ARTIST SYSTEM */
+// ZAYN V3 JS - Aynen kalabilir, sadece review render kısmını güncelledim
 
 const DATA_PRODUCTS = "assets/data/products.json";
 const DATA_REVIEWS  = "assets/data/reviews.json";
@@ -35,7 +35,8 @@ function bindLinks(products) {
     ? products[0].url.split("/listing/")[0] 
     : ETSY_FALLBACK;
     
-  ['navEtsyLink', 'shopEtsyLinkTop', 'shopEtsyLinkBottom', 'finalEtsyLink', 'customEtsyLink'].forEach(id => {
+  const linkIds = ['navEtsyLink', 'shopEtsyLinkTop', 'shopEtsyLinkBottom', 'finalEtsyLink', 'customEtsyLink'];
+  linkIds.forEach(id => {
     const el = qs(`#${id}`);
     if(el) el.href = url;
   });
@@ -83,7 +84,6 @@ function renderShop(products, grid) {
     catSelect.appendChild(opt);
   });
 
-  // Check URL Params
   const urlParams = new URLSearchParams(window.location.search);
   const initialCat = urlParams.get('cat');
   if(initialCat && cats.includes(initialCat)) catSelect.value = initialCat;
@@ -104,21 +104,17 @@ function renderShop(products, grid) {
     } else {
       empty.classList.add('hidden');
       grid.innerHTML = filtered.map(p => `
-        <a href="${p.url}" target="_blank" class="art-card group reveal active">
-          <div class="image-frame">
-            <img src="${p.image1}" alt="${p.title}" 
+        <a href="${p.url}" target="_blank" class="product-card-vintage group reveal active block">
+          <div class="relative aspect-[3/4] overflow-hidden bg-[#1a1a1a] mb-4 border border-white/5">
+            <img src="${p.image1}" alt="${p.title}" class="w-full h-full object-cover"
                  onmouseenter="this.src='${p.image2 || p.image1}'" 
                  onmouseleave="this.src='${p.image1}'">
-            
-            ${p.state === 'active' ? '' : '<div class="absolute top-2 right-2 bg-red-900/80 text-white text-[9px] px-2 py-1 uppercase tracking-widest">Sold Out</div>'}
+            ${p.state !== 'active' ? '<div class="absolute top-2 right-2 bg-rose text-white text-[9px] px-2 py-1 uppercase tracking-widest">Sold</div>' : ''}
           </div>
-          <div class="p-5">
-            <div class="text-[10px] text-gold uppercase tracking-[0.2em] mb-2">${p.category || 'Art'}</div>
-            <h3 class="font-serif italic text-white text-lg leading-tight mb-2 group-hover:text-gold transition">${p.title}</h3>
-            <div class="flex justify-between items-end border-t border-white/10 pt-3 mt-3">
-              <span class="text-white/60 text-sm font-light">${formatPrice(p.price, p.currency)}</span>
-              <span class="text-[10px] text-white/40 uppercase tracking-widest group-hover:text-white transition">View on Etsy &rarr;</span>
-            </div>
+          <div>
+            <div class="text-[10px] text-white/40 uppercase tracking-[0.2em] mb-1">${p.category || 'Art'}</div>
+            <h3 class="font-serif text-xl italic text-paper group-hover:text-gold transition leading-tight mb-2">${p.title}</h3>
+            <div class="text-gold font-sans text-sm tracking-widest">${formatPrice(p.price, p.currency)}</div>
           </div>
         </a>
       `).join('');
@@ -130,32 +126,25 @@ function renderShop(products, grid) {
   draw();
 }
 
-// --- Reviews Logic ---
+// --- Reviews Logic (Daha sade, alt alta liste) ---
 async function renderReviews(container) {
   try {
     const res = await fetch(DATA_REVIEWS);
     const reviews = await res.json();
     
-    container.innerHTML = reviews.slice(0, 8).map(r => `
-      <div class="review-card flex-shrink-0 w-[350px]">
-        <div class="flex text-gold text-[10px] gap-1 mb-3">
-          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-        </div>
-        <p class="text-white/80 font-serif italic leading-relaxed text-sm mb-4">"${r.text.substring(0, 120)}..."</p>
+    // Sadece ilk 3 yorumu gösterelim, çok kalabalık olmasın
+    container.innerHTML = reviews.slice(0, 3).map(r => `
+      <div class="review-card-vintage reveal">
+        <p class="font-serif italic text-xl text-white/80 mb-4 leading-relaxed">${r.text}</p>
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/50 text-xs font-serif italic">
-            ${r.buyer ? r.buyer.charAt(0) : 'G'}
-          </div>
-          <div>
-            <p class="text-xs text-white uppercase tracking-widest">${r.buyer || 'Guest'}</p>
-            <p class="text-[10px] text-white/30">verified buyer</p>
-          </div>
+            <div class="h-px w-8 bg-gold/50"></div>
+            <p class="text-xs uppercase tracking-widest text-gold">${r.buyer || 'Art Lover'}</p>
         </div>
       </div>
     `).join('');
 
   } catch(e) {
-    container.innerHTML = '<p class="text-white/30 text-sm italic">Reviews loading from Etsy...</p>';
+    container.innerHTML = '<p class="text-white/30 text-sm italic">Reviews loading...</p>';
   }
 }
 
