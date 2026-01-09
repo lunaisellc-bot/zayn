@@ -1,91 +1,89 @@
-/* ZAYN V3 - VINTAGE SOUL CSS */
+/* ZAYN V4 - BOHEMIAN SCRAPBOOK CSS */
 
 /* Temel Ayarlar */
 html { scroll-behavior: smooth; }
-body { -webkit-font-smoothing: antialiased; }
-
-/* Vignette Effect (Kenar Karartma) */
-.bg-radial-gradient {
-  background: radial-gradient(circle at center, transparent 0%, rgba(5, 5, 5, 0.6) 100%);
-  pointer-events: none;
+body { 
+  -webkit-font-smoothing: antialiased; 
+  /* Arka plan rengi (kağıt dokusu yüklenmezse diye) */
+  background-color: #F5F1E6; 
 }
 
-/* Özel Buton Stili */
-.btn-vintage {
+/* Özel Buton: Scrapbook Etiketi */
+.btn-scrapbook {
   display: inline-block;
-  padding: 16px 36px;
-  background: transparent;
-  border: 1px solid rgba(197, 160, 89, 0.4); /* Gold sınır */
-  color: #C5A059;
+  padding: 12px 32px;
+  background: #C29591; /* Rose */
+  color: #F5F1E6; /* Paper */
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s ease;
+  border: 2px solid #C29591;
+  /* Yırtık Kenar Efekti (Clip-path ile) */
+  clip-path: polygon(0% 0%, 100% 2%, 98% 100%, 2% 98%);
+  transition: all 0.3s ease;
+  box-shadow: 4px 4px 0px rgba(62, 47, 40, 0.2); /* Ink shadow */
 }
 
-.btn-vintage::before {
+.btn-scrapbook:hover {
+  background: #3E2F28; /* Ink */
+  border-color: #3E2F28;
+  color: #C29591; /* Rose text */
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px rgba(194, 149, 145, 0.3); /* Rose shadow */
+}
+
+/* Fotoğraf Çerçevesi: Yırtık Kenar & Gölge */
+.scrapbook-frame {
+  position: relative;
+  /* Hafif düzensiz kenarlar için clip-path */
+  clip-path: polygon(1% 1%, 99% 0%, 100% 99%, 0% 100%);
+}
+/* Çerçevenin arkasına "yırtık kağıt" katmanı */
+.scrapbook-frame::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 0%; height: 100%;
-  background: #C5A059;
+  inset: -5px;
+  background: #F5F1E6; /* Paper rengi */
   z-index: -1;
-  transition: all 0.4s ease;
+  clip-path: polygon(0% 2%, 100% 0%, 98% 100%, 2% 98%);
+  border: 1px solid rgba(62, 47, 40, 0.1);
 }
 
-.btn-vintage:hover {
-  color: #121010; /* Noir */
-}
-.btn-vintage:hover::before {
-  width: 100%;
-}
-
-/* Scroll Reveal Animasyonları */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s cubic-bezier(0.2, 1, 0.2, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Review Kartları (El Yazısı Not Havası) */
-.review-card-vintage {
-  background: rgba(255, 255, 255, 0.03);
-  padding: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  margin-bottom: 20px;
+/* Ürün Kartı (Shop Sayfası İçin) */
+.product-card-boho {
   position: relative;
-}
-/* Tırnak İşareti Dekoru */
-.review-card-vintage::before {
-  content: '"';
-  position: absolute;
-  top: -10px;
-  left: 20px;
-  font-family: 'Playfair Display', serif;
-  font-size: 60px;
-  color: rgba(197, 160, 89, 0.2);
-  line-height: 1;
+  background: #F5F1E6; /* Paper */
+  padding: 16px;
+  box-shadow: 8px 8px 0px rgba(62, 47, 40, 0.1); /* Ink shadow */
+  transition: all 0.3s ease;
+  border: 1px solid rgba(62, 47, 40, 0.05);
 }
 
-/* Shop.html Grid İyileştirmeleri */
-.product-card-vintage {
+.product-card-boho:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0px rgba(194, 149, 145, 0.2); /* Rose shadow */
+}
+
+.product-card-boho img {
+  filter: sepia(30%) contrast(95%);
   transition: all 0.5s ease;
 }
-.product-card-vintage:hover {
-  transform: translateY(-5px);
+.product-card-boho:hover img {
+  filter: sepia(0%) contrast(105%);
 }
-.product-card-vintage img {
-  filter: sepia(20%) contrast(90%); /* Hafif vintage filtresi */
-  transition: all 0.5s ease;
-}
-.product-card-vintage:hover img {
-  filter: sepia(0%) contrast(100%); /* Hoverda canlan */
-  transform: scale(1.05);
+
+/* Washi Tape Efekti (Süsleme için) */
+.washi-tape {
+    position: absolute;
+    height: 20px;
+    width: 60px;
+    background-color: #C29591; /* Rose */
+    opacity: 0.7;
+    /* Bantın yırtık uçları */
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect x="0" y="0" width="100%" height="100%" fill="black"/><polygon points="0,0 5,5 0,10" fill="white"/><polygon points="100%,0 100%-5,5 100%,10" fill="white"/></svg>');
+    mask-size: 10px 20px;
+    mask-repeat: no-repeat;
+    mask-position: left top, right top;
 }
