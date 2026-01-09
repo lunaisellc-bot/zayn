@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="tr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZAYN | Bohemian Soul & Vintage Prints</title>
-  <meta name="description" content="Vintage-inspired floral fashion. Designed by artists, sold on Etsy.">
+  
+  <title>ZAYN | Vintage Floral & Bohemian Soul</title>
+  <meta name="description" content="Sanat ve modanın buluştuğu vintage çiçek desenli koleksiyonlar. Etsy üzerinden güvenli alışveriş ve global gönderim.">
+  <meta name="author" content="Zayn Collective">
+  
+  <meta property="og:title" content="ZAYN | Vintage Floral & Bohemian Soul">
+  <meta property="og:description" content="Sanat ve modanın buluştuğu vintage çiçek desenli koleksiyonlar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://zaynbrand.com/">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200">
+
+  <link rel="canonical" href="https://zaynbrand.com/">
+  <link rel="icon" href="assets/favicon.ico" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,500&family=Pinyon+Script&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,500&family=Pinyon+Script&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -23,11 +34,11 @@
             sans: ['Inter', 'sans-serif']
           },
           colors: {
-            'ink': '#3E2F28',       /* Koyu Kahve Mürekkep */
-            'paper': '#F5F1E6',     /* Eski Kağıt Rengi */
+            'ink': '#3E2F28',       /* Koyu Kahve/Mürekkep */
+            'paper': '#F5F1E6',     /* Eski Kağıt */
             'rose': '#C29591',      /* Tozlu Gül */
-            'olive': '#8A9A5B',     /* Zeytin Yeşili */
-            'gold': '#B89B5E'       /* Mat Eski Altın */
+            'olive': '#8A9A5B',     /* Zeytin */
+            'gold': '#B89B5E'       /* Eski Altın */
           },
           animation: {
             'fade-slow': 'fadeIn 1.5s ease-out forwards',
@@ -49,17 +60,36 @@
   </script>
 
   <style>
-    /* GLOBAL STYLES */
+    /* --- TEXTURES & BACKGROUNDS --- */
     body {
       background-color: #F5F1E6;
-      background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-      /* Yedek doku, eğer link kırılırsa renk kurtarır */
+      /* Layered Textures: Floral overlay (subtle) + Aged Paper */
+      background-image: 
+        url('assets/textures/floral-damask.png'), /* Local Fallback 1 */
+        url('assets/textures/aged-paper.png'),   /* Local Fallback 2 */
+        url('https://www.transparenttextures.com/patterns/aged-paper.png'); /* Remote Fallback */
+      background-repeat: repeat;
+      background-blend-mode: multiply, normal, normal;
     }
 
-    /* CUSTOM BUTTON: SCRAPBOOK STYLE */
+    /* Baroque Pattern Overlay (CSS SVG) */
+    .baroque-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.04;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233E2F28' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* --- SCRAPBOOK UI ELEMENTS --- */
+
+    /* Torn Edge Button */
     .btn-scrapbook {
-      display: inline-block;
-      padding: 14px 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 40px;
       background: #C29591;
       color: #F5F1E6;
       font-family: 'Inter', sans-serif;
@@ -67,58 +97,100 @@
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      border: 2px solid #C29591;
-      clip-path: polygon(0% 0%, 100% 2%, 98% 100%, 2% 98%); /* Yırtık kenar hissi */
+      border: none;
+      /* CSS Clip Path for torn paper effect */
+      clip-path: polygon(0% 0%, 100% 2%, 98% 100%, 2% 95%);
       transition: all 0.3s ease;
-      box-shadow: 4px 4px 0px rgba(62, 47, 40, 0.15);
+      box-shadow: 5px 5px 0px rgba(62, 47, 40, 0.15);
       cursor: pointer;
+      position: relative;
     }
     .btn-scrapbook:hover {
       background: #3E2F28;
-      border-color: #3E2F28;
       color: #C29591;
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0px rgba(194, 149, 145, 0.3);
+      transform: translateY(-2px) rotate(-1deg);
+      box-shadow: 8px 8px 0px rgba(194, 149, 145, 0.3);
+    }
+    .btn-scrapbook:focus {
+      outline: 2px solid #3E2F28;
+      outline-offset: 4px;
     }
 
-    /* PHOTO FRAME: YIRTIK KENARLI FOTOĞRAF */
+    /* Wax Seal */
+    .wax-seal {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #D45D55, #8E2E28);
+      border-radius: 50%;
+      box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.3),
+        2px 4px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid #A83832;
+      outline: 2px dashed rgba(255,255,255,0.2);
+      outline-offset: -8px;
+    }
+
+    /* Photo Frame */
     .scrapbook-frame {
       position: relative;
       background: #F5F1E6;
-      padding: 12px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      padding: 16px 16px 40px 16px; /* Polaroid style bottom padding */
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       transition: all 0.5s ease;
+      border: 1px solid rgba(0,0,0,0.05);
     }
     .scrapbook-frame:hover {
-      transform: scale(1.02);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-      z-index: 10;
-    }
-    .scrapbook-frame img {
-      filter: sepia(20%) contrast(95%);
-      transition: all 0.5s ease;
-    }
-    .scrapbook-frame:hover img {
-      filter: sepia(0%) contrast(105%);
-    }
-
-    /* WASHI TAPE EFFECT (BANT) */
-    .washi-tape {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%) rotate(-2deg);
-      width: 80px;
-      height: 25px;
-      background-color: rgba(194, 149, 145, 0.6); /* Rose transparent */
-      mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect x="0" y="0" width="100%" height="100%" fill="black"/><polygon points="0,0 5,5 0,10" fill="white"/><polygon points="100%,0 100%-5,5 100%,10" fill="white"/></svg>');
-      mask-size: 10px 20px;
-      mask-repeat: no-repeat;
-      mask-position: left top, right top;
+      transform: scale(1.02) rotate(0deg) !important; /* Reset rotation on hover */
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
       z-index: 20;
     }
+    .scrapbook-frame img {
+      filter: sepia(30%) contrast(90%);
+      transition: all 0.5s ease;
+      display: block;
+      width: 100%;
+    }
+    .scrapbook-frame:hover img {
+      filter: sepia(0%) contrast(100%);
+    }
 
-    /* SCROLL REVEAL */
+    /* Washi Tape (CSS Only - Reliable) */
+    .washi-tape {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 90px;
+      height: 28px;
+      background-color: rgba(194, 149, 145, 0.65); /* Rose transparent */
+      /* Serrated edges using conic-gradient or clip-path */
+      clip-path: polygon(
+        0% 10%, 5% 0%, 10% 10%, 15% 0%, 20% 10%, 25% 0%, 30% 10%, 35% 0%, 40% 10%, 45% 0%, 50% 10%, 55% 0%, 60% 10%, 65% 0%, 70% 10%, 75% 0%, 80% 10%, 85% 0%, 90% 10%, 95% 0%, 100% 10%,
+        100% 90%, 95% 100%, 90% 90%, 85% 100%, 80% 90%, 75% 100%, 70% 90%, 65% 100%, 60% 90%, 55% 100%, 50% 90%, 45% 100%, 40% 90%, 35% 100%, 30% 90%, 25% 100%, 20% 90%, 15% 100%, 10% 90%, 5% 100%, 0% 90%
+      );
+      z-index: 20;
+      mix-blend-mode: multiply;
+    }
+
+    /* Ornamental Divider */
+    .divider-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      opacity: 0.4;
+    }
+    .divider-line {
+      height: 1px;
+      width: 60px;
+      background: #3E2F28;
+    }
+
+    /* Animations */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -132,22 +204,24 @@
 </head>
 
 <body class="text-ink font-serif selection:bg-rose selection:text-paper overflow-x-hidden">
+  
+  <div class="baroque-overlay"></div>
 
   <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
     <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2000&auto=format&fit=crop')] opacity-[0.03] mix-blend-multiply bg-repeat"></div>
   </div>
 
-  <nav class="fixed top-0 w-full z-50 bg-paper/90 backdrop-blur-sm border-b border-ink/5 transition-all py-3">
+  <nav class="fixed top-0 w-full z-50 bg-paper/95 backdrop-blur-sm border-b border-ink/10 transition-all py-3 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
     <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-      <a href="index.html" class="flex flex-col items-center group leading-none">
+      <a href="index.html" class="flex flex-col items-center group leading-none focus:outline-none focus:ring-2 focus:ring-rose/50 rounded-lg p-1">
         <span class="font-serif italic text-3xl text-ink group-hover:text-rose transition">Zayn</span>
         <span class="font-script text-xl text-rose -mt-2">Collective</span>
       </a>
       
       <div class="flex items-center gap-6 md:gap-8 font-sans text-[10px] md:text-xs uppercase tracking-widest font-bold text-ink/60">
-        <a href="shop.html" class="hover:text-rose transition hidden sm:block">Shop</a>
-        <a href="#story" class="hover:text-rose transition hidden sm:block">Story</a>
-        <a id="navEtsyLink" href="#" target="_blank" class="bg-ink text-paper px-5 py-2 rounded-full hover:bg-rose transition">
+        <a href="shop.html" class="hover:text-rose transition hidden sm:block focus:outline-none focus:underline">Koleksiyon</a>
+        <a href="#story" class="hover:text-rose transition hidden sm:block focus:outline-none focus:underline">Hikaye</a>
+        <a id="navEtsyLink" href="#" target="_blank" class="bg-ink text-paper px-6 py-2 rounded-sm hover:bg-rose hover:text-white transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ink">
           Etsy Shop
         </a>
       </div>
@@ -155,28 +229,38 @@
   </nav>
 
   <main class="relative z-10 pt-24">
+    
     <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
       
-      <img src="https://images.unsplash.com/photo-1463130456064-28a1c93eb833?q=80&w=500&auto=format&fit=crop" class="absolute top-10 -left-20 w-64 opacity-20 rotate-[-20deg] pointer-events-none mix-blend-multiply rounded-full blur-[2px]" alt="Decoration">
-      <img src="https://images.unsplash.com/photo-1463130456064-28a1c93eb833?q=80&w=500&auto=format&fit=crop" class="absolute bottom-0 -right-20 w-80 opacity-20 rotate-[30deg] pointer-events-none mix-blend-multiply rounded-full blur-[2px]" alt="Decoration">
+      <img src="https://images.unsplash.com/photo-1596436574246-88222e967a14?q=80&w=500&auto=format&fit=crop" class="absolute top-10 -left-20 w-80 opacity-10 rotate-[-20deg] pointer-events-none mix-blend-multiply rounded-full blur-[1px]" alt="">
+      <img src="https://images.unsplash.com/photo-1596436574246-88222e967a14?q=80&w=500&auto=format&fit=crop" class="absolute bottom-0 -right-20 w-96 opacity-10 rotate-[30deg] pointer-events-none mix-blend-multiply rounded-full blur-[1px]" alt="">
 
       <div class="max-w-3xl mx-auto relative z-10">
-        <span class="font-script text-3xl md:text-4xl text-rose absolute -top-12 -left-4 md:-left-16 rotate-[-10deg] opacity-80 animate-float">Est. 2024, with love...</span>
+        <span class="font-script text-3xl md:text-5xl text-rose absolute -top-16 -left-4 md:-left-20 rotate-[-10deg] opacity-90 animate-float drop-shadow-sm">Est. 2024, with love...</span>
 
-        <h1 class="text-7xl md:text-9xl italic leading-[0.8] text-ink mb-8 animate-fade-slow">
+        <h1 class="text-7xl md:text-9xl italic leading-[0.8] text-ink mb-8 animate-fade-slow drop-shadow-sm">
           <span class="block">Vintage Souls,</span>
           <span class="block text-rose">Floral Hearts.</span>
         </h1>
 
-        <div class="relative inline-block mb-10 animate-fade-slow" style="animation-delay: 0.3s;">
-           <p class="text-xl md:text-2xl text-ink/70 italic max-w-lg mx-auto leading-relaxed relative z-10">
-            Eski zamanların romantizmini, bugünün kadınları için yeniden dokuyoruz. Her parça, giyilebilir bir anı.
-           </p>
-           <span class="absolute -top-6 -left-8 text-8xl text-gold/20 font-serif z-0">"</span>
+        <div class="divider-ornament">
+          <div class="divider-line"></div>
+          <i class="fa-solid fa-leaf text-olive text-sm"></i>
+          <div class="divider-line"></div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-slow" style="animation-delay: 0.6s;">
-          <a href="shop.html" class="btn-scrapbook">
+        <div class="relative inline-block mb-12 animate-fade-slow" style="animation-delay: 0.3s;">
+           <p class="text-xl md:text-2xl text-ink/80 italic max-w-lg mx-auto leading-relaxed relative z-10 font-serif">
+            Eski zamanların romantizmini, bugünün kadınları için yeniden dokuyoruz. Her parça, giyilebilir bir anı.
+           </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-8 justify-center items-center animate-fade-slow relative" style="animation-delay: 0.6s;">
+          <div class="absolute -left-16 top-1/2 -translate-y-1/2 hidden md:flex wax-seal rotate-[-15deg] animate-float">
+            <span class="font-serif font-bold text-white/90 text-2xl italic">Z</span>
+          </div>
+
+          <a href="shop.html" class="btn-scrapbook text-sm">
             Koleksiyonu Keşfet
           </a>
         </div>
@@ -186,25 +270,32 @@
     <section id="story" class="py-24 px-6 relative">
       <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-16">
         
-        <div class="relative w-full md:w-1/2 rotate-[-3deg] reveal">
+        <div class="relative w-full md:w-1/2 rotate-[-3deg] reveal group">
           <div class="scrapbook-frame">
             <div class="washi-tape"></div>
-            <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop" class="w-full h-[450px] object-cover" alt="Vintage Mood">
+            <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop" class="w-full h-[450px] object-cover" alt="Vintage Mood Board">
+            <div class="font-script text-2xl text-ink/60 text-center mt-4 -rotate-2">Bizim Hikayemiz</div>
           </div>
         </div>
 
-        <div class="w-full md:w-1/2 space-y-6 reveal">
+        <div class="w-full md:w-1/2 space-y-8 reveal">
           <h2 class="text-5xl italic text-ink leading-tight">
             Atölyemizden, <br> <span class="font-script text-rose text-6xl">Sizin Dolabınıza.</span>
           </h2>
-          <p class="text-lg text-ink/70 leading-relaxed font-sans border-l-2 border-rose/30 pl-4">
+          
+          <div class="divider-ornament justify-start opacity-30">
+             <div class="divider-line w-20"></div>
+             <i class="fa-solid fa-asterisk text-rose text-xs"></i>
+          </div>
+
+          <p class="text-lg text-ink/70 leading-relaxed font-sans border-l-2 border-rose/30 pl-6">
             Biz sadece kıyafet satmıyoruz, bir **hissi** paylaşıyoruz. 70'lerin o özgür, bohem ruhunu, solmuş çiçek desenlerinde ve uçuşan kumaşlarda saklıyoruz.
           </p>
           <p class="text-lg text-ink/70 leading-relaxed font-sans">
             Etsy mağazamız, bizim dijital pazar tezgahımız. Burada gördüğünüz her şey, siparişinizle birlikte, sanki eski bir dosttan gelen bir hediye paketi gibi özenle hazırlanır.
           </p>
           <div class="pt-6">
-            <a id="customEtsyLink" href="#" target="_blank" class="font-script text-3xl text-ink hover:text-rose transition border-b border-ink/20 hover:border-rose pb-1">
+            <a id="customEtsyLink" href="#" target="_blank" class="font-script text-3xl text-ink hover:text-rose transition border-b border-ink/20 hover:border-rose pb-1 focus:outline-none focus:border-ink">
               Etsy'de Bize Katılın &rarr;
             </a>
           </div>
@@ -212,18 +303,25 @@
       </div>
     </section>
 
-    <section class="py-24 px-6 bg-ink/5 border-t border-ink/5 border-dashed" style="background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');">
+    <section class="py-24 px-6 bg-white/40 border-t border-ink/5 border-dashed relative">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-rose/5 rounded-full blur-3xl pointer-events-none"></div>
+
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16 reveal">
-          <h2 class="text-5xl italic text-ink mb-2">Öne Çıkan Desenler</h2>
-          <p class="font-script text-3xl text-rose">"Çiçeklerin Fısıltısı"</p>
+          <h2 class="text-5xl italic text-ink mb-2">Öne Çıkanlar</h2>
+          <div class="divider-ornament">
+             <div class="divider-line"></div>
+             <span class="font-serif text-ink/50 italic px-2">Koleksiyonlar</span>
+             <div class="divider-line"></div>
+          </div>
+          <p class="font-script text-4xl text-rose mt-2">"Çiçeklerin Fısıltısı"</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-4">
-          <a href="shop.html?cat=Dresses" class="group relative block rotate-[-2deg] hover:rotate-0 transition-all duration-500 reveal">
+          <a href="shop.html?cat=Dresses" class="group relative block transition-all duration-500 reveal" style="transform: rotate(-2deg);">
             <div class="scrapbook-frame">
               <div class="washi-tape bg-olive/50"></div>
-              <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Dresses">
+              <img src="https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Vintage Elbiseler">
             </div>
             <div class="text-center mt-6">
               <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Elbiseler</h3>
@@ -231,21 +329,21 @@
             </div>
           </a>
           
-          <a href="shop.html?cat=Hoodies" class="group relative block md:-mt-10 rotate-[2deg] hover:rotate-0 transition-all duration-500 z-10 reveal">
+          <a href="shop.html?cat=Hoodies" class="group relative block md:-mt-10 transition-all duration-500 z-10 reveal" style="transform: rotate(2deg);">
             <div class="scrapbook-frame">
               <div class="washi-tape bg-rose/60"></div>
-              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Hoodies">
+              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Hoodies & Sweatshirts">
             </div>
             <div class="text-center mt-6">
               <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Rahat Giyim</h3>
-              <p class="font-script text-xl text-ink/50">Sanatsal Sweatshirtler</p>
+              <p class="font-script text-xl text-ink/50">Sanatsal Dokunuş</p>
             </div>
           </a>
 
-          <a href="shop.html?cat=Skirts" class="group relative block rotate-[-1deg] hover:rotate-0 transition-all duration-500 reveal">
+          <a href="shop.html?cat=Skirts" class="group relative block transition-all duration-500 reveal" style="transform: rotate(-1deg);">
             <div class="scrapbook-frame">
               <div class="washi-tape bg-gold/50"></div>
-              <img src="https://images.unsplash.com/photo-1606166492713-33609110942d?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Skirts">
+              <img src="https://images.unsplash.com/photo-1606166492713-33609110942d?q=80&w=800&auto=format&fit=crop" class="w-full aspect-[3/4] object-cover" alt="Etekler">
             </div>
             <div class="text-center mt-6">
               <h3 class="text-2xl italic text-ink group-hover:text-rose transition">Etekler</h3>
@@ -256,23 +354,29 @@
       </div>
     </section>
 
-    <section class="py-24 px-6 relative overflow-hidden">
-      <div class="max-w-4xl mx-auto text-center">
-         <i class="fa-solid fa-heart text-rose/30 text-3xl mb-8"></i>
-         <div id="reviewsStrip" class="grid md:grid-cols-2 gap-8 text-left">
+    <section class="py-24 px-6 relative overflow-hidden bg-paper">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+         <i class="fa-solid fa-heart text-rose/30 text-3xl mb-8 animate-pulse"></i>
+         <h2 class="text-3xl italic text-ink mb-12">Sizden Gelenler</h2>
+         
+         <div id="reviewsStrip" class="grid md:grid-cols-2 gap-10 text-left">
            <p class="text-center w-full col-span-2 text-ink/40 font-script text-xl">Yorumlar yükleniyor...</p>
          </div>
       </div>
     </section>
 
-    <footer class="py-16 text-center border-t border-ink/10 relative">
+    <footer class="py-16 text-center border-t border-ink/10 relative bg-white/30">
+      <div class="w-16 h-16 bg-ink text-paper rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-serif italic">Z</div>
       <h3 class="font-serif italic text-5xl text-ink mb-2">Zayn</h3>
       <p class="font-script text-2xl text-rose mb-10">Collective</p>
 
+      <div class="divider-ornament mb-10 opacity-20">
+         <div class="divider-line w-32"></div>
+      </div>
+
       <div class="flex justify-center gap-8 mb-10 font-sans text-xs font-bold uppercase tracking-widest text-ink/50">
-        <a href="shop.html" class="hover:text-rose transition">Koleksiyon</a>
-        <a href="#" class="hover:text-rose transition">Instagram</a>
-        <a href="#" class="hover:text-rose transition">Etsy</a>
+        <a href="shop.html" class="hover:text-rose transition focus:outline-none focus:text-ink">Koleksiyon</a>
+        <a id="footerEtsyLink" href="#" target="_blank" class="hover:text-rose transition focus:outline-none focus:text-ink">Etsy Mağazası</a>
       </div>
       <p class="font-serif italic text-ink/30 text-sm">© 2025 Zayn Brand. Sevgiyle tasarlandı.</p>
     </footer>
@@ -304,10 +408,12 @@
 
     // --- LINK BINDING ---
     function bindLinks(products) {
+      // Logic: Use first product's shop URL or fallback
       const url = (products && products[0] && products[0].url) 
         ? products[0].url.split("/listing/")[0] 
         : ETSY_FALLBACK;
-      ['navEtsyLink', 'customEtsyLink'].forEach(id => {
+      
+      ['navEtsyLink', 'customEtsyLink', 'footerEtsyLink'].forEach(id => {
         const el = qs(`#${id}`);
         if(el) el.href = url;
       });
@@ -319,19 +425,35 @@
         const res = await fetch(DATA_REVIEWS);
         const reviews = await res.json();
         
-        // Rastgele açı (rotation) vererek yapışkan not havası verelim
-        container.innerHTML = reviews.slice(0, 4).map((r, i) => `
-          <div class="bg-white p-6 shadow-sm border border-ink/5 relative rotate-[${(i % 2 === 0 ? -1 : 1) * (Math.random() * 2)}deg] reveal">
-            <i class="fa-solid fa-thumbtack absolute -top-3 left-1/2 -translate-x-1/2 text-ink/20 text-lg"></i>
-            <p class="font-serif italic text-xl text-ink/80 mb-4 leading-relaxed">
-              "${r.text}"
-            </p>
-            <div class="text-right">
-                <p class="font-script text-2xl text-rose">- ${r.buyer || 'Art Lover'}</p>
-                <div class="text-[10px] text-ink/30 uppercase tracking-widest mt-1">Verified Buyer</div>
+        container.innerHTML = reviews.slice(0, 4).map((r, i) => {
+          // Fix 1: Calculate rotation in JS for style attribute
+          const rotation = (i % 2 === 0 ? -1 : 1) * (Math.random() * 3 + 1); // 1 to 4 deg
+          
+          return `
+            <div class="bg-white p-8 shadow-[0_4px_10px_rgba(0,0,0,0.05)] border border-ink/5 relative reveal transition-transform hover:z-10 hover:scale-105" 
+                 style="transform: rotate(${rotation.toFixed(2)}deg);">
+              
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gold shadow-sm border border-black/10"></div>
+              
+              <div class="mb-4 text-rose/40 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+              </div>
+
+              <p class="font-serif italic text-xl text-ink/80 mb-6 leading-relaxed">
+                "${r.text}"
+              </p>
+              
+              <div class="text-right border-t border-ink/5 pt-4">
+                  <p class="font-script text-2xl text-rose">- ${r.buyer || 'Misafir'}</p>
+                  <div class="text-[10px] text-ink/30 uppercase tracking-widest mt-1">Etsy Onaylı Alıcı</div>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
+        
+        // Re-init observer for new elements
+        initReveal();
+        
       } catch(e) { 
         container.innerHTML = '<p class="col-span-2 text-center text-ink/30 italic">Henüz yorum yok.</p>'; 
       }
@@ -346,7 +468,7 @@
         const res = await fetch(DATA_PRODUCTS);
         const products = await res.json();
         bindLinks(products);
-      } catch(e) { console.log("Products not loaded for links"); }
+      } catch(e) { console.log("Products load failed/empty"); }
 
       const reviewsContainer = qs('#reviewsStrip');
       if(reviewsContainer) renderReviews(reviewsContainer);
